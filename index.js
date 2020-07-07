@@ -1,7 +1,6 @@
 // require packages
 const Discord = require("discord.js");
 const fs = require("fs");
-require("dotenv/config");
 
 // initialise are bot
 const bot = new Discord.Client();
