@@ -55,6 +55,7 @@ bot.on("message", (msg) => {
 
   if (!cmdObj || cmdObj.cmd.type !== "dm") return;
 
+  msg.channel.send("Please wait...");
   cmdObj.run(bot, msg, args, db, guild).then((result) => {
     if (result.status) {
       msg.channel.send(result.message);
