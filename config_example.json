@@ -1,0 +1,14 @@
+{
+  "token": "bot token",
+  "guildId": "guild (server) id",
+  "roles": {
+    "memberRole": "member role id"
+  },
+  "wpmRoles": [{
+    "id": "role id",
+    "min": 0,
+    "max": 99
+  }],
+  "logChannel": "where the bot will log debug messages"
+
+}
