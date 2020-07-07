@@ -80,7 +80,12 @@ bot.on("message", (msg) => {
 
   let cmdObj = bot.commands.get(cmd.slice(prefix.length)); //gets the command based on its name
 
-  if (!msg.member.roles.cache.some((role) => role.name == "Moderator")) {
+  if (
+    !msg.member.roles.cache.some(
+      (role) =>
+        role.id === config.roles.adminRole || role.id === config.roles.modRole
+    )
+  ) {
     msg.channel.send(`You are not a moderator`);
     return;
   }
