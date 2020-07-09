@@ -11,7 +11,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   }
 
   const config = require("../config.json");
-  const discordId = args[0];
+  const discordIdOrUsername = args[0];
   const pos = args[1];
   const lb = args[2];
   const wpm = args[3];
@@ -26,6 +26,15 @@ module.exports.run = async (bot, message, args, db, guild) => {
   }
 
   try {
+    let usrstring = `<@${discordIdOrUsername}>`;
+
+    let found = guild.members.cache.find(
+      (mem) => mem.user.id == discordIdOrUsername
+    );
+    if (found === undefined) {
+      usrstring = discordIdOrUsername;
+    }
+
     if (
       config.channels.general !== null &&
       config.channels.general !== undefined
@@ -33,7 +42,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       guild.channels.cache
         .find((ch) => ch.id === config.channels.general)
         .send(
-          `<@${discordId}> just got ${pos}${posstr} place on the ${lb.replace(
+          `${usrstring} just got ${pos}${posstr} place on the ${lb.replace(
             "_",
             " "
           )} leaderboard with a speed of ${wpm} wpm.`
@@ -42,7 +51,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
     return {
       status: true,
-      message: `<@${discordId}> ${pos}${posstr} ${lb.replace(
+      message: `${usrstring} ${pos}${posstr} ${lb.replace(
         "_",
         " "
       )} ${wpm} wpm`,
