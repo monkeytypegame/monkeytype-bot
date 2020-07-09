@@ -134,6 +134,8 @@ bot.on("ready", async () => {
   console.log("Ready");
   guild = bot.guilds.cache.get(config.guildId);
 
+  logInChannel("Ready");
+
   db.collection("bot-commands").onSnapshot((snapshot) => {
     let changes = snapshot.docChanges();
 
