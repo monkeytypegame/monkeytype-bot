@@ -97,9 +97,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
     });
 
   function logInChannel(message) {
-    if (config.logChannel !== null && config.logChannel !== undefined) {
+    if (
+      config.channels.botLog !== null &&
+      config.channels.botLog !== undefined
+    ) {
       guild.channels.cache
-        .find((ch) => ch.id === config.logChannel)
+        .find((ch) => ch.id === config.channels.botLog)
         .send(message);
     }
   }

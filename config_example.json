@@ -6,12 +6,13 @@
     "modRole": "mod role id",
     "memberRole": "member role id"
   },
-  "wpmRoles": [
-    {
-      "id": "role id",
-      "min": 0,
-      "max": 99
-    }
-  ],
-  "logChannel": "where the bot will log debug messages"
+  "wpmRoles": [{
+    "id": "role id",
+    "min": 0,
+    "max": 99
+  }],
+  "channels": {
+    "botLog": "channel id where the bot will log debug messages",
+    "general": "general id"
+  }
 }
