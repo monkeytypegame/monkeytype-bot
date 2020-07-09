@@ -70,6 +70,22 @@ bot.on("message", (msg) => {
   if (msg.channel.type === "dm") return; //dont react to dms
   if (msg.author.bot) return; //dont react to messages by the bot
 
+  if (msg.content.toLowerCase() === "ping") {
+    msg.channel.send("pong");
+    return;
+  }
+
+  if (msg.mentions.has(bot.user)) {
+    if (/(shut *up|stfu|sh+)/g.test(msg.content.toLowerCase())) {
+      if (Math.round(Math.random()) === 1) {
+        msg.channel.send(":(");
+      } else {
+        msg.channel.send(">:|");
+      }
+    }
+    return;
+  }
+
   let msg_array = msg.content.split(" ");
   let cmd = msg_array[0]; //gets the first element eg "!verify" if the message is "!verify someone"
   let args = msg_array.slice(1); //gets the arguments eg "this that " if the message is "!do this that"
@@ -84,7 +100,8 @@ bot.on("message", (msg) => {
     !msg.member.roles.cache.some(
       (role) =>
         role.id === config.roles.adminRole || role.id === config.roles.modRole
-    )
+    ) &&
+    cmdObj.cmd.needMod === true
   ) {
     msg.channel.send(`You are not a moderator`);
     return;
