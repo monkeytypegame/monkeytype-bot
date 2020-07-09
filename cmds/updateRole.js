@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   try {
     let minWpm = await findCurrent(config.wpmRoles, member);
 
-    if (minWpm <= wpm) {
+    if (minWpm < wpm) {
       await removeAllRoles(config.wpmRoles, member);
       return member.roles
         .add(correctRole)
@@ -68,7 +68,7 @@ async function findCurrent(wpmRoles, member) {
   console.log("finding current role");
   let ret = 0;
   wpmRoles.forEach((role) => {
-    if (member.roles.cache.has(role.id)) ret = role.min;
+    if (member.roles.cache.has(role.id)) ret = role.max;
   });
   return ret;
 }
