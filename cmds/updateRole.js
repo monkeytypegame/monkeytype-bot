@@ -1,5 +1,5 @@
 module.exports.run = async (bot, message, args, db, guild) => {
-  console.log(`Running command ${this.cmd.name}`);
+  console.log(`Running command ${this.cmd.name} ${JSON.stringify(args)}`);
 
   if (args.length !== 2) {
     return {
@@ -13,46 +13,72 @@ module.exports.run = async (bot, message, args, db, guild) => {
   let wpm = args[1];
   let correctRole = null;
 
-  config.wpmRoles.forEach((role) => {
-    role.cache = guild.roles.cache.find(
-      (cacheRole) => role.id === cacheRole.id
-    );
-    if (wpm >= role.min && wpm <= role.max) {
-      correctRole = role.cache;
-    }
-  });
+  await fillRoleCache();
 
   let member = await guild.members.cache.find(
     (member) => member.user.id == discordId
   );
 
   try {
-    config.wpmRoles.forEach((wpmRole) => {
-      if (wpmRole.id !== correctRole.id) {
-        member.roles.remove(wpmRole.cache);
-      }
-    });
-    return member.roles
-      .add(correctRole)
-      .then((ret) => {
-        return {
-          status: true,
-          message: `Assigned role ${correctRole.name} to user <@${member.user.id}>`,
-        };
-      })
-      .catch((e) => {
-        return {
-          status: false,
-          message: e,
-        };
-      });
+    let minWpm = await findCurrent(config.wpmRoles, member);
+
+    if (minWpm <= wpm) {
+      await removeAllRoles(config.wpmRoles, member);
+      return member.roles
+        .add(correctRole)
+        .then((ret) => {
+          return {
+            status: true,
+            message: `Assigned role ${correctRole.name} to user <@${member.user.id}> (${wpm} wpm)`,
+          };
+        })
+        .catch((e) => {
+          return {
+            status: false,
+            message: e,
+          };
+        });
+    } else {
+      return {
+        status: true,
+        message: `Error: Higher role found for user <@${member.user.id}> (requested ${wpm}, but ${minWpm} role was found)`,
+      };
+    }
   } catch (e) {
     return {
       status: false,
       message: "Error: Could not find member - " + e,
     };
   }
+
+  async function fillRoleCache() {
+    console.log("filling role cache");
+    config.wpmRoles.forEach((role) => {
+      role.cache = guild.roles.cache.find(
+        (cacheRole) => role.id === cacheRole.id
+      );
+      if (wpm >= role.min && wpm <= role.max) {
+        correctRole = role.cache;
+      }
+    });
+  }
 };
+
+async function findCurrent(wpmRoles, member) {
+  console.log("finding current role");
+  let ret = 0;
+  wpmRoles.forEach((role) => {
+    if (member.roles.cache.has(role.id)) ret = role.min;
+  });
+  return ret;
+}
+
+async function removeAllRoles(wpmRoles, member) {
+  console.log("removing all roles");
+  wpmRoles.forEach((role) => {
+    member.roles.remove(role.id);
+  });
+}
 
 module.exports.cmd = {
   name: "updateRole",
