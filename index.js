@@ -140,6 +140,7 @@ bot.on("ready", async () => {
     changes.forEach((change) => {
       let docData = change.doc.data();
       if (docData.executed === false) {
+        console.log("new command found");
         let cmd = docData.command;
         let args = docData.arguments;
         let cmdObj = bot.commands.get(cmd); //gets the command based on its name
@@ -147,16 +148,17 @@ bot.on("ready", async () => {
           if (cmdObj.cmd.type !== "db") return;
           cmdObj.run(bot, null, args, db, guild).then((result) => {
             if (result.status) {
-              db.collection("bot-commands").doc(change.doc.id).update({
-                executed: true,
-                executedTimestamp: Date.now(),
-              });
               console.log(`Command ${cmd} complete. Updating database`);
               console.log(result.message);
               logInChannel(result.message);
             } else {
               console.log(result.message);
             }
+            db.collection("bot-commands").doc(change.doc.id).update({
+              executed: true,
+              executedTimestamp: Date.now(),
+              status: result.status,
+            });
           });
         }
       }
