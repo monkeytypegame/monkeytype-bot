@@ -9,4 +9,5 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.cmd = {
   name: "test",
+  needMod: true,
 };

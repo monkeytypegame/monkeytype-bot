@@ -17,4 +17,5 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
 module.exports.cmd = {
   name: "say",
+  needMod: true,
 };
