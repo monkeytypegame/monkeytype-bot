@@ -83,6 +83,9 @@ bot.on("message", (msg) => {
         msg.channel.send(">:|");
       }
     }
+    if (/(good|nice|thanks|good job|ty)/g.test(msg.content.toLowerCase())) {
+      msg.channel.send(":)");
+    }
     return;
   }
 
