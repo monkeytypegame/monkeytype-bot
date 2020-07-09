@@ -1,4 +1,4 @@
 node_modules
-serviceAccountKey_copy.json
-serviceAccountKey.json
+serviceAccountKey*
 config.json
+.vscode
