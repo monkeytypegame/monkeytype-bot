@@ -1,5 +1,3 @@
-const { GuildMember } = require("discord.js");
-
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name} ${JSON.stringify(args)}`);
 
