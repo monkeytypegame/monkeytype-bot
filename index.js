@@ -99,6 +99,11 @@ bot.on("message", (msg) => {
 
   let cmdObj = bot.commands.get(cmd.slice(prefix.length)); //gets the command based on its name
 
+  if (!cmdObj) {
+    msg.channel.send(`Command ${cmd} doesnt exist`);
+    return;
+  }
+
   if (
     !msg.member.roles.cache.some(
       (role) =>
@@ -107,11 +112,6 @@ bot.on("message", (msg) => {
     cmdObj.cmd.needMod === true
   ) {
     msg.channel.send(`You are not a moderator`);
-    return;
-  }
-
-  if (!cmdObj) {
-    msg.channel.send(`Command ${cmd} doesnt exist`);
     return;
   }
 
