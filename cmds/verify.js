@@ -53,11 +53,62 @@ module.exports.run = async (bot, message, args, db, guild) => {
                 logInChannel(
                   `<@${message.author.id}> just verified their account.`
                 );
-                return {
-                  status: true,
-                  message:
-                    "Verified! Refresh the website to make sure that your accounts are paired. You should see a message 'Your accounts are paired' in the settings page.",
-                };
+                return db
+                  .collection("users")
+                  .doc(foundId)
+                  .get()
+                  .then((pbsdoc) => {
+                    let pbs;
+                    try {
+                      pbs = pbsdoc.data().personalBests.time[60];
+                    } catch (e) {
+                      return {
+                        status: true,
+                        message:
+                          "Verified, but I couldn't find any previous time 60 personal bests! Refresh the website to make sure that your accounts are paired. You should see a message 'Your accounts are paired' in the settings page.",
+                      };
+                    }
+                    try {
+                      let bestwpm = -1;
+                      pbs.forEach((pb) => {
+                        if (pb.wpm > bestwpm) bestwpm = pb.wpm;
+                      });
+                      if (bestwpm > -1) {
+                        return db
+                          .collection("bot-commands")
+                          .add({
+                            command: "updateRole",
+                            arguments: [message.author.id, bestwpm],
+                            executed: false,
+                            requestTimestamp: Date.now(),
+                          })
+                          .then((f) => {
+                            return {
+                              status: true,
+                              message:
+                                "Verified, and your WPM role should be updated soon (let us know if its not)! Refresh the website to make sure that your accounts are paired. You should see a message 'Your accounts are paired' in the settings page.",
+                            };
+                          })
+                          .catch((e) => {
+                            return {
+                              status: true,
+                              message: `Verified, but something went wrong when trying to assign your new WPM role (${e.message})! Refresh the website to make sure that your accounts are paired. You should see a message 'Your accounts are paired' in the settings page.`,
+                            };
+                          });
+                      }
+                    } catch (e) {
+                      return {
+                        status: true,
+                        message: `Verified, but something went wrong when trying to check your previous time 60 personal bests (${e.message})! Refresh the website to make sure that your accounts are paired. You should see a message 'Your accounts are paired' in the settings page.`,
+                      };
+                    }
+                  })
+                  .catch((e) => {
+                    return {
+                      status: true,
+                      message: `Verified, but something went wrong when trying to check your previous time 60 personal bests (${e.message})! Refresh the website to make sure that your accounts are paired. You should see a message 'Your accounts are paired' in the settings page.`,
+                    };
+                  });
               })
               .catch((e) => {
                 logInChannel(
