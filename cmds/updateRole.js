@@ -61,6 +61,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         correctRole = role.cache;
       }
     });
+    console.log("complete");
   }
 };
 
@@ -70,6 +71,7 @@ async function findCurrent(wpmRoles, member) {
   wpmRoles.forEach((role) => {
     if (member.roles.cache.has(role.id)) ret = role.max;
   });
+  console.log("complete");
   return ret;
 }
 
@@ -78,6 +80,7 @@ async function removeAllRoles(wpmRoles, member) {
   wpmRoles.forEach((role) => {
     member.roles.remove(role.id);
   });
+  console.log("complete");
 }
 
 module.exports.cmd = {
