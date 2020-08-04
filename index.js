@@ -123,7 +123,9 @@ bot.on("message", (msg) => {
     } else {
       msg.channel.send(`Command ${cmd} cannot be executed manually`);
     }
-    msg.delete();
+    setTimeout(() => {
+      msg.delete();
+    }, 500);
     return;
   }
 
