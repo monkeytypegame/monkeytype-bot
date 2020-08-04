@@ -80,7 +80,7 @@ bot.on("message", (msg) => {
       if (Math.round(Math.random()) === 1) {
         msg.channel.send(":(");
       } else {
-        msg.channel.send(">:|");
+        msg.channel.send(":hmph:");
       }
     }
     if (/(good|nice|thanks|good job|ty)/g.test(msg.content.toLowerCase())) {
@@ -116,7 +116,12 @@ bot.on("message", (msg) => {
   }
 
   if (cmdObj.cmd.type === "dm" || cmdObj.cmd.type === "db") {
-    msg.channel.send(`Command ${cmd} cannot be executed manually`);
+    msg.delete();
+    if (cmdObj.cmd.name === "verify") {
+      msg.channel.send(`Make sure to DM me the code instead of posting here.`);
+    } else {
+      msg.channel.send(`Command ${cmd} cannot be executed manually`);
+    }
     return;
   }
 
