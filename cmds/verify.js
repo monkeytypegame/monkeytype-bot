@@ -33,11 +33,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
           discordInUse = true;
         }
       });
-      if (discordInUse) {
+      if (found && discordInUse) {
         return {
           status: false,
-          message:
-            "This Discord account is already paired with another monkey-type account.",
+          message: "Account is already paired.",
         };
       }
       if (found) {
