@@ -1,6 +1,7 @@
 {
   "token": "bot token",
   "guildId": "guild (server) id",
+  "githubApiToken": "access token for creating issues",
   "roles": {
     "adminRole": "admin role id",
     "modRole": "mod role id",
