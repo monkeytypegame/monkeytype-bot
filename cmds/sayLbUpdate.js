@@ -14,6 +14,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
   const lb = args[2];
   const wpm = args[3];
 
+  if (config.noLog !== undefined && config.noLog) {
+    return {
+      status: true,
+      message: `Not logging due to config`,
+    };
+  }
+
   let posstr = "th";
   if (pos === 1) {
     posstr = "st";

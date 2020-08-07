@@ -12,6 +12,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
   const lb = args[0];
   const winner = lb.board[0];
 
+  if (config.noLog !== undefined && config.noLog) {
+    return {
+      status: true,
+      message: `Not logging due to config`,
+    };
+  }
+
   try {
     return db
       .collection("users")
