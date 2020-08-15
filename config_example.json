@@ -1,19 +1,24 @@
 {
   "token": "bot token",
+  "secret": "secret for github webhook",
   "guildId": "guild (server) id",
   "githubApiToken": "access token for creating issues",
   "roles": {
     "adminRole": "admin role id",
     "modRole": "mod role id",
-    "memberRole": "member role id"
+    "memberRole": "member role id",
+    "updatePing": "update ping role id"
   },
-  "wpmRoles": [{
-    "id": "role id",
-    "min": 0,
-    "max": 99
-  }],
+  "wpmRoles": [
+    {
+      "id": "role id",
+      "min": 0,
+      "max": 99
+    }
+  ],
   "channels": {
     "botLog": "channel id where the bot will log debug messages",
-    "general": "general id"
+    "general": "general id",
+    "updates": "updates channel id"
   }
 }
