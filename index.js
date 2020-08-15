@@ -226,7 +226,6 @@ function verifyPostData(req, res, next) {
 
 app.post("/release", verifyPostData, function (req, res) {
   const releasedata = req.body;
-  console.log(releasedata);
   if (releasedata.action == "released") {
     let message = "";
     message += `<@&${config.roles.updatePing}>\n`;
