@@ -67,6 +67,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
                           "Verified, but I couldn't find any previous time 60 personal bests! Refresh the website to make sure that your accounts are paired. You should see a message 'Your accounts are paired' in the settings page.",
                       };
                     }
+                    if (pbs === undefined) {
+                      return {
+                        status: true,
+                        message:
+                          "Verified, but I couldn't find any previous time 60 personal bests! Refresh the website to make sure that your accounts are paired. You should see a message 'Your accounts are paired' in the settings page.",
+                      };
+                    }
                     try {
                       let bestwpm = -1;
                       pbs.forEach((pb) => {
