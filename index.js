@@ -76,7 +76,7 @@ bot.on("message", (msg) => {
   }
 
   if (msg.mentions.has(bot.user)) {
-    if (/(shut *up|stfu|sh+)/g.test(msg.content.toLowerCase())) {
+    if (/(shut *up|stfu|sh+|bad)/g.test(msg.content.toLowerCase())) {
       if (Math.round(Math.random()) === 1) {
         msg.channel.send(":(");
       } else {
@@ -96,6 +96,8 @@ bot.on("message", (msg) => {
   if (cmd.slice(prefix.length).substr(0, 2) == "db") return; //dont react to db functions in the chat
 
   if (!cmd.startsWith(prefix)) return; //stop if the command doesnt start with the prefix
+
+  if (/[!]+$/g.test(cmd)) return; //dont react to only ! messages
 
   let cmdObj = bot.commands.get(cmd.slice(prefix.length)); //gets the command based on its name
 
