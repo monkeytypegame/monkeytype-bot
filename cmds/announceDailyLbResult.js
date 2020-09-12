@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           guild.channels.cache
             .find((ch) => ch.id === config.channels.general)
             .send(
-              `<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw}) and ${winner.acc}% accuracy.`
+              `<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
             );
           return {
             status: true,
