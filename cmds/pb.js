@@ -34,49 +34,84 @@ module.exports.run = async (bot, message, args, db, guild) => {
     ])
   );
 
-  //embeds for time and word high scores, complete with undefined validation
+  //embeds that display records
 
-  const timeHighScoreEmbed = new Discord.MessageEmbed()
-    .setColor("#e2b714")
-    .setTitle("Time Personal Bests for " + message.author.username);
-  if (maxesTime[15]) {
-    timeHighScoreEmbed.addField("15s Highscore:", `${maxesTime[15]} wpm`);
-  }
-  if (maxesTime[30]) {
-    timeHighScoreEmbed.addField("30s Highscore:", `${maxesTime[30]} wpm`);
-  }
-  if (maxesTime[60]) {
-    timeHighScoreEmbed.addField("60s Highscore:", `${maxesTime[60]} wpm`);
-  }
-  if (maxesTime[120]) {
-    timeHighScoreEmbed.addField("120s Highscore:", `${maxesTime[120]} wpm`);
-  }
-  message.channel.send(timeHighScoreEmbed);
+message.channel.send(`**__Timed Personal Bests for ${message.author.username}__**`);
 
-  const wordHighScoreEmbed = new Discord.MessageEmbed()
+  const scoreTimeEmbed = new Discord.MessageEmbed()
     .setColor("#e2b714")
-    .setTitle("Word Personal Bests for " + message.author.username);
-  if (maxesWords[10]) {
-    wordHighScoreEmbed.addField("10 Word Highscore:", `${maxesWords[10]} wpm`);
-  }
-  if (maxesWords[25]) {
-    wordHighScoreEmbed.addField("25 Word Highscore:", `${maxesWords[25]} wpm`);
-  }
-  if (maxesWords[50]) {
-    wordHighScoreEmbed.addField("50 Word Highscore:", `${maxesWords[50]} wpm`);
-  }
-  if (maxesWords[100]) {
-    wordHighScoreEmbed.addField("100 Word Highscore:", `${maxesWords[100]} wpm`);
-  }
-  message.channel.send(wordHighScoreEmbed);
-  return {
-    status: true,
-    message: ``,
+    .setThumbnail('https://www.emoji.co.uk/files/microsoft-emojis/objects-windows10/9747-alarm-clock.png')
+    .setTimestamp()
+    .setFooter('https://monkey-type.com/')
+  verifyTimeDefined(15)
+  verifyTimeDefined(30)
+  verifyTimeDefined(60)
+  verifyTimeDefined(120)
+  message.channel.send(scoreTimeEmbed);
+
+message.channel.send(`**__Word Personal Bests for ${message.author.username}__**`);
+
+  const scoreWordsEmbed = new Discord.MessageEmbed()
+    .setColor("#e2b714")
+    .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/81/desktop-computer_1f5a5.png')
+    .setTimestamp()
+    .setFooter('https://monkey-type.com/')
+  verifyWordDefined(10)
+  verifyWordDefined(25)
+  verifyWordDefined(50)
+  verifyWordDefined(100)
+  message.channel.send(scoreWordsEmbed);
+
+  //functions for adding fields and finding values (some of which are a nightmare)
+
+  function findWordRaw(val) { 
+    let timeVal = val
+    let rawToFind = maxesWords[val]
+    let {raw} = pbObj.words[timeVal].find(({wpm})=>wpm===rawToFind);
+    return raw
+  };
+
+  function findTimeRaw(val) { 
+    let timeVal = val
+    let rawToFind = maxesTime[val]
+    let {raw} = pbObj.time[timeVal].find(({wpm})=>wpm===rawToFind);
+    return raw
+  };
+
+  function findWordAcc(val) { 
+    let timeVal = val
+    let accToFind = maxesWords[val]
+    let {acc} = pbObj.words[timeVal].find(({wpm})=>wpm===accToFind);
+    return acc
+  };
+
+  function findTimeAcc(val) { 
+    let timeVal = val
+    let accToFind = maxesTime[val]
+    let {acc} = pbObj.time[timeVal].find(({wpm})=>wpm===accToFind);
+    return acc
+  };
+
+  function verifyTimeDefined(element) {
+    if (maxesTime[element]) {
+      scoreTimeEmbed.addField(`${element}s Highscore:`, `${maxesTime[element]} wpm`, true);
+      scoreTimeEmbed.addField(`Raw:`, `${findTimeRaw(element) === undefined ?'-':findTimeRaw(element)} wpm`, true);
+      scoreTimeEmbed.addField(`Accuracy:`, `${findTimeAcc(element)}%`, true);
+      scoreTimeEmbed.addField(`\u200b`, `\u200b`);
+    };
+  };
+
+  function verifyWordDefined(element) {
+    if (maxesWords[element]) {
+      scoreWordsEmbed.addField(`${element}s Highscore:`, `${maxesWords[element]} wpm`, true);
+      scoreWordsEmbed.addField(`Raw:`, `${findWordRaw(element) === undefined ?'-':findWordRaw(element)} wpm`, true);
+      scoreWordsEmbed.addField(`Accuracy:`, `${findWordAcc(element)}%`, true);
+      scoreWordsEmbed.addField(`\u200b`, `\u200b`);
+    };
   };
 };
-
-module.exports.cmd = {
-  name: "pb",
-  needMod: false,
-  onlyBotCommandsChannel: true
-};
+  
+  module.exports.cmd = {
+    name: "pb",
+    needMod: false,
+  };
