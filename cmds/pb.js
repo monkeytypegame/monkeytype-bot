@@ -58,17 +58,31 @@ module.exports.run = async (bot, message, args, db, guild) => {
     message: ``,
   };
 
-  //functions for adding fields
+  //functions for adding fields and finding values
+
+  function findTimeRaw(val) {
+    let val = maxesTime[val]
+    let {raw} = pbObj.time[val].find(({wpm})=>wpm===val);
+    return raw
+  }
+
+  function findWordRaw(val) {
+    let val = maxesWords[val]
+    let {raw} = pbObj.words[val].find(({wpm})=>wpm===val);
+    return raw
+  }
 
   function verifyTimeDefined(element) {
     if (maxesTime[element]) {
       scoreEmbed.addField(`${element}s Highscore:`, `${maxesTime[element]} wpm`);
+      scoreEmbed.addField(`raw:`, `${findTimeRaw[element]}`, true);
     }
   }
 
   function verifyWordDefined(element) {
     if (maxesWords[element]) {
       scoreEmbed.addField(`${element}s Highscore:`, `${maxesWords[element]} wpm`);
+      scoreEmbed.addField(`raw:`, `${findWordRaw[element]}`, true);
     }
   }
 
