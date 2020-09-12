@@ -123,7 +123,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
     if (maxesWords[element]) {
       let wpm = maxesWords[element];
       let raw = findWordRaw(element);
-      let acc = findWordRaw(element);
+      let acc = findWordAcc(element);
 
       let rawText = raw === undefined ? '' : ` (${raw} raw)`;
       let accText = acc === undefined ? '' : ` ${acc}% accuracy`;
