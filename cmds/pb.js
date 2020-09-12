@@ -107,11 +107,16 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
   function verifyTimeDefined(element) {
     if (maxesTime[element]) {
+      let wpm = maxesTime[element];
+      let raw = findTimeRaw(element);
+      let acc = findTimeAcc(element);
+
+      let rawText = raw === undefined ? '' : ` (${raw} raw)`;
+      let accText = acc === undefined ? '' : ` ${acc}% accuracy`;
+
       scoreTimeEmbed.addField(
         `**${element} sec**`,
-        `${maxesTime[element]} wpm (${
-          findTimeRaw(element) === undefined ? "-" : findTimeRaw(element) + ' raw'
-        }) ${findTimeAcc(element)}%`
+        `${wpm} wpm${rawText}${accText}`
       );
       // scoreTimeEmbed.addField(`Raw:`, `${findTimeRaw(element) === undefined ?'-':findTimeRaw(element)} wpm`, true);
       // scoreTimeEmbed.addField(`Accuracy:`, `${findTimeAcc(element)}%`, true);
@@ -121,11 +126,16 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
   function verifyWordDefined(element) {
     if (maxesWords[element]) {
+      let wpm = maxesWords[element];
+      let raw = findWordRaw(element);
+      let acc = findWordRaw(element);
+
+      let rawText = raw === undefined ? '' : ` (${raw} raw)`;
+      let accText = acc === undefined ? '' : ` ${acc}% accuracy`;
+
       scoreWordsEmbed.addField(
         `**${element} words**`,
-        `${maxesWords[element]} wpm (${
-          findWordRaw(element) === undefined ? "-" : findWordRaw(element) + ' raw'
-        }) ${findWordAcc(element)}%`
+        `${wpm} wpm${rawText}${accText}`
       );
       // scoreWordsEmbed.addField(`Raw:`, `${findWordRaw(element) === undefined ?'-':findWordRaw(element)} wpm`, true);
       // scoreWordsEmbed.addField(`Accuracy:`, `${findWordAcc(element)}%`, true);
