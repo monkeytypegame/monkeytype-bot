@@ -41,7 +41,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
     .setColor("#e2b714")
     .setTitle(`Time Personal Bests for ${message.author.username}`)
     .setThumbnail(
-      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/263/chart-increasing_1f4c8.png"
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
     )
     .setTimestamp()
     .setFooter("https://monkey-type.com/");
@@ -110,7 +110,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       let accText = acc === undefined ? '' : ` ${acc}% accuracy`;
 
       scoreTimeEmbed.addField(
-        `**${element} sec**`,
+        `${element} sec`,
         `${wpm} wpm${rawText}${accText}`
       );
       // scoreTimeEmbed.addField(`Raw:`, `${findTimeRaw(element) === undefined ?'-':findTimeRaw(element)} wpm`, true);
@@ -129,7 +129,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       let accText = acc === undefined ? '' : ` ${acc}% accuracy`;
 
       scoreWordsEmbed.addField(
-        `**${element} words**`,
+        `${element} words`,
         `${wpm} wpm${rawText}${accText}`
       );
       // scoreWordsEmbed.addField(`Raw:`, `${findWordRaw(element) === undefined ?'-':findWordRaw(element)} wpm`, true);
