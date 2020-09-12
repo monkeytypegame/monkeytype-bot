@@ -65,12 +65,25 @@ bot.on("message", (msg) => {
   });
 });
 
+let lastReact = 0;
+function shouldBotReact() {
+  if (Date.now() - lastReact >= 3000) {
+    lastReact = Date.now();
+    return true;
+  } else {
+    return false;
+  }
+}
+
 //react to messages
 bot.on("message", (msg) => {
   if (msg.channel.type === "dm") return; //dont react to dms
   if (msg.author.bot) return; //dont react to messages by the bot
 
-  if (msg.content.toLowerCase() === "ping") {
+  if (msg.member.roles.cache.some(
+    (role) =>
+      role.id === config.roles.adminRole || role.id === config.roles.modRole
+  ) && msg.content.toLowerCase() === "ping") {
     msg.channel.send("pong");
     return;
   }
@@ -102,9 +115,11 @@ bot.on("message", (msg) => {
   let cmdObj = bot.commands.get(cmd.slice(prefix.length)); //gets the command based on its name
 
   if (!cmdObj) {
-    msg.channel.send(`Command ${cmd} doesnt exist`);
+    // msg.channel.send(`Command ${cmd} doesnt exist`);
     return;
   }
+
+
 
   if (
     !msg.member.roles.cache.some(
@@ -113,7 +128,20 @@ bot.on("message", (msg) => {
     ) &&
     cmdObj.cmd.needMod === true
   ) {
-    msg.channel.send(`You are not a moderator`);
+    // msg.channel.send(`You are not a moderator`);
+    return;
+  }
+
+  if (!shouldBotReact()) {
+    msg.channel.send("Please wait a bit before using a commmand");
+    return;
+  }
+
+  if (cmdObj.cmd.onlyBotCommandsChannel && msg.channel.id !== config.channels.botCommands) {
+    msg.channel.send(`Please use the <#${config.channels.botCommands}> channel.`);
+    setTimeout(() => {
+      msg.delete();
+    }, 500);
     return;
   }
 
@@ -133,10 +161,14 @@ bot.on("message", (msg) => {
 
   cmdObj.run(bot, msg, args, db, guild).then((result) => {
     console.log(result);
-    if (result.status) {
-      msg.channel.send(result.message);
+    if (result.status === true) {
+      if(result.message !== '') msg.channel.send(result.message);
     } else {
-      msg.channel.send(result.message);
+      if (result.message === '') {
+        msg.channel.send('No error message specified. Somebody messed up');
+      } else {
+        msg.channel.send(result.message);
+      }
     }
   });
 });
