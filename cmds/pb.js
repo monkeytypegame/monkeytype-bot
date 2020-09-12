@@ -40,7 +40,7 @@ message.channel.send(`**__Timed Personal Bests for ${message.author.username}__*
 
   const scoreTimeEmbed = new Discord.MessageEmbed()
     .setColor("#e2b714")
-    .setThumbnail('https://www.emoji.co.uk/files/microsoft-emojis/objects-windows10/9747-alarm-clock.png')
+    .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/263/chart-increasing_1f4c8.png')
     .setTimestamp()
     .setFooter('https://monkey-type.com/')
   verifyTimeDefined(15)
@@ -53,7 +53,7 @@ message.channel.send(`**__Word Personal Bests for ${message.author.username}__**
 
   const scoreWordsEmbed = new Discord.MessageEmbed()
     .setColor("#e2b714")
-    .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/81/desktop-computer_1f5a5.png')
+    .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png')
     .setTimestamp()
     .setFooter('https://monkey-type.com/')
   verifyWordDefined(10)
