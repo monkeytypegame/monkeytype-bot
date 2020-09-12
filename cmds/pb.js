@@ -36,12 +36,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
   //embeds that display records
 
-  message.channel.send(
-    `**Timed Personal Bests for ${message.author.username}**`
-  );
 
   const scoreTimeEmbed = new Discord.MessageEmbed()
     .setColor("#e2b714")
+    .setTitle(`Time Personal Bests for ${message.author.username}`)
     .setThumbnail(
       "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/263/chart-increasing_1f4c8.png"
     )
@@ -53,12 +51,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
   verifyTimeDefined(120);
   message.channel.send(scoreTimeEmbed);
 
-  message.channel.send(
-    `**Word Personal Bests for ${message.author.username}**`
-  );
-
   const scoreWordsEmbed = new Discord.MessageEmbed()
     .setColor("#e2b714")
+    .setTitle(`Word Personal Bests for ${message.author.username}`)
     .setThumbnail(
       "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
     )
