@@ -45,10 +45,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
     )
     .setTimestamp()
     .setFooter("https://monkey-type.com/");
+  
+  scoreTimeEmbed.addField('\u200B','\u200B');
   verifyTimeDefined(15);
   verifyTimeDefined(30);
   verifyTimeDefined(60);
   verifyTimeDefined(120);
+  scoreTimeEmbed.addField('\u200B','\u200B');
+
   message.channel.send(scoreTimeEmbed);
 
   const scoreWordsEmbed = new Discord.MessageEmbed()
@@ -59,10 +63,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
     )
     .setTimestamp()
     .setFooter("https://monkey-type.com/");
+  
+  scoreWordsEmbed.addField('\u200B', '\u200B');
   verifyWordDefined(10);
   verifyWordDefined(25);
   verifyWordDefined(50);
   verifyWordDefined(100);
+  scoreWordsEmbed.addField('\u200B','\u200B');
+
   message.channel.send(scoreWordsEmbed);
 
   return {
@@ -108,7 +116,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
       let rawText = raw === undefined ? '' : ` (${raw} raw)`;
       let accText = acc === undefined ? '' : ` ${acc}% accuracy`;
-      scoreTimeEmbed.addField('\u200B','\u200B');
       scoreTimeEmbed.addField(
         `${element} sec`,
         `${wpm} wpm${rawText}${accText}`
@@ -129,13 +136,11 @@ module.exports.run = async (bot, message, args, db, guild) => {
       let rawText = raw === undefined ? '' : ` (${raw} raw)`;
       let accText = acc === undefined ? '' : ` ${acc}% accuracy`;
 
-      scoreWordsEmbed.addField('\u200B','\u200B');
 
       scoreWordsEmbed.addField(
         `${element} words`,
         `${wpm} wpm${rawText}${accText}`
       );
-      scoreWordsEmbed.addField('\u200B','\u200B');
 
       // scoreWordsEmbed.addField(`Raw:`, `${findWordRaw(element) === undefined ?'-':findWordRaw(element)} wpm`, true);
       // scoreWordsEmbed.addField(`Accuracy:`, `${findWordAcc(element)}%`, true);
