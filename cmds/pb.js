@@ -46,12 +46,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
     .setTimestamp()
     .setFooter("https://monkey-type.com/");
   
-  scoreTimeEmbed.addField('\u200B','\u200B');
+  // scoreTimeEmbed.addField('\u200B','\u200B');
   verifyTimeDefined(15);
   verifyTimeDefined(30);
   verifyTimeDefined(60);
   verifyTimeDefined(120);
-  scoreTimeEmbed.addField('\u200B','\u200B');
+  // scoreTimeEmbed.addField('\u200B','\u200B');
 
   message.channel.send(scoreTimeEmbed);
 
@@ -64,12 +64,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
     .setTimestamp()
     .setFooter("https://monkey-type.com/");
   
-  scoreWordsEmbed.addField('\u200B', '\u200B');
+  // scoreWordsEmbed.addField('\u200B', '\u200B');
   verifyWordDefined(10);
   verifyWordDefined(25);
   verifyWordDefined(50);
   verifyWordDefined(100);
-  scoreWordsEmbed.addField('\u200B','\u200B');
+  // scoreWordsEmbed.addField('\u200B','\u200B');
 
   message.channel.send(scoreWordsEmbed);
 
@@ -120,7 +120,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
         `${element} sec`,
         `${wpm} wpm${rawText}${accText}`
       );
-      scoreTimeEmbed.addField('\u200B','\u200B');
       // scoreTimeEmbed.addField(`Raw:`, `${findTimeRaw(element) === undefined ?'-':findTimeRaw(element)} wpm`, true);
       // scoreTimeEmbed.addField(`Accuracy:`, `${findTimeAcc(element)}%`, true);
       //scoreTimeEmbed.addField(`\u200b`, `\u200b`);
