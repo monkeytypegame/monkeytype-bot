@@ -64,13 +64,19 @@ module.exports.run = async (bot, message, args, db, guild) => {
           embed.addFields(
             { name: 'wpm', value: winner.wpm, inline: true },
             { name: 'raw', value: winner.raw, inline: true },
-            { name: 'accuracy', value: winner.acc, inline: true },
+            { name: 'accuracy', value: winner.acc+'%', inline: true },
           )
           
         }
         guild.channels.cache
             .find((ch) => ch.id === config.channels.general)
           .send(embed);
+        
+        guild.channels.cache
+          .find((ch) => ch.id === config.channels.general)
+          .send(`<@${discordId}> You won the daily ${lb.mode} ${lb.mode2} leaderboard!`).then(msg => {
+            msg.delete({ timeout: 500 })
+          })
         
         return {
           status: true,
