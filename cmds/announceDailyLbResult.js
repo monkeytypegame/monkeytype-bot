@@ -51,7 +51,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           embed.addFields(
             { name: 'wpm', value: winner.wpm, inline: true },
             { name: 'raw', value: winner.raw, inline: true },
-            { name: 'accuracy', value: winner.acc, inline: true },
+            { name: 'accuracy', value: winner.acc+'%', inline: true },
           )
         } else {
           //paired, tag the user
