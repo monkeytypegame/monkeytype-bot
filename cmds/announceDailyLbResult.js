@@ -60,7 +60,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           //   .send(
           //     `**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
           //   );
-          embed.setDescription(`<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard!`);
+          embed.setDescription(`**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard!`);
           embed.addFields(
             { name: 'wpm', value: winner.wpm, inline: true },
             { name: 'raw', value: winner.raw, inline: true },
@@ -70,7 +70,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
         }
         guild.channels.cache
             .find((ch) => ch.id === config.channels.general)
-            .send(embed);
+          .send(embed);
+        
         return {
           status: true,
           message: `Logged daily lb result for ${lb.mode} ${lb.mode2}`,
