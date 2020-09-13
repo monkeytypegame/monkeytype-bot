@@ -43,8 +43,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
     .setThumbnail(
       "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
     )
-    .setTimestamp()
-    .setFooter("https://monkey-type.com/");
+    // .setTimestamp()
+    .setFooter("www.monkey-type.com");
   
   // scoreTimeEmbed.addField('\u200B','\u200B');
   verifyTimeDefined(15);
@@ -61,8 +61,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
     .setThumbnail(
       "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
     )
-    .setTimestamp()
-    .setFooter("https://monkey-type.com/");
+    // .setTimestamp()
+    .setFooter("www.monkey-type.com");
   
   // scoreWordsEmbed.addField('\u200B', '\u200B');
   verifyWordDefined(10);
