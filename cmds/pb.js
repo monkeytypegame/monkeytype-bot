@@ -108,11 +108,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
       let rawText = raw === undefined ? '' : ` (${raw} raw)`;
       let accText = acc === undefined ? '' : ` ${acc}% accuracy`;
-
+      scoreTimeEmbed.addField('\u200B','\u200B');
       scoreTimeEmbed.addField(
         `${element} sec`,
         `${wpm} wpm${rawText}${accText}`
       );
+      scoreTimeEmbed.addField('\u200B','\u200B');
       // scoreTimeEmbed.addField(`Raw:`, `${findTimeRaw(element) === undefined ?'-':findTimeRaw(element)} wpm`, true);
       // scoreTimeEmbed.addField(`Accuracy:`, `${findTimeAcc(element)}%`, true);
       //scoreTimeEmbed.addField(`\u200b`, `\u200b`);
@@ -128,10 +129,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
       let rawText = raw === undefined ? '' : ` (${raw} raw)`;
       let accText = acc === undefined ? '' : ` ${acc}% accuracy`;
 
+      scoreWordsEmbed.addField('\u200B','\u200B');
+
       scoreWordsEmbed.addField(
         `${element} words`,
         `${wpm} wpm${rawText}${accText}`
       );
+      scoreWordsEmbed.addField('\u200B','\u200B');
+
       // scoreWordsEmbed.addField(`Raw:`, `${findWordRaw(element) === undefined ?'-':findWordRaw(element)} wpm`, true);
       // scoreWordsEmbed.addField(`Accuracy:`, `${findWordAcc(element)}%`, true);
       //scoreWordsEmbed.addField(`\u200b`, `\u200b`);
