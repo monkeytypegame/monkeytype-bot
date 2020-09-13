@@ -269,9 +269,15 @@ app.post("/release", verifyPostData, function (req, res) {
     message += releasedata.release.body + "\n";
     message += "```";
 
-    guild.channels.cache
+    if (message.length > 2000) {
+      guild.channels.cache
+      .find((ch) => ch.id === config.channels.botLog)
+      .send(`Yo stoopid <@102819690287489024>. That update log was too long for me to send.`);
+    } else {
+      guild.channels.cache
       .find((ch) => ch.id === config.channels.updates)
       .send(message);
+    }    
   }
   res.status(200).send("Request body was signed");
 });
