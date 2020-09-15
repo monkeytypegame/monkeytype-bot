@@ -180,6 +180,10 @@ bot.on("ready", async () => {
   console.log("Ready");
   guild = bot.guilds.cache.get(config.guildId);
   bot.user.setActivity(`over ${bot.users.cache.size} monkeys`, { type: 'WATCHING' })
+  setInterval(() => {
+    bot.user.setActivity(`over ${bot.users.cache.size} monkeys`, { type: 'WATCHING' })
+  }, 60000);
+ 
 
   logInChannel("Ready");
 
