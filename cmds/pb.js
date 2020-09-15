@@ -5,7 +5,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
   let discordID = message.author.id;
 
   //if there is a mention return, as this command is for personal use only
-  if (message.mentions.members.first()) return message.channel.send("Error: You may not view other users profiles");
+  if (message.mentions.members.first()) return {
+    status: false,
+    message: `Sorry, this command is for personal use only.`,
+  };
 
   let doc = await db
     .collection("users")
