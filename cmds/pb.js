@@ -4,6 +4,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   let discordID = message.author.id;
 
+  //if there is a mention return, as this command is for personal use only
+  if (message.mentions.members.first()) return message.channel.send("Error: You may not view other users profiles");
+
   let doc = await db
     .collection("users")
     .where("discordId", "==", discordID)
@@ -36,22 +39,17 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
   //embeds that display records
 
-
   const scoreTimeEmbed = new Discord.MessageEmbed()
     .setColor("#e2b714")
     .setTitle(`Time Personal Bests for ${message.author.username}`)
     .setThumbnail(
       "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
     )
-    // .setTimestamp()
     .setFooter("www.monkey-type.com");
-  
-  // scoreTimeEmbed.addField('\u200B','\u200B');
   verifyTimeDefined(15);
   verifyTimeDefined(30);
   verifyTimeDefined(60);
   verifyTimeDefined(120);
-  // scoreTimeEmbed.addField('\u200B','\u200B');
 
   message.channel.send(scoreTimeEmbed);
 
@@ -61,15 +59,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
     .setThumbnail(
       "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
     )
-    // .setTimestamp()
     .setFooter("www.monkey-type.com");
   
-  // scoreWordsEmbed.addField('\u200B', '\u200B');
   verifyWordDefined(10);
   verifyWordDefined(25);
   verifyWordDefined(50);
   verifyWordDefined(100);
-  // scoreWordsEmbed.addField('\u200B','\u200B');
 
   message.channel.send(scoreWordsEmbed);
 
@@ -120,9 +115,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
         `${element} sec`,
         `${wpm} wpm${rawText}${accText}`
       );
-      // scoreTimeEmbed.addField(`Raw:`, `${findTimeRaw(element) === undefined ?'-':findTimeRaw(element)} wpm`, true);
-      // scoreTimeEmbed.addField(`Accuracy:`, `${findTimeAcc(element)}%`, true);
-      //scoreTimeEmbed.addField(`\u200b`, `\u200b`);
     }
   }
 
@@ -140,10 +132,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
         `${element} words`,
         `${wpm} wpm${rawText}${accText}`
       );
-
-      // scoreWordsEmbed.addField(`Raw:`, `${findWordRaw(element) === undefined ?'-':findWordRaw(element)} wpm`, true);
-      // scoreWordsEmbed.addField(`Accuracy:`, `${findWordAcc(element)}%`, true);
-      //scoreWordsEmbed.addField(`\u200b`, `\u200b`);
     }
   }
 };
