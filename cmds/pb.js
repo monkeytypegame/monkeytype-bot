@@ -58,8 +58,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
   }
 
   //embeds that display records
+  let scoreTimeEmbed;
   if (maxesTime !== null) {
-    const scoreTimeEmbed = new Discord.MessageEmbed()
+    scoreTimeEmbed = new Discord.MessageEmbed()
       .setColor("#e2b714")
       .setTitle(`Time Personal Bests for ${message.author.username}`)
       .setThumbnail(
@@ -73,8 +74,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
     message.channel.send(scoreTimeEmbed);
   }
 
+  let scoreWordsEmbed;
   if (maxesWords !== null) {
-    const scoreWordsEmbed = new Discord.MessageEmbed()
+    scoreWordsEmbed = new Discord.MessageEmbed()
       .setColor("#e2b714")
       .setTitle(`Word Personal Bests for ${message.author.username}`)
       .setThumbnail(
