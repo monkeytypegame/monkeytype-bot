@@ -26,23 +26,31 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
   let pbObj = doc.personalBests;
 
-  const maxesTime = Object.fromEntries(
-    Object.entries(pbObj.time).map(([key, array]) => [
-      key,
-      Math.max(...array.map(({ wpm }) => wpm)),
-    ])
-  );
+  try {
+    const maxesTime = Object.fromEntries(
+      Object.entries(pbObj.time).map(([key, array]) => [
+        key,
+        Math.max(...array.map(({ wpm }) => wpm)),
+      ])
+    );
+  } catch (error) {
+    message.channel.send(`:x: ${message.author.username}, you have no timed highscores`);
+  };
+  
 
-  const maxesWords = Object.fromEntries(
-    Object.entries(pbObj.words).map(([key, array]) => [
-      key,
-      Math.max(...array.map(({ wpm }) => wpm)),
-    ])
-  );
+  try {
+    const maxesWords = Object.fromEntries(
+      Object.entries(pbObj.words).map(([key, array]) => [
+        key,
+        Math.max(...array.map(({ wpm }) => wpm)),
+      ])
+    );
+  } catch (error) {
+    message.channel.send(`:x: ${message.author.username}, you have no word highscores`);
+  };
 
   //embeds that display records
 
-  try {
     const scoreTimeEmbed = new Discord.MessageEmbed()
     .setColor("#e2b714")
     .setTitle(`Time Personal Bests for ${message.author.username}`)
@@ -55,11 +63,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   verifyTimeDefined(60);
   verifyTimeDefined(120);
   message.channel.send(scoreTimeEmbed);
-  } catch (error) {
-    message.channel.send(`:x: ${message.author.username}, you have no timed highscores`)
-  }
 
-  try {
     const scoreWordsEmbed = new Discord.MessageEmbed()
     .setColor("#e2b714")
     .setTitle(`Word Personal Bests for ${message.author.username}`)
@@ -67,16 +71,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
       "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
     )
     .setFooter("www.monkey-type.com");
-  
   verifyWordDefined(10);
   verifyWordDefined(25);
   verifyWordDefined(50);
   verifyWordDefined(100);
   message.channel.send(scoreWordsEmbed);
-  } catch (error) {
-    message.channel.send(`:x: ${message.author.username}, you have no word highscores`)
-  }
   
+
 return {
   status: true,
   message: '',
