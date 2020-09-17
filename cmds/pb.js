@@ -1,83 +1,87 @@
 const Discord = require("discord.js");
 
 module.exports.run = async (bot, message, args, db, guild) => {
-  try{
-    console.log(`Running command ${this.cmd.name}`);
-    let discordID = message.author.id;
+  console.log(`Running command ${this.cmd.name}`);
+  let discordID = message.author.id;
 
-    //if there is a mention return, as this command is for personal use only
-    if (message.mentions.members.first()) return {
-      status: false,
-      message: `Sorry, this command is for personal use only.`,
-    };
+  //if there is a mention return, as this command is for personal use only
+  if (message.mentions.members.first()) return message.channel.send(":x: Error: You may not view other users profiles");
 
-    let doc = await db
-      .collection("users")
-      .where("discordId", "==", discordID)
-      .get();
-    doc = doc.docs;
-    if (doc.length === 0) {
-      return {
-        status: false,
-        message: `User not found. Make sure your account is paired.`,
-      };
-    }
-
-    doc = doc[0].data();
-
-    let pbObj = doc.personalBests;
-
-    const maxesTime = Object.fromEntries(
-      Object.entries(pbObj.time).map(([key, array]) => [
-        key,
-        Math.max(...array.map(({ wpm }) => wpm)),
-      ])
-    );
-
-    const maxesWords = Object.fromEntries(
-      Object.entries(pbObj.words).map(([key, array]) => [
-        key,
-        Math.max(...array.map(({ wpm }) => wpm)),
-      ])
-    );
-
-    //embeds that display records
-
-    const scoreTimeEmbed = new Discord.MessageEmbed()
-      .setColor("#e2b714")
-      .setTitle(`Time Personal Bests for ${message.author.username}`)
-      .setThumbnail(
-        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
-      )
-      .setFooter("www.monkey-type.com");
-    verifyTimeDefined(15);
-    verifyTimeDefined(30);
-    verifyTimeDefined(60);
-    verifyTimeDefined(120);
-
-    message.channel.send(scoreTimeEmbed);
-
-    const scoreWordsEmbed = new Discord.MessageEmbed()
-      .setColor("#e2b714")
-      .setTitle(`Word Personal Bests for ${message.author.username}`)
-      .setThumbnail(
-        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
-      )
-      .setFooter("www.monkey-type.com");
-    
-    verifyWordDefined(10);
-    verifyWordDefined(25);
-    verifyWordDefined(50);
-    verifyWordDefined(100);
-
-    message.channel.send(scoreWordsEmbed);
-
+  let doc = await db
+    .collection("users")
+    .where("discordId", "==", discordID)
+    .get();
+  doc = doc.docs;
+  if (doc.length === 0) {
     return {
-      status: true,
-      message: '',
+      status: false,
+      message: `:x: Could not find user`,
     };
+  }
 
-    
+  doc = doc[0].data();
+
+  let pbObj = doc.personalBests;
+
+  const maxesTime = Object.fromEntries(
+    Object.entries(pbObj.time).map(([key, array]) => [
+      key,
+      Math.max(...array.map(({ wpm }) => wpm)),
+    ])
+  );
+
+  const maxesWords = Object.fromEntries(
+    Object.entries(pbObj.words).map(([key, array]) => [
+      key,
+      Math.max(...array.map(({ wpm }) => wpm)),
+    ])
+  );
+
+  //embeds that display records
+
+  try {
+    const scoreTimeEmbed = new Discord.MessageEmbed()
+    .setColor("#e2b714")
+    .setTitle(`Time Personal Bests for ${message.author.username}`)
+    .setThumbnail(
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
+    )
+    .setFooter("www.monkey-type.com");
+  verifyTimeDefined(15);
+  verifyTimeDefined(30);
+  verifyTimeDefined(60);
+  verifyTimeDefined(120);
+  message.channel.send(scoreTimeEmbed);
+  } catch (error) {
+    message.channel.send(`:x: ${message.author.username}, you have no timed highscores`)
+  }
+
+  try {
+    const scoreWordsEmbed = new Discord.MessageEmbed()
+    .setColor("#e2b714")
+    .setTitle(`Word Personal Bests for ${message.author.username}`)
+    .setThumbnail(
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
+    )
+    .setFooter("www.monkey-type.com");
+  
+  verifyWordDefined(10);
+  verifyWordDefined(25);
+  verifyWordDefined(50);
+  verifyWordDefined(100);
+  message.channel.send(scoreWordsEmbed);
+  } catch (error) {
+    message.channel.send(`:x: ${message.author.username}, you have no word highscores`)
+  }
+  
+
+  return {
+    status: true,
+    message: '',
+  };
+
+  //functions for adding fields and finding values (some of which are a nightmare)
+
   function findWordRaw(val) {
     let timeVal = val;
     let rawToFind = maxesWords[val];
@@ -136,13 +140,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
         `${wpm} wpm${rawText}${accText}`
       );
     }
-  }
-
-  }catch(e){
-    return {
-      status: false,
-      message: 'Something went wrong while trying to get your personal bests: ' + e,
-    };
   }
 };
 
