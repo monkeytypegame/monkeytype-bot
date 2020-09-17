@@ -76,15 +76,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
       status: true,
       message: '',
     };
-  }catch(e){
-    return {
-      status: false,
-      message: 'Something went wrong while trying to get your personal bests: ' + e,
-    };
-  }
 
-  //functions for adding fields and finding values (some of which are a nightmare)
-
+    
   function findWordRaw(val) {
     let timeVal = val;
     let rawToFind = maxesWords[val];
@@ -143,6 +136,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
         `${wpm} wpm${rawText}${accText}`
       );
     }
+  }
+
+  }catch(e){
+    return {
+      status: false,
+      message: 'Something went wrong while trying to get your personal bests: ' + e,
+    };
   }
 };
 
