@@ -77,7 +77,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
     message.channel.send(`:x: ${message.author.username}, you have no word highscores`)
   }
   
-
+return {
+  status: true,
+  message: '',
+};
+  
+  
   //functions for adding fields and finding values (some of which are a nightmare)
 
   function findWordRaw(val) {
