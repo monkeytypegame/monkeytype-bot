@@ -5,7 +5,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
   let discordID = message.author.id;
 
   //if there is a mention return, as this command is for personal use only
-  if (message.mentions.members.first()) return message.channel.send(":x: Error: You may not view other users profiles");
+  if (message.mentions.members.first()) return {
+    status: true,
+    message: ":x: Error: You may not view other users profiles"
+  };
 
   let doc = await db
     .collection("users")
@@ -74,11 +77,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
     message.channel.send(`:x: ${message.author.username}, you have no word highscores`)
   }
   
-
-  return {
-    status: true,
-    message: '',
-  };
 
   //functions for adding fields and finding values (some of which are a nightmare)
 
