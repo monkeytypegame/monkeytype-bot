@@ -20,10 +20,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
         };
       }
       console.log(`stdout: ${stdout}`);
-      return {
-        status: true,
-        message: "Upgrading"
-      };
     });
     return {
       status: true,
