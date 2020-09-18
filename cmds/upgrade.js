@@ -3,8 +3,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
   const { exec } = require("child_process");
 
   try {
-    message.channel.send(`Restarting...`);
-    exec("~/monkey-bot/restart.sh", (error, stdout, stderr) => {
+    message.channel.send(`Upgrading...`);
+    exec("~/monkey-bot/upgrade.sh", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
         return;
@@ -18,12 +18,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
   } catch (e) {
     return {
       status: false,
-      message: "Could not restart: " + e.message,
+      message: "Could not upgrade: " + e.message,
     };
   }
 };
 
 module.exports.cmd = {
-  name: "restart",
+  name: "upgrade",
   needMod: true,
 };
