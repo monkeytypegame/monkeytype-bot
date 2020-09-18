@@ -7,13 +7,23 @@ module.exports.run = async (bot, message, args, db, guild) => {
     exec("~/monkey-bot/upgrade.sh", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
-        return;
+        return {
+          status: false,
+          message: "Could not upgrade: " + error.message,
+        };
       }
       if (stderr) {
         console.log(`stderr: ${stderr}`);
-        return;
+        return {
+          status: false,
+          message: "Could not upgrade: " + error.message,
+        };
       }
       console.log(`stdout: ${stdout}`);
+      return {
+        status: true,
+        message: "Upgrading"
+      };
     });
   } catch (e) {
     return {

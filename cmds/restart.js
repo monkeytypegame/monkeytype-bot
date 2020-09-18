@@ -7,13 +7,23 @@ module.exports.run = async (bot, message, args, db, guild) => {
     exec("~/monkey-bot/restart.sh", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
-        return;
+        return {
+          status: false,
+          message: "Could not restart: " + error.message,
+        };
       }
       if (stderr) {
         console.log(`stderr: ${stderr}`);
-        return;
+        return {
+          status: false,
+          message: "Could not restart: " + error.message,
+        };
       }
       console.log(`stdout: ${stdout}`);
+      return {
+        status: true,
+        message: "Restarting",
+      };
     });
   } catch (e) {
     return {
