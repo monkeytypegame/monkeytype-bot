@@ -25,6 +25,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
         message: "Upgrading"
       };
     });
+    return {
+      status: true,
+      message: "Upgrading?"
+    }
   } catch (e) {
     return {
       status: false,

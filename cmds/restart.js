@@ -25,6 +25,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
         message: "Restarting",
       };
     });
+    return {
+      status: true,
+      message: "Restarting?"
+    }
   } catch (e) {
     return {
       status: false,
