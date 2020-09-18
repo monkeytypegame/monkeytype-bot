@@ -2,8 +2,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
 
   try {
-
-    await require("child_process").spawn("/home/ubuntu/monkey-bot/restart.sh", [], {
+    require("child_process").spawn("/home/ubuntu/monkey-bot/restart.sh", [], {
       detached: true
     })
     return {

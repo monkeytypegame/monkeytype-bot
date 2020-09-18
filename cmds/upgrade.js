@@ -3,27 +3,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
   const { exec } = require("child_process");
 
   try {
-    message.channel.send(`Upgrading...`);
-    exec("~/monkey-bot/upgrade.sh", (error, stdout, stderr) => {
-      if (error) {
-        console.log(`error: ${error.message}`);
-        return {
-          status: false,
-          message: "Could not upgrade: " + error.message,
-        };
-      }
-      if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return {
-          status: false,
-          message: "Could not upgrade: " + error.message,
-        };
-      }
-      console.log(`stdout: ${stdout}`);
-    });
+    require("child_process").spawn("/home/ubuntu/monkey-bot/upgrade.sh", [], {
+      detached: true
+    })
     return {
       status: true,
-      message: "Upgrading?"
+      message: "Upgrading..."
     }
   } catch (e) {
     return {
