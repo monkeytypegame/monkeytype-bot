@@ -1,10 +1,14 @@
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
 
+  const { spawn } = require('child_process');
+
   try {
-    require("child_process").spawn("/home/ubuntu/monkey-bot/restart.sh", [], {
-      detached: true
+    let subprocess = spawn("/home/ubuntu/monkey-bot/restart.sh", [], {
+      detached: true,
+      stdio: 'ignore'
     })
+    subprocess.unref();
     return {
       status: true,
       message: "Restarting..."
