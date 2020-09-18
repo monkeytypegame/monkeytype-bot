@@ -4,7 +4,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
   try {
     message.channel.send(`Restarting...`);
-    await exec("~/monkey-bot/restart.sh", (error, stdout, stderr) => {
+    exec("~/monkey-bot/restart.sh", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
         return {
