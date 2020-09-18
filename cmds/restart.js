@@ -3,17 +3,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
   try {
 
-
-
-
-
-    setTimeout(() => {
-
-      require("child_process").spawn("~/monkey-bot/restart.sh", [], {
-        detached: true
-      })
-
-    },1000);
+    await require("child_process").spawn("~/monkey-bot/restart.sh", [], {
+      detached: true
+    })
     return {
       status: true,
       message: "Restarting..."
