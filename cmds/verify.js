@@ -51,7 +51,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
     return db
       .collection("users")
       .doc(userDocs[0].id)
-      .update({ discordId: message.author.id })
+      .update({
+        discordId: message.author.id,
+        discordPairingCode: undefined
+      })
       .then((ret) => {
         return guild.members.cache
           .find((member) => member.user.id == message.author.id)
