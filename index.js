@@ -102,6 +102,10 @@ bot.on("message", (msg) => {
     return;
   }
 
+  if (/(how.*role.*\?)|(how.*challenge.*\?)|(wpm.*role.*\?)/g.test(msg.content.toLocaleLowerCase())) {
+    msg.channel.send(`Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel.`);
+  }
+
   let msg_array = msg.content.split(" ");
   let cmd = msg_array[0]; //gets the first element eg "!verify" if the message is "!verify someone"
   let args = msg_array.slice(1); //gets the arguments eg "this that " if the message is "!do this that"
