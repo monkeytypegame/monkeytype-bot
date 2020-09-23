@@ -53,7 +53,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       .doc(userDocs[0].id)
       .update({
         discordId: message.author.id,
-        discordPairingCode: undefined
+        discordPairingCode: null
       })
       .then((ret) => {
         return guild.members.cache
