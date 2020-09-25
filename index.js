@@ -102,7 +102,7 @@ bot.on("message", (msg) => {
     return;
   }
 
-  if (/(how.*role.*\?)|(how.*challenge.*\?)|(wpm.*role.*\?)/g.test(msg.content.toLocaleLowerCase())) {
+  if (/(how.*role.*\?)|(how.*challenge.*\?)|(wpm.*role.*\?)|(pair.*account.*\?)/g.test(msg.content.toLocaleLowerCase())) {
     msg.channel.send(`Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel.`);
   }
 
