@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   if (doc.length === 0) {
     return {
       status: false,
-      message: `:x: Could not find user`,
+      message: `:x: Could not find user. Make sure your accounts are paired.`,
     };
   }
 
