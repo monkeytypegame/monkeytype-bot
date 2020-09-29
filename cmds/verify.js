@@ -1,6 +1,11 @@
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
-
+  if (config.noLog) {
+    return {
+      status: false,
+      message: "Dev bot active. Not running verify command. Real bot should still do it though",
+    };
+  }
   if (args.length === 0) {
     return {
       status: false,
