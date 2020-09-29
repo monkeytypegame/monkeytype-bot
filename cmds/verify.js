@@ -3,7 +3,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   if (config.noLog) {
     return {
       status: false,
-      message: "Dev bot active. Not running verify command. Real bot should still do it though",
+      message: "",
     };
   }
   if (args.length === 0) {

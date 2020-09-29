@@ -3,7 +3,12 @@ const Discord = require("discord.js");
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   let discordID = message.author.id;
-
+  if (config.noLog) {
+    return {
+      status: false,
+      message: "",
+    };
+  }
   //if there is a mention return, as this command is for personal use only
   if (message.mentions.members.first())
     return {
