@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       //success show balance
       fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
       let nextReset = addDays(milisNow, 1);
-      nextReset.setHours(1);
+      nextReset.setHours(0);
       nextReset.setMinutes(0);
       nextReset.setSeconds(0);
       nextReset.setMilliseconds(0);
@@ -70,7 +70,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       ) {
         //same day, show error
         let nextReset = addDays(cD, 1);
-        nextReset.setHours(1);
+        nextReset.setHours(0);
         nextReset.setMinutes(0);
         nextReset.setSeconds(0);
         nextReset.setMilliseconds(0);
@@ -115,7 +115,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         //success, show balance
         fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
         let nextReset = addDays(milisNow, 1);
-        nextReset.setHours(1);
+        nextReset.setHours(0);
         nextReset.setMinutes(0);
         nextReset.setSeconds(0);
         nextReset.setMilliseconds(0);
