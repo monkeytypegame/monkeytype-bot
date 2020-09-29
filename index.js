@@ -169,7 +169,7 @@ bot.on("message", (msg) => {
       if(result.message !== '') msg.channel.send(result.message);
     } else {
       if (result.message === '') {
-        msg.channel.send('No error message specified. Somebody messed up');
+        msg.channel.send('No error message specified. Somebody messed up or dev bot is active.');
       } else {
         msg.channel.send(result.message);
       }
