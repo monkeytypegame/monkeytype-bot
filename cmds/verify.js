@@ -1,5 +1,6 @@
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
+  const config = require("../config.json");
   if (config.noLog) {
     return {
       status: false,
@@ -13,7 +14,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
     };
   }
 
-  const config = require("../config.json");
 
   let memberRole = guild.roles.cache.find(
     (role) => role.id === config.roles.memberRole
