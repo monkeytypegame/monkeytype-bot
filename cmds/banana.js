@@ -170,6 +170,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
 module.exports.cmd = {
   name: "banana",
-  needMod: true,
-  onlyBotCommandsChannel: false,
+  needMod: false,
+  onlyBotCommandsChannel: true,
 };
