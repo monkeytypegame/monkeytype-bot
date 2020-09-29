@@ -2,3 +2,4 @@ node_modules
 serviceAccountKey*
 config.json
 .vscode
+bananas*.json
