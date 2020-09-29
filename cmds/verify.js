@@ -40,7 +40,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   } else if (userDocs.length === 1) {
     let userData = userDocs[0].data();
 
-    if (userData.discordId !== undefined) {
+    if (userData.discordId != undefined) {
       return {
         status: false,
         message: "Account is already paired.",
