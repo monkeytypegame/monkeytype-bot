@@ -32,7 +32,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         let name;
         try {
           name = guild.members.cache.find(
-            (member) => member.id === key
+            (member) => member.id === slice.id
           ).user.username;
         } catch (e) {
           name = "Unknown User";
