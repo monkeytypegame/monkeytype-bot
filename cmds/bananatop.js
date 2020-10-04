@@ -22,10 +22,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
         message: ":x: No users found",
       };
     } else {
-      let sorted = bananaData.sort((a, b) => b.balance - a.balance);
+      let dekeyd = [];
+      Object.keys(bananaData).map(function (key, index) {
+        dekeyd.push({ id: key, balance: bananaData[key].balance });
+      });
+      let sorted = dekeyd.sort((a, b) => b.balance - a.balance);
       let sliced = sorted.slice(0, 10);
-      let mapped = [];
-      Object.keys(sliced).map(function (key, index) {
+      sliced.forEach(slice => {
         let name;
         try {
           name = guild.members.cache.find(
@@ -34,10 +37,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
         } catch (e) {
           name = "Unknown User";
         }
-        mapped.push({ id: key, name: name, balance: sliced[key].balance });
-      });
+        slice.name = name;
+      })
       let top10string = '';
-      mapped.forEach(user => {
+      sliced.forEach(user => {
         top10string += `${user.name} - ${user.balance}\n`;
       })
       let embed = new Discord.MessageEmbed()
