@@ -109,7 +109,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                   .then((f) => {
                     return {
                       status: true,
-                      message: `Verified <@${args[0]} and updated role`,
+                      message: `Verified <@${args[0]}> and updated role`,
                     };
                   })
                   .catch((e) => {
