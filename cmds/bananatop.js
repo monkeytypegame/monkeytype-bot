@@ -24,7 +24,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
     } else {
       let dekeyd = [];
       Object.keys(bananaData).map(function (key, index) {
-        dekeyd.push({ id: key, balance: bananaData[key].balance });
+        dekeyd.push({ id: key, balance: bananaData[key].balance, lastCollect : bananaData[key].lastCollect });
       });
       let sorted = dekeyd.sort((a, b) => {
         if (a.balance === b.balance) {
