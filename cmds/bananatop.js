@@ -26,7 +26,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
       Object.keys(bananaData).map(function (key, index) {
         dekeyd.push({ id: key, balance: bananaData[key].balance });
       });
-      let sorted = dekeyd.sort((a, b) => b.balance - a.balance);
+      let sorted = dekeyd.sort((a, b) => {
+        if (a.balance === b.balance) {
+          return a.lastCollect - b.lastCollect;
+        } else {
+          return b.balance - a.balance
+        }
+      });
       let sliced = sorted.slice(0, 10);
       sliced.forEach(slice => {
         let name;
