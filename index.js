@@ -193,7 +193,7 @@ bot.on("ready", async () => {
 
   db.collection("bot-commands").onSnapshot((snapshot) => {
     let changes = snapshot.docChanges();
-    logInChannel(`${changes.length} commands found`);
+    // logInChannel(`${changes.length} commands found`);
     changes.forEach((change) => {
       let docData = change.doc.data();
       if (docData.executed === false) {
