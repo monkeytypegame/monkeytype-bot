@@ -58,7 +58,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       )
         .setDescription(`Banana collected! Come back in ${timeLeftString} for more.`)
         .addField("Bananas",1)
-        .setFooter("www.monkey-type.com");
+        .setFooter("www.monkeytype.com");
       
       message.channel.send(embed);
       return {
@@ -106,7 +106,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         )
           .setDescription(`Too early! Come back in ${timeLeftString} to collect your banana.`)
           .addField("Bananas",userData.balance)
-          .setFooter("www.monkey-type.com");
+          .setFooter("www.monkeytype.com");
         
         message.channel.send(embed);
         return {
@@ -151,7 +151,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         )
           .setDescription(`Banana collected! Come back in ${timeLeftString} for more.`)
           .addField("Bananas",userData.balance + 1)
-          .setFooter("www.monkey-type.com");
+          .setFooter("www.monkeytype.com");
         
         message.channel.send(embed);
         return {

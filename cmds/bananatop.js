@@ -56,7 +56,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
       )
         .setDescription(top10string)
-        .setFooter("www.monkey-type.com");
+        .setFooter("www.monkeytype.com");
       
       message.channel.send(embed);
       return {

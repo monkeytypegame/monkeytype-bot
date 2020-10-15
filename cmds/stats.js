@@ -51,7 +51,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       .addField("Tests Started:", `${dataObj.started}`)
       .addField("Tests Completed:", `${dataObj.completed}`)
       .addField("Time Typing:", `${secondsToHms(dataObj.time)}`)
-      .setFooter("www.monkey-type.com");
+      .setFooter("www.monkeytype.com");
     message.channel.send(statsEmbed);
     return {
       status: true,

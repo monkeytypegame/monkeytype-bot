@@ -72,7 +72,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       .setThumbnail(
         "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
       )
-      .setFooter("www.monkey-type.com");
+      .setFooter("www.monkeytype.com");
     verifyTimeDefined(15);
     verifyTimeDefined(30);
     verifyTimeDefined(60);
@@ -88,7 +88,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       .setThumbnail(
         "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
       )
-      .setFooter("www.monkey-type.com");
+      .setFooter("www.monkeytype.com");
     verifyWordDefined(10);
     verifyWordDefined(25);
     verifyWordDefined(50);

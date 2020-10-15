@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   try {
     message.channel.send("Sending to GitHub...");
 
-    return fetch("https://api.github.com/repos/miodec/monkey-type/issues", {
+    return fetch("https://api.github.com/repos/miodec/monkeytype/issues", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

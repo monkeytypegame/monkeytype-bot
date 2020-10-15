@@ -37,7 +37,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           .setThumbnail(
             "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/crown_1f451.png"
           )
-          .setFooter("www.monkey-type.com");
+          .setFooter("www.monkeytype.com");
 
 
         if (discordId !== undefined) {

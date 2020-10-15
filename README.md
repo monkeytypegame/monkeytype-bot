@@ -1,2 +1,2 @@
 # monkey-bot
-Discord bot for monkey-type written in Discord.js
+Discord bot for monkeytype written in Discord.js

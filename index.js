@@ -272,7 +272,7 @@ app.post("/release", verifyPostData, function (req, res) {
   if (releasedata.action == "released") {
     let message = "";
     message += `<@&${config.roles.updatePing}>\n`;
-    message += "**monkey-type " + releasedata.release.tag_name + "**";
+    message += "**monkeytype " + releasedata.release.tag_name + "**";
     message += "```\n";
     message += releasedata.release.body + "\n";
     message += "```";

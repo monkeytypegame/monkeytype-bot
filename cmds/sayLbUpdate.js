@@ -50,7 +50,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           .setThumbnail(
             "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
           )
-      .setFooter("www.monkey-type.com")
+      .setFooter("www.monkeytype.com")
       .setDescription(`${usrstring} just got ${pos}${posstr} place on the ${lb.replace(
         "_",
         " "

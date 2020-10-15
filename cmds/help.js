@@ -14,7 +14,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           { name: 'Verification:', value: 'React with ✅ for verification help' },
           { name: 'Personal Bests & Statistics:', value: 'React with 📈 for stats help' }
       )
-      .setFooter("www.monkey-type.com");
+      .setFooter("www.monkeytype.com");
   var msg = await message.channel.send(helpEmbed);
   
   await msg.react("✅");
@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
     await msg.edit(helpEmbed
       .setTitle('✅ Verification Help')
       .addFields(
-      { name: '!verify', value: `1. Login to your monkey-type account\n2. Generate your unique code in the settings page under \`discord integration\`\n3. DM @George !verify <generated code>. __**Please don't send your code in any of the server channels**__\n4. Congrats! Your account is now linked! Your WPM role will generate on the next 60s test you take.` }
+      { name: '!verify', value: `1. Login to your monkeytype account\n2. Generate your unique code in the settings page under \`discord integration\`\n3. DM @George !verify <generated code>. __**Please don't send your code in any of the server channels**__\n4. Congrats! Your account is now linked! Your WPM role will generate on the next 60s test you take.` }
       )
   )} else if (collected.find(v => v.emoji.name === "📈")) {
     helpEmbed.fields = [];
