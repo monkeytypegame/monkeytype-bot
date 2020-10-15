@@ -86,7 +86,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         logInChannel(`Could not update role for <@${args[0]}> - ${e}`);
         return {
           status: false,
-          message: `Could not update role for <@${args[0]}> - ${e}`,
+          message: `Could not update role for <@${args[0]}> <@102819690287489024>  - ${e}`,
         };
       });
   } catch (e) {
