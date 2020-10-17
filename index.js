@@ -150,13 +150,7 @@ bot.on("message", (msg) => {
   }
 
   if (cmdObj.cmd.type === "dm" || cmdObj.cmd.type === "db") {
-    if (cmdObj.cmd.name === "verify") {
-      msg.channel.send(
-        `<@${msg.author.id}> Make sure to DM me the code instead of posting here.`
-      );
-    } else {
-      msg.channel.send(`Command ${cmd} cannot be executed manually`);
-    }
+    msg.channel.send(`Command ${cmd} cannot be executed manually`);
     setTimeout(() => {
       msg.delete();
     }, 500);
