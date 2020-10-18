@@ -3,6 +3,7 @@
   "secret": "secret for github webhook",
   "guildId": "guild (server) id",
   "githubApiToken": "access token for creating issues",
+  "dev": "true/false",
   "roles": {
     "adminRole": "admin role id",
     "modRole": "mod role id",
