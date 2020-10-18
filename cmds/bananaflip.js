@@ -70,6 +70,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
           message: `:x: Can't bet ${bananaBet} bananas. Example: !bananabet 1 heads`,
         };
       }
+      if (bananaBet < 1) {
+        return {
+          status: false,
+          message: `:x: Can't bet ${bananaBet} bananas. Example: !bananabet 1 heads`,
+        };
+      }
       try {
         sidePrediction = sidePrediction.toLowerCase();
         if (!/^[ht]/.test(sidePrediction)) {
