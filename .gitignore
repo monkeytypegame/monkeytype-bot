@@ -3,3 +3,4 @@ serviceAccountKey*
 config.json
 .vscode
 bananas*.json
+coinFlips.json
