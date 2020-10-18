@@ -67,13 +67,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
       if (isNaN(bananaBet)) {
         return {
           status: false,
-          message: `:x: Can't bet ${bananaBet} bananas. Example: !bananabet 1 heads`,
+          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananabet 1 heads`,
         };
       }
       if (bananaBet < 1) {
         return {
           status: false,
-          message: `:x: Can't bet ${bananaBet} bananas. Example: !bananabet 1 heads`,
+          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananabet 1 heads`,
         };
       }
       try {
@@ -90,7 +90,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         console.log(e);
         return {
           status: false,
-          message: `:x: Side prediction must be a string and begin with either h or t. Example: !bananabet 1 tails or !bananabet 1 h`,
+          message: `:x: Side prediction must be a string and begin with either h or t. Example: !bananaflip 1 tails or !bananaflip 1 h`,
         };
       }
 
