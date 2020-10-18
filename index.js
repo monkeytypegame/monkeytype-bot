@@ -40,30 +40,30 @@ fs.readdir("./cmds", (err, files) => {
   });
 });
 
-//react to dms
-bot.on("message", (msg) => {
-  if (msg.channel.type !== "dm") return;
-  if (msg.author.bot) return;
+// //react to dms
+// bot.on("message", (msg) => {
+//   if (msg.channel.type !== "dm") return;
+//   if (msg.author.bot) return;
 
-  let msg_array = msg.content.split(" ");
-  let cmd = msg_array[0];
-  let args = msg_array.slice(1);
+//   let msg_array = msg.content.split(" ");
+//   let cmd = msg_array[0];
+//   let args = msg_array.slice(1);
 
-  if (!cmd.startsWith(prefix)) return;
+//   if (!cmd.startsWith(prefix)) return;
 
-  let cmdObj = bot.commands.get(cmd.slice(prefix.length));
+//   let cmdObj = bot.commands.get(cmd.slice(prefix.length));
 
-  if (!cmdObj || cmdObj.cmd.type !== "dm") return;
+//   if (!cmdObj || cmdObj.cmd.type !== "dm") return;
 
-  msg.channel.send("Please wait...");
-  cmdObj.run(bot, msg, args, db, guild).then((result) => {
-    if (result.status) {
-      msg.channel.send(result.message);
-    } else {
-      msg.channel.send(result.message);
-    }
-  });
-});
+//   msg.channel.send("Please wait...");
+//   cmdObj.run(bot, msg, args, db, guild).then((result) => {
+//     if (result.status) {
+//       msg.channel.send(result.message);
+//     } else {
+//       msg.channel.send(result.message);
+//     }
+//   });
+// });
 
 let lastReact = 0;
 function shouldBotReact() {
