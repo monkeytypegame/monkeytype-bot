@@ -67,7 +67,7 @@ fs.readdir("./cmds", (err, files) => {
 
 let lastReact = 0;
 function shouldBotReact() {
-  if (Date.now() - lastReact >= 3000) {
+  if (Date.now() - lastReact >= 1500) {
     lastReact = Date.now();
     return true;
   } else {
