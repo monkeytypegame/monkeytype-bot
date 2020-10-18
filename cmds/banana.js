@@ -3,12 +3,6 @@ const Discord = require("discord.js");
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const config = require("../config.json");
-  if (config.noLog) {
-    return {
-      status: false,
-      message: "",
-    };
-  }
   const fs = require("fs");
   try {
     let bananaData;
