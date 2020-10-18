@@ -60,7 +60,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
           { name: '!banana', value: 'Collects 1 banana on use\nOnly can be used once per day - because you know what they say!' },
           { name: '!bananatop', value: 'Displays the biggest potassium hoarders serverwide!' }
         )
-  )}
+  )} else {
+    //do nothing
+  }
 } catch (error) {
   message.channel.send(`:x: An error has occurred`);
 };
