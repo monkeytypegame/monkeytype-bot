@@ -80,6 +80,8 @@ bot.on("message", (msg) => {
   if (msg.channel.type === "dm") return; //dont react to dms
   if (msg.author.bot) return; //dont react to messages by the bot
 
+  if (config.dev === true && msg.author.id !== "102819690287489024") return;
+
   if (msg.member.roles.cache.some(
     (role) =>
       role.id === config.roles.adminRole || role.id === config.roles.modRole
@@ -140,13 +142,14 @@ bot.on("message", (msg) => {
     msg.channel.send("Please wait a bit before using a commmand");
     return;
   }
-
-  if (cmdObj.cmd.onlyBotCommandsChannel && msg.channel.id !== config.channels.botCommands) {
-    msg.channel.send(`Please use the <#${config.channels.botCommands}> channel.`);
-    setTimeout(() => {
-      msg.delete();
-    }, 500);
-    return;
+  if (!config.dev) {
+    if (cmdObj.cmd.onlyBotCommandsChannel && msg.channel.id !== config.channels.botCommands) {
+      msg.channel.send(`Please use the <#${config.channels.botCommands}> channel.`);
+      setTimeout(() => {
+        msg.delete();
+      }, 500);
+      return;
+    }
   }
 
   if (cmdObj.cmd.type === "dm" || cmdObj.cmd.type === "db") {
