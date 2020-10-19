@@ -53,7 +53,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/slot-machine_1f3b0.png"
       )
         .setDescription(lastFlipsString)
-        .addField(`${message.author.username}'s Available Balance`, bananaData[message.author.id].balance, true)
+        .addField(`${message.author.username}'s Available Balance`, bananaData[message.author.id].balance)
         .addField('Flip Wins', bananaData[message.author.id].flipWins === undefined ? 0 : bananaData[message.author.id].flipWins, true)
         .addField('Flip Losses',bananaData[message.author.id].flipLosses === undefined ? 0 : bananaData[message.author.id].flipLosses, true)
         .setFooter("www.monkeytype.com");
@@ -166,7 +166,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
             )
               .setDescription(`It's ${resultString}! ${message.author.username} won ${bananaBet} ${countString}.`)
               .addField("Last 10 Global Flips",lastFlipsString)
-              .addField("New Balance",bananaData[message.author.id].balance)
+              .addField("New Balance", bananaData[message.author.id].balance)
+              .addField('Flip Wins', bananaData[message.author.id].flipWins === undefined ? 0 : bananaData[message.author.id].flipWins, true)
+              .addField('Flip Losses',bananaData[message.author.id].flipLosses === undefined ? 0 : bananaData[message.author.id].flipLosses, true)
               .setFooter("www.monkeytype.com");
             message.channel.send(embed);
 
@@ -184,7 +186,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
             )
               .setDescription(`It's ${resultString}! ${message.author.username} lost ${bananaBet} ${countString}.`)
               .addField("Last 10 Global Flips",lastFlipsString)
-              .addField("New Balance",bananaData[message.author.id].balance)
+              .addField("New Balance", bananaData[message.author.id].balance)
+              .addField('Flip Wins', bananaData[message.author.id].flipWins === undefined ? 0 : bananaData[message.author.id].flipWins, true)
+              .addField('Flip Losses',bananaData[message.author.id].flipLosses === undefined ? 0 : bananaData[message.author.id].flipLosses, true)
               .setFooter("www.monkeytype.com");
             message.channel.send(embed);
 
