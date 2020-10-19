@@ -69,13 +69,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
       if (isNaN(bananaBet)) {
         return {
           status: false,
-          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananabet 1 heads`,
+          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananaflip 1 heads`,
         };
       }
       if (bananaBet < 1) {
         return {
           status: false,
-          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananabet 1 heads`,
+          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananaflip 1 heads`,
         };
       }
       try {
