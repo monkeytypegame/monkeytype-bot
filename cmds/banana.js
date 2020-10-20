@@ -109,10 +109,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
         }
       } else {
         //collect banana
-        bananaData[message.author.id] = {
-          balance: userData.balance + 1,
-          lastCollect: milisNow,
-        };
+        // bananaData[message.author.id] = {
+        //   balance: userData.balance + 1,
+        //   lastCollect: milisNow,
+        // };
+        bananaData[message.author.id].balance++;
+        bananaData[message.author.id].lastCollect = milisNow;
         //success, show balance
         fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
         let nextReset = addDays(milisNow, 1);
