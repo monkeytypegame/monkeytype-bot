@@ -143,8 +143,8 @@ bot.on("message", (msg) => {
     return;
   }
   if (!config.dev) {
-    if (cmdObj.cmd.onlyBotCommandsChannel && msg.channel.id !== config.channels.botCommands) {
-      msg.channel.send(`Please use the <#${config.channels.botCommands}> channel.`);
+    if (cmdObj.cmd.requiredChannel && msg.channel.id !== config.channels[cmdObj.cmd.requiredChannel]) {
+      msg.channel.send(`Please use the <#${config.channels[cmdObj.cmd.requiredChannel]}> channel.`);
       setTimeout(() => {
         msg.delete();
       }, 500);
