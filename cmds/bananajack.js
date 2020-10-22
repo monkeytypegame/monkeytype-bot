@@ -35,7 +35,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
             if (bananaBet < 1) {
                 return {
                     status: false,
-                    message: `:x: Can't bananajack for ${bananaBet} bananas. Example: !bananajack 1 heads`,
+                    message: `:x: Can't bananajack for ${bananaBet} bananas. Example: !bananajack 1`,
                 };
             }
 
