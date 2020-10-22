@@ -259,6 +259,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         } else {
                                         bananaData[message.author.id].bananajackWins++;
                                         }
+                                        
+                                        fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
 
                                         console.log("player win");
                                         msg.edit({
@@ -301,6 +303,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         } else {
                                         bananaData[message.author.id].bananajackLosses++;
                                         }
+                                        
+                                        fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
 
                                         console.log("dealer wins");
                                         msg.edit({
@@ -344,6 +348,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                     } else {
                                     bananaData[message.author.id].bananajackTies++;
                                     }
+                                    
+                                    fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+                                    
 
                                     console.log("tied! nobody wins!")
                                     msg.edit({
@@ -423,8 +430,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
 
 
-                    //save file
-                    fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+                    
+                    
                 }
             }
         }
