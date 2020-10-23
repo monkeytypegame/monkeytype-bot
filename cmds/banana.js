@@ -23,15 +23,11 @@ module.exports.run = async (bot, message, args, db, guild) => {
     db.collection('users').where('discordId','==',discordID).get()
     .then(snapshot => {
     if(snapshot.docs.length > 1){
-        return {
-            status: true,
-            message: ":x: Error: User is paired to more than one command - very bad, shouldn't happen.",
-        };
+        message.channel.send(":x: Error: User is paired to more than one command - very bad, shouldn't happen. <@102819690287489024>");
+        t60bananas = 0
     }else if(snapshot.docs.length < 1){
-        return {
-            status: true,
-            message: ":x: Could not find user. Make sure your accounts are paired.",
-        };
+        message.channel.send(":x: Could not find user. Make sure your accounts are paired.");
+        t60bananas = 0
     }else{
         //get that users bananas subcollection
         bananasDoc = snapshot.docs[0].ref.collection('bananas').doc('bananas');
@@ -85,20 +81,16 @@ module.exports.run = async (bot, message, args, db, guild) => {
       )
         .setDescription(`Banana collected! Come back in ${timeLeftString} for more.`)
         .addField("Bananas",1)
+        .addField("Bonus! :partying_face::", t60bananas)
         .setFooter("www.monkeytype.com");
       
       message.channel.send(embed);
 
-      if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
-        message.channel.send(`:partying_face: Surprise bananas! You've got ${t60bananas} bananas as a bonus!`);
+      if (bananasDoc !== undefined)  {
         bananaData[message.author.id].balance += t60bananas;
         fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
         bananasDoc.set({t60bananas: 0}, {merge: true});
-        return {
-            status: true,
-            message: ''
-        }
-    }
+      }
       
       return {
         status: true,
@@ -145,20 +137,16 @@ module.exports.run = async (bot, message, args, db, guild) => {
         )
           .setDescription(`Too early! Come back in ${timeLeftString} to collect your banana.`)
           .addField("Bananas",userData.balance)
+          .addField("Bonus! :partying_face::", t60bananas)
           .setFooter("www.monkeytype.com");
     
 
         message.channel.send(embed);
 
-        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
-            message.channel.send(`:partying_face: Surprise bananas! You've got ${t60bananas} bananas as a bonus!`);
-            bananaData[message.author.id].balance += t60bananas;
-            fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
-            bananasDoc.set({t60bananas: 0}, {merge: true});
-            return {
-                status: true,
-                message: ''
-            }
+        if (bananasDoc !== undefined)  {
+          bananaData[message.author.id].balance += t60bananas;
+          fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+          bananasDoc.set({t60bananas: 0}, {merge: true});
         }
 
         return {
@@ -205,19 +193,15 @@ module.exports.run = async (bot, message, args, db, guild) => {
         )
           .setDescription(`Banana collected! Come back in ${timeLeftString} for more.`)
           .addField("Bananas",userData.balance)
+          .addField("Bonus! :partying_face::", t60bananas)
           .setFooter("www.monkeytype.com");
         
         message.channel.send(embed);
 
-        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
-            message.channel.send(`:partying_face: Surprise bananas! You've got ${t60bananas} bananas as a bonus!`);
-            bananaData[message.author.id].balance += t60bananas;
-            fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
-            bananasDoc.set({t60bananas: 0}, {merge: true});
-            return {
-                status: true,
-                message: ''
-            }
+        if (bananasDoc !== undefined)  {
+          bananaData[message.author.id].balance += t60bananas;
+          fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+          bananasDoc.set({t60bananas: 0}, {merge: true});
         }
 
         return {
