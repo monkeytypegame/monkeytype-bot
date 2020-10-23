@@ -121,6 +121,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           const flip = Math.round(Math.random());
           const flipString = flip === 0 ? 'h' : 't';
         
+          bananaData = JSON.parse(fs.readFileSync("bananas.json"));
           if (sidePrediction === flipString) {
             //correct guess
             bananaData[message.author.id].balance += bananaBet;
