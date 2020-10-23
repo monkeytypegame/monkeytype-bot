@@ -3,6 +3,8 @@ const Discord = require("discord.js");
 let suits = ["♥", "♣", "♦", "♠"];
 let values = ["A", "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3", "2"];
 
+let currentlyPlaying = false;
+
 module.exports.run = async (bot, message, args, db, guild) => {
     console.log(`Running command ${this.cmd.name}`);
     const bananaBet = Math.round(args[0]);
@@ -179,6 +181,15 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         dealerScore = 0;
                         playerScore = 0;
                         deck = [];
+                    
+                    if (currentlyPlaying) {
+                       return {
+                            status: false,
+                            message: `:x: It seems like you already have an ongoing bananajack game.`,
+                        }; 
+                    }
+                    
+                    currentlyPlaying = true;
 
 
                     deck = createDeck(); // created deck and added a new function call after this called shuffleDeck passing in the deck.
@@ -295,6 +306,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         })
                                         hit.stop()
                                         stand.stop()
+                                        currentlyPlaying = false;
                                         return {
                                             status: true,
                                             message: ``,
@@ -341,6 +353,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         })
                                         hit.stop()
                                         stand.stop()
+                                        currentlyPlaying = false;
                                         return {
                                             status: true,
                                             message: ``,
@@ -385,6 +398,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         })
                                         hit.stop()
                                         stand.stop()
+                                        currentlyPlaying = false;
                                         return {
                                             status: true,
                                             message: ``,
