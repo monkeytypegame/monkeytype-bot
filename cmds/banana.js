@@ -17,29 +17,30 @@ module.exports.run = async (bot, message, args, db, guild) => {
     }
 
     let bananasDoc;
-    let t60bananas;
+    let t60bananas = 0;
     
 
-    db.collection('users').where('discordId','==',discordID).get()
-    .then(snapshot => {
-    if(snapshot.docs.length > 1){
-        message.channel.send(":x: Error: User is paired to more than one command - very bad, shouldn't happen. <@102819690287489024>");
-        t60bananas = 0
-    }else if(snapshot.docs.length < 1){
-        message.channel.send(":x: Could not find user. Make sure your accounts are paired.");
-        t60bananas = 0
-    }else{
-        //get that users bananas subcollection
-        bananasDoc = snapshot.docs[0].ref.collection('bananas').doc('bananas');
-        bananasDoc.get().then(snapshot2 => {
-            let data = snapshot2.data();
-            t60bananas = data.t60bananas; // <-
-        })
+    await db.collection('users').where('discordId','==',discordID).get()
+      .then(async snapshot => {
+      
 
-        //bananasDoc.set({t60bananas: 0}, {merge: true});
-    }
+      if(snapshot.docs.length > 1){
+          message.channel.send(":x: Error: User is paired to more than one command - very bad, shouldn't happen. <@102819690287489024>");
+          t60bananas = 0
+      }else if(snapshot.docs.length < 1){
+          message.channel.send(":x: Could not find user. Make sure your accounts are paired.");
+          t60bananas = 0
+      }else{
+          //get that users bananas subcollection
+          bananasDoc = snapshot.docs[0].ref.collection('bananas').doc('bananas');
+          await bananasDoc.get().then(snapshot2 => {
+              let data = snapshot2.data();
+              t60bananas = data.t60bananas; // <-
+          })
+
+          //bananasDoc.set({t60bananas: 0}, {merge: true});
+      }
     })
-
 
     let userData = bananaData[message.author.id];
     let milisNow = Date.now();
@@ -139,7 +140,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
         )
           .setDescription(`Too early! Come back in ${timeLeftString} to collect your banana.`)
-          .addField("Bananas",userData.balance)
+          .addField("Bananas",userData.balance + t60bananas)
           .setFooter("www.monkeytype.com");
         
           if (t60bananas > 0) {
@@ -198,7 +199,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
         )
           .setDescription(`Banana collected! Come back in ${timeLeftString} for more.`)
-          .addField("Bananas",userData.balance)
+          .addField("Bananas",userData.balance + t60bananas)
           .setFooter("www.monkeytype.com");
         
             if (t60bananas > 0) {
