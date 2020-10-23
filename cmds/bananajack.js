@@ -54,6 +54,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         message: ":x: You don't have enough bananas.",
                     };
                 } else {
+                    
+                    if (currentlyPlaying) {
+                       return {
+                            status: false,
+                            message: `:x: It seems like you already have an ongoing bananajack game.`,
+                        }; 
+                    }
 
                     function createDeck() { //creating the deck
                         let deck = [];
@@ -181,13 +188,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         dealerScore = 0;
                         playerScore = 0;
                         deck = [];
-                    
-                    if (currentlyPlaying) {
-                       return {
-                            status: false,
-                            message: `:x: It seems like you already have an ongoing bananajack game.`,
-                        }; 
-                    }
+                  
                     
                     currentlyPlaying = true;
 
