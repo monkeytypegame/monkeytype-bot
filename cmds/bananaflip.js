@@ -159,7 +159,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           if (sidePrediction === flipString) {
 
             let embed = new Discord.MessageEmbed()
-            .setColor("#e2b714")
+            .setColor("#41fd5f")
             .setTitle(`Flipping for ${message.author.username}...`)
             .setThumbnail(
               "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
@@ -179,7 +179,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           } else {
 
             let embed = new Discord.MessageEmbed()
-            .setColor("#e2b714")
+            .setColor("#fd4141")
             .setTitle(`Flipping for ${message.author.username}...`)
             .setThumbnail(
               "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/cross-mark_274c.png"
