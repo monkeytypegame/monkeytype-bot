@@ -251,6 +251,52 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 updateScores();
 
                                 if (gameOver) {
+                                    if (tied) {
+                                        bananaData[message.author.id].balance = bananaData[message.author.id].balance;
+                                        if (bananaData[message.author.id].bananajackTies === undefined) {
+                                        bananaData[message.author.id].bananajackTies = 1;
+                                        } else {
+                                        bananaData[message.author.id].bananajackTies++;
+                                        }
+                                        
+                                        fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+                                        
+    
+                                        console.log("tied! nobody wins!")
+                                        msg.edit({
+                                            "embed": {
+                                                "description": "**Tied!**\nNobody wins! Your bananas is returned.",
+                                                "author": {
+                                                    "name": `${message.member.displayName}'s bananajack game`
+                                                },
+                                                "thumbnail": {
+                                                    "url": "https://img.icons8.com/ios/452/cards.png"
+                                                },
+                                                "color": 16620865,
+                                                "fields": [{
+                                                        "name": `${message.member.displayName}`,
+                                                        "value": "Cards - " + playerCardString + "\n Total - ``" + getScore(playerCards) + "``",
+                                                        "inline": true
+                                                    },
+                                                    {
+                                                        "name": "George",
+                                                        "value": "Cards - " + dealerCardString + "\n Total - ``" + getScore(dealerCards) + "``",
+                                                        "inline": true
+                                                    }
+                                                ],
+                                                "footer": {
+                                                    "text": "K, Q, J = 10  |  A = 1 or 11\nwww.monkeytype.com"
+                                                }
+                                            }
+                                        })
+                                        hit.stop()
+                                        stand.stop()
+                                        return {
+                                            status: true,
+                                            message: ``,
+                                        };
+                                    }
+                                    
                                     if (playerWon) {
 
                                         bananaData[message.author.id].balance += bananaBet;
@@ -340,51 +386,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                             message: ``,
                                         };
                                     }
-                                } else if (tied) {
-
-                                    bananaData[message.author.id].balance = bananaData[message.author.id].balance;
-                                    if (bananaData[message.author.id].bananajackTies === undefined) {
-                                    bananaData[message.author.id].bananajackTies = 1;
-                                    } else {
-                                    bananaData[message.author.id].bananajackTies++;
-                                    }
-                                    
-                                    fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
-                                    
-
-                                    console.log("tied! nobody wins!")
-                                    msg.edit({
-                                        "embed": {
-                                            "description": "**Tied!**\nNobody wins! Your bananas is returned.",
-                                            "author": {
-                                                "name": `${message.member.displayName}'s bananajack game`
-                                            },
-                                            "thumbnail": {
-                                                "url": "https://img.icons8.com/ios/452/cards.png"
-                                            },
-                                            "color": 16620865,
-                                            "fields": [{
-                                                    "name": `${message.member.displayName}`,
-                                                    "value": "Cards - " + playerCardString + "\n Total - ``" + getScore(playerCards) + "``",
-                                                    "inline": true
-                                                },
-                                                {
-                                                    "name": "George",
-                                                    "value": "Cards - " + dealerCardString + "\n Total - ``" + getScore(dealerCards) + "``",
-                                                    "inline": true
-                                                }
-                                            ],
-                                            "footer": {
-                                                "text": "K, Q, J = 10  |  A = 1 or 11\nwww.monkeytype.com"
-                                            }
-                                        }
-                                    })
-                                    hit.stop()
-                                    stand.stop()
-                                    return {
-                                        status: true,
-                                        message: ``,
-                                    };
                                 } else {
                                     msg.edit({
                                         "embed": {
