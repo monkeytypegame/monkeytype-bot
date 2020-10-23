@@ -3,12 +3,11 @@ const Discord = require("discord.js");
 let suits = ["♥", "♣", "♦", "♠"];
 let values = ["A", "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3", "2"];
 
-let currentlyPlaying = false;
+const currentlyPlaying = new Discord.Collection();
 
 module.exports.run = async (bot, message, args, db, guild) => {
     console.log(`Running command ${this.cmd.name}`);
     const bananaBet = Math.round(args[0]);
-    let sidePrediction = args[1];
     const fs = require("fs");
     let bananaData;
     try {
@@ -55,11 +54,11 @@ module.exports.run = async (bot, message, args, db, guild) => {
                     };
                 } else {
                     
-                    if (currentlyPlaying) {
-                       return {
-                            status: false,
-                            message: `:x: It seems like you already have an ongoing bananajack game.`,
-                        }; 
+                    if (currentlyPlaying.has(message.author.id)) {
+                        return {
+                            status: true,
+                            message: ":x: It seems like you already have an ongoing bananajack game.",
+                        };
                     }
 
                     function createDeck() { //creating the deck
@@ -190,7 +189,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         deck = [];
                   
                     
-                    currentlyPlaying = true;
+                    currentlyPlaying.set(message.author.id, true);
 
 
                     deck = createDeck(); // created deck and added a new function call after this called shuffleDeck passing in the deck.
@@ -214,7 +213,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 "name": `${message.member.displayName}'s bananajack game`
                             },
                             "thumbnail": {
-                                "url": "https://img.icons8.com/ios/452/cards.png"
+                                "url": "https://i.ibb.co/2k7vbYx/bananajack.png"
                             },
                             "color": 15589385,
                             "fields": [{
@@ -233,15 +232,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
                             }
                         }
                     }).then(msg => {
-                        msg.react("✅").then(r => {
-                            msg.react("❌")
+                        msg.react("🇭").then(r => {
+                            msg.react("🇸")
                             const standFilter = (reaction, user) =>
-                                reaction.emoji.name === "❌" && user.id === message.author.id;
+                                reaction.emoji.name === "🇸" && user.id === message.author.id;
                             const hitFilter = (reaction, user) =>
-                                reaction.emoji.name === "✅" && user.id === message.author.id;
+                                reaction.emoji.name === "🇭" && user.id === message.author.id;
                             const stand = msg.createReactionCollector(standFilter, {
-                                time: 60000,
-                                max: 1
+                                time: 60000
                             });
 
                             const hit = msg.createReactionCollector(hitFilter, {
@@ -286,7 +284,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                                     "name": `${message.member.displayName}'s bananajack game`
                                                 },
                                                 "thumbnail": {
-                                                    "url": "https://img.icons8.com/ios/452/cards.png"
+                                                    "url": "https://i.ibb.co/2k7vbYx/bananajack.png"
                                                 },
                                                 "color": 16620865,
                                                 "fields": [{
@@ -307,7 +305,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         })
                                         hit.stop()
                                         stand.stop()
-                                        currentlyPlaying = false;
+                                        currentlyPlaying.delete(message.author.id);
                                         return {
                                             status: true,
                                             message: ``,
@@ -333,7 +331,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                                     "name": `${message.member.displayName}'s bananajack game`
                                                 },
                                                 "thumbnail": {
-                                                    "url": "https://img.icons8.com/ios/452/cards.png"
+                                                    "url": "https://i.ibb.co/2k7vbYx/bananajack.png"
                                                 },
                                                 "color": 4324703,
                                                 "fields": [{
@@ -354,7 +352,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         })
                                         hit.stop()
                                         stand.stop()
-                                        currentlyPlaying = false;
+                                        currentlyPlaying.delete(message.author.id);
                                         return {
                                             status: true,
                                             message: ``,
@@ -378,7 +376,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                                     "name": `${message.member.displayName}'s bananajack game`
                                                 },
                                                 "thumbnail": {
-                                                    "url": "https://img.icons8.com/ios/452/cards.png"
+                                                    "url": "https://i.ibb.co/2k7vbYx/bananajack.png"
                                                 },
                                                 "color": 16597313,
                                                 "fields": [{
@@ -399,7 +397,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         })
                                         hit.stop()
                                         stand.stop()
-                                        currentlyPlaying = false;
+                                        currentlyPlaying.delete(message.author.id);
                                         return {
                                             status: true,
                                             message: ``,
@@ -412,7 +410,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                                 "name": `${message.member.displayName}'s bananajack game`
                                             },
                                             "thumbnail": {
-                                                "url": "https://img.icons8.com/ios/452/cards.png"
+                                                "url": "https://i.ibb.co/2k7vbYx/bananajack.png"
                                             },
                                             "color": 15589385,
                                             "fields": [{
@@ -438,14 +436,21 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 gameOver = true;
                                 checkForEndOfGame()
                                 showStatus();
-                                removeReaction(msg, message, "❌");
+                                removeReaction(msg, message, "🇸");
                             });
 
                             hit.on("collect", r => {
                                 playerCards.push(getNextCard());
                                 checkForEndOfGame()
                                 showStatus();
-                                removeReaction(msg, message, "✅");
+                                removeReaction(msg, message, "🇭");
+                            });
+                            
+                            hit.on("end", r => {
+                                gameOver = true;
+                                checkForEndOfGame()
+                                showStatus();
+                                console.log("bananajack game ended");
                             });
                         })
                     })
@@ -467,7 +472,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
 };
 
 module.exports.cmd = {
-    disabled: true,
     name: "bananajack",
     needMod: false,
     requiredChannel: "banana"
