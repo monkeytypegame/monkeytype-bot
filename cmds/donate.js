@@ -45,7 +45,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                 message: ":x: You have no bananas",
             };
         } else {
-            if (bananaBet > userData.balance) {
+            if (amount > userData.balance) {
                 return {
                     status: true,
                     message: `:x: You don't have enough bananas to give to <@${targetUserID}>.`,
