@@ -92,6 +92,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
         message.channel.send(`:partying_face: Surprise bananas! You've got ${t60bananas} bananas as a bonus!`);
         bananaData[message.author.id].balance += t60bananas;
+        fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
         bananasDoc.set({t60bananas: 0}, {merge: true});
         return {
             status: true,
@@ -152,6 +153,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
             message.channel.send(`:partying_face: Surprise bananas! You've got ${t60bananas} bananas as a bonus!`);
             bananaData[message.author.id].balance += t60bananas;
+            fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
             bananasDoc.set({t60bananas: 0}, {merge: true});
             return {
                 status: true,
@@ -210,6 +212,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
             message.channel.send(`:partying_face: Surprise bananas! You've got ${t60bananas} bananas as a bonus!`);
             bananaData[message.author.id].balance += t60bananas;
+            fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
             bananasDoc.set({t60bananas: 0}, {merge: true});
             return {
                 status: true,
