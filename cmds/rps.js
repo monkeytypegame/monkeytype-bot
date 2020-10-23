@@ -137,7 +137,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 });
 
                                 function tie() {
-
+                                    
+                                    bananaData = JSON.parse(fs.readFileSync("bananas.json"));
                                     bananaData[message.author.id].balance = bananaData[message.author.id].balance;
                                     if (bananaData[message.author.id].rpsTies === undefined) {
                                         bananaData[message.author.id].rpsTies = 1;
@@ -184,7 +185,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 };
 
                                 function victory() {
-
+                                    
+                                    bananaData = JSON.parse(fs.readFileSync("bananas.json"));
                                     bananaData[message.author.id].balance += bananaBet;
                                     if (bananaData[message.author.id].rpsWins === undefined) {
                                         bananaData[message.author.id].rpsWins = 1;
@@ -231,6 +233,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 };
 
                                 function defeat() {
+                                    bananaData = JSON.parse(fs.readFileSync("bananas.json"));
                                     bananaData[message.author.id].balance -= bananaBet;
                                     if (bananaData[message.author.id].rpsLosses === undefined) {
                                         bananaData[message.author.id].rpsLosses = 1;
