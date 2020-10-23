@@ -81,16 +81,19 @@ module.exports.run = async (bot, message, args, db, guild) => {
       )
         .setDescription(`Banana collected! Come back in ${timeLeftString} for more.`)
         .addField("Bananas",1)
-        .addField("Bonus! :partying_face::", t60bananas)
         .setFooter("www.monkeytype.com");
+      
+        if (t60bananas > 0) {
+          embed.addField("Bonus! :partying_face::", t60bananas)
+        }
       
       message.channel.send(embed);
 
-      if (bananasDoc !== undefined)  {
-        bananaData[message.author.id].balance += t60bananas;
-        fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
-        bananasDoc.set({t60bananas: 0}, {merge: true});
-      }
+        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+          bananaData[message.author.id].balance += t60bananas;
+          fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+          bananasDoc.set({t60bananas: 0}, {merge: true});
+        }
       
       return {
         status: true,
@@ -137,13 +140,16 @@ module.exports.run = async (bot, message, args, db, guild) => {
         )
           .setDescription(`Too early! Come back in ${timeLeftString} to collect your banana.`)
           .addField("Bananas",userData.balance)
-          .addField("Bonus! :partying_face::", t60bananas)
           .setFooter("www.monkeytype.com");
+        
+          if (t60bananas > 0) {
+            embed.addField("Bonus! :partying_face::", t60bananas)
+          }
     
 
         message.channel.send(embed);
 
-        if (bananasDoc !== undefined)  {
+        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
           bananaData[message.author.id].balance += t60bananas;
           fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
           bananasDoc.set({t60bananas: 0}, {merge: true});
@@ -193,12 +199,15 @@ module.exports.run = async (bot, message, args, db, guild) => {
         )
           .setDescription(`Banana collected! Come back in ${timeLeftString} for more.`)
           .addField("Bananas",userData.balance)
-          .addField("Bonus! :partying_face::", t60bananas)
           .setFooter("www.monkeytype.com");
+        
+            if (t60bananas > 0) {
+              embed.addField("Bonus! :partying_face::", t60bananas)
+            }
         
         message.channel.send(embed);
 
-        if (bananasDoc !== undefined)  {
+        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
           bananaData[message.author.id].balance += t60bananas;
           fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
           bananasDoc.set({t60bananas: 0}, {merge: true});
