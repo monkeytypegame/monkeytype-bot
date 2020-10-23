@@ -235,6 +235,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
                             const hit = msg.createReactionCollector(hitFilter, {
                                 time: 60000
                             });
+                            
+                            const removeReaction = (msg, message, emoji) => {
+                                try { msg.reactions.cache.find(r => r.emoji.name == emoji).users.remove(message.author); } catch(err) { console.log('err: ', err) }
+                            }
 
                             function showStatus() {
 
@@ -419,12 +423,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 gameOver = true;
                                 checkForEndOfGame()
                                 showStatus();
+                                removeReaction(msg, message, "❌");
                             });
 
                             hit.on("collect", r => {
                                 playerCards.push(getNextCard());
                                 checkForEndOfGame()
                                 showStatus();
+                                removeReaction(msg, message, "✅");
                             });
                         })
                     })
