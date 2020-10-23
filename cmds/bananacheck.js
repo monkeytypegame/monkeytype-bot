@@ -41,7 +41,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                   "author": {
                     "name": `${targetUserName}'s balance`
                   },
-                  "description": "**Wallet:** 0\n**Bank**: N/A\n**Total**: 0"
+                  "description": "**Wallet:** 0 bananas :(\n**Bank**: N/A\n**Total**: 0 bananas"
                 }
               })
         } else {
@@ -57,7 +57,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                   "author": {
                     "name": `${targetUserName}'s balance`
                   },
-                  "description": `**Wallet:** ${userData.balance}\n**Bank**: ${userData.balance}\n**Total**: 0`
+                  "description": `**Wallet:** ${userData.balance} bananas\n**Bank**: N/A\n**Total**: ${userData.balance} bananas`
                 }
               })
         }
