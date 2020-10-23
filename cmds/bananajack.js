@@ -467,6 +467,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 };
 
 module.exports.cmd = {
+    disabled: true,
     name: "bananajack",
     needMod: false,
     requiredChannel: "banana"

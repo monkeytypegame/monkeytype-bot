@@ -138,8 +138,13 @@ bot.on("message", (msg) => {
     return;
   }
 
+  if (cmdObj.cmd.disabled) {
+    msg.channel.send(":x: Command temporarily disabled.");
+    return;
+  }
+
   if (!shouldBotReact()) {
-    msg.channel.send("Please wait a bit before using a commmand");
+    msg.channel.send(":x: Please wait a bit before using a commmand");
     return;
   }
   if (!config.dev) {
