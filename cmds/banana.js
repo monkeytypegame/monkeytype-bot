@@ -92,6 +92,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       message.channel.send(embed);
 
         if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+          bananaData = JSON.parse(fs.readFileSync("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
           fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
           bananasDoc.set({t60bananas: 0}, {merge: true});
@@ -152,6 +153,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         message.channel.send(embed);
 
         if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+          bananaData = JSON.parse(fs.readFileSync("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
           fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
           bananasDoc.set({t60bananas: 0}, {merge: true});
@@ -167,6 +169,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         //   balance: userData.balance + 1,
         //   lastCollect: milisNow,
         // };
+        bananaData = JSON.parse(fs.readFileSync("bananas.json"));
         bananaData[message.author.id].balance++;
         bananaData[message.author.id].lastCollect = milisNow;
         //success, show balance
@@ -210,6 +213,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         message.channel.send(embed);
 
         if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+          bananaData = JSON.parse(fs.readFileSync("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
           fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
           bananasDoc.set({t60bananas: 0}, {merge: true});
