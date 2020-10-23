@@ -58,7 +58,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
         .setTitle('🍌 Banana Help')
         .addFields(
           { name: '!banana', value: 'Collects 1 banana on use\nOnly can be used once per day - because you know what they say!' },
-          { name: '!bananatop', value: 'Displays the biggest potassium hoarders serverwide!' }
+          { name: '!bananatop', value: 'Displays the biggest potassium hoarders serverwide!' },
+          { name: '!bananaflip', value: 'Bet your bananas in a coin flip! Format: !bananaflip <amount> <heads/tails>' },
+          { name: '!bananajack', value: 'Bet your bananas in a game of blackjack agaisnt George! Format: !bananajack <amount>' }
         )
   )} else {
     //do nothing
