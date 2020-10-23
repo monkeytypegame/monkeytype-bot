@@ -447,10 +447,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
                             });
                             
                             hit.on("end", r => {
-                                gameOver = true;
-                                checkForEndOfGame()
-                                showStatus();
-                                console.log("bananajack game ended");
+                                if (gameOver === false) {
+                                    gameOver = true;
+                                    checkForEndOfGame()
+                                    showStatus();
+                                    console.log("bananajack game ended. afk?");    
+                                }
+                                
                             });
                         })
                     })
