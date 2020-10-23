@@ -232,12 +232,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
                             }
                         }
                     }).then(msg => {
-                        msg.react("✅").then(r => {
-                            msg.react("❌")
+                        msg.react("🇭").then(r => {
+                            msg.react("🇸")
                             const standFilter = (reaction, user) =>
-                                reaction.emoji.name === "❌" && user.id === message.author.id;
+                                reaction.emoji.name === "🇸" && user.id === message.author.id;
                             const hitFilter = (reaction, user) =>
-                                reaction.emoji.name === "✅" && user.id === message.author.id;
+                                reaction.emoji.name === "🇭" && user.id === message.author.id;
                             const stand = msg.createReactionCollector(standFilter, {
                                 time: 60000
                             });
@@ -436,14 +436,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 gameOver = true;
                                 checkForEndOfGame()
                                 showStatus();
-                                removeReaction(msg, message, "❌");
+                                removeReaction(msg, message, "🇸");
                             });
 
                             hit.on("collect", r => {
                                 playerCards.push(getNextCard());
                                 checkForEndOfGame()
                                 showStatus();
-                                removeReaction(msg, message, "✅");
+                                removeReaction(msg, message, "🇭");
                             });
                             
                             hit.on("end", r => {
