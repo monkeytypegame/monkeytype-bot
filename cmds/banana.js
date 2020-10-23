@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         };
     }else{
         //get that users bananas subcollection
-        bananasDoc = snapshot.docs[0].ref.collection('bananas').doc('bananas')
+        bananasDoc = snapshot.docs[0].ref.collection('bananas').doc('bananas');
         bananasDoc.get().then(snapshot2 => {
             let data = snapshot2.data();
             t60bananas = data.t60bananas; // <-
