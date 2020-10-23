@@ -4,6 +4,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const config = require("../config.json");
   const fs = require("fs");
+
+  let discordID = message.author.id;
+
   try {
     let bananaData;
     try {
@@ -12,6 +15,32 @@ module.exports.run = async (bot, message, args, db, guild) => {
       fs.writeFileSync("bananas.json", '{}');
       bananaData = {};
     }
+
+    let bananasDoc;
+    let t60bananas;
+    
+
+    db.collection('users').where('discordId','==',discordID).get()
+    .then(snapshot => {
+    if(snapshot.docs.length > 1){
+        message.channel.send(":x: Error: User is paired to more than one command - very bad, shouldn't happen. <@102819690287489024>");
+        t60bananas = 0
+    }else if(snapshot.docs.length < 1){
+        message.channel.send(":x: Could not find user. Make sure your accounts are paired.");
+        t60bananas = 0
+    }else{
+        //get that users bananas subcollection
+        bananasDoc = snapshot.docs[0].ref.collection('bananas').doc('bananas');
+        bananasDoc.get().then(snapshot2 => {
+            let data = snapshot2.data();
+            t60bananas = data.t60bananas; // <-
+        })
+
+        //bananasDoc.set({t60bananas: 0}, {merge: true});
+    }
+    })
+
+
     let userData = bananaData[message.author.id];
     let milisNow = Date.now();
     if (userData === undefined) {
@@ -54,7 +83,18 @@ module.exports.run = async (bot, message, args, db, guild) => {
         .addField("Bananas",1)
         .setFooter("www.monkeytype.com");
       
+        if (t60bananas > 0) {
+          embed.addField("Bonus! :partying_face::", t60bananas)
+        }
+      
       message.channel.send(embed);
+
+        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+          bananaData[message.author.id].balance += t60bananas;
+          fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+          bananasDoc.set({t60bananas: 0}, {merge: true});
+        }
+      
       return {
         status: true,
         message: ''
@@ -102,7 +142,19 @@ module.exports.run = async (bot, message, args, db, guild) => {
           .addField("Bananas",userData.balance)
           .setFooter("www.monkeytype.com");
         
+          if (t60bananas > 0) {
+            embed.addField("Bonus! :partying_face::", t60bananas)
+          }
+    
+
         message.channel.send(embed);
+
+        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+          bananaData[message.author.id].balance += t60bananas;
+          fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+          bananasDoc.set({t60bananas: 0}, {merge: true});
+        }
+
         return {
           status: true,
           message: ''
@@ -149,7 +201,18 @@ module.exports.run = async (bot, message, args, db, guild) => {
           .addField("Bananas",userData.balance)
           .setFooter("www.monkeytype.com");
         
+            if (t60bananas > 0) {
+              embed.addField("Bonus! :partying_face::", t60bananas)
+            }
+        
         message.channel.send(embed);
+
+        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+          bananaData[message.author.id].balance += t60bananas;
+          fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+          bananasDoc.set({t60bananas: 0}, {merge: true});
+        }
+
         return {
           status: true,
           message: ''
