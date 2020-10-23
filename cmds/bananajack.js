@@ -3,6 +3,8 @@ const Discord = require("discord.js");
 let suits = ["♥", "♣", "♦", "♠"];
 let values = ["A", "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3", "2"];
 
+let currentlyPlaying = false;
+
 module.exports.run = async (bot, message, args, db, guild) => {
     console.log(`Running command ${this.cmd.name}`);
     const bananaBet = Math.round(args[0]);
@@ -179,6 +181,15 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         dealerScore = 0;
                         playerScore = 0;
                         deck = [];
+                    
+                    if (currentlyPlaying) {
+                       return {
+                            status: false,
+                            message: `:x: It seems like you already have an ongoing bananajack game.`,
+                        }; 
+                    }
+                    
+                    currentlyPlaying = true;
 
 
                     deck = createDeck(); // created deck and added a new function call after this called shuffleDeck passing in the deck.
@@ -235,6 +246,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
                             const hit = msg.createReactionCollector(hitFilter, {
                                 time: 60000
                             });
+                            
+                            const removeReaction = (msg, message, emoji) => {
+                                try { msg.reactions.cache.find(r => r.emoji.name == emoji).users.remove(message.author); } catch(err) { console.log('err: ', err) }
+                            }
 
                             function showStatus() {
 
@@ -291,6 +306,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         })
                                         hit.stop()
                                         stand.stop()
+                                        currentlyPlaying = false;
                                         return {
                                             status: true,
                                             message: ``,
@@ -337,6 +353,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         })
                                         hit.stop()
                                         stand.stop()
+                                        currentlyPlaying = false;
                                         return {
                                             status: true,
                                             message: ``,
@@ -381,6 +398,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                         })
                                         hit.stop()
                                         stand.stop()
+                                        currentlyPlaying = false;
                                         return {
                                             status: true,
                                             message: ``,
@@ -419,12 +437,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 gameOver = true;
                                 checkForEndOfGame()
                                 showStatus();
+                                removeReaction(msg, message, "❌");
                             });
 
                             hit.on("collect", r => {
                                 playerCards.push(getNextCard());
                                 checkForEndOfGame()
                                 showStatus();
+                                removeReaction(msg, message, "✅");
                             });
                         })
                     })
