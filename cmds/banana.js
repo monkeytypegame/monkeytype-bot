@@ -4,6 +4,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const config = require("../config.json");
   const fs = require("fs");
+
+  let discordID = message.author.id;
+
   try {
     let bananaData;
     try {
@@ -12,6 +15,36 @@ module.exports.run = async (bot, message, args, db, guild) => {
       fs.writeFileSync("bananas.json", '{}');
       bananaData = {};
     }
+
+    let bananasDoc;
+    let t60bananas;
+    
+
+    db.collection('users').where('discordId','==',discordID).get()
+    .then(snapshot => {
+    if(snapshot.docs.length > 1){
+        return {
+            status: true,
+            message: ":x: Error: User is paired to more than one command - very bad, shouldn't happen.",
+        };
+    }else if(snapshot.docs.length < 1){
+        return {
+            status: true,
+            message: ":x: Could not find user. Make sure your accounts are paired.",
+        };
+    }else{
+        //get that users bananas subcollection
+        bananasDoc = snapshot.docs[0].ref.collection('bananas').doc('bananas')
+        bananasDoc.get().then(snapshot2 => {
+            let data = snapshot2.data();
+            t60bananas = data.t60bananas; // <-
+        })
+
+        //bananasDoc.set({t60bananas: 0}, {merge: true});
+    }
+    })
+
+
     let userData = bananaData[message.author.id];
     let milisNow = Date.now();
     if (userData === undefined) {
@@ -55,6 +88,17 @@ module.exports.run = async (bot, message, args, db, guild) => {
         .setFooter("www.monkeytype.com");
       
       message.channel.send(embed);
+
+      if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+        message.channel.send(`:partying_face: Surprise bananas! You've got ${t60bananas} bananas as a bonus!`);
+        bananaData[message.author.id].balance += t60bananas;
+        bananasDoc.set({t60bananas: 0}, {merge: true});
+        return {
+            status: true,
+            message: ''
+        }
+    }
+      
       return {
         status: true,
         message: ''
@@ -101,8 +145,20 @@ module.exports.run = async (bot, message, args, db, guild) => {
           .setDescription(`Too early! Come back in ${timeLeftString} to collect your banana.`)
           .addField("Bananas",userData.balance)
           .setFooter("www.monkeytype.com");
-        
+    
+
         message.channel.send(embed);
+
+        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+            message.channel.send(`:partying_face: Surprise bananas! You've got ${t60bananas} bananas as a bonus!`);
+            bananaData[message.author.id].balance += t60bananas;
+            bananasDoc.set({t60bananas: 0}, {merge: true});
+            return {
+                status: true,
+                message: ''
+            }
+        }
+
         return {
           status: true,
           message: ''
@@ -150,6 +206,17 @@ module.exports.run = async (bot, message, args, db, guild) => {
           .setFooter("www.monkeytype.com");
         
         message.channel.send(embed);
+
+        if (bananasDoc !== undefined && t60bananas !== undefined && t60bananas !== 0)  {
+            message.channel.send(`:partying_face: Surprise bananas! You've got ${t60bananas} bananas as a bonus!`);
+            bananaData[message.author.id].balance += t60bananas;
+            bananasDoc.set({t60bananas: 0}, {merge: true});
+            return {
+                status: true,
+                message: ''
+            }
+        }
+
         return {
           status: true,
           message: ''
