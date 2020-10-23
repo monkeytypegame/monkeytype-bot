@@ -32,12 +32,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
           t60bananas = 0
       }else{
           //get that users bananas subcollection
+        try {
           bananasDoc = snapshot.docs[0].ref.collection('bananas').doc('bananas');
           await bananasDoc.get().then(snapshot2 => {
-              let data = snapshot2.data();
-              t60bananas = data.t60bananas; // <-
+            let data = snapshot2.data();
+            t60bananas = data.t60bananas; // <-
           })
-
+        }catch(e){}
           //bananasDoc.set({t60bananas: 0}, {merge: true});
       }
     })
