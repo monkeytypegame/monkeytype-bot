@@ -51,7 +51,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
                     message: `:x: You don't have enough bananas to give to <@${targetUserID}>.`,
                 };
             } else {
-
+                
+                bananaData = JSON.parse(fs.readFileSync("bananas.json"));
                 bananaData[message.author.id].balance -= amount
                 bananaData[targetUserID].balance += amount
 
