@@ -132,6 +132,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           } else {
             //incorrect guess
             bananaData[message.author.id].balance -= bananaBet;
+            bananaData['727981850253066300'].balance += bananaBet;
             if (bananaData[message.author.id].flipLosses === undefined) {
               bananaData[message.author.id].flipLosses = 1;
             } else {

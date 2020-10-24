@@ -360,6 +360,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                     } else {
 
                                         bananaData[message.author.id].balance -= bananaBet;
+                                        bananaData['727981850253066300'].balance += bananaBet;
                                         if (bananaData[message.author.id].bananajackLosses === undefined) {
                                         bananaData[message.author.id].bananajackLosses = 1;
                                         } else {

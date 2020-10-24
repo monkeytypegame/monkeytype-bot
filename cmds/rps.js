@@ -232,6 +232,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
                                 function defeat() {
                                     bananaData[message.author.id].balance -= bananaBet;
+                                    bananaData['727981850253066300'].balance += bananaBet;
                                     if (bananaData[message.author.id].rpsLosses === undefined) {
                                         bananaData[message.author.id].rpsLosses = 1;
                                     } else {
