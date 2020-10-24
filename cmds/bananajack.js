@@ -228,7 +228,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                 }
                             ],
                             "footer": {
-                                "text": "K, Q, J = 10  |  A = 1 or 11\nwww.monkeytype.com"
+                                "text": "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
                             }
                         }
                     }).then(msg => {
@@ -300,7 +300,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                                     }
                                                 ],
                                                 "footer": {
-                                                    "text": "K, Q, J = 10  |  A = 1 or 11\nwww.monkeytype.com"
+                                                    "text": "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
                                                 }
                                             }
                                         })
@@ -347,7 +347,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                                     }
                                                 ],
                                                 "footer": {
-                                                    "text": "K, Q, J = 10  |  A = 1 or 11\nwww.monkeytype.com"
+                                                    "text": "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
                                                 }
                                             }
                                         })
@@ -393,7 +393,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                                     }
                                                 ],
                                                 "footer": {
-                                                    "text": "K, Q, J = 10  |  A = 1 or 11\nwww.monkeytype.com"
+                                                    "text": "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
                                                 }
                                             }
                                         })
@@ -427,7 +427,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                                                 }
                                             ],
                                             "footer": {
-                                                "text": "K, Q, J = 10  |  A = 1 or 11\nwww.monkeytype.com"
+                                                "text": "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
                                             }
                                         }
                                     })
