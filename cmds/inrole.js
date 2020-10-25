@@ -134,7 +134,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         if (rolecount > 0) {
             const members = message.guild.members.cache.filter(member => member.roles.cache.find(res => res == role)).map(member => member.user.tag);
             let membersLength = members.length
-            let limit_per_page = 1;
+            let limit_per_page = 5;
             let totalPages = Math.ceil(membersLength / limit_per_page);
 
             if (rolecount <= limit_per_page) {
