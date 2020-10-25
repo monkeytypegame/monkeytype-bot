@@ -77,6 +77,17 @@ module.exports.run = async (bot, message, args, db, guild) => {
         if (targetStrings.find(s => typeof s !== 'string')) return false;
         return true;
     }
+    
+        function removeA(arr) {
+            var what, a = arguments, L = a.length, ax;
+            while (L > 1 && arr.length) {
+                what = a[--L];
+                while ((ax= arr.indexOf(what)) !== -1) {
+                    arr.splice(ax, 1);
+                }
+            }
+            return arr;
+        }
 
     if (!args[0]) {
         return {
@@ -90,6 +101,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
     guild.roles.cache.forEach(function(role) {
         roleList.push(role.name);
     })
+    
+    removeA(roleList, '@everyone');
 
     try {
         let match = findBestMatch(args.join(' '), roleList);
