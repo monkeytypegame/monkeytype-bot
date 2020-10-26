@@ -37,9 +37,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
       sliced.forEach(slice => {
         let name;
         try {
-          name = guild.members.cache.find(
-            (member) => member.id === slice.id
-          ).user.username;
+          if (slice.id == "727981850253066300") {
+            name = "George";
+          } else {
+            name = guild.members.cache.find(
+              (member) => member.id === slice.id
+            ).user.username;
+          }
         } catch (e) {
           name = "Unknown User";
         }
