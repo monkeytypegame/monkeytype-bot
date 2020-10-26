@@ -194,6 +194,11 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         }
                     }
                 }
+                
+                // checking for undefined: (should work either way even if undefined doesn't exist
+                var str = pages[pages.length - 1]
+                str = str.split('\nundefined').join('');
+                pages[pages.length - 1] = str
 
                 message.channel.send({
                     "embed": {
