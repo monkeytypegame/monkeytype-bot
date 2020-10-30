@@ -18,7 +18,7 @@
     "firebase": "^7.14.5",
     "firebase-admin": "^8.12.1",
     "firebase-functions": "^3.6.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "save": "^2.4.0"
   }
 }
