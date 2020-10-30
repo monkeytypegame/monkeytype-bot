@@ -185,11 +185,11 @@ bot.login(config.token);
 bot.on("ready", async () => {
   console.log("Ready");
   guild = bot.guilds.cache.get(config.guildId);
-  guild.members.fetch();
-  bot.user.setActivity(`over ${guild.members.cache.filter(m => m.presence.status === 'online').size} monkeys`, { type: 'WATCHING' })
+  await guild.fetch();
+  bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, { type: 'WATCHING' })
   setInterval(() => {
-    bot.user.setActivity(`over ${guild.members.cache.filter(m => m.presence.status === 'online').size} monkeys`, { type: 'WATCHING' })
-  }, 60000);
+    bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, { type: 'WATCHING' })
+  },60000);
  
 
   logInChannel("Ready");
