@@ -184,6 +184,7 @@ bot.login(config.token);
 
 bot.on("ready", async () => {
   console.log("Ready");
+  guild.members.fetch();
   guild = bot.guilds.cache.get(config.guildId);
   bot.user.setActivity(`over ${guild.members.cache.filter(m => m.presence.status === 'online').size} monkeys`, { type: 'WATCHING' })
   setInterval(() => {
