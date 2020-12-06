@@ -11,12 +11,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
     subprocess.unref();
     return {
       status: true,
-      message: "Restarting..."
+      message: ":thinking: Restarting..."
     }
   } catch (e) {
     return {
       status: false,
-      message: "Could not restart: " + e.message,
+      message: ":x: Could not restart: " + e.message,
     };
   }
 };

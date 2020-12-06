@@ -11,12 +11,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
     subprocess.unref();
     return {
       status: true,
-      message: "Upgrading..."
+      message: ":thinking: Upgrading..."
     }
   } catch (e) {
     return {
       status: false,
-      message: "Could not upgrade: " + e.message,
+      message: ":x: Could not upgrade: " + e.message,
     };
   }
 };

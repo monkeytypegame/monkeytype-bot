@@ -4,7 +4,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   if (args.length !== 2) {
     return {
       status: false,
-      message: "Error: Must provide two arguments",
+      message: ":x: Must provide two arguments",
     };
   }
 
@@ -29,7 +29,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         .then((ret) => {
           return {
             status: true,
-            message: `Assigned role ${correctRole.name} to user <@${member.user.id}> (${wpm} wpm)`,
+            message: `:greencheck: Assigned role ${correctRole.name} to user <@${member.user.id}> (${wpm} wpm)`,
           };
         })
         .catch((e) => {
@@ -41,13 +41,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
     } else {
       return {
         status: true,
-        message: `Error: Higher role found for user <@${member.user.id}> (requested ${wpm}, but ${minWpm} role was found)`,
+        message: `:warning: Higher role found for user <@${member.user.id}> (requested ${wpm}, but ${minWpm} role was found)`,
       };
     }
   } catch (e) {
     return {
       status: false,
-      message: "Error: Could not find member - " + e,
+      message: ":x: Error: Could not find member - " + e,
     };
   }
 

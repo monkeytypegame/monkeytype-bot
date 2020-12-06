@@ -29,7 +29,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         guild.channels.cache
           .find((ch) => ch.id === config.channels.botCommands)
           .send(
-            `<@${args[0]}>, your account is verified. If you have a 60s personal best, you will get a role soon.`
+            `:greencheck: <@${args[0]}>, your account is verified. If you have a 60s personal best, you will get a role soon.`
           );
         let userData = await db.collection("users").doc(args[1]).get();
         userData = userData.data();
@@ -39,13 +39,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
         } catch (e) {
           return {
             status: true,
-            message: `Verified <@${args[0]}>, but no time 60 pb found.`,
+            message: `:greencheck: Verified <@${args[0]}>, but no time 60 pb found.`,
           };
         }
         if (pbs === undefined) {
           return {
             status: true,
-            message: `Verified <@${args[0]}>, but no time 60 pb found.`,
+            message: `:greencheck: Verified <@${args[0]}>, but no time 60 pb found.`,
           };
         }
         try {
@@ -65,34 +65,34 @@ module.exports.run = async (bot, message, args, db, guild) => {
               .then((f) => {
                 return {
                   status: true,
-                  message: `Verified <@${args[0]}> and updated role`,
+                  message: `:greencheck: Verified <@${args[0]}> and updated role`,
                 };
               })
               .catch((e) => {
                 return {
                   status: true,
-                  message: `Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+                  message: `:warning: Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
                 };
               });
           }
         } catch (e) {
           return {
             status: true,
-            message: `Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+            message: `:warning: Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
           };
         }
       })
       .catch((e) => {
-        logInChannel(`Could not update role for <@${args[0]}> - ${e}`);
+        logInChannel(`:x: Could not update role for <@${args[0]}> - ${e}`);
         return {
           status: false,
-          message: `Could not update role for <@${args[0]}> <@102819690287489024>  - ${e}`,
+          message: `:x: Could not update role for <@${args[0]}> <@102819690287489024>  - ${e}`,
         };
       });
   } catch (e) {
     return {
       status: false,
-      message: `Verification for <@${args[0]}> failed!!! <@102819690287489024> - ${e}`,
+      message: `:x: Verification for <@${args[0]}> failed!!! <@102819690287489024> - ${e}`,
     };
   }
 

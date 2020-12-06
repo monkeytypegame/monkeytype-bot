@@ -105,7 +105,7 @@ bot.on("message", (msg) => {
   }
 
   if (/(how.*role.*\?)|(how.*challenge.*\?)|(wpm role.*\?)|(pair.*account.*\?)/g.test(msg.content.toLocaleLowerCase())) {
-    msg.channel.send(`Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel.`);
+    msg.channel.send(`:question: Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel.`);
   }
 
   let msg_array = msg.content.split(" ");
@@ -149,7 +149,7 @@ bot.on("message", (msg) => {
   }
   if (!config.dev) {
     if (cmdObj.cmd.requiredChannel && msg.channel.id !== config.channels[cmdObj.cmd.requiredChannel]) {
-      msg.channel.send(`Please use the <#${config.channels[cmdObj.cmd.requiredChannel]}> channel.`);
+      msg.channel.send(`:x: Please use the <#${config.channels[cmdObj.cmd.requiredChannel]}> channel.`);
       setTimeout(() => {
         msg.delete();
       }, 500);
@@ -158,7 +158,7 @@ bot.on("message", (msg) => {
   }
 
   if (cmdObj.cmd.type === "dm" || cmdObj.cmd.type === "db") {
-    msg.channel.send(`Command ${cmd} cannot be executed manually`);
+    msg.channel.send(`:x: Command ${cmd} cannot be executed manually`);
     setTimeout(() => {
       msg.delete();
     }, 500);
@@ -171,7 +171,7 @@ bot.on("message", (msg) => {
       if(result.message !== '') msg.channel.send(result.message);
     } else {
       if (result.message === '') {
-        msg.channel.send('No error message specified. Somebody messed up or dev bot is active.');
+        msg.channel.send(':x: No error message specified. Somebody messed up or dev bot is active.');
       } else {
         msg.channel.send(result.message);
       }
@@ -223,7 +223,7 @@ bot.on("ready", async () => {
   },60000);
  
 
-  logInChannel("Ready");
+  logInChannel(":smile: Ready");
 
   db.collection("bot-commands").onSnapshot((snapshot) => {
     let changes = snapshot.docChanges();
@@ -315,7 +315,7 @@ app.post("/release", verifyPostData, function (req, res) {
     if (message.length > 2000) {
       guild.channels.cache
       .find((ch) => ch.id === config.channels.botLog)
-      .send(`Yo stoopid <@102819690287489024>. That update log was too long for me to send.`);
+      .send(`:flushed: Yo stoopid <@102819690287489024>. That update log was too long for me to send.`);
     } else {
       guild.channels.cache
       .find((ch) => ch.id === config.channels.updates)

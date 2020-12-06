@@ -21,7 +21,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   if (config.noLog !== undefined && config.noLog) {
     return {
       status: true,
-      message: `Not logging due to config`,
+      message: `:warning: Not logging due to config`,
     };
   }
 
@@ -81,7 +81,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   } catch (e) {
     return {
       status: false,
-      message: `Error while trying to announce leaderboard - ${e}`,
+      message: `:x: Error while trying to announce leaderboard - ${e}`,
     };
   }
 };

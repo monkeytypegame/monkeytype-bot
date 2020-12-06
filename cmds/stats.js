@@ -16,7 +16,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
     if (doc.length === 0) {
       return {
         status: false,
-        message: `Could not find user`,
+        message: `:x: Could not find user`,
       };
     }
 
@@ -60,7 +60,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   } catch (e) {
     return {
       status: false,
-      message: 'Something went wrong while trying to get your stats: ' + e,
+      message: ':x: Something went wrong while trying to get your stats: ' + e,
     };
   }
 };
