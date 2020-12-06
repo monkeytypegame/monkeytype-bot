@@ -191,7 +191,7 @@ bot.on('messageDelete', async message => {
 
 	// Let's perform a coherence check here and make sure we got *something*
   if (!deletionLog) {
-    logInChannel(`:wastebasket: <@${message.author.id}>'s message was deleted: ${message.content}`);
+    logInChannel(`:wastebasket: <@${message.author.id}>'s message was deleted:\n${message.content}`);
     return;
   }
 	// We now grab the user object of the person who deleted the message
@@ -202,10 +202,10 @@ bot.on('messageDelete', async message => {
 	// And now we can update our output with a bit more information
 	// We will also run a check to make sure the log we got was for the same author's message
 	if (target.id === message.author.id) {
-    logInChannel(`:wastebasket: <@${message.author.id}>'s message was deleted by <@${executor.id}>: ${message.content}`);
+    logInChannel(`:wastebasket: <@${message.author.id}>'s message was deleted by <@${executor.id}>:\n${message.content}`);
     return;
   } else {
-    logInChannel(`:wastebasket: <@${message.author.id}> deleted their own message: ${message.content}`);
+    logInChannel(`:wastebasket: <@${message.author.id}> deleted their own message:\n${message.content}`);
     return;
 	}
 });
