@@ -29,7 +29,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         .then((ret) => {
           return {
             status: true,
-            message: `:greencheck: Assigned role ${correctRole.name} to user <@${member.user.id}> (${wpm} wpm)`,
+            message: `:white_check_mark: Assigned role ${correctRole.name} to user <@${member.user.id}> (${wpm} wpm)`,
           };
         })
         .catch((e) => {
