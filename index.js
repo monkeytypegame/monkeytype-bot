@@ -190,17 +190,17 @@ bot.on('messageDelete', async message => {
 	const deletionLog = fetchedLogs.entries.first();
 
 	// Let's perform a coherence check here and make sure we got *something*
-  if (!deletionLog) {
-    logInChannel(`:wastebasket: <@${message.author.id}>'s message was deleted:\n${message.content}`);
+  // if (!deletionLog) {
+    logInChannel(`:wastebasket: <@${message.author.id}>'s message in <#${message.channel.id}> was deleted:\n${message.content}`);
     return;
-  }
+  // }
+
 	// We now grab the user object of the person who deleted the message
 	// Let us also grab the target of this action to double check things
 	const { executor, target } = deletionLog;
 
-  console.log(deletionLog);
 	// And now we can update our output with a bit more information
-	// We will also run a check to make sure the log we got was for the same author's message
+  // We will also run a check to make sure the log we got was for the same author's message
 	if (target.id === message.author.id && target.lastMessage.id === message.id) {
     logInChannel(`:wastebasket: <@${message.author.id}>'s message was deleted by <@${executor.id}>:\n${message.content}`);
     return;
