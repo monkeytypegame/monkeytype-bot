@@ -201,7 +201,7 @@ bot.on('messageDelete', async message => {
   console.log(deletionLog);
 	// And now we can update our output with a bit more information
 	// We will also run a check to make sure the log we got was for the same author's message
-	if (target.id === message.author.id) {
+	if (target.id === message.author.id && target.lastMessage.id === message.id) {
     logInChannel(`:wastebasket: <@${message.author.id}>'s message was deleted by <@${executor.id}>:\n${message.content}`);
     return;
   } else {
