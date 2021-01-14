@@ -39,6 +39,11 @@ module.exports.run = async (bot, message, args, db, guild) => {
                     message: "Something went wrong. Code " + response.status,
                 };
             }
+        }).catch(e => {
+            return {
+                status: false,
+                message: "Something went wrong. " + e,
+            };
         });
     } catch (e) {
         msg.delete();
