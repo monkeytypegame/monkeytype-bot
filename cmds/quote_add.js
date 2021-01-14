@@ -13,7 +13,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       async function forcePush(neww, quoteFile, newQuote, questionMessageContent, questionMessage){
         if(!neww){
           quoteFile.quotes.push(newQuote);
-          fs.writeFileSync(fileDir,JSON.stringify(quoteFile));
+          fs.writeFileSync(fileDir,JSON.stringify(quoteFile,null,2)));
           returnMessage = `Added quote to ${messageContent[2]}.json.`;
         }
         
@@ -149,7 +149,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                           [601, 9999]
                       ],
                       "quotes": [newQuote]
-                  })
+                  },null,2))
                   );
                   returnMessage = `Created file ${messageContent[2]}.json and added quote.`
                   await forcePush(true, quoteFile, newQuote, questionMessageContent, questionMessage);
