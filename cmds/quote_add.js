@@ -82,7 +82,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
         let collector = questionMessage.createReactionCollector(filter, {
             max: 2,
-            time: 5000
+            time: 60000
         })
         
         collector.on('end', async r => {
