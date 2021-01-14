@@ -1,29 +1,31 @@
 const fs = require('fs');
 const simpleGit = require('simple-git');
-const git = simpleGit('../../monkeytype');
+const git = simpleGit('../monkeytype');
 
 module.exports.run = async (bot, message, args, db, guild) => {
     console.log(`Running command ${this.cmd.name}`);
   
-  
+    let statusmsg;
     try {
-      git.fetch('upstream','master');
-      message.channel.send(
+      await git.fetch('upstream','master');
+      statusmsg = await message.channel.send(
         `:thinking: Fetching...`
       );
-      git.checkout('master');
-      message.channel.send(
+      await git.checkout('master');
+      await statusmsg.edit(
         `:thinking: Switching to master...`
       );
-      git.merge('upstream','master');
-      message.channel.send(
+      await git.mergeFromTo('upstream/master','master');
+      await statusmsg.edit(
         `:thinking: Merging...`
       );
+      await statusmsg.delete();
       return {
         status: true,
         message: ":white_check_mark: Synchronised..."
       }
     } catch (e) {
+      statusmsg.delete();
       return {
         status: false,
         message: ":x: Could not sync: " + e.message,
