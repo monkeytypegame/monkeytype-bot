@@ -10,22 +10,22 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
   try {
 
-    async function forcePush(neww, quoteFile, newQuote, questionMessageContent, questionMessage) {
+    async function forcePush(neww, quoteFile, newQuote, questionMessageContent, questionMessage, language) {
       if (!neww) {
         quoteFile.quotes.push(newQuote);
         fs.writeFileSync(fileDir, JSON.stringify(quoteFile, null, 2));
-        returnMessage = `Added quote to ${messageContent[2]}.json.`;
+        returnMessage = `Added quote to ${language}.json.`;
       }
 
       questionMessageContent[0] = `:thinking: Pulling latest changes from upstream...`;
       questionMessage.edit(questionMessageContent.join(''));
       await git.pull('upstream', 'master');
-      questionMessageContent[0] = `:thinking: Staging ${messageContent[2]}.json...`;
+      questionMessageContent[0] = `:thinking: Staging ${language}.json...`;
       questionMessage.edit(questionMessageContent.join(''));
-      await git.add([`static/quotes/${messageContent[2]}.json`]);
+      await git.add([`static/quotes/${language}.json`]);
       questionMessageContent[0] = `:thinking: Committing...`;
       questionMessage.edit(questionMessageContent.join(''));
-      await git.commit(`Added quote to ${messageContent[2]}.json`);
+      await git.commit(`Added quote to ${language}.json`);
       questionMessageContent[0] = `:thinking: Pushing to origin...`;
       questionMessage.edit(questionMessageContent.join(''));
       await git.push('origin', 'master');
@@ -36,11 +36,26 @@ module.exports.run = async (bot, message, args, db, guild) => {
     }
 
     let showtimeout = true;
-
+    let language;
+    let newQuote;
     let messageContent = await message.channel.messages.fetch(args[0]);
-    messageContent = messageContent.content.split('\n');
-
-    messageContent[2] = messageContent[2].toLowerCase();
+    try{
+      messageContent = JSON.parse(messageContent);
+      language = messageContent.language;
+      newQuote = {
+        text: messageContent.text,
+        source: messageContent.source,
+        length: messageContent.text.length
+      }
+    }catch{
+      messageContent = messageContent.content.split('\n');
+      language = messageContent[2].toLowerCase();
+      newQuote = {
+        text: messageContent[0],
+        source: messageContent[1],
+        length: messageContent[0].length
+      }
+    }
 
     var specials = {
       "“": '"', // &ldquo;	&#8220;
@@ -54,22 +69,17 @@ module.exports.run = async (bot, message, args, db, guild) => {
       "»": ">>",
       "–": "-",
     };
-    messageContent[0] = messageContent[0].replace(/[“”’‘—,…«»–]/g, (char) => specials[char] || "");
+    newQuote.text = newQuote.text.replace(/[“”’‘—,…«»–]/g, (char) => specials[char] || "");
 
-    let newQuote = {
-      text: messageContent[0],
-      source: messageContent[1],
-      length: messageContent[0].length
-    }
 
     let quoteFile;
 
     let questionMessageContent = [
-      `:question: I'm about to add this quote to the **${messageContent[2]}** file. Is this correct?`,
+      `:question: I'm about to add this quote to the **${language}** file. Is this correct?`,
       `\`\`\`json\n${JSON.stringify(newQuote, null, 2)}\`\`\``
     ];
 
-    const fileDir = `../monkeytype/static/quotes/${messageContent[2]}.json`;
+    const fileDir = `../monkeytype/static/quotes/${language}.json`;
 
 
     let questionMessage = await message.channel.send(questionMessageContent.join(''));
@@ -102,7 +112,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
         let returnMessage = "";
 
-        questionMessageContent[0] = `:thinking: Looking for ${messageContent[2]}.json...`;
+        questionMessageContent[0] = `:thinking: Looking for ${language}.json...`;
         questionMessage.edit(questionMessageContent.join(''));
 
         try {
@@ -133,7 +143,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
               showtimeout = true;
               return;
             } else {
-              await forcePush(false, quoteFile, newQuote, questionMessageContent, questionMessage);
+              await forcePush(false, quoteFile, newQuote, questionMessageContent, questionMessage, language);
             }
           } else {
             //file doesnt exist, create it
@@ -141,7 +151,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
             questionMessage.edit(questionMessageContent.join(''));
             newQuote.id = 1;
             fs.writeFileSync(fileDir, JSON.stringify({
-              "language": messageContent[2],
+              "language": language,
               "groups": [
                 [0, 100],
                 [101, 300],
@@ -151,8 +161,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
               "quotes": [newQuote]
             }, null, 2)
             );
-            returnMessage = `Created file ${messageContent[2]}.json and added quote.`
-            await forcePush(true, quoteFile, newQuote, questionMessageContent, questionMessage);
+            returnMessage = `Created file ${language}.json and added quote.`
+            await forcePush(true, quoteFile, newQuote, questionMessageContent, questionMessage, language);
           }
         } catch (e) {
           console.error(e);
@@ -167,7 +177,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       } else if (r.emoji.name === "🔨") {
         showtimeout = false;
         collector.stop();
-        forcePush(false, quoteFile, newQuote, questionMessageContent, questionMessage);
+        forcePush(false, quoteFile, newQuote, questionMessageContent, questionMessage, language);
       }
     });
   } catch (e) {
