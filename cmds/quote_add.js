@@ -2,13 +2,14 @@ const fs = require('fs');
 const simpleGit = require('simple-git');
 const git = simpleGit('../monkeytype');
 const beautify = require("json-beautify");
+const stringSimilarity = require("string-similarity");
 
 module.exports.run = async (bot, message, args, db, guild) => {
     console.log(`Running command ${this.cmd.name}`);
   
   
     try {
-      
+        const force = args[1];
         let messageContent = await message.channel.messages.fetch(args[0]);
         messageContent = messageContent.content.split('\n');
 
@@ -41,9 +42,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
         let questionMessage = await message.channel.send(questionMessageContent.join(''));
         await questionMessage.react("✅");
+        await questionMessage.react("❌");
         
         const filter = (reaction, user) =>
-            reaction.emoji.name === "✅" && user.id === message.author.id;
+            (reaction.emoji.name === "✅" || reaction.emoji.name === "❌") && user.id === message.author.id;
 
         let collector = questionMessage.createReactionCollector(filter, {
             max: 1,
@@ -52,68 +54,91 @@ module.exports.run = async (bot, message, args, db, guild) => {
         
         collector.on('collect', async r => {
           questionMessage.reactions.removeAll();
-          const fileDir = `../monkeytype/static/quotes/${messageContent[2]}.json`;
+          collector.stop();
 
-          let returnMessage = "";
+          if(r.emoji.name === "✅"){
+            const fileDir = `../monkeytype/static/quotes/${messageContent[2]}.json`;
 
-          questionMessageContent[0] = `:thinking: Looking for ${messageContent[2]}.json...`;
-          questionMessage.edit(questionMessageContent.join(''));
-          
-          try{
-            if (fs.existsSync(fileDir)) {
-                questionMessageContent[0] = `:thinking: File exists. Adding quote...`;
-                questionMessage.edit(questionMessageContent.join(''));
-                let quoteFile = fs.readFileSync(fileDir);
-                quoteFile = JSON.parse(quoteFile.toString());
-                let newid = Math.max.apply(Math, quoteFile.quotes.map(function(q) { return q.id; })) + 1;
-                newQuote.id = newid;
-                quoteFile.quotes.push(newQuote);
-                fs.writeFileSync(fileDir,JSON.stringify(quoteFile));
-                returnMessage = `Added quote to ${messageContent[2]}.json.`;
-            } else {
-                //file doesnt exist, create it
-                questionMessageContent[0] = `:thinking: File not found. Creating...`;
-                questionMessage.edit(questionMessageContent.join(''));
-                newQuote.id = 1;
-                fs.writeFileSync(fileDir, JSON.stringify({
-                    "language": messageContent[2],
-                    "groups": [
-                        [0, 100],
-                        [101, 300],
-                        [301, 600],
-                        [601, 9999]
-                    ],
-                    "quotes": [newQuote]
-                })
-                );
-                returnMessage = `Created file ${messageContent[2]}.json and added quote.`
+            let returnMessage = "";
+
+            questionMessageContent[0] = `:thinking: Looking for ${messageContent[2]}.json...`;
+            questionMessage.edit(questionMessageContent.join(''));
+            
+            try{
+              if (fs.existsSync(fileDir)) {
+                  questionMessageContent[0] = `:thinking: File exists. Adding quote...`;
+                  questionMessage.edit(questionMessageContent.join(''));
+                  let quoteFile = fs.readFileSync(fileDir);
+                  quoteFile = JSON.parse(quoteFile.toString());
+                  let newid = Math.max.apply(Math, quoteFile.quotes.map(function(q) { return q.id; })) + 1;
+                  newQuote.id = newid;
+
+                  //check for similarity
+                  if(force !== "force"){
+                    let highestsimilarity = 0;
+                    let highestquote;
+                    quoteFile.quotes.forEach(quote => {
+                      let sim = stringSimilarity.compareTwoStrings(newQuote.text, quote.text);
+                      if(sim > highestsimilarity){
+                        highestsimilarity = sim;
+                        highestquote = quote;
+                      }
+                    });
+
+                    if(highestsimilarity >= 0.5){
+                      questionMessageContent[0] = `:grimacing: Found a similar quote (${highestsimilarity}). Add \`force\` after the message id to add anyway.`;
+                      questionMessage.edit(questionMessageContent.join('') + "Similar quote:" + `\`\`\`json\n${JSON.stringify(highestquote,null,2)}\`\`\``);
+                      return;
+                    }
+                  }
+                  quoteFile.quotes.push(newQuote);
+                  fs.writeFileSync(fileDir,JSON.stringify(quoteFile));
+                  returnMessage = `Added quote to ${messageContent[2]}.json.`;
+              } else {
+                  //file doesnt exist, create it
+                  questionMessageContent[0] = `:thinking: File not found. Creating...`;
+                  questionMessage.edit(questionMessageContent.join(''));
+                  newQuote.id = 1;
+                  fs.writeFileSync(fileDir, JSON.stringify({
+                      "language": messageContent[2],
+                      "groups": [
+                          [0, 100],
+                          [101, 300],
+                          [301, 600],
+                          [601, 9999]
+                      ],
+                      "quotes": [newQuote]
+                  })
+                  );
+                  returnMessage = `Created file ${messageContent[2]}.json and added quote.`
+              }
+
+              questionMessageContent[0] = `:thinking: Pulling latest changes from upstream...`;
+              questionMessage.edit(questionMessageContent.join(''));
+              await git.pull('upstream','master');
+              questionMessageContent[0] = `:thinking: Staging ${messageContent[2]}.json...`;
+              questionMessage.edit(questionMessageContent.join(''));
+              await git.add([`static/quotes/${messageContent[2]}.json`]);
+              questionMessageContent[0] = `:thinking: Committing...`;
+              questionMessage.edit(questionMessageContent.join(''));
+              await git.commit(`Added quote to ${messageContent[2]}.json`);
+              questionMessageContent[0] = `:thinking: Pushing to origin...`;
+              questionMessage.edit(questionMessageContent.join(''));
+              await git.push('origin','master');
+
+              questionMessageContent[0] = `:white_check_mark: ${returnMessage}`;
+              questionMessage.edit(questionMessageContent.join(''));
+
+            }catch(e){
+              console.error(e);
+              questionMessage.edit(':x: Something went wrong while editing the file: ' + e);
             }
 
-            questionMessageContent[0] = `:thinking: Pulling latest changes from upstream...`;
+          }else if(r.emoji.name === "❌"){
+            questionMessageContent[0] = `:x: Canceled`;
             questionMessage.edit(questionMessageContent.join(''));
-            await git.pull('upstream','master');
-            questionMessageContent[0] = `:thinking: Staging ${messageContent[2]}.json...`;
-            questionMessage.edit(questionMessageContent.join(''));
-            await git.add([`static/quotes/${messageContent[2]}.json`]);
-            questionMessageContent[0] = `:thinking: Committing...`;
-            questionMessage.edit(questionMessageContent.join(''));
-            await git.commit(`Added quote to ${messageContent[2]}.json`);
-            questionMessageContent[0] = `:thinking: Pushing to origin...`;
-            questionMessage.edit(questionMessageContent.join(''));
-            await git.push('origin','master');
-
-            questionMessageContent[0] = `:white_check_mark: ${returnMessage}`;
-            questionMessage.edit(questionMessageContent.join(''));
-            collector.stop();
-
-          }catch(e){
-            console.error(e);
-            questionMessage.edit(':x: Something went wrong while editing the file: ' + e);
           }
-
-
-        });
-
+          });
     } catch (e) {
       console.error(e);
       return {
