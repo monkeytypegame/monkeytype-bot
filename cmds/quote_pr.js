@@ -21,10 +21,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
             },
             redirect: "follow", // manual, *follow, error
             referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            title: "Added more quotes",
-            head: "monkeytypegeorge:master",
-            base: "miodec:master",
-            maintainer_can_modify: true
+            body: JSON.stringify({
+                title: "Added more quotes",
+                head: "monkeytypegeorge:master",
+                base: "miodec:master",
+                maintainer_can_modify: true
+            })
         }).then(async (response) => {
             let data = await response.json();
             if (response.status === 201 && response.statusText == "Created") {
