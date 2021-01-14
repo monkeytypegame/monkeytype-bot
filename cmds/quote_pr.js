@@ -5,10 +5,11 @@ const git = simpleGit('../monkeytype');
 module.exports.run = async (bot, message, args, db, guild) => {
     console.log(`Running command ${this.cmd.name}`);
     const config = require("../config.json");
+    const fetch = require("node-fetch");
 
-
+    let msg;
     try {
-        let msg = await message.channel.send(':thinking: Sending to GitHub...');
+        msg = await message.channel.send(':thinking: Sending to GitHub...');
         return fetch("https://api.github.com/repos/miodec/monkeytype/pulls", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
@@ -24,7 +25,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
             body: JSON.stringify({
                 title: "Added more quotes",
                 head: "monkeytypegeorge:master",
-                base: "miodec:master",
+                base: "master",
                 maintainer_can_modify: true
             })
         }).then(async (response) => {
