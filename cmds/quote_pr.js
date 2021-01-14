@@ -4,6 +4,7 @@ const git = simpleGit('../monkeytype');
 
 module.exports.run = async (bot, message, args, db, guild) => {
     console.log(`Running command ${this.cmd.name}`);
+    const config = require("../config.json");
 
 
     try {
