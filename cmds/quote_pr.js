@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
 
     try {
-
+        let message = await message.channel.send(':thinking: Sending to GitHub...');
         return fetch("https://api.github.com/repos/miodec/monkeytype/pulls", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
@@ -27,11 +27,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
         }).then(async (response) => {
             let data = await response.json();
             if (response.status === 201 && response.statusText == "Created") {
+                message.delete();
                 return {
                     status: true,
                     message: ":white_check_mark: Done: " + data.html_url,
                 };
             } else {
+                message.delete();
                 return {
                     status: false,
                     message: "Something went wrong. Code " + response.status,
@@ -39,6 +41,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
             }
         });
     } catch (e) {
+        message.delete();
         return {
             status: false,
             message: ":x: Could not push quotes: " + e.message,
@@ -47,6 +50,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
 };
 
 module.exports.cmd = {
-    name: "quote_push",
+    name: "quote_pr",
     needMod: true,
 };
