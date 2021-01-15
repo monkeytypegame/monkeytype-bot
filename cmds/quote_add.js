@@ -81,7 +81,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
     if(/(\\\\t)|(\\\\n)|(\\t)|(\\n)/g.test(newQuote.text)){
       questionMessageContent.push('Found at least one new line or tab character. This is what the text will look like on the website:');
-      let textpreview = newQuote.text.replace(/\\\\t/g,'\t').replace(/\\\\n/g,'\n');
+      let textpreview = newQuote.text.replace(/\\\\t/g,'\t').replace(/\\\\n/g,'\n').replace(/\\t/g,'\t').replace(/\\n/g,'\n');
       questionMessageContent.push(`\`\`\`\n${textpreview}\`\`\``);
     }
 
