@@ -79,6 +79,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
       `\`\`\`json\n${JSON.stringify(newQuote, null, 2)}\`\`\``
     ];
 
+    if(/(\\\\t)|(\\\\n)|(\\t)|(\\n)/g.test(newQuote.text)){
+      questionMessageContent.push('Found at least one new line or tab character. This is what the text will look like on the website:');
+      let textpreview = newQuote.text.replace(/\\\\t/g,'\t').replace(/\\\\n/g,'\n');
+      questionMessageContent.push(`\`\`\`\n${textpreview}\`\`\``);
+    }
+
     const fileDir = `../monkeytype/static/quotes/${language}.json`;
 
 
@@ -106,6 +112,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
     collector.on('collect', async r => {
       questionMessage.reactions.removeAll();
+      
+      if(questionMessageContent.length === 4){
+        questionMessageContent.pop();
+        questionMessageContent.pop();
+      }
+
 
       if (r.emoji.name === "✅") {
         showtimeout = false;
