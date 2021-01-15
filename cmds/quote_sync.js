@@ -19,6 +19,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
       await statusmsg.edit(
         `:thinking: Merging...`
       );
+      await git.push('origin', 'master');
+      await statusmsg.edit(
+        `:thinking: Pushing...`
+      );
       await statusmsg.delete();
       return {
         status: true,
