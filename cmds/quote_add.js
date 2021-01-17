@@ -17,18 +17,18 @@ module.exports.run = async (bot, message, args, db, guild) => {
       }
 
       returnMessage = `Added quote to ${language}.json.`;
-      questionMessageContent[0] = `:thinking: Pulling latest changes from upstream...`;
-      questionMessage.edit(questionMessageContent.join(''));
-      await git.pull('upstream', 'master');
-      questionMessageContent[0] = `:thinking: Staging ${language}.json...`;
-      questionMessage.edit(questionMessageContent.join(''));
-      await git.add([`static/quotes/${language}.json`]);
-      questionMessageContent[0] = `:thinking: Committing...`;
-      questionMessage.edit(questionMessageContent.join(''));
-      await git.commit(`Added quote to ${language}.json`);
-      questionMessageContent[0] = `:thinking: Pushing to origin...`;
-      questionMessage.edit(questionMessageContent.join(''));
-      await git.push('origin', 'master');
+      // questionMessageContent[0] = `:thinking: Pulling latest changes from upstream...`;
+      // questionMessage.edit(questionMessageContent.join(''));
+      // await git.pull('upstream', 'master');
+      // questionMessageContent[0] = `:thinking: Staging ${language}.json...`;
+      // questionMessage.edit(questionMessageContent.join(''));
+      // await git.add([`static/quotes/${language}.json`]);
+      // questionMessageContent[0] = `:thinking: Committing...`;
+      // questionMessage.edit(questionMessageContent.join(''));
+      // await git.commit(`Added quote to ${language}.json`);
+      // questionMessageContent[0] = `:thinking: Pushing to origin...`;
+      // questionMessage.edit(questionMessageContent.join(''));
+      // await git.push('origin', 'master');
 
       questionMessageContent[0] = `:white_check_mark: ${returnMessage}`;
       questionMessage.edit(questionMessageContent.join(''));
