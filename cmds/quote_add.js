@@ -48,7 +48,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         length: messageContent.text.length
       }
     }catch{
-      messageContent = messageContent.content.split('\n');
+      messageContent = messageContent.content.replace(/```\n/g,'').replace(/\n```/g,'').split('\n');
       language = messageContent[2].toLowerCase();
       newQuote = {
         text: messageContent[0],
