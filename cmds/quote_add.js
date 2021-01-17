@@ -14,9 +14,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
       if (!neww) {
         quoteFile.quotes.push(newQuote);
         fs.writeFileSync(fileDir, JSON.stringify(quoteFile, null, 2));
-        returnMessage = `Added quote to ${language}.json.`;
       }
 
+      returnMessage = `Added quote to ${language}.json.`;
       questionMessageContent[0] = `:thinking: Pulling latest changes from upstream...`;
       questionMessage.edit(questionMessageContent.join(''));
       await git.pull('upstream', 'master');
