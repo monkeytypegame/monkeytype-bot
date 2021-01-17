@@ -49,10 +49,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
       }
     }catch{
       messageContent = messageContent.content.replace(/```\n/g,'').replace(/\n```/g,'').split('\n');
-      language = messageContent[2].toLowerCase();
+      language = messageContent[2].trim().toLowerCase();
       newQuote = {
-        text: messageContent[0],
-        source: messageContent[1],
+        text: messageContent[0].trim(),
+        source: messageContent[1].trim(),
         length: messageContent[0].length
       }
     }
