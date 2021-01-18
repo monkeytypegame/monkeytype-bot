@@ -195,6 +195,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         }else{
           questionMessageContent[0] = `:x: Canceled`;
         }
+        questionMessageContent.push(`Suggested by ${suggestedBy}`);
         questionMessage.edit(questionMessageContent.join(''));
       } else if (r.emoji.name === "🔨") {
         showtimeout = false;
