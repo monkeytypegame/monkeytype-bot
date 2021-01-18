@@ -12,7 +12,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         `:thinking: Please wait...`
       );
         
-      statusmsg `:thinking: Pulling latest changes from upstream...`;
+      statusmsg = `:thinking: Pulling latest changes from upstream...`;
       await git.pull('upstream', 'master');
       statusmsg = `:thinking: Staging files...`;
       await git.add([`.`]);
