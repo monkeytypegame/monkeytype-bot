@@ -190,7 +190,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         showtimeout = false;
         collector.stop();
         if(duplicateFound){
-          questionMessageContent[0] = `:x: Dupliace`;
+          questionMessageContent[0] = `:x: Duplicate`;
           originalSuggestionMessage.delete();
         }else{
           questionMessageContent[0] = `:x: Canceled`;
