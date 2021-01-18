@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       await git.commit(`Added quotes from Discord`);
       statusmsg = `:thinking: Pushing to origin...`;
       await git.push('origin', 'master');
-
+      await statusmsg.delete();
       return {
         status: true,
         message: ":white_check_mark: Pushed..."
