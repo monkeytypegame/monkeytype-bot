@@ -15,7 +15,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         quoteFile.quotes.push(newQuote);
         fs.writeFileSync(fileDir, JSON.stringify(quoteFile, null, 2));
       }
-
+      originalSuggestionMessage.delete();
       returnMessage = `Added quote to ${language}.json.`;
       // questionMessageContent[0] = `:thinking: Pulling latest changes from upstream...`;
       // questionMessage.edit(questionMessageContent.join(''));
@@ -31,6 +31,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       // await git.push('origin', 'master');
 
       questionMessageContent[0] = `:white_check_mark: ${returnMessage}`;
+      questionMessageContent.push(`Suggested by ${suggestedBy}`);
       questionMessage.edit(questionMessageContent.join(''));
 
     }
@@ -39,6 +40,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
     let language;
     let newQuote;
     let messageContent = await message.channel.messages.fetch(args[0]);
+    let originalSuggestionMessage = await message.channel.messages.fetch(args[0]);
+    let suggestedBy = messageContent.author.username;
+    let duplicateFound = false;
     try{
       messageContent = JSON.parse(messageContent);
       language = messageContent.language;
@@ -148,6 +152,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
             });
 
             if (highestsimilarity >= 0.5) {
+              duplicateFound = true;
               questionMessageContent[0] = `:grimacing: Found a similar quote (${highestsimilarity}). React with 🔨 to add anyway.`;
               questionMessage.edit(questionMessageContent.join('') + "Similar quote:" + `\`\`\`json\n${JSON.stringify(highestquote, null, 2)}\`\`\``);
               await questionMessage.react("🔨");
@@ -184,7 +189,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
       } else if (r.emoji.name === "❌") {
         showtimeout = false;
         collector.stop();
-        questionMessageContent[0] = `:x: Canceled`;
+        if(duplicateFound){
+          questionMessageContent[0] = `:x: Dupliace`;
+          originalSuggestionMessage.delete();
+        }else{
+          questionMessageContent[0] = `:x: Canceled`;
+        }
         questionMessage.edit(questionMessageContent.join(''));
       } else if (r.emoji.name === "🔨") {
         showtimeout = false;
