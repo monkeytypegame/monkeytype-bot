@@ -12,13 +12,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
         `:thinking: Please wait...`
       );
         
-      statusmsg = `:thinking: Pulling latest changes from upstream...`;
+      await statusmsg.edit(`:thinking: Pulling latest changes from upstream...`);
       await git.pull('upstream', 'master');
-      statusmsg = `:thinking: Staging files...`;
+      await statusmsg.edit(`:thinking: Staging files...`);
       await git.add([`.`]);
-      statusmsg = `:thinking: Committing...`;
+      await statusmsg.edit(`:thinking: Committing...`);
       await git.commit(`Added quotes from Discord`);
-      statusmsg = `:thinking: Pushing to origin...`;
+      await statusmsg.edit(`:thinking: Pushing to origin...`);
       await git.push('origin', 'master');
       await statusmsg.delete();
       return {
