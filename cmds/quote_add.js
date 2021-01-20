@@ -72,8 +72,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
       "«": "<<",
       "»": ">>",
       "–": "-",
+      "„": '"'
     };
-    newQuote.text = newQuote.text.replace(/[“”’‘—,…«»–]/g, (char) => specials[char] || "");
+    newQuote.text = newQuote.text.replace(/[“”’‘—,…«»–„]/g, (char) => specials[char] || "");
 
 
     let quoteFile;
