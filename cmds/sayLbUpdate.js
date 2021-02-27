@@ -45,22 +45,23 @@ module.exports.run = async (bot, message, args, db, guild) => {
     }
 
     const embed = new Discord.MessageEmbed()
-          .setColor("#e2b714")
-          .setTitle(`Leaderboard Update`)
-          .setThumbnail(
-            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
-          )
+      .setColor("#e2b714")
+      .setTitle(`Leaderboard Update`)
+      .setThumbnail(
+        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
+      )
       .setFooter("www.monkeytype.com")
-      .setDescription(`${usrstring} just got ${pos}${posstr} place on the ${lb.replace(
-        "_",
-        " "
-      )} leaderboard!`).addFields(
-        { name: 'wpm', value: wpm, inline: true },
-        { name: 'raw', value: raw, inline: true },
-        { name: 'accuracy', value: acc+'%', inline: true },
+      .setDescription(
+        `${usrstring} just got ${pos}${posstr} place on the ${lb.replace(
+          "_",
+          " "
+        )} leaderboard!`
+      )
+      .addFields(
+        { name: "wpm", value: wpm, inline: true },
+        { name: "raw", value: raw, inline: true },
+        { name: "accuracy", value: acc + "%", inline: true }
       );
-
-
 
     if (
       config.channels.general !== null &&

@@ -33,12 +33,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
         const embed = new Discord.MessageEmbed()
           .setColor("#e2b714")
-          .setTitle(`Daily ${lb.mode} ${lb.mode2} Leaderboard Winner‏‏‎‏‏‎‏‏‎‏‏‎‏‏‎‏`)
+          .setTitle(
+            `Daily ${lb.mode} ${lb.mode2} Leaderboard Winner‏‏‎‏‏‎‏‏‎‏‏‎‏‏‎‏`
+          )
           .setThumbnail(
             "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/crown_1f451.png"
           )
           .setFooter("www.monkeytype.com");
-
 
         if (discordId !== undefined) {
           //not paired, go by name
@@ -47,12 +48,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
           //   .send(
           //     `<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
           //   );
-          embed.setDescription(`<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard!`);
+          embed.setDescription(
+            `<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard!`
+          );
           embed.addFields(
-            { name: 'wpm', value: winner.wpm, inline: true },
-            { name: 'raw', value: winner.raw, inline: true },
-            { name: 'accuracy', value: winner.acc+'%', inline: true },
-          )
+            { name: "wpm", value: winner.wpm, inline: true },
+            { name: "raw", value: winner.raw, inline: true },
+            { name: "accuracy", value: winner.acc + "%", inline: true }
+          );
         } else {
           //paired, tag the user
           // guild.channels.cache
@@ -60,24 +63,28 @@ module.exports.run = async (bot, message, args, db, guild) => {
           //   .send(
           //     `**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
           //   );
-          embed.setDescription(`**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard!`);
+          embed.setDescription(
+            `**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard!`
+          );
           embed.addFields(
-            { name: 'wpm', value: winner.wpm, inline: true },
-            { name: 'raw', value: winner.raw, inline: true },
-            { name: 'accuracy', value: winner.acc+'%', inline: true },
-          )
-          
+            { name: "wpm", value: winner.wpm, inline: true },
+            { name: "raw", value: winner.raw, inline: true },
+            { name: "accuracy", value: winner.acc + "%", inline: true }
+          );
         }
         guild.channels.cache
-            .find((ch) => ch.id === config.channels.general)
+          .find((ch) => ch.id === config.channels.general)
           .send(embed);
-        
+
         guild.channels.cache
           .find((ch) => ch.id === config.channels.general)
-          .send(`<@${discordId}> You won the daily ${lb.mode} ${lb.mode2} leaderboard!`).then(msg => {
-            msg.delete({ timeout: 500 })
-          })
-        
+          .send(
+            `<@${discordId}> You won the daily ${lb.mode} ${lb.mode2} leaderboard!`
+          )
+          .then((msg) => {
+            msg.delete({ timeout: 500 });
+          });
+
         return {
           status: true,
           message: `Logged daily lb result for ${lb.mode} ${lb.mode2}`,
