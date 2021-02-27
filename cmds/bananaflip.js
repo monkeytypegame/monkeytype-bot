@@ -4,10 +4,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const bananaBet = Math.round(args[0]);
   let sidePrediction = args[1];
-  const fs = require("fs");
+  const fs = require("fs").promises;
   let bananaData;
   try {
-    bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+    bananaData = JSON.parse(await fs.readFile("bananas.json"));
   } catch (e) {
     return {
       status: true,
@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       //show last 10 flips
       let flipData;
       try {
-        flipData = JSON.parse(fs.readFileSync("coinFlips.json"));
+        flipData = JSON.parse(await fs.readFile("coinFlips.json"));
       } catch (e) {
         flipData = [];
       }
@@ -35,7 +35,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         flipData = flipData.slice(flipData.length - 10);
       }
 
-      fs.writeFileSync("coinFlips.json", JSON.stringify(flipData));
+      await fs.writeFile("coinFlips.json", JSON.stringify(flipData));
 
       let lastFlipsString = "";
       flipData.forEach((flip) => {
@@ -108,7 +108,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
       let flipData;
       try {
-        flipData = JSON.parse(fs.readFileSync("coinFlips.json"));
+        flipData = JSON.parse(await fs.readFile("coinFlips.json"));
       } catch (e) {
         flipData = [];
       }
@@ -129,7 +129,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           const flip = Math.round(Math.random());
           const flipString = flip === 0 ? "h" : "t";
 
-          bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+          bananaData = JSON.parse(await fs.readFile("bananas.json"));
           if (sidePrediction === flipString) {
             //correct guess
             bananaData[message.author.id].balance += bananaBet;
@@ -141,7 +141,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           } else {
             //incorrect guess
             bananaData[message.author.id].balance -= bananaBet;
-            bananaData["727981850253066300"].balance += bananaBet;
+            bananaData[bot.user.id].balance += bananaBet;
             if (bananaData[message.author.id].flipLosses === undefined) {
               bananaData[message.author.id].flipLosses = 1;
             } else {
@@ -150,12 +150,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
           }
 
           //save file
-          fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+          await fs.writeFile("bananas.json", JSON.stringify(bananaData));
 
           //save last flips
           flipData.push(flipString);
           flipData = flipData.slice(flipData.length - 10);
-          fs.writeFileSync("coinFlips.json", JSON.stringify(flipData));
+          await fs.writeFile("coinFlips.json", JSON.stringify(flipData));
 
           let resultString = flip === 0 ? "heads" : "tails";
 

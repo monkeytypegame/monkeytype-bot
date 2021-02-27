@@ -8,11 +8,11 @@ module.exports.run = async (bot, message, args, db, guild) => {
   //     message: "",
   //   };
   // }
-  const fs = require("fs");
+  const fs = require("fs").promises;
   try {
     let bananaData;
     try {
-      bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+      bananaData = JSON.parse(await fs.readFile("bananas.json"));
     } catch (e) {
       bananaData = {};
     }
@@ -41,7 +41,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       sliced.forEach((slice) => {
         let name;
         try {
-          if (slice.id == "727981850253066300") {
+          if (slice.id === bot.user.id) {
             name = "George";
           } else {
             name = guild.members.cache.find((member) => member.id === slice.id)

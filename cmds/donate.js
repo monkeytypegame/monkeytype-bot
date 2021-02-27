@@ -2,17 +2,17 @@ const Discord = require("discord.js");
 
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
-  const fs = require("fs");
+  const fs = require("fs").promises;
 
   const targetUser = message.mentions.users.first();
-  const targetUserName = `${targetUser.username}#${targetUser.discriminator}`;
+  // const targetUserName = `${targetUser.username}#${targetUser.discriminator}`;
   const targetUserID = targetUser.id;
 
   const amount = Math.round(args[1]);
 
   let bananaData;
   try {
-    bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+    bananaData = JSON.parse(await fs.readFile("bananas.json"));
   } catch (e) {
     return {
       status: true,
@@ -49,11 +49,11 @@ module.exports.run = async (bot, message, args, db, guild) => {
           message: `:x: You don't have enough bananas to give to <@${targetUserID}>.`,
         };
       } else {
-        bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+        bananaData = JSON.parse(await fs.readFile("bananas.json"));
         bananaData[message.author.id].balance -= amount;
         bananaData[targetUserID].balance += amount;
 
-        fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+        await fs.writeFile("bananas.json", JSON.stringify(bananaData));
 
         return {
           status: true,

@@ -3,16 +3,16 @@ const Discord = require("discord.js");
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const config = require("../config.json");
-  const fs = require("fs");
+  const fs = require("fs").promises;
 
   let discordID = message.author.id;
 
   try {
     let bananaData;
     try {
-      bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+      bananaData = JSON.parse(await fs.readFile("bananas.json"));
     } catch (e) {
-      fs.writeFileSync("bananas.json", "{}");
+      await fs.writeFile("bananas.json", "{}");
       bananaData = {};
     }
 
@@ -58,7 +58,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         lastCollect: milisNow,
       };
       //success show balance
-      fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+      await fs.writeFile("bananas.json", JSON.stringify(bananaData));
       let nextReset = addDays(milisNow, 1);
       nextReset.setHours(0);
       nextReset.setMinutes(0);
@@ -102,9 +102,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
         t60bananas !== undefined &&
         t60bananas !== 0
       ) {
-        bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+        bananaData = JSON.parse(await fs.readFile("bananas.json"));
         bananaData[message.author.id].balance += t60bananas;
-        fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+        await fs.writeFile("bananas.json", JSON.stringify(bananaData));
         bananasDoc.set({ t60bananas: 0 }, { merge: true });
       }
 
@@ -166,9 +166,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
           t60bananas !== undefined &&
           t60bananas !== 0
         ) {
-          bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+          bananaData = JSON.parse(await fs.readFile("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
-          fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+          await fs.writeFile("bananas.json", JSON.stringify(bananaData));
           bananasDoc.set({ t60bananas: 0 }, { merge: true });
         }
 
@@ -182,11 +182,11 @@ module.exports.run = async (bot, message, args, db, guild) => {
         //   balance: userData.balance + 1,
         //   lastCollect: milisNow,
         // };
-        bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+        bananaData = JSON.parse(await fs.readFile("bananas.json"));
         bananaData[message.author.id].balance++;
         bananaData[message.author.id].lastCollect = milisNow;
         //success, show balance
-        fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+        await fs.writeFile("bananas.json", JSON.stringify(bananaData));
         let nextReset = addDays(milisNow, 1);
         nextReset.setHours(0);
         nextReset.setMinutes(0);
@@ -230,9 +230,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
           t60bananas !== undefined &&
           t60bananas !== 0
         ) {
-          bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+          bananaData = JSON.parse(await fs.readFile("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
-          fs.writeFileSync("bananas.json", JSON.stringify(bananaData));
+          await fs.writeFile("bananas.json", JSON.stringify(bananaData));
           bananasDoc.set({ t60bananas: 0 }, { merge: true });
         }
 

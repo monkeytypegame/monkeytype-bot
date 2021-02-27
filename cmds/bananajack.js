@@ -8,10 +8,10 @@ const currentlyPlaying = new Discord.Collection();
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const bananaBet = Math.round(args[0]);
-  const fs = require("fs");
+  const fs = require("fs").promises;
   let bananaData;
   try {
-    bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+    bananaData = JSON.parse(await fs.readFile("bananas.json"));
   } catch (e) {
     return {
       status: true,
@@ -280,7 +280,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                   }
                 };
 
-                function showStatus() {
+                async function showStatus() {
                   let dealerCardString = " ";
                   for (let i = 0; i < dealerCards.length; i++) {
                     dealerCardString +=
@@ -297,9 +297,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
                   if (gameOver) {
                     if (tied) {
-                      bananaData = JSON.parse(fs.readFileSync("bananas.json"));
-                      bananaData[message.author.id].balance =
-                        bananaData[message.author.id].balance;
+                      bananaData = JSON.parse(await fs.readFile("bananas.json"));
                       if (
                         bananaData[message.author.id].bananajackTies ===
                         undefined
@@ -309,7 +307,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         bananaData[message.author.id].bananajackTies++;
                       }
 
-                      fs.writeFileSync(
+                      await fs.writeFile(
                         "bananas.json",
                         JSON.stringify(bananaData)
                       );
@@ -364,7 +362,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                     }
 
                     if (playerWon) {
-                      bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+                      bananaData = JSON.parse(await fs.readFile("bananas.json"));
                       bananaData[message.author.id].balance += bananaBet;
                       if (
                         bananaData[message.author.id].bananajackWins ===
@@ -375,7 +373,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         bananaData[message.author.id].bananajackWins++;
                       }
 
-                      fs.writeFileSync(
+                      await fs.writeFile(
                         "bananas.json",
                         JSON.stringify(bananaData)
                       );
@@ -429,9 +427,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         message: ``,
                       };
                     } else {
-                      bananaData = JSON.parse(fs.readFileSync("bananas.json"));
+                      bananaData = JSON.parse(await fs.readFile("bananas.json"));
                       bananaData[message.author.id].balance -= bananaBet;
-                      bananaData["727981850253066300"].balance += bananaBet;
+                      bananaData[bot.user.id].balance += bananaBet;
                       if (
                         bananaData[message.author.id].bananajackLosses ===
                         undefined
@@ -441,7 +439,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
                         bananaData[message.author.id].bananajackLosses++;
                       }
 
-                      fs.writeFileSync(
+                      await fs.writeFile(
                         "bananas.json",
                         JSON.stringify(bananaData)
                       );
