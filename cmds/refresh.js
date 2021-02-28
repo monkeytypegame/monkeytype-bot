@@ -8,8 +8,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
   );
   return {
     status: true,
-    message: ''
-  }
+    message: "",
+  };
 };
 
 module.exports.cmd = {

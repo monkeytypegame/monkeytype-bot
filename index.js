@@ -82,10 +82,13 @@ bot.on("message", (msg) => {
 
   if (config.dev === true && msg.author.id !== "102819690287489024") return;
 
-  if (msg.member.roles.cache.some(
-    (role) =>
-      role.id === config.roles.adminRole || role.id === config.roles.modRole
-  ) && msg.content.toLowerCase() === "ping") {
+  if (
+    msg.member.roles.cache.some(
+      (role) =>
+        role.id === config.roles.adminRole || role.id === config.roles.modRole
+    ) &&
+    msg.content.toLowerCase() === "ping"
+  ) {
     msg.channel.send("pong");
     return;
   }
@@ -104,8 +107,14 @@ bot.on("message", (msg) => {
     return;
   }
 
-  if (/(how.*role.*\?)|(how.*challenge.*\?)|(wpm role.*\?)|(pair.*account.*\?)/g.test(msg.content.toLocaleLowerCase())) {
-    msg.channel.send(`:question: Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel.`);
+  if (
+    /(how.*role.*\?)|(how.*challenge.*\?)|(wpm role.*\?)|(pair.*account.*\?)/g.test(
+      msg.content.toLocaleLowerCase()
+    )
+  ) {
+    msg.channel.send(
+      `:question: Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel.`
+    );
   }
 
   let msg_array = msg.content.split(" ");
@@ -124,8 +133,6 @@ bot.on("message", (msg) => {
     // msg.channel.send(`Command ${cmd} doesnt exist`);
     return;
   }
-
-
 
   if (
     !msg.member.roles.cache.some(
@@ -148,8 +155,15 @@ bot.on("message", (msg) => {
     return;
   }
   if (!config.dev) {
-    if (cmdObj.cmd.requiredChannel && msg.channel.id !== config.channels[cmdObj.cmd.requiredChannel]) {
-      msg.channel.send(`:x: Please use the <#${config.channels[cmdObj.cmd.requiredChannel]}> channel.`);
+    if (
+      cmdObj.cmd.requiredChannel &&
+      msg.channel.id !== config.channels[cmdObj.cmd.requiredChannel]
+    ) {
+      msg.channel.send(
+        `:x: Please use the <#${
+          config.channels[cmdObj.cmd.requiredChannel]
+        }> channel.`
+      );
       setTimeout(() => {
         msg.delete();
       }, 500);
@@ -168,10 +182,12 @@ bot.on("message", (msg) => {
   cmdObj.run(bot, msg, args, db, guild).then((result) => {
     console.log(result);
     if (result.status === true) {
-      if(result.message !== '') msg.channel.send(result.message);
+      if (result.message !== "") msg.channel.send(result.message);
     } else {
-      if (result.message === '') {
-        msg.channel.send(':x: No error message specified. Somebody messed up or dev bot is active.');
+      if (result.message === "") {
+        msg.channel.send(
+          ":x: No error message specified. Somebody messed up or dev bot is active."
+        );
       } else {
         msg.channel.send(result.message);
       }
@@ -179,35 +195,41 @@ bot.on("message", (msg) => {
   });
 });
 
-bot.on('messageDelete', async message => {
-	// ignore direct messages
-	if (!message.guild) return;
-	const fetchedLogs = await message.guild.fetchAuditLogs({
-		limit: 1,
-		type: 'MESSAGE_DELETE',
-	});
-	// Since we only have 1 audit log entry in this collection, we can simply grab the first one
-	const deletionLog = fetchedLogs.entries.first();
+bot.on("messageDelete", async (message) => {
+  // ignore direct messages
+  if (!message.guild) return;
+  const fetchedLogs = await message.guild.fetchAuditLogs({
+    limit: 1,
+    type: "MESSAGE_DELETE",
+  });
+  // Since we only have 1 audit log entry in this collection, we can simply grab the first one
+  const deletionLog = fetchedLogs.entries.first();
 
-	// Let's perform a coherence check here and make sure we got *something*
+  // Let's perform a coherence check here and make sure we got *something*
   // if (!deletionLog) {
-    logInChannel(`:wastebasket: <@${message.author.id}>'s message in <#${message.channel.id}> was deleted:\n${message.content}`);
-    return;
+  logInChannel(
+    `:wastebasket: <@${message.author.id}>'s message in <#${message.channel.id}> was deleted:\n${message.content}`
+  );
+  return;
   // }
 
-	// We now grab the user object of the person who deleted the message
-	// Let us also grab the target of this action to double check things
-	const { executor, target } = deletionLog;
+  // We now grab the user object of the person who deleted the message
+  // Let us also grab the target of this action to double check things
+  const { executor, target } = deletionLog;
 
-	// And now we can update our output with a bit more information
+  // And now we can update our output with a bit more information
   // We will also run a check to make sure the log we got was for the same author's message
-	if (target.id === message.author.id && target.lastMessage.id === message.id) {
-    logInChannel(`:wastebasket: <@${message.author.id}>'s message was deleted by <@${executor.id}>:\n${message.content}`);
+  if (target.id === message.author.id && target.lastMessage.id === message.id) {
+    logInChannel(
+      `:wastebasket: <@${message.author.id}>'s message was deleted by <@${executor.id}>:\n${message.content}`
+    );
     return;
   } else {
-    logInChannel(`:wastebasket: <@${message.author.id}> deleted their own message:\n${message.content}`);
+    logInChannel(
+      `:wastebasket: <@${message.author.id}> deleted their own message:\n${message.content}`
+    );
     return;
-	}
+  }
 });
 
 // Bot login
@@ -217,11 +239,14 @@ bot.on("ready", async () => {
   console.log("Ready");
   guild = bot.guilds.cache.get(config.guildId);
   await guild.fetch();
-  bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, { type: 'WATCHING' })
+  bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
+    type: "WATCHING",
+  });
   setInterval(() => {
-    bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, { type: 'WATCHING' })
-  },60000);
- 
+    bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
+      type: "WATCHING",
+    });
+  }, 60000);
 
   logInChannel(":smile: Ready");
 
@@ -314,13 +339,15 @@ app.post("/release", verifyPostData, function (req, res) {
 
     if (message.length > 2000) {
       guild.channels.cache
-      .find((ch) => ch.id === config.channels.botLog)
-      .send(`:flushed: Yo stoopid <@102819690287489024>. That update log was too long for me to send.`);
+        .find((ch) => ch.id === config.channels.botLog)
+        .send(
+          `:flushed: Yo stoopid <@102819690287489024>. That update log was too long for me to send.`
+        );
     } else {
       guild.channels.cache
-      .find((ch) => ch.id === config.channels.updates)
-      .send(message);
-    }    
+        .find((ch) => ch.id === config.channels.updates)
+        .send(message);
+    }
   }
   res.status(200).send("Request body was signed");
 });

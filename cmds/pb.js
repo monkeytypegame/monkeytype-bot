@@ -166,5 +166,5 @@ module.exports.run = async (bot, message, args, db, guild) => {
 module.exports.cmd = {
   name: "pb",
   needMod: false,
-  requiredChannel: "botCommands"
+  requiredChannel: "botCommands",
 };

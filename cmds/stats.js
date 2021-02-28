@@ -6,7 +6,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
     let discordID = message.author.id;
 
     //if there is a mention return, as this command is for personal use only
-    if (message.mentions.members.first()) return message.channel.send("Error: You may not view other users profiles");
+    if (message.mentions.members.first())
+      return message.channel.send(
+        "Error: You may not view other users profiles"
+      );
 
     let doc = await db
       .collection("users")
@@ -25,7 +28,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
     let dataObj = {
       started: doc.startedTests,
       completed: doc.completedTests,
-      time: doc.timeTyping
+      time: doc.timeTyping,
     };
 
     //embeds that display records
@@ -33,8 +36,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
     function secondsToHms(d) {
       d = Number(d);
       var h = Math.floor(d / 3600);
-      var m = Math.floor(d % 3600 / 60);
-      var s = Math.floor(d % 3600 % 60);
+      var m = Math.floor((d % 3600) / 60);
+      var s = Math.floor((d % 3600) % 60);
 
       var hDisplay = h > 0 ? h + (h == 1 ? " hour " : " hours ") : "";
       var mDisplay = m > 0 ? m + (m == 1 ? " minute " : " minutes ") : "";
@@ -55,12 +58,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
     message.channel.send(statsEmbed);
     return {
       status: true,
-      message: '',
+      message: "",
     };
   } catch (e) {
     return {
       status: false,
-      message: ':x: Something went wrong while trying to get your stats: ' + e,
+      message: ":x: Something went wrong while trying to get your stats: " + e,
     };
   }
 };
@@ -68,5 +71,5 @@ module.exports.run = async (bot, message, args, db, guild) => {
 module.exports.cmd = {
   name: "stats",
   needMod: false,
-  requiredChannel: "botCommands"
+  requiredChannel: "botCommands",
 };

@@ -1,18 +1,18 @@
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
 
-  const { spawn } = require('child_process');
+  const { spawn } = require("child_process");
 
   try {
     let subprocess = spawn("/home/ubuntu/monkey-bot/upgrade.sh", [], {
       detached: true,
-      stdio: 'ignore'
-    })
+      stdio: "ignore",
+    });
     subprocess.unref();
     return {
       status: true,
-      message: ":thinking: Upgrading..."
-    }
+      message: ":thinking: Upgrading...",
+    };
   } catch (e) {
     return {
       status: false,

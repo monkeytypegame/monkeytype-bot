@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ascii-table": "0.0.9",
     "body-parser": "^1.19.0",
     "crypto": "^1.0.1",
     "discord.js": "^12.4.1",
@@ -23,5 +24,8 @@
     "save": "^2.4.0",
     "simple-git": "^2.31.0",
     "string-similarity": "^4.0.4"
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
   }
 }
