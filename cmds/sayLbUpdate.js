@@ -17,6 +17,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   const wpm = args[3];
   const raw = args[4];
   const acc = args[5];
+  const con = args[6];
 
   if (config.noLog !== undefined && config.noLog) {
     return {
@@ -60,7 +61,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
       .addFields(
         { name: "wpm", value: wpm, inline: true },
         { name: "raw", value: raw, inline: true },
-        { name: "accuracy", value: acc + "%", inline: true }
+        { name: "", value: "", inline: false },
+        { name: "accuracy", value: acc + "%", inline: true },
+        { name: "consistency", value: con + "%", inline: true }
       );
 
     if (
