@@ -61,7 +61,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       .addFields(
         { name: "wpm", value: wpm, inline: true },
         { name: "raw", value: raw, inline: true },
-        { name: "", value: "", inline: false },
+        { name: "\u200B", value: "\u200B", inline: false },
         { name: "accuracy", value: acc + "%", inline: true },
         { name: "consistency", value: con + "%", inline: true }
       );
