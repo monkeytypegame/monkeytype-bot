@@ -54,7 +54,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           embed.addFields(
             { name: "wpm", value: winner.wpm, inline: true },
             { name: "raw", value: winner.raw, inline: true },
-            { name: " ", value: " ", inline: false },
+            { name: "\u200B", value: "\u200B", inline: false },
             { name: "accuracy", value: winner.acc + "%", inline: true },
             { name: "consistency", value: winner.consistency + "%", inline: true }
           );
@@ -71,7 +71,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
           embed.addFields(
             { name: "wpm", value: winner.wpm, inline: true },
             { name: "raw", value: winner.raw, inline: true },
-            { name: "accuracy", value: winner.acc + "%", inline: true }
+            { name: "\u200B", value: "\u200B", inline: false },
+            { name: "accuracy", value: winner.acc + "%", inline: true },
+            { name: "consistency", value: winner.consistency + "%", inline: true }
           );
         }
         guild.channels.cache
