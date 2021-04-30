@@ -248,7 +248,7 @@ bot.on("ready", async () => {
     bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
       type: "WATCHING",
     });
-  }, 60000);
+  }, 3600000);
 
   logInChannel(":smile: Ready");
 
