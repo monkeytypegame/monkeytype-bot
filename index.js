@@ -243,6 +243,8 @@ bot.on("ready", async () => {
     type: "WATCHING",
   });
   setInterval(() => {
+    guild = bot.guilds.cache.get(config.guildId);
+    await guild.fetch();
     bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
       type: "WATCHING",
     });
