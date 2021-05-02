@@ -3,10 +3,10 @@ const Discord = require("discord.js");
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name} ${JSON.stringify(args)}`);
 
-  if (args.length !== 6) {
+  if (args.length !== 7) {
     return {
       status: false,
-      message: "Error: Need exactly 6 arguments",
+      message: "Error: Need exactly 7 arguments",
     };
   }
 
@@ -61,9 +61,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
       .addFields(
         { name: "wpm", value: wpm, inline: true },
         { name: "raw", value: raw, inline: true },
-        { name: "\u200B", value: "\u200B", inline: false },
+        { name: "\u200B", value: "\u200B", inline: true },
         { name: "accuracy", value: acc + "%", inline: true },
-        { name: "consistency", value: con + "%", inline: true }
+        { name: "consistency", value: con + "%", inline: true },
+        { name: "\u200B", value: "\u200B", inline: true }
       );
 
     if (
