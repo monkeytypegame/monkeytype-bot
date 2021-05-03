@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
   const config = require("../config.json");
   let discordId = args[0];
-  let wpm = args[1];
+  let wpm = Math.round(args[1]);
   let correctRole = null;
 
   await fillRoleCache();

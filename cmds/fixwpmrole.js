@@ -56,6 +56,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   time60s.forEach(pb => {
     if(pb.wpm > wpm) wpm = pb.wpm;
   })
+  wpm = Math.round(wpm);
 
   await statusmsg.edit(`:thinking: Checking personal bests... Got it...`);
 
