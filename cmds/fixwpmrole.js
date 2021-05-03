@@ -24,13 +24,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
   .get();
   doc = doc.docs;
   if (doc.length === 0) {
-    await statusmsg.edit(`:x: Could not find user. Make sure your accounts are paired.`);
+    await statusmsg.delete();
     return {
       status: false,
       message: `:x: Fix wpm role: Could not find user. Make sure your accounts are paired.`,
     };
   }else if (doc.length > 1){
-    await statusmsg.edit(`:x: More than one accounts are paired to this user.`);
+    await statusmsg.delete();
     return {
       status: false,
       message: `:x: Fix wpm role: More than one accounts are paired to this user.`,
@@ -45,7 +45,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   let time60s = pbObj?.time?.[60];
 
   if(time60s == undefined || time60s.length == 0){
-    await statusmsg.edit(`:x: No time 60 results found.`);
+    await statusmsg.delete();
     return {
       status: false,
       message: `:x: Fix wpm role: No time 60 results found.`,
@@ -78,21 +78,21 @@ module.exports.run = async (bot, message, args, db, guild) => {
       return member.roles
         .add(correctRole)
         .then(async (ret) => {
-          await statusmsg.edit(`:white_check_mark: Done. Assigned role ${correctRole.name}`);
+          await statusmsg.delete();
           return {
             status: true,
             message: `:white_check_mark: Fix wpm role: Assigned role ${correctRole.name} to user <@${discordId}>`,
           };
         })
         .catch(async (e) => {
-          await statusmsg.edit(`:x: Something went wrong. ` + e);
+          await statusmsg.delete();
           return {
             status: false,
             message: e,
           };
         });
   } catch (e) {
-    await statusmsg.edit(`:x: Something went wrong. ` + e);
+    await statusmsg.delete();
     return {
       status: false,
       message: ":x: Fix wpm role: Error: " + e,
