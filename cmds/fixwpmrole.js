@@ -88,14 +88,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
           await statusmsg.delete();
           return {
             status: false,
-            message: e,
+            message: ":x: Something went wrong",
           };
         });
   } catch (e) {
     await statusmsg.delete();
     return {
       status: false,
-      message: ":x: Fix wpm role: Error: " + e,
+      message: ":x: Something went wrong",
     };
   }
 
