@@ -256,7 +256,7 @@ bot.on("ready", async () => {
   db.collection("bot-commands").onSnapshot((snapshot) => {
     let changes = snapshot.docChanges();
     // logInChannel(`${changes.length} commands found`);
-    changes.forEach((change) => {
+    async.each(changes, (change, callback) => {
       let docData = change.doc.data();
       if (docData.executed === false) {
         console.log("new command found");
@@ -264,7 +264,10 @@ bot.on("ready", async () => {
         let args = docData.arguments;
         let cmdObj = bot.commands.get(cmd); //gets the command based on its name
         if (cmdObj) {
-          if (cmdObj.cmd.type !== "db") return;
+          if (cmdObj.cmd.type !== "db"){
+            callback();
+            return;
+          }
           cmdObj.run(bot, null, args, db, guild).then(async (result) => {
             if (result.status) {
               console.log(`Command ${cmd} complete. Updating database`);
@@ -279,8 +282,13 @@ bot.on("ready", async () => {
               status: result.status,
             });
             await db.collection("bot-commands").doc(change.doc.id).delete();
+            callback();
           });
+        }else{
+          callback();
         }
+      }else{
+        callback();
       }
     });
   });
