@@ -39,8 +39,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
       ["✅", "📈", "❓", "🍌"].includes(reaction.emoji.name);
 
     var collected = await msg.awaitReactions(filter, { time: 5000 });
-    if (collected.size == 0)
-      return message.reply("You didn't react in time for help!");
+    if (collected.size == 0){
+      message.reply("You didn't react in time for help!");
+      return {
+        status: true,
+        message: ``,
+      };
+    }
 
     if (collected.find((v) => v.emoji.name === "✅")) {
       helpEmbed.fields = [];
@@ -52,6 +57,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
             value: `1. Login to your monkeytype account\n2. Generate your unique code in the settings page under \`discord integration\`\n3. DM @George !verify <generated code>. __**Please don't send your code in any of the server channels**__\n4. Congrats! Your account is now linked! Your WPM role will generate on the next 60s test you take.`,
           })
       );
+      return {
+        status: true,
+        message: ``,
+      };
     } else if (collected.find((v) => v.emoji.name === "📈")) {
       helpEmbed.fields = [];
       await msg.edit(
@@ -70,6 +79,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
             }
           )
       );
+      return {
+        status: true,
+        message: ``,
+      };
     } else if (collected.find((v) => v.emoji.name === "❓")) {
       helpEmbed.fields = [];
       await msg.edit(
@@ -80,6 +93,10 @@ module.exports.run = async (bot, message, args, db, guild) => {
             value: "Displays number of members within the role queried",
           })
       );
+      return {
+        status: true,
+        message: ``,
+      };
     } else if (collected.find((v) => v.emoji.name === "🍌")) {
       helpEmbed.fields = [];
       await msg.edit(
@@ -117,8 +134,16 @@ module.exports.run = async (bot, message, args, db, guild) => {
             }
           )
       );
+      return {
+        status: true,
+        message: ``,
+      };
     } else {
       //do nothing
+      return {
+        status: true,
+        message: ``,
+      };
     }
   } catch (error) {
     message.channel.send(`:x: An error has occurred`);
