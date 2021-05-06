@@ -1,7 +1,7 @@
 // require packages
 const Discord = require("discord.js");
 const fs = require("fs");
-require( 'console-stamp' )( console );
+// require( 'console-stamp' )( console );
 var async = require("async");
 
 // initialise are bot
