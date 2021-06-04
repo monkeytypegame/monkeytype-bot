@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const AsciiTable = require("ascii-table");
+const axiosInstance = require("../axiosInstance");
 
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
@@ -20,17 +21,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
   }
 
   const [mode2, type] = args;
-  let data = await db.collection("leaderboards").doc(`time_${mode2}_${type}`).get();
-  data = data.data();
+
+  let data = await axiosInstance.get(`/getTimeLeaderboard/${mode2}/${type}`);
+  data = data.data;
   const leaderboard = new AsciiTable().setHeading("", "Name", "Stats");
 
-  const doc = await db
-    .collection("users")
-    .where("discordId", "==", message.author.id)
-    .get();
-
-  if (doc.docs.length !== 0) {
-    const uid = doc.docs[0].id;
+  const userResponse = await axiosInstance.get(`/getUserByDiscordId/${message.author.id}`);
+  if (!userResponse.data.error) {
+    const uid = userResponse.data.uid;
     const position = data.board.map(user => user.uid).indexOf(uid);
     const user = data.board[position];
 

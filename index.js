@@ -254,6 +254,8 @@ bot.on("ready", async () => {
 
   logInChannel(":smile: Ready");
 
+  //how do I do onSnapshot in express
+    //socket.io?
   db.collection("bot-commands").onSnapshot((snapshot) => {
     let changes = snapshot.docChanges();
     // logInChannel(`${changes.length} commands found`);

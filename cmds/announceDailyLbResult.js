@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const axiosInstance = require("../axiosInstance");
 
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
@@ -22,80 +23,76 @@ module.exports.run = async (bot, message, args, db, guild) => {
   }
 
   try {
-    return db
-      .collection("users")
-      .doc(winner.uid)
-      .get()
-      .then((doc) => {
-        let docdata = doc.data();
-        let name = docdata.name;
-        let discordId = docdata.discordId;
+    axiosInstance.get(`/getUserDiscordData/${uid}`).then((response) => {
+      let docdata = response.data;
+      let name = docdata.name;
+      let discordId = docdata.discordId;
 
-        const embed = new Discord.MessageEmbed()
-          .setColor("#e2b714")
-          .setTitle(
-            `Daily ${lb.mode} ${lb.mode2} Leaderboard Winner‏‏‎‏‏‎‏‏‎‏‏‎‏‏‎‏`
-          )
-          .setThumbnail(
-            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/crown_1f451.png"
-          )
-          .setFooter("www.monkeytype.com");
+      const embed = new Discord.MessageEmbed()
+        .setColor("#e2b714")
+        .setTitle(
+          `Daily ${lb.mode} ${lb.mode2} Leaderboard Winner‏‏‎‏‏‎‏‏‎‏‏‎‏‏‎‏`
+        )
+        .setThumbnail(
+          "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/crown_1f451.png"
+        )
+        .setFooter("www.monkeytype.com");
 
-        if (discordId !== undefined) {
-          //not paired, go by name
-          // guild.channels.cache
-          //   .find((ch) => ch.id === config.channels.general)
-          //   .send(
-          //     `<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
-          //   );
-          embed.setDescription(
-            `<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard!`
-          );
-          embed.addFields(
-            { name: "wpm", value: winner.wpm, inline: true },
-            { name: "raw", value: winner.raw, inline: true },
-            { name: "\u200B", value: "\u200B", inline: true },
-            { name: "accuracy", value: winner.acc + "%", inline: true },
-            { name: "consistency", value: winner.consistency + "%", inline: true },
-            { name: "\u200B", value: "\u200B", inline: true }
-          );
-        } else {
-          //paired, tag the user
-          // guild.channels.cache
-          //   .find((ch) => ch.id === config.channels.general)
-          //   .send(
-          //     `**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
-          //   );
-          embed.setDescription(
-            `**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard!`
-          );
-          embed.addFields(
-            { name: "wpm", value: winner.wpm, inline: true },
-            { name: "raw", value: winner.raw, inline: true },
-            { name: "\u200B", value: "\u200B", inline: true },
-            { name: "accuracy", value: winner.acc + "%", inline: true },
-            { name: "consistency", value: winner.consistency + "%", inline: true },
-            { name: "\u200B", value: "\u200B", inline: true }
-          );
-        }
-        guild.channels.cache
-          .find((ch) => ch.id === config.channels.general)
-          .send(embed);
+      if (discordId !== undefined) {
+        //not paired, go by name
+        // guild.channels.cache
+        //   .find((ch) => ch.id === config.channels.general)
+        //   .send(
+        //     `<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
+        //   );
+        embed.setDescription(
+          `<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard!`
+        );
+        embed.addFields(
+          { name: "wpm", value: winner.wpm, inline: true },
+          { name: "raw", value: winner.raw, inline: true },
+          { name: "\u200B", value: "\u200B", inline: true },
+          { name: "accuracy", value: winner.acc + "%", inline: true },
+          { name: "consistency", value: winner.consistency + "%", inline: true },
+          { name: "\u200B", value: "\u200B", inline: true }
+        );
+      } else {
+        //paired, tag the user
+        // guild.channels.cache
+        //   .find((ch) => ch.id === config.channels.general)
+        //   .send(
+        //     `**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
+        //   );
+        embed.setDescription(
+          `**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard!`
+        );
+        embed.addFields(
+          { name: "wpm", value: winner.wpm, inline: true },
+          { name: "raw", value: winner.raw, inline: true },
+          { name: "\u200B", value: "\u200B", inline: true },
+          { name: "accuracy", value: winner.acc + "%", inline: true },
+          { name: "consistency", value: winner.consistency + "%", inline: true },
+          { name: "\u200B", value: "\u200B", inline: true }
+        );
+      }
+      guild.channels.cache
+        .find((ch) => ch.id === config.channels.general)
+        .send(embed);
 
-        guild.channels.cache
-          .find((ch) => ch.id === config.channels.general)
-          .send(
-            `<@${discordId}> You won the daily ${lb.mode} ${lb.mode2} leaderboard!`
-          )
-          .then((msg) => {
-            msg.delete({ timeout: 500 });
-          });
+      guild.channels.cache
+        .find((ch) => ch.id === config.channels.general)
+        .send(
+          `<@${discordId}> You won the daily ${lb.mode} ${lb.mode2} leaderboard!`
+        )
+        .then((msg) => {
+          msg.delete({ timeout: 500 });
+        });
 
-        return {
-          status: true,
-          message: `Logged daily lb result for ${lb.mode} ${lb.mode2}`,
-        };
-      });
+      return {
+        status: true,
+        message: `Logged daily lb result for ${lb.mode} ${lb.mode2}`,
+      };
+    })
   } catch (e) {
     return {
       status: false,

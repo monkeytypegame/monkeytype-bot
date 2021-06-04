@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const axiosInstance = require("../axiosInstance");
 
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
@@ -17,21 +18,15 @@ module.exports.run = async (bot, message, args, db, guild) => {
       message: ":x: Error: You may not view other users profiles",
     };
 
-  let doc = await db
-    .collection("users")
-    .where("discordId", "==", discordID)
-    .get();
-  doc = doc.docs;
-  if (doc.length === 0) {
+  let pbObj = await axiosInstance.get(`/getUserPbs/${discordID}`)
+  if (pbObj.data.error) {
     return {
       status: false,
       message: `:x: Could not find user. Make sure your accounts are paired.`,
     };
+  } else {
+    pbjObj = pbObj.data.personalBests;
   }
-
-  doc = doc[0].data();
-
-  let pbObj = doc.personalBests;
 
   let maxesTime;
   try {

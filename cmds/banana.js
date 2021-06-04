@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const axiosInstance = require("../axiosInstance");
 
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);

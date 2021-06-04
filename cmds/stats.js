@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const axiosInstance = require("../axiosInstance");
 
 module.exports.run = async (bot, message, args, db, guild) => {
   try {
@@ -11,24 +12,18 @@ module.exports.run = async (bot, message, args, db, guild) => {
         "Error: You may not view other users profiles"
       );
 
-    let doc = await db
-      .collection("users")
-      .where("discordId", "==", discordID)
-      .get();
-    doc = doc.docs;
-    if (doc.length === 0) {
+    let response = await axiosInstance.get(`/getUserStats/${discordID}`)
+    if (response.error) {
       return {
         status: false,
         message: `:x: Could not find user`,
       };
     }
-
-    doc = doc[0].data();
-
+    let userStats = response.data.globalStats
     let dataObj = {
-      started: doc.startedTests,
-      completed: doc.completedTests,
-      time: doc.timeTyping,
+      started: userStats.startedTests,
+      completed: userStats.completedTests,
+      time: userStats.timeTyping,
     };
 
     //embeds that display records

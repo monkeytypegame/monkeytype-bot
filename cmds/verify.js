@@ -1,3 +1,5 @@
+const axiosInstance = require("../axiosInstance");
+
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const config = require("../config.json");
@@ -31,8 +33,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
           .send(
             `:white_check_mark: <@${args[0]}>, your account is verified. If you have a 60s personal best, you will get a role soon.`
           );
-        let userData = await db.collection("users").doc(args[1]).get();
-        userData = userData.data();
+        let userData = await axiosInstance.get(`/getUserPbsByUid/${args[1]}`)
+        userData = userData.data;
         let pbs;
         try {
           pbs = userData.personalBests.time[60];
@@ -54,26 +56,23 @@ module.exports.run = async (bot, message, args, db, guild) => {
             if (pb.wpm > bestwpm) bestwpm = pb.wpm;
           });
           if (bestwpm > -1) {
-            return db
-              .collection("bot-commands")
-              .add({
-                command: "updateRole",
-                arguments: [args[0], bestwpm],
-                executed: false,
-                requestTimestamp: Date.now(),
-              })
-              .then((f) => {
-                return {
-                  status: true,
-                  message: `:white_check_mark: Verified <@${args[0]}> and updated role`,
-                };
-              })
-              .catch((e) => {
-                return {
-                  status: true,
-                  message: `:warning: Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
-                };
-              });
+            await axiosInstance.post("/newBotCommand", {
+              command: "updateRole",
+              arguments: [args[0], bestwpm],
+              executed: false,
+              requestTimestamp: Date.now(),
+            }).then((f) => {
+              return {
+                status: true,
+                message: `:white_check_mark: Verified <@${args[0]}> and updated role`,
+              };
+            })
+            .catch((e) => {
+              return {
+                status: true,
+                message: `:warning: Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+              };
+            });
           }
         } catch (e) {
           return {

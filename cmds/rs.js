@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const fetch = require("node-fetch");
+const axiosInstance = require("../axiosInstance");
 
 module.exports.run = async (bot, message, args, db, guild) => {
   console.log(`Running command ${this.cmd.name}`);
@@ -18,44 +19,34 @@ module.exports.run = async (bot, message, args, db, guild) => {
       message: ":x: Error: You may not view other users profiles",
     };
 
-  let doc = await db
-    .collection("users")
-    .where("discordId", "==", discordID)
-    .get();
-  if (doc.docs.length === 0) {
+  let userResponse = await axiosInstance.get(`/getRecentScore/${discordID}`)
+  if (userResponse.data.error) {
     return {
       status: false,
       message: `:x: Could not find user. Make sure your accounts are paired.`,
     };
   }
+  let rs = userResponse.data.recentScore;
 
-  doc = await doc
-    .docs[0]
-    .ref
-    .collection("results")
-    .orderBy("timestamp", "desc")
-    .limit(1)
-    .get();
-  if (doc.docs.length === 0) {
+  if (rs === -1) {
     return {
       status: false,
       message: ":x: No recent score found."
     }
   }
 
-  doc = doc.docs[0].data();
-  const language = doc.language ?? "english";
+  const language = rs.language ?? "english";
 
-  if (doc.mode === "time" || doc.mode === "words") {
-    const mode = doc.mode === "time" ?
-      doc.mode2 + " sec" : doc.mode2 + " " + doc.mode;
+  if (rs.mode === "time" || rs.mode === "words") {
+    const mode = rs.mode === "time" ?
+      rs.mode2 + " sec" : rs.mode2 + " " + rs.mode;
 
     const embed = new Discord.MessageEmbed()
       .setColor("#e2b714")
       .setTitle(`Recent Score for ${message.author.username}`)
       .addField(
         mode,
-        `${doc.wpm} wpm (${doc.rawWpm} raw) ${doc.acc}% accuracy, ${doc.consistency}% consistency`
+        `${rs.wpm} wpm (${rs.rawWpm} raw) ${rs.acc}% accuracy, ${rs.consistency}% consistency`
         + `\nLanguage: ${language}`
       )
       .setFooter("www.monkeytype.com");
@@ -65,14 +56,14 @@ module.exports.run = async (bot, message, args, db, guild) => {
       `https://raw.githubusercontent.com/Miodec/monkeytype/master/static/quotes/${language}.json`
     );
     const json = await res.json();
-    const quote = json.quotes.find(quote => quote.id === doc.mode2);
+    const quote = json.quotes.find(quote => quote.id === rs.mode2);
     const { text, source } = quote;
 
     const embed = new Discord.MessageEmbed()
       .setColor("#e2b714")
       .setTitle(`Recent Score for ${message.author.username}`)
       .setDescription(
-        `${doc.wpm} wpm (${doc.rawWpm} raw) ${doc.acc}% accuracy, ${doc.consistency}% consistency`
+        `${rs.wpm} wpm (${rs.rawWpm} raw) ${rs.acc}% accuracy, ${rs.consistency}% consistency`
       )
       .addField(
         "Quote",
