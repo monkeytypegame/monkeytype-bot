@@ -1,4 +1,7 @@
+const { connectDB, mongoDB } = require("../mongodb.js");
+
 module.exports.run = async (bot, message, args, db, guild) => {
+  await connectDB();
   console.log(`Running command ${this.cmd.name} ${JSON.stringify(args)}`);
 
   if (args.length !== 1) {
@@ -18,27 +21,16 @@ module.exports.run = async (bot, message, args, db, guild) => {
   const discordId = targetUser.id;
 
   statusmsg = await message.channel.send(`:thinking: Accessing database...`);
-  let doc = await db
-  .collection("users")
-  .where("discordId", "==", discordId)
-  .get();
-  doc = doc.docs;
-  if (doc.length === 0) {
+  let doc = await mongoDB.collection("users").findOne({ discordId })
+  if (!doc) {
     await statusmsg.delete();
     return {
       status: false,
       message: `:x: Fix wpm role: Could not find user. Make sure your accounts are paired.`,
     };
-  }else if (doc.length > 1){
-    await statusmsg.delete();
-    return {
-      status: false,
-      message: `:x: Fix wpm role: More than one accounts are paired to this user.`,
-    };
   }
 
   await statusmsg.edit(`:thinking: Checking personal bests...`);
-  doc = doc[0].data();
 
   let pbObj = doc.personalBests;
 

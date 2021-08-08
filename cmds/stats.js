@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
+const { connectDB, mongoDB } = require("../mongodb.js");
 
 module.exports.run = async (bot, message, args, db, guild) => {
+  await connectDB();
   try {
     console.log(`Running command ${this.cmd.name}`);
     let discordID = message.author.id;
@@ -11,19 +13,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
         "Error: You may not view other users profiles"
       );
 
-    let doc = await db
-      .collection("users")
-      .where("discordId", "==", discordID)
-      .get();
-    doc = doc.docs;
-    if (doc.length === 0) {
+    let doc = await mongoDB.collection("users").findOne({ discordId: discordID });
+    if (!doc) {
       return {
         status: false,
         message: `:x: Could not find user`,
       };
     }
-
-    doc = doc[0].data();
 
     let dataObj = {
       started: doc.startedTests,

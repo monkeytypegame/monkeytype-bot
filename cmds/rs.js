@@ -1,7 +1,9 @@
 const Discord = require("discord.js");
 const fetch = require("node-fetch");
+const { connectDB, mongoDB } = require("../mongodb.js");
 
 module.exports.run = async (bot, message, args, db, guild) => {
+  await connectDB();
   console.log(`Running command ${this.cmd.name}`);
   let discordID = message.author.id;
   const config = require("../config.json");
@@ -18,32 +20,24 @@ module.exports.run = async (bot, message, args, db, guild) => {
       message: ":x: Error: You may not view other users profiles",
     };
 
-  let doc = await db
-    .collection("users")
-    .where("discordId", "==", discordID)
-    .get();
-  if (doc.docs.length === 0) {
+  let user = await mongoDB.collection("users").findOne({ discordId: discordID })
+  if (!user) {
     return {
       status: false,
       message: `:x: Could not find user. Make sure your accounts are paired.`,
     };
   }
 
-  doc = await doc
-    .docs[0]
-    .ref
-    .collection("results")
-    .orderBy("timestamp", "desc")
-    .limit(1)
-    .get();
-  if (doc.docs.length === 0) {
+  doc = await mongoDB.collection("results").findOne({ name: user.name})
+  // Use the line commented below if the above line doesn't return the most recent result
+  //doc = await mongoDB.collection("results").find({ name: doc.name}).limit(1).sort({$natural:-1})
+  if (!doc) {
     return {
       status: false,
       message: ":x: No recent score found."
     }
   }
 
-  doc = doc.docs[0].data();
   const language = doc.language ?? "english";
 
   if (doc.mode === "time" || doc.mode === "words") {

@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
+const { connectDB, mongoDB } = require("../mongodb.js");
 
 module.exports.run = async (bot, message, args, db, guild) => {
+  await connectDB();
   console.log(`Running command ${this.cmd.name}`);
 
   if (args.length !== 1) {
@@ -22,12 +24,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   }
 
   try {
-    return db
-      .collection("users")
-      .doc(winner.uid)
-      .get()
-      .then((doc) => {
-        let docdata = doc.data();
+    return mongoDB.collection("users").findOne({ uid: winner.uid }).then((docdata) => {
         let name = docdata.name;
         let discordId = docdata.discordId;
 
@@ -95,7 +92,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           status: true,
           message: `Logged daily lb result for ${lb.mode} ${lb.mode2}`,
         };
-      });
+    });
   } catch (e) {
     return {
       status: false,

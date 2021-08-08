@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const fs = require("fs");
 // require( 'console-stamp' )( console );
 var async = require("async");
+const { connectDB, mongoDB } = require("./mongodb.js");
 
 // initialise are bot
 const bot = new Discord.Client();
@@ -13,13 +14,6 @@ let prefix = "!";
 const config = require("./config.json");
 
 // initialise firebase
-const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-
-const db = admin.firestore();
 var guild;
 
 //read commands files
@@ -254,11 +248,10 @@ bot.on("ready", async () => {
 
   logInChannel(":smile: Ready");
 
-  db.collection("bot-commands").onSnapshot((snapshot) => {
-    let changes = snapshot.docChanges();
-    // logInChannel(`${changes.length} commands found`);
-    async.each(changes, (change, callback) => {
-      let docData = change.doc.data();
+  await connectDB();
+  botCommandsStream = mongoDB().collection("bot-commands").watch();
+  botCommandsStream.on('change', async (doc) => {
+      let docData = doc.fullDocument;
       if (docData.executed === false) {
         console.log("new command found");
         let cmd = docData.command;
@@ -277,12 +270,13 @@ bot.on("ready", async () => {
             } else {
               console.log(result.message);
             }
-            await db.collection("bot-commands").doc(change.doc.id).update({
+            //why is the command updated and then deleted?
+            await mongoDB().collection("bot-commands").updateOne({ _id: docData._id}, {
               executed: true,
               executedTimestamp: Date.now(),
               status: result.status,
             });
-            await db.collection("bot-commands").doc(change.doc.id).delete();
+            await mongoDB().collection("bot-commands").deleteOne({ _id: docData._id});
             callback();
           });
         }else{
@@ -291,7 +285,6 @@ bot.on("ready", async () => {
       }else{
         callback();
       }
-    });
   });
 });
 
