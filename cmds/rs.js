@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       message: ":x: Error: You may not view other users profiles",
     };
 
-  let user = await mongoDB.collection("users").findOne({ discordId: discordID })
+  let user = await mongoDB().collection("users").findOne({ discordId: discordID })
   if (!user) {
     return {
       status: false,
@@ -28,9 +28,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
     };
   }
 
-  doc = await mongoDB.collection("results").findOne({ name: user.name})
+  doc = await mongoDB().collection("results").findOne({ name: user.name})
   // Use the line commented below if the above line doesn't return the most recent result
-  //doc = await mongoDB.collection("results").find({ name: doc.name}).limit(1).sort({$natural:-1})
+  //doc = await mongoDB().collection("results").find({ name: doc.name}).limit(1).sort({$natural:-1})
   if (!doc) {
     return {
       status: false,

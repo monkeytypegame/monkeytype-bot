@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
       message: ":x: Error: You may not view other users profiles",
     };
 
-  let doc = await mongoDB.collection("users").findOne({ discordId: discordID })
+  let doc = await mongoDB().collection("users").findOne({ discordId: discordID })
   if (!doc) {
     return {
       status: false,

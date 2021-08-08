@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           .send(
             `:white_check_mark: <@${args[0]}>, your account is verified. If you have a 60s personal best, you will get a role soon.`
           );
-        let userData = await mongoDB.collection("users").findOne(args[1]);
+        let userData = await mongoDB().collection("users").findOne(args[1]);
         //let userData = await db.collection("users").doc(args[1]).get();
         let pbs;
         try {
@@ -57,7 +57,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
             if (pb.wpm > bestwpm) bestwpm = pb.wpm;
           });
           if (bestwpm > -1) {
-            return mongoDB
+            return mongoDB()
               .collection("bot-commands")
               .insertOne({
                 command: "updateRole",

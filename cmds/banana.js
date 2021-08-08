@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
 
     let t60bananas = 0;
 
-    await mongoDB.collection("users").findOne({ discordId: discordID })
+    await mongoDB().collection("users").findOne({ discordId: discordID })
       .then(async (snapshot) => {
         if (!snapshot) {
           message.channel.send(
@@ -91,7 +91,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         bananaData = JSON.parse(await fs.readFile("bananas.json"));
         bananaData[message.author.id].balance += t60bananas;
         await fs.writeFile("bananas.json", JSON.stringify(bananaData));
-        mongoDB.collection("users").updateOne({discordId: discordID}, { bananas: 0 })
+        mongoDB().collection("users").updateOne({discordId: discordID}, { bananas: 0 })
       }
 
       return {
@@ -154,7 +154,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           bananaData = JSON.parse(await fs.readFile("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
           await fs.writeFile("bananas.json", JSON.stringify(bananaData));
-          mongoDB.collection("users").updateOne({discordId: discordID}, { bananas: 0 })
+          mongoDB().collection("users").updateOne({discordId: discordID}, { bananas: 0 })
         }
 
         return {
@@ -217,7 +217,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
           bananaData = JSON.parse(await fs.readFile("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
           await fs.writeFile("bananas.json", JSON.stringify(bananaData));
-          mongoDB.collection("users").updateOne({discordId: discordID}, { bananas: 0 })
+          mongoDB().collection("users").updateOne({discordId: discordID}, { bananas: 0 })
         }
 
         return {

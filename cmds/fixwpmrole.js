@@ -21,7 +21,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   const discordId = targetUser.id;
 
   statusmsg = await message.channel.send(`:thinking: Accessing database...`);
-  let doc = await mongoDB.collection("users").findOne({ discordId })
+  let doc = await mongoDB().collection("users").findOne({ discordId })
   if (!doc) {
     await statusmsg.delete();
     return {
