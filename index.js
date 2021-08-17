@@ -5,6 +5,7 @@ const fs = require("fs");
 var async = require("async");
 
 const dotenv = require("dotenv");
+const path = require("path");
 dotenv.config({ path: path.join(__dirname, ".env") });
 
 
