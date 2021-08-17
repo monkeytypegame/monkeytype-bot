@@ -5,7 +5,7 @@ let mongoClient;
 
 module.exports = {
   async connectDB() {
-    return MongoClient.connect(config.DB_URI)
+    return MongoClient.connect(process.env.DB_URI)
       .then((client) => {
         mongoClient = client;
       })
@@ -15,6 +15,6 @@ module.exports = {
       });
   },
   mongoDB() {
-    return mongoClient.db(config.DB_NAME);
+    return mongoClient.db(process.env.DB_NAME);
   },
 };
