@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
+const { connectDB, mongoDB } = require("../mongodb.js");
 
 module.exports.run = async (bot, message, args, db, guild) => {
+  await connectDB();
   console.log(`Running command ${this.cmd.name}`);
   const config = require("../config.json");
   const fs = require("fs").promises;
@@ -16,20 +18,11 @@ module.exports.run = async (bot, message, args, db, guild) => {
       bananaData = {};
     }
 
-    let bananasDoc;
     let t60bananas = 0;
 
-    await db
-      .collection("users")
-      .where("discordId", "==", discordID)
-      .get()
+    await mongoDB().collection("users").findOne({ discordId: discordID })
       .then(async (snapshot) => {
-        if (snapshot.docs.length > 1) {
-          message.channel.send(
-            ":x: Error: User is paired to more than one command - very bad, shouldn't happen. <@102819690287489024>"
-          );
-          t60bananas = 0;
-        } else if (snapshot.docs.length < 1) {
+        if (!snapshot) {
           message.channel.send(
             ":x: Could not find user. Make sure your accounts are paired."
           );
@@ -37,13 +30,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
         } else {
           //get that users bananas subcollection
           try {
-            bananasDoc = snapshot.docs[0].ref
-              .collection("bananas")
-              .doc("bananas");
-            await bananasDoc.get().then((snapshot2) => {
-              let data = snapshot2.data();
-              t60bananas = data.t60bananas; // <-
-            });
+            t60bananas = snapshot.bananas;
           } catch (e) {}
           //bananasDoc.set({t60bananas: 0}, {merge: true});
         }
@@ -98,14 +85,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
       message.channel.send(embed);
 
       if (
-        bananasDoc !== undefined &&
         t60bananas !== undefined &&
         t60bananas !== 0
       ) {
         bananaData = JSON.parse(await fs.readFile("bananas.json"));
         bananaData[message.author.id].balance += t60bananas;
         await fs.writeFile("bananas.json", JSON.stringify(bananaData));
-        bananasDoc.set({ t60bananas: 0 }, { merge: true });
+        mongoDB().collection("users").updateOne({discordId: discordID}, { bananas: 0 })
       }
 
       return {
@@ -162,14 +148,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
         message.channel.send(embed);
 
         if (
-          bananasDoc !== undefined &&
           t60bananas !== undefined &&
           t60bananas !== 0
         ) {
           bananaData = JSON.parse(await fs.readFile("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
           await fs.writeFile("bananas.json", JSON.stringify(bananaData));
-          bananasDoc.set({ t60bananas: 0 }, { merge: true });
+          mongoDB().collection("users").updateOne({discordId: discordID}, { bananas: 0 })
         }
 
         return {
@@ -226,14 +211,13 @@ module.exports.run = async (bot, message, args, db, guild) => {
         message.channel.send(embed);
 
         if (
-          bananasDoc !== undefined &&
           t60bananas !== undefined &&
           t60bananas !== 0
         ) {
           bananaData = JSON.parse(await fs.readFile("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
           await fs.writeFile("bananas.json", JSON.stringify(bananaData));
-          bananasDoc.set({ t60bananas: 0 }, { merge: true });
+          mongoDB().collection("users").updateOne({discordId: discordID}, { bananas: 0 })
         }
 
         return {

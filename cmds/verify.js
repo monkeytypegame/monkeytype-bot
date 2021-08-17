@@ -1,4 +1,7 @@
+const { connectDB, mongoDB } = require("../mongodb.js");
+
 module.exports.run = async (bot, message, args, db, guild) => {
+  await connectDB();
   console.log(`Running command ${this.cmd.name}`);
   const config = require("../config.json");
   if (config.noLog) {
@@ -31,8 +34,8 @@ module.exports.run = async (bot, message, args, db, guild) => {
           .send(
             `:white_check_mark: <@${args[0]}>, your account is verified. If you have a 60s personal best, you will get a role soon.`
           );
-        let userData = await db.collection("users").doc(args[1]).get();
-        userData = userData.data();
+        let userData = await mongoDB().collection("users").findOne(args[1]);
+        //let userData = await db.collection("users").doc(args[1]).get();
         let pbs;
         try {
           pbs = userData.personalBests.time[60];
@@ -54,9 +57,9 @@ module.exports.run = async (bot, message, args, db, guild) => {
             if (pb.wpm > bestwpm) bestwpm = pb.wpm;
           });
           if (bestwpm > -1) {
-            return db
+            return mongoDB()
               .collection("bot-commands")
-              .add({
+              .insertOne({
                 command: "updateRole",
                 arguments: [args[0], bestwpm],
                 executed: false,
