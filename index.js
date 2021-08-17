@@ -3,6 +3,11 @@ const Discord = require("discord.js");
 const fs = require("fs");
 // require( 'console-stamp' )( console );
 var async = require("async");
+
+const dotenv = require("dotenv");
+dotenv.config({ path: path.join(__dirname, ".env") });
+
+
 const { connectDB, mongoDB } = require("./mongodb.js");
 
 // initialise are bot
