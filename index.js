@@ -252,7 +252,7 @@ var commandsQueue = async.queue(async function (task, callback) {
       console.log(result.message);
     }
     console.log('test');
-    await mongoDB().collection("bot-commands").deleteOne({ _id: command._id});
+    await mongoDB().collection("bot-commands").deleteOne({ _id: task.commandId});
  
     callback();
   });
@@ -352,7 +352,7 @@ async function checkCommands(){
           return;
         }
         await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {$set: {executed: true}});
-        commandsQueue.push({cmdObj, args});
+        commandsQueue.push({cmdObj, args, commandId: command._id});
         // callback();
       }else{
         // callback();
