@@ -255,43 +255,93 @@ bot.on("ready", async () => {
   logInChannel(":smile: Ready");
 
   await connectDB();
-  botCommandsStream = mongoDB().collection("bot-commands").watch();
-  botCommandsStream.on('change', async (doc) => {
-      let docData = doc.fullDocument;
-      if (docData.executed === false) {
-        console.log("new command found");
-        let cmd = docData.command;
-        let args = docData.arguments;
-        let cmdObj = bot.commands.get(cmd); //gets the command based on its name
-        if (cmdObj) {
-          if (cmdObj.cmd.type !== "db"){
-            callback();
-            return;
-          }
-          cmdObj.run(bot, null, args, db, guild).then(async (result) => {
-            if (result.status) {
-              console.log(`Command ${cmd} complete. Updating database`);
-              console.log(result.message);
-              logInChannel(result.message);
-            } else {
-              console.log(result.message);
+
+  
+  setInterval(() => {
+
+    const array = await mongoDB().collection("bot-commands").find().limit(10).toArray();
+
+
+      async.each(array, (command,callback) => {
+        if (command.executed === false){
+          let cmd = command.command;
+          let args = command.arguments;
+          let cmdObj = bot.commands.get(cmd);
+          if (cmdObj) {
+            if (cmdObj.cmd.type !== "db"){
+              callback();
+              return;
             }
-            //why is the command updated and then deleted?
-            await mongoDB().collection("bot-commands").updateOne({ _id: docData._id}, {
-              executed: true,
-              executedTimestamp: Date.now(),
-              status: result.status,
+            cmdObj.run(bot, null, args, guild).then(async (result) => {
+              if (result.status) {
+                console.log(`Command ${cmd} complete. Updating database`);
+                console.log(result.message);
+                logInChannel(result.message);
+              } else {
+                console.log(result.message);
+              }
+              //why is the command updated and then deleted?
+              // await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {
+              //   executed: true,
+              //   executedTimestamp: Date.now(),
+              //   status: result.status,
+              // });
+              await mongoDB().collection("bot-commands").deleteOne({ _id: command._id});
+              callback();
             });
-            await mongoDB().collection("bot-commands").deleteOne({ _id: docData._id});
+          }else{
             callback();
-          });
+          }
         }else{
           callback();
         }
-      }else{
-        callback();
-      }
-  });
+      })
+
+
+  }, 10000);
+
+
+
+  
+
+
+  // botCommandsStream = mongoDB().collection("bot-commands").watch();
+  // botCommandsStream.on('change', async (doc) => {
+      // let docData = doc.fullDocument;
+      // if (docData.executed === false) {
+      //   console.log("new command found");
+      //   let cmd = docData.command;
+      //   let args = docData.arguments;
+      //   let cmdObj = bot.commands.get(cmd); //gets the command based on its name
+      //   if (cmdObj) {
+      //     if (cmdObj.cmd.type !== "db"){
+      //       callback();
+      //       return;
+      //     }
+      //     cmdObj.run(bot, null, args, db, guild).then(async (result) => {
+      //       if (result.status) {
+      //         console.log(`Command ${cmd} complete. Updating database`);
+      //         console.log(result.message);
+      //         logInChannel(result.message);
+      //       } else {
+      //         console.log(result.message);
+      //       }
+      //       //why is the command updated and then deleted?
+      //       await mongoDB().collection("bot-commands").updateOne({ _id: docData._id}, {
+      //         executed: true,
+      //         executedTimestamp: Date.now(),
+      //         status: result.status,
+      //       });
+      //       await mongoDB().collection("bot-commands").deleteOne({ _id: docData._id});
+      //       callback();
+      //     });
+      //   }else{
+      //     callback();
+      //   }
+      // }else{
+      //   callback();
+      // }
+  // });
 });
 
 function logInChannel(message) {
