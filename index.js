@@ -337,24 +337,24 @@ async function checkCommands(){
 
   console.log(`found ${array.length} commands`);
 
-  async.each(array, async (command,callback) => {
+  array.forEach(command => {
     if (command.executed === false){
       let cmd = command.command;
       let args = command.arguments;
       let cmdObj = bot.commands.get(cmd);
       if (cmdObj) {
         if (cmdObj.cmd.type !== "db"){
-          callback();
+          // callback();
           return;
         }
         await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {$set: {executed: true}});
         commandsQueue.push({cmdObj, args});
-        callback();
+        // callback();
       }else{
-        callback();
+        // callback();
       }
     }else{
-      callback();
+      // callback();
     }
   })
 }
