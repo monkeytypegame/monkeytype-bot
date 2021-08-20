@@ -57,26 +57,22 @@ module.exports.run = async (bot, message, args, guild) => {
             if (pb.wpm > bestwpm) bestwpm = pb.wpm;
           });
           if (bestwpm > -1) {
-            return mongoDB()
-              .collection("bot-commands")
-              .insertOne({
-                command: "updateRole",
-                arguments: [args[0], bestwpm],
-                executed: false,
-                requestTimestamp: Date.now(),
-              })
-              .then((f) => {
-                return {
-                  status: true,
-                  message: `:white_check_mark: Linked <@${args[0]}> and updated role`,
-                };
-              })
-              .catch((e) => {
-                return {
-                  status: true,
-                  message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`,
-                };
-              });
+
+            let cmd = bot.commands.get("updateRole");
+
+            let result = await cmd.run(bot, null, [args[0], bestwpm], guild);
+
+            if (result.status) {
+              return {
+                status: true,
+                message: `:white_check_mark: Linked <@${args[0]}> and updated role`,
+              };
+            }else{
+              return {
+                status: true,
+                message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+              };
+            }
           }
         } catch (e) {
           return {
