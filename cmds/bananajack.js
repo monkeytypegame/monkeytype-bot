@@ -5,7 +5,7 @@ let values = ["A", "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3", "2"];
 
 const currentlyPlaying = new Discord.Collection();
 
-module.exports.run = async (bot, message, args, db, guild) => {
+module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const bananaBet = Math.round(args[0]);
   const fs = require("fs").promises;
