@@ -32,7 +32,7 @@ module.exports.run = async (bot, message, args, guild) => {
         guild.channels.cache
           .find((ch) => ch.id === config.channels.botCommands)
           .send(
-            `:white_check_mark: <@${args[0]}>, your account is verified. If you have a 60s personal best, you will get a role soon.`
+            `:white_check_mark: <@${args[0]}>, your account is linked. If you have a 60s personal best, you will get a role soon.`
           );
         let userData = await mongoDB().collection("users").findOne(args[1]);
         //let userData = await db.collection("users").doc(args[1]).get();
@@ -42,13 +42,13 @@ module.exports.run = async (bot, message, args, guild) => {
         } catch (e) {
           return {
             status: true,
-            message: `:white_check_mark: Verified <@${args[0]}>, but no time 60 pb found.`,
+            message: `:white_check_mark: Linked <@${args[0]}>, but no time 60 pb found.`,
           };
         }
         if (pbs === undefined) {
           return {
             status: true,
-            message: `:white_check_mark: Verified <@${args[0]}>, but no time 60 pb found.`,
+            message: `:white_check_mark: Linked <@${args[0]}>, but no time 60 pb found.`,
           };
         }
         try {
@@ -68,20 +68,20 @@ module.exports.run = async (bot, message, args, guild) => {
               .then((f) => {
                 return {
                   status: true,
-                  message: `:white_check_mark: Verified <@${args[0]}> and updated role`,
+                  message: `:white_check_mark: Linked <@${args[0]}> and updated role`,
                 };
               })
               .catch((e) => {
                 return {
                   status: true,
-                  message: `:warning: Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+                  message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`,
                 };
               });
           }
         } catch (e) {
           return {
             status: true,
-            message: `:warning: Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+            message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`,
           };
         }
       })
@@ -95,7 +95,7 @@ module.exports.run = async (bot, message, args, guild) => {
   } catch (e) {
     return {
       status: false,
-      message: `:x: Verification for <@${args[0]}> failed!!! <@102819690287489024> - ${e}`,
+      message: `:x: Linking <@${args[0]}> failed!!! <@102819690287489024> - ${e}`,
     };
   }
 
@@ -112,6 +112,6 @@ module.exports.run = async (bot, message, args, guild) => {
 };
 
 module.exports.cmd = {
-  name: "verify",
+  name: "linkDiscord",
   type: "db",
 };
