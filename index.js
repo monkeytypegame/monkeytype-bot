@@ -242,20 +242,21 @@ var commandsQueue = async.queue(async function (task, callback) {
     console.log(`queue length: ${commandsQueue.length()}`);
   } catch {} 
 
-  let result = await task.cmdObj.run(bot, null, task.args, guild);
-  console.log(result);
-  if (result.status) {
-    console.log(`Command ${cmd} complete. Updating database`);
-    console.log(result.message);
-    logInChannel(result.message);
-  } else {
-    console.log(result.message);
-  }
-  console.log('test');
-  await mongoDB().collection("bot-commands").deleteOne({ _id: command._id});
-
-
-  callback();
+  task.cmdObj.run(bot, null, task.args, guild).then(async result => {
+    console.log(result);
+    if (result.status) {
+      console.log(`Command ${cmd} complete. Updating database`);
+      console.log(result.message);
+      logInChannel(result.message);
+    } else {
+      console.log(result.message);
+    }
+    console.log('test');
+    await mongoDB().collection("bot-commands").deleteOne({ _id: command._id});
+ 
+    callback();
+  });
+  
 });
 
 bot.on("ready", async () => {
