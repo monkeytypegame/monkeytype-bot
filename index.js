@@ -237,6 +237,13 @@ bot.on("messageDelete", async (message) => {
 // Bot login
 bot.login(config.token);
 
+var commandsQueue = async.queue(function(task, callback) {
+  try{
+    console.log(`queue length: ${commandsQueue.length()}`);
+  } catch {} 
+  callback();
+});
+
 bot.on("ready", async () => {
   console.log("Ready");
   guild = bot.guilds.cache.get(config.guildId);
@@ -259,46 +266,12 @@ bot.on("ready", async () => {
   console.log('db connected');
 
   
-  // setInterval( async () => {
+  setInterval( async () => {
 
-    const array = await mongoDB().collection("bot-commands").find().limit(1).toArray();
+    checkCommands();
 
-    console.log(`found ${array.length} commands`);
+  }, 10000);
 
-      async.each(array, (command,callback) => {
-        if (command.executed === false){
-          let cmd = command.command;
-          let args = command.arguments;
-          let cmdObj = bot.commands.get(cmd);
-          if (cmdObj) {
-            if (cmdObj.cmd.type !== "db"){
-              callback();
-              return;
-            }
-            cmdObj.run(bot, null, args, guild).then(async (result) => {
-              if (result.status) {
-                console.log(`Command ${cmd} complete. Updating database`);
-                console.log(result.message);
-                logInChannel(result.message);
-              } else {
-                console.log(result.message);
-              }
-              //why is the command updated and then deleted?
-              // await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {
-              //   executed: true,
-              //   executedTimestamp: Date.now(),
-              //   status: result.status,
-              // });
-              await mongoDB().collection("bot-commands").deleteOne({ _id: command._id});
-              callback();
-            });
-          }else{
-            callback();
-          }
-        }else{
-          callback();
-        }
-      })
 
 
   // }, 10000);
@@ -346,6 +319,44 @@ bot.on("ready", async () => {
       // }
   // });
 });
+
+function checkCommands(){
+    
+  const array = await mongoDB().collection("bot-commands").find().limit(1).toArray();
+
+  console.log(`found ${array.length} commands`);
+
+  async.each(array, (command,callback) => {
+    if (command.executed === false){
+      let cmd = command.command;
+      let args = command.arguments;
+      let cmdObj = bot.commands.get(cmd);
+      if (cmdObj) {
+        if (cmdObj.cmd.type !== "db"){
+          callback();
+          return;
+        }
+        commandsQueue.push({name: "command"}, () => {
+          cmdObj.run(bot, null, args, guild).then(async (result) => {
+            if (result.status) {
+              console.log(`Command ${cmd} complete. Updating database`);
+              console.log(result.message);
+              logInChannel(result.message);
+            } else {
+              console.log(result.message);
+            }
+            await mongoDB().collection("bot-commands").deleteOne({ _id: command._id});
+          });
+        })
+        callback();
+      }else{
+        callback();
+      }
+    }else{
+      callback();
+    }
+  })
+}
 
 function logInChannel(message) {
   if (config.channels.botLog !== null && config.channels.botLog !== undefined) {
