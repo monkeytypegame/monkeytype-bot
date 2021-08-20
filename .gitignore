@@ -5,3 +5,4 @@ config.json
 bananas*.json
 coinFlips.json
 .env
+ecosystem.config.js

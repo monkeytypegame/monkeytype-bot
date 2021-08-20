@@ -283,7 +283,7 @@ bot.on("ready", async () => {
 
     checkCommands();
 
-  }, 10000);
+  }, 30000);
 
 
 
