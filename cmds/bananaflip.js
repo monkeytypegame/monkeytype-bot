@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 
-module.exports.run = async (bot, message, args, db, guild) => {
+module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const bananaBet = Math.round(args[0]);
   let sidePrediction = args[1];

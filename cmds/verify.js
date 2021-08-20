@@ -1,6 +1,6 @@
 const { connectDB, mongoDB } = require("../mongodb.js");
 
-module.exports.run = async (bot, message, args, db, guild) => {
+module.exports.run = async (bot, message, args, guild) => {
   await connectDB();
   console.log(`Running command ${this.cmd.name}`);
   const config = require("../config.json");

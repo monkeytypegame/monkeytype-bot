@@ -1,4 +1,4 @@
-module.exports.run = async (bot, message, args, db, guild) => {
+module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name} ${JSON.stringify(args)}`);
 
   if (args.length !== 2) {
