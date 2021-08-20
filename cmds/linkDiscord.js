@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args, guild) => {
           .send(
             `:white_check_mark: <@${args[0]}>, your account is linked. If you have a 60s personal best, you will get a role soon.`
           );
-        let userData = await mongoDB().collection("users").findOne(args[1]);
+        let userData = await mongoDB().collection("users").findOne({uid: args[1]});
         //let userData = await db.collection("users").doc(args[1]).get();
         let pbs;
         try {
