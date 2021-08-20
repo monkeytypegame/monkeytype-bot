@@ -263,6 +263,7 @@ bot.on("ready", async () => {
 
     const array = await mongoDB().collection("bot-commands").find().limit(10).toArray();
 
+    console.log(`found ${array.length} commands`);
 
       async.each(array, (command,callback) => {
         if (command.executed === false){
