@@ -243,6 +243,7 @@ var commandsQueue = async.queue(async function (task, callback) {
   } catch {} 
 
   let result = await task.cmdObj.run(bot, null, task.args, guild);
+  console.log(result);
   if (result.status) {
     console.log(`Command ${cmd} complete. Updating database`);
     console.log(result.message);
