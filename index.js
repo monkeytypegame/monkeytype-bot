@@ -237,7 +237,7 @@ bot.on("messageDelete", async (message) => {
 // Bot login
 bot.login(config.token);
 
-var commandsQueue = async.queue(function(task, callback) {
+var commandsQueue = async.queue(async function (task, callback) {
   try{
     console.log(`queue length: ${commandsQueue.length()}`);
   } catch {} 
