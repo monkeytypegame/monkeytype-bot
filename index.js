@@ -320,7 +320,7 @@ bot.on("ready", async () => {
   // });
 });
 
-function checkCommands(){
+async function checkCommands(){
     
   const array = await mongoDB().collection("bot-commands").find().limit(1).toArray();
 
