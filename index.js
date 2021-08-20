@@ -251,7 +251,9 @@ var commandsQueue = async.queue(async function (task, callback) {
   } else {
     console.log(result.message);
   }
+  console.log('test');
   await mongoDB().collection("bot-commands").deleteOne({ _id: command._id});
+
 
   callback();
 });
