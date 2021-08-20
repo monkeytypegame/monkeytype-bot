@@ -245,7 +245,7 @@ var commandsQueue = async.queue(async function (task, callback) {
   task.cmdObj.run(bot, null, task.args, guild).then(async result => {
     console.log(result);
     if (result.status) {
-      console.log(`Command ${cmd} complete. Updating database`);
+      console.log(`Command ${task.cmd} complete. Updating database`);
       console.log(result.message);
       logInChannel(result.message);
     } else {
@@ -352,7 +352,7 @@ async function checkCommands(){
           return;
         }
         await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {$set: {executed: true}});
-        commandsQueue.push({cmdObj, args, commandId: command._id});
+        commandsQueue.push({cmd, cmdObj, args, commandId: command._id});
         // callback();
       }else{
         // callback();
