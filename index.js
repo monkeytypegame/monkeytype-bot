@@ -322,7 +322,7 @@ bot.on("ready", async () => {
 
 async function checkCommands(){
     
-  const array = await mongoDB().collection("bot-commands").find().limit(1).toArray();
+  const array = await mongoDB().collection("bot-commands").find({executed: false}).limit(10).toArray();
 
   console.log(`found ${array.length} commands`);
 
@@ -336,6 +336,7 @@ async function checkCommands(){
           callback();
           return;
         }
+        await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {$set: {executed: true}});
         commandsQueue.push({name: "command"}, () => {
           cmdObj.run(bot, null, args, guild).then(async (result) => {
             if (result.status) {
