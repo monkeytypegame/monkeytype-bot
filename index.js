@@ -181,7 +181,7 @@ bot.on("message", (msg) => {
     return;
   }
 
-  cmdObj.run(bot, msg, args, db, guild).then((result) => {
+  cmdObj.run(bot, msg, args, guild).then((result) => {
     console.log(result);
     if (result.status === true) {
       if (result.message !== "") msg.channel.send(result.message);
