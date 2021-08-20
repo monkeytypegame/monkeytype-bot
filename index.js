@@ -242,7 +242,7 @@ var commandsQueue = async.queue(function(task, callback) {
     console.log(`queue length: ${commandsQueue.length()}`);
   } catch {} 
 
-  task.cmdObj.run(bot, null, args, guild).then(async (result) => {
+  task.cmdObj.run(bot, null, task.args, guild).then(async (result) => {
     if (result.status) {
       console.log(`Command ${cmd} complete. Updating database`);
       console.log(result.message);
@@ -349,7 +349,7 @@ async function checkCommands(){
           return;
         }
         await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {$set: {executed: true}});
-        commandsQueue.push({cmdObj});
+        commandsQueue.push({cmdOb, args});
         callback();
       }else{
         callback();
