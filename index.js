@@ -259,9 +259,9 @@ bot.on("ready", async () => {
   console.log('db connected');
 
   
-  setInterval( async () => {
+  // setInterval( async () => {
 
-    const array = await mongoDB().collection("bot-commands").find().limit(10).toArray();
+    const array = await mongoDB().collection("bot-commands").find().limit(1).toArray();
 
     console.log(`found ${array.length} commands`);
 
@@ -301,7 +301,7 @@ bot.on("ready", async () => {
       })
 
 
-  }, 10000);
+  // }, 10000);
 
 
 
