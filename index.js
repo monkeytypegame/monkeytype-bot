@@ -256,6 +256,8 @@ bot.on("ready", async () => {
 
   await connectDB();
 
+  console.log('db connected');
+
   
   setInterval( async () => {
 
