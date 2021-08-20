@@ -337,7 +337,7 @@ async function checkCommands(){
     
   const array = await mongoDB().collection("bot-commands").find({executed: false}).limit(10).toArray();
 
-  console.log(`found ${array.length} commands`);
+  console.log(`Checking DB for commands. Found ${array.length}`);
 
   array.forEach(async command => {
     if (command.executed === false){
