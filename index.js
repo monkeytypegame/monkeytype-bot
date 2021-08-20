@@ -337,7 +337,7 @@ async function checkCommands(){
 
   console.log(`found ${array.length} commands`);
 
-  array.forEach(command => {
+  array.forEach(async command => {
     if (command.executed === false){
       let cmd = command.command;
       let args = command.arguments;
