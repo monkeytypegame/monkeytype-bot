@@ -1,6 +1,15 @@
 // require packages
 const Discord = require("discord.js");
 const fs = require("fs");
+// require( 'console-stamp' )( console );
+var async = require("async");
+
+const dotenv = require("dotenv");
+const path = require("path");
+dotenv.config({ path: path.join(__dirname, ".env") });
+
+
+const { connectDB, mongoDB } = require("./mongodb.js");
 
 // initialise are bot
 const bot = new Discord.Client();
@@ -11,13 +20,6 @@ let prefix = "!";
 const config = require("./config.json");
 
 // initialise firebase
-const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-
-const db = admin.firestore();
 var guild;
 
 //read commands files
@@ -82,10 +84,13 @@ bot.on("message", (msg) => {
 
   if (config.dev === true && msg.author.id !== "102819690287489024") return;
 
-  if (msg.member.roles.cache.some(
-    (role) =>
-      role.id === config.roles.adminRole || role.id === config.roles.modRole
-  ) && msg.content.toLowerCase() === "ping") {
+  if (
+    msg.member.roles.cache.some(
+      (role) =>
+        role.id === config.roles.adminRole || role.id === config.roles.modRole
+    ) &&
+    msg.content.toLowerCase() === "ping"
+  ) {
     msg.channel.send("pong");
     return;
   }
@@ -95,7 +100,7 @@ bot.on("message", (msg) => {
       if (Math.round(Math.random()) === 1) {
         msg.channel.send(":(");
       } else {
-        msg.channel.send(":hmph:");
+        msg.channel.send("<:hmph:736029217380237363>");
       }
     }
     if (/(good|nice|thanks|good job|ty)/g.test(msg.content.toLowerCase())) {
@@ -104,8 +109,14 @@ bot.on("message", (msg) => {
     return;
   }
 
-  if (/(how.*role.*\?)|(how.*challenge.*\?)|(wpm role.*\?)|(pair.*account.*\?)/g.test(msg.content.toLocaleLowerCase())) {
-    msg.channel.send(`Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel.`);
+  if (
+    /(how.*role.*\?)|(how.*challenge.*\?)|(wpm role.*\?)|(pair.*account.*\?)/g.test(
+      msg.content.toLocaleLowerCase()
+    )
+  ) {
+    msg.channel.send(
+      `:question: Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel.`
+    );
   }
 
   let msg_array = msg.content.split(" ");
@@ -124,8 +135,6 @@ bot.on("message", (msg) => {
     // msg.channel.send(`Command ${cmd} doesnt exist`);
     return;
   }
-
-
 
   if (
     !msg.member.roles.cache.some(
@@ -148,8 +157,15 @@ bot.on("message", (msg) => {
     return;
   }
   if (!config.dev) {
-    if (cmdObj.cmd.requiredChannel && msg.channel.id !== config.channels[cmdObj.cmd.requiredChannel]) {
-      msg.channel.send(`Please use the <#${config.channels[cmdObj.cmd.requiredChannel]}> channel.`);
+    if (
+      cmdObj.cmd.requiredChannel &&
+      msg.channel.id !== config.channels[cmdObj.cmd.requiredChannel]
+    ) {
+      msg.channel.send(
+        `:x: Please use the <#${
+          config.channels[cmdObj.cmd.requiredChannel]
+        }> channel.`
+      );
       setTimeout(() => {
         msg.delete();
       }, 500);
@@ -158,20 +174,22 @@ bot.on("message", (msg) => {
   }
 
   if (cmdObj.cmd.type === "dm" || cmdObj.cmd.type === "db") {
-    msg.channel.send(`Command ${cmd} cannot be executed manually`);
+    msg.channel.send(`:x: Command ${cmd} cannot be executed manually`);
     setTimeout(() => {
       msg.delete();
     }, 500);
     return;
   }
 
-  cmdObj.run(bot, msg, args, db, guild).then((result) => {
+  cmdObj.run(bot, msg, args, guild).then((result) => {
     console.log(result);
     if (result.status === true) {
-      if(result.message !== '') msg.channel.send(result.message);
+      if (result.message !== "") msg.channel.send(result.message);
     } else {
-      if (result.message === '') {
-        msg.channel.send('No error message specified. Somebody messed up or dev bot is active.');
+      if (result.message === "") {
+        msg.channel.send(
+          ":x: No error message specified. Somebody messed up or dev bot is active."
+        );
       } else {
         msg.channel.send(result.message);
       }
@@ -179,52 +197,169 @@ bot.on("message", (msg) => {
   });
 });
 
+bot.on("messageDelete", async (message) => {
+  // ignore direct messages
+  if (!message.guild) return;
+  const fetchedLogs = await message.guild.fetchAuditLogs({
+    limit: 1,
+    type: "MESSAGE_DELETE",
+  });
+  // Since we only have 1 audit log entry in this collection, we can simply grab the first one
+  const deletionLog = fetchedLogs.entries.first();
+
+  // Let's perform a coherence check here and make sure we got *something*
+  // if (!deletionLog) {
+  logInChannel(
+    `:wastebasket: <@${message.author.id}>'s message in <#${message.channel.id}> was deleted:\n${message.content}`
+  );
+  return;
+  // }
+
+  // We now grab the user object of the person who deleted the message
+  // Let us also grab the target of this action to double check things
+  const { executor, target } = deletionLog;
+
+  // And now we can update our output with a bit more information
+  // We will also run a check to make sure the log we got was for the same author's message
+  if (target.id === message.author.id && target.lastMessage.id === message.id) {
+    logInChannel(
+      `:wastebasket: <@${message.author.id}>'s message was deleted by <@${executor.id}>:\n${message.content}`
+    );
+    return;
+  } else {
+    logInChannel(
+      `:wastebasket: <@${message.author.id}> deleted their own message:\n${message.content}`
+    );
+    return;
+  }
+});
+
 // Bot login
 bot.login(config.token);
+
+var commandsQueue = async.queue(async function (task, callback) {
+  try{
+    console.log(`queue length: ${commandsQueue.length()}`);
+  } catch {} 
+
+  let result = await task.cmdObj.run(bot, null, task.args, guild);
+  console.log(result);
+  if (result.status) {
+    console.log(`Command ${task.cmd} complete. Updating database`);
+    console.log(result.message);
+    logInChannel(result.message);
+  } else {
+    console.log(result.message);
+  }
+  await mongoDB().collection("bot-commands").deleteOne({ _id: task.commandId});
+
+  callback();
+  
+});
 
 bot.on("ready", async () => {
   console.log("Ready");
   guild = bot.guilds.cache.get(config.guildId);
-  bot.user.setActivity(`over ${bot.users.cache.size} monkeys`, { type: 'WATCHING' })
-  setInterval(() => {
-    bot.user.setActivity(`over ${bot.users.cache.size} monkeys`, { type: 'WATCHING' })
-  }, 60000);
- 
-
-  logInChannel("Ready");
-
-  db.collection("bot-commands").onSnapshot((snapshot) => {
-    let changes = snapshot.docChanges();
-    // logInChannel(`${changes.length} commands found`);
-    changes.forEach((change) => {
-      let docData = change.doc.data();
-      if (docData.executed === false) {
-        console.log("new command found");
-        let cmd = docData.command;
-        let args = docData.arguments;
-        let cmdObj = bot.commands.get(cmd); //gets the command based on its name
-        if (cmdObj) {
-          if (cmdObj.cmd.type !== "db") return;
-          cmdObj.run(bot, null, args, db, guild).then(async (result) => {
-            if (result.status) {
-              console.log(`Command ${cmd} complete. Updating database`);
-              console.log(result.message);
-              logInChannel(result.message);
-            } else {
-              console.log(result.message);
-            }
-            await db.collection("bot-commands").doc(change.doc.id).update({
-              executed: true,
-              executedTimestamp: Date.now(),
-              status: result.status,
-            });
-            await db.collection("bot-commands").doc(change.doc.id).delete();
-          });
-        }
-      }
-    });
+  await guild.fetch();
+  bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
+    type: "WATCHING",
   });
+  setInterval(async () => {
+    guild = bot.guilds.cache.get(config.guildId);
+    await guild.fetch();
+    bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
+      type: "WATCHING",
+    });
+  }, 3600000);
+
+  logInChannel(":smile: Ready");
+
+  await connectDB();
+
+  console.log('db connected');
+
+  
+  setInterval( async () => {
+
+    checkCommands();
+
+  }, 30000);
+
+
+
+  // }, 10000);
+
+
+
+  
+
+
+  // botCommandsStream = mongoDB().collection("bot-commands").watch();
+  // botCommandsStream.on('change', async (doc) => {
+      // let docData = doc.fullDocument;
+      // if (docData.executed === false) {
+      //   console.log("new command found");
+      //   let cmd = docData.command;
+      //   let args = docData.arguments;
+      //   let cmdObj = bot.commands.get(cmd); //gets the command based on its name
+      //   if (cmdObj) {
+      //     if (cmdObj.cmd.type !== "db"){
+      //       callback();
+      //       return;
+      //     }
+      //     cmdObj.run(bot, null, args, db, guild).then(async (result) => {
+      //       if (result.status) {
+      //         console.log(`Command ${cmd} complete. Updating database`);
+      //         console.log(result.message);
+      //         logInChannel(result.message);
+      //       } else {
+      //         console.log(result.message);
+      //       }
+      //       //why is the command updated and then deleted?
+      //       await mongoDB().collection("bot-commands").updateOne({ _id: docData._id}, {
+      //         executed: true,
+      //         executedTimestamp: Date.now(),
+      //         status: result.status,
+      //       });
+      //       await mongoDB().collection("bot-commands").deleteOne({ _id: docData._id});
+      //       callback();
+      //     });
+      //   }else{
+      //     callback();
+      //   }
+      // }else{
+      //   callback();
+      // }
+  // });
 });
+
+async function checkCommands(){
+    
+  const array = await mongoDB().collection("bot-commands").find({executed: false}).limit(10).toArray();
+
+  console.log(`Checking DB for commands. Found ${array.length}`);
+
+  array.forEach(async command => {
+    if (command.executed === false){
+      let cmd = command.command;
+      let args = command.arguments;
+      let cmdObj = bot.commands.get(cmd);
+      if (cmdObj) {
+        if (cmdObj.cmd.type !== "db"){
+          // callback();
+          return;
+        }
+        await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {$set: {executed: true}});
+        commandsQueue.push({cmd, cmdObj, args, commandId: command._id});
+        // callback();
+      }else{
+        // callback();
+      }
+    }else{
+      // callback();
+    }
+  })
+}
 
 function logInChannel(message) {
   if (config.channels.botLog !== null && config.channels.botLog !== undefined) {
@@ -282,13 +417,15 @@ app.post("/release", verifyPostData, function (req, res) {
 
     if (message.length > 2000) {
       guild.channels.cache
-      .find((ch) => ch.id === config.channels.botLog)
-      .send(`Yo stoopid <@102819690287489024>. That update log was too long for me to send.`);
+        .find((ch) => ch.id === config.channels.botLog)
+        .send(
+          `:flushed: Yo stoopid <@102819690287489024>. That update log was too long for me to send.`
+        );
     } else {
       guild.channels.cache
-      .find((ch) => ch.id === config.channels.updates)
-      .send(message);
-    }    
+        .find((ch) => ch.id === config.channels.updates)
+        .send(message);
+    }
   }
   res.status(200).send("Request body was signed");
 });

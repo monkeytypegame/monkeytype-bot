@@ -1,12 +1,12 @@
 const Discord = require("discord.js");
 
-module.exports.run = async (bot, message, args, db, guild) => {
+module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name} ${JSON.stringify(args)}`);
 
-  if (args.length !== 6) {
+  if (args.length !== 7) {
     return {
       status: false,
-      message: "Error: Need exactly 6 arguments",
+      message: "Error: Need exactly 7 arguments",
     };
   }
 
@@ -17,11 +17,12 @@ module.exports.run = async (bot, message, args, db, guild) => {
   const wpm = args[3];
   const raw = args[4];
   const acc = args[5];
+  const con = args[6];
 
   if (config.noLog !== undefined && config.noLog) {
     return {
       status: true,
-      message: `Not logging due to config`,
+      message: `:warning: Not logging due to config`,
     };
   }
 
@@ -45,22 +46,26 @@ module.exports.run = async (bot, message, args, db, guild) => {
     }
 
     const embed = new Discord.MessageEmbed()
-          .setColor("#e2b714")
-          .setTitle(`Leaderboard Update`)
-          .setThumbnail(
-            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
-          )
+      .setColor("#e2b714")
+      .setTitle(`Leaderboard Update`)
+      .setThumbnail(
+        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
+      )
       .setFooter("www.monkeytype.com")
-      .setDescription(`${usrstring} just got ${pos}${posstr} place on the ${lb.replace(
-        "_",
-        " "
-      )} leaderboard!`).addFields(
-        { name: 'wpm', value: wpm, inline: true },
-        { name: 'raw', value: raw, inline: true },
-        { name: 'accuracy', value: acc+'%', inline: true },
+      .setDescription(
+        `${usrstring} just got ${pos}${posstr} place on the ${lb.replace(
+          "_",
+          " "
+        )} leaderboard!`
+      )
+      .addFields(
+        { name: "wpm", value: wpm, inline: true },
+        { name: "raw", value: raw, inline: true },
+        { name: "\u200B", value: "\u200B", inline: true },
+        { name: "accuracy", value: acc + "%", inline: true },
+        { name: "consistency", value: con + "%", inline: true },
+        { name: "\u200B", value: "\u200B", inline: true }
       );
-
-
 
     if (
       config.channels.general !== null &&
@@ -81,7 +86,7 @@ module.exports.run = async (bot, message, args, db, guild) => {
   } catch (e) {
     return {
       status: false,
-      message: `Error while trying to announce leaderboard - ${e}`,
+      message: `:x: Error while trying to announce leaderboard - ${e}`,
     };
   }
 };

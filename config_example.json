@@ -21,5 +21,7 @@
     "botLog": "channel id where the bot will log debug messages",
     "general": "general id",
     "updates": "updates channel id"
-  }
+  },
+  "DB_URI": "mongodb://localhost:27017",
+  "DB_NAME": "monkeytype"
 }

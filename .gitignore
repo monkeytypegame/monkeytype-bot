@@ -4,3 +4,5 @@ config.json
 .vscode
 bananas*.json
 coinFlips.json
+.env
+ecosystem.config.js

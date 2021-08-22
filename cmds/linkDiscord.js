@@ -1,4 +1,7 @@
-module.exports.run = async (bot, message, args, db, guild) => {
+const { connectDB, mongoDB } = require("../mongodb.js");
+
+module.exports.run = async (bot, message, args, guild) => {
+  await connectDB();
   console.log(`Running command ${this.cmd.name}`);
   const config = require("../config.json");
   if (config.noLog) {
@@ -29,23 +32,23 @@ module.exports.run = async (bot, message, args, db, guild) => {
         guild.channels.cache
           .find((ch) => ch.id === config.channels.botCommands)
           .send(
-            `<@${args[0]}>, your account is verified. If you have a 60s personal best, you will get a role soon.`
+            `:white_check_mark: <@${args[0]}>, your account is linked. If you have a 60s personal best, you will get a role soon.`
           );
-        let userData = await db.collection("users").doc(args[1]).get();
-        userData = userData.data();
+        let userData = await mongoDB().collection("users").findOne({uid: args[1]});
+        //let userData = await db.collection("users").doc(args[1]).get();
         let pbs;
         try {
           pbs = userData.personalBests.time[60];
         } catch (e) {
           return {
             status: true,
-            message: `Verified <@${args[0]}>, but no time 60 pb found.`,
+            message: `:white_check_mark: Linked <@${args[0]}>, but no time 60 pb found.`,
           };
         }
         if (pbs === undefined) {
           return {
             status: true,
-            message: `Verified <@${args[0]}>, but no time 60 pb found.`,
+            message: `:white_check_mark: Linked <@${args[0]}>, but no time 60 pb found.`,
           };
         }
         try {
@@ -54,45 +57,41 @@ module.exports.run = async (bot, message, args, db, guild) => {
             if (pb.wpm > bestwpm) bestwpm = pb.wpm;
           });
           if (bestwpm > -1) {
-            return db
-              .collection("bot-commands")
-              .add({
-                command: "updateRole",
-                arguments: [args[0], bestwpm],
-                executed: false,
-                requestTimestamp: Date.now(),
-              })
-              .then((f) => {
-                return {
-                  status: true,
-                  message: `Verified <@${args[0]}> and updated role`,
-                };
-              })
-              .catch((e) => {
-                return {
-                  status: true,
-                  message: `Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
-                };
-              });
+
+            let cmd = bot.commands.get("updateRole");
+
+            let result = await cmd.run(bot, null, [args[0], bestwpm], guild);
+
+            if (result.status) {
+              return {
+                status: true,
+                message: `:white_check_mark: Linked <@${args[0]}> and updated role`,
+              };
+            }else{
+              return {
+                status: true,
+                message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+              };
+            }
           }
         } catch (e) {
           return {
             status: true,
-            message: `Verified <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+            message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`,
           };
         }
       })
       .catch((e) => {
-        logInChannel(`Could not update role for <@${args[0]}> - ${e}`);
+        logInChannel(`:x: Could not update role for <@${args[0]}> - ${e}`);
         return {
           status: false,
-          message: `Could not update role for <@${args[0]}> <@102819690287489024>  - ${e}`,
+          message: `:x: Could not update role for <@${args[0]}> <@102819690287489024>  - ${e}`,
         };
       });
   } catch (e) {
     return {
       status: false,
-      message: `Verification for <@${args[0]}> failed!!! <@102819690287489024> - ${e}`,
+      message: `:x: Linking <@${args[0]}> failed!!! <@102819690287489024> - ${e}`,
     };
   }
 
@@ -109,6 +108,6 @@ module.exports.run = async (bot, message, args, db, guild) => {
 };
 
 module.exports.cmd = {
-  name: "verify",
+  name: "linkDiscord",
   type: "db",
 };
