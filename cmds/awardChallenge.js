@@ -14,7 +14,7 @@ module.exports.run = async (bot, message, args, guild) => {
 
   try {
     let challengeRole = guild.roles.cache.find(
-      (cacheRole) => role.id === config.challenges[challengeName]
+      (role) => role.id === config.challenges[challengeName]
     );
   
     let member = await guild.members.cache.find(
