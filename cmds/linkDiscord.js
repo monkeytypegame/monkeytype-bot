@@ -24,9 +24,16 @@ module.exports.run = async (bot, message, args, guild) => {
       (role) => role.id === config.roles.memberRole
     );
 
-    return guild.members.cache
-      .find((member) => member.user.id == args[0])
-      .roles.add(memberRole)
+    let member = await guild.members.cache.find((member) => member.user.id == args[0])
+
+    if(!member){
+      return {
+        status: false,
+        message: `:x: Could not link <@${args[0]}>. Member not found in cache.`,
+      };
+    }
+
+    return member.roles.add(memberRole)
       .then(async (d) => {
         // logInChannel(`<@${args[0]}> just verified their account.`);
         guild.channels.cache
