@@ -19,6 +19,13 @@ module.exports.run = async (bot, message, args, guild) => {
     (member) => member.user.id == discordId
   );
 
+  if(!member){
+    return {
+      status: false,
+      message: `:x: Could not update role for <@${args[0]}>. Member not found in cache.`,
+    };
+  }
+
   try {
     let minWpm = await findCurrent(config.wpmRoles, member);
 
