@@ -24,6 +24,11 @@ module.exports.run = async (bot, message, args, guild) => {
     return member.roles
       .add(challengeRole)
       .then((ret) => {
+        guild.channels.cache
+          .find((ch) => ch.id === config.channels.botCommands)
+          .send(
+            `:white_check_mark: Congratulations <@${args[0]}> for passing the challenge. You have been awarded the ${challengeRole.name} role.`
+          );
         return {
           status: true,
           message: `:white_check_mark: Assigned role ${challengeRole.name} to user <@${member.user.id}>`,
