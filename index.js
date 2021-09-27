@@ -103,7 +103,7 @@ bot.on("message", (msg) => {
         msg.channel.send("<:hmph:736029217380237363>");
       }
     }
-    if (/(good|nice|thanks|good job|ty)/g.test(msg.content.toLowerCase())) {
+    if (/(good|nice|thanks|good job|thank you|ty)/g.test(msg.content.toLowerCase())) {
       msg.channel.send(":)");
     }
     return;
