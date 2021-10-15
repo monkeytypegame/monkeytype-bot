@@ -30,13 +30,13 @@ module.exports.run = async (bot, message, args, guild) => {
       .setFooter("www.monkeytype.com");
     var msg = await message.channel.send(helpEmbed);
 
-    await msg.react("✅"); //verif
+
     await msg.react("📈"); //stats
     await msg.react("❓"); //server info
     await msg.react("🍌"); //banana
 
     const filter = (reaction) =>
-      ["✅", "📈", "❓", "🍌"].includes(reaction.emoji.name);
+      ["📈", "❓", "🍌"].includes(reaction.emoji.name);
 
     var collected = await msg.awaitReactions(filter, { time: 5000 });
     if (collected.size == 0){
@@ -47,21 +47,7 @@ module.exports.run = async (bot, message, args, guild) => {
       };
     }
 
-    if (collected.find((v) => v.emoji.name === "✅")) {
-      helpEmbed.fields = [];
-      await msg.edit(
-        helpEmbed
-          .setTitle("✅ Verification Help")
-          .addFields({
-            name: "!verify",
-            value: `1. Login to your monkeytype account\n2. Generate your unique code in the settings page under \`discord integration\`\n3. DM @George !verify <generated code>. __**Please don't send your code in any of the server channels**__\n4. Congrats! Your account is now linked! Your WPM role will generate on the next 60s test you take.`,
-          })
-      );
-      return {
-        status: true,
-        message: ``,
-      };
-    } else if (collected.find((v) => v.emoji.name === "📈")) {
+    if (collected.find((v) => v.emoji.name === "📈")) {
       helpEmbed.fields = [];
       await msg.edit(
         helpEmbed
