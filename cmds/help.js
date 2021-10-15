@@ -13,11 +13,6 @@ module.exports.run = async (bot, message, args, guild) => {
         message.guild.iconURL({ format: "png", dynamic: true, size: 256 })
       )
       .addFields(
-        {
-          name: "Verification:",
-          value: "React with ✅ for verification commands help",
-        },
-        {
           name: "Personal Bests & Statistics:",
           value: "React with 📈 for stats commands help",
         },
@@ -38,7 +33,7 @@ module.exports.run = async (bot, message, args, guild) => {
     const filter = (reaction) =>
       ["📈", "❓", "🍌"].includes(reaction.emoji.name);
 
-    var collected = await msg.awaitReactions(filter, { time: 5000 });
+    var collected = await msg.awaitReactions(filter, { time: 10000 });
     if (collected.size == 0){
       message.reply("You didn't react in time for help!");
       return {
