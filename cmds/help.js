@@ -13,6 +13,7 @@ module.exports.run = async (bot, message, args, guild) => {
         message.guild.iconURL({ format: "png", dynamic: true, size: 256 })
       )
       .addFields(
+        {
           name: "Personal Bests & Statistics:",
           value: "React with 📈 for stats commands help",
         },
