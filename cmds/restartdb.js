@@ -44,6 +44,7 @@ module.exports.run = async (bot, message, args, guild) => {
             if (stderr) {
               throw stderr;
             }
+            questionMessage.edit(":white_check_mark: Restart command sent.");
             // stdout
           });
         } catch (e) {
