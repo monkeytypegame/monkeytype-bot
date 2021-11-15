@@ -115,7 +115,8 @@ bot.on("message", (msg) => {
     )
   ) {
     msg.channel.send(
-      `:question: Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel.`
+      `:question: Hey <@${msg.author.id}>, checkout the <#741305227637948509> channel. 
+      \nIf you are looking for more help related to getting wpm role check this out https://docs.google.com/presentation/d/1KY0V0mCYcRNRMUSdxmjmZLNemKsjeA8fT1tLzTDfGRg/edit?usp=sharing`
     );
   }
 
