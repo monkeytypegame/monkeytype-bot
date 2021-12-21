@@ -120,7 +120,7 @@ module.exports.run = async (bot, message, args, guild) => {
     };
   }else if (docs.length === 1) {
     await statusmsg.edit(`:thinking: User Found...`);
-    const uid = docs.docs[0].uid;
+    const uid = docs[0].uid;
     await statusmsg.edit(`:thinking: Resetting config...`);
     await mongoDB()
       .collection("configs")
