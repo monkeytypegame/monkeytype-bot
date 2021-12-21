@@ -126,6 +126,7 @@ module.exports.run = async (bot, message, args, guild) => {
       };
     }
     else {
+      await statusmsg.delete();
       return {
         status: true,
         message: `:x: Multiple users found.`,
