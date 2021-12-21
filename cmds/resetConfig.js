@@ -112,8 +112,8 @@ module.exports.run = async (bot, message, args, guild) => {
 
   statusmsg = await message.channel.send(`:thinking: Accessing database...`);
   let doc = await mongoDB().collection("users").findOne({ discordId });
-  await statusmsg.edit(`:thinking: User Found...`);
   if (doc.docs.length !== 0) {
+    await statusmsg.edit(`:thinking: User Found...`);
     const uid = doc.docs[0].id;
     await statusmsg.edit(`:thinking: Resetting config...`);
     await mongoDB()
@@ -121,19 +121,19 @@ module.exports.run = async (bot, message, args, guild) => {
       .updateOne({ uid }, { $set: { defaultConfig } }, { upsert: true });
     return {
       status: true,
-      message: `:white_check_mark: Reset Config: Config reset succesfully for user <@${discordId}>`,
+      message: `:white_check_mark: Reset Config: Done`,
     };
   }
   if (!doc) {
     await statusmsg.delete();
     return {
       status: false,
-      message: `:x: Reset Config: Config file not found.`,
+      message: `:x: Reset Config: User not found.`,
     };
   }
 };
 
 module.exports.cmd = {
-  name: "resetconfig",
+  name: "resetConfig ",
   needMod: true,
 };
