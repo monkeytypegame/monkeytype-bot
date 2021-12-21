@@ -121,14 +121,14 @@ module.exports.run = async (bot, message, args, guild) => {
       .updateOne({ uid }, { $set: { defaultConfig } }, { upsert: true });
     return {
       status: true,
-      message: `:white_check_mark: Reset Config: Done`,
+      message: `:white_check_mark: Done`,
     };
   }
   if (!doc) {
     await statusmsg.delete();
     return {
       status: false,
-      message: `:x: Reset Config: User not found.`,
+      message: `:x: User not found.`,
     };
   }
 };
