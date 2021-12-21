@@ -119,7 +119,7 @@ module.exports.run = async (bot, message, args, guild) => {
       await statusmsg.edit(`:thinking: Resetting config...`);
       await mongoDB()
         .collection("configs")
-        .updateOne({ uid }, { $set: { defaultConfig } }, { upsert: true });
+        .updateOne({ uid }, { $set: { config: defaultConfig } }, { upsert: true });
       return {
         status: true,
         message: `:white_check_mark: Done`,
