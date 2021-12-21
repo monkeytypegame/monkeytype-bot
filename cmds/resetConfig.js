@@ -112,19 +112,27 @@ module.exports.run = async (bot, message, args, guild) => {
 
   statusmsg = await message.channel.send(`:thinking: Accessing database...`);
   let doc = await mongoDB().collection("users").findOne({ discordId });
-  if (doc.docs.length !== 0) {
-    await statusmsg.edit(`:thinking: User Found...`);
-    const uid = doc.docs[0].id;
-    await statusmsg.edit(`:thinking: Resetting config...`);
-    await mongoDB()
-      .collection("configs")
-      .updateOne({ uid }, { $set: { defaultConfig } }, { upsert: true });
-    return {
-      status: true,
-      message: `:white_check_mark: Done`,
-    };
+  if(doc) {
+    if (doc.docs.length === 1) {
+      await statusmsg.edit(`:thinking: User Found...`);
+      const uid = doc.docs[0].id;
+      await statusmsg.edit(`:thinking: Resetting config...`);
+      await mongoDB()
+        .collection("configs")
+        .updateOne({ uid }, { $set: { defaultConfig } }, { upsert: true });
+      return {
+        status: true,
+        message: `:white_check_mark: Done`,
+      };
+    }
+    else {
+      return {
+        status: true,
+        message: `:x: Multiple users found.`,
+      };
+    }
   }
-  if (!doc) {
+  else {
     await statusmsg.delete();
     return {
       status: false,
