@@ -125,6 +125,7 @@ module.exports.run = async (bot, message, args, guild) => {
     await mongoDB()
       .collection("configs")
       .updateOne({ uid }, { $set: { config: defaultConfig } }, { upsert: true });
+    await statusmsg.delete();
     return {
       status: true,
       message: `:white_check_mark: Done`,
