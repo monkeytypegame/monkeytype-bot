@@ -134,6 +134,6 @@ module.exports.run = async (bot, message, args, guild) => {
 };
 
 module.exports.cmd = {
-  name: "resetConfig ",
+  name: "resetConfig",
   needMod: true,
 };
