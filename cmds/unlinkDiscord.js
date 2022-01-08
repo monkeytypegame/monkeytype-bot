@@ -37,7 +37,7 @@ module.exports.run = async (bot, message, args, guild) => {
       .then(async (d) => {
         // logInChannel(`<@${args[0]}> just verified their account.`)
         try{
-          await removeAllRoles(member);
+          await removeAllRoles(config.wpmRoles, member);
           guild.channels.cache
             .find((ch) => ch.id === config.channels.botCommands)
             .send(
@@ -77,8 +77,8 @@ module.exports.run = async (bot, message, args, guild) => {
   
 };
 
-async function removeAllRoles(member) {
-  config.wpmRoles.forEach((role) => {
+async function removeAllRoles(wpmRoles, member) {
+  wpmRoles.forEach((role) => {
     member.roles.remove(role.id);
   });
 }
