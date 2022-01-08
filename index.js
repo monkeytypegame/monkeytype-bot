@@ -351,7 +351,7 @@ async function checkCommands(){
           return;
         }
         await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {$set: {executed: true}});
-        commandsQueue.push({cmd, cmdObj, args, commandId: command._id});
+        await commandsQueue.push({cmd, cmdObj, args, commandId: command._id});
         // callback();
       }else{
         // callback();
