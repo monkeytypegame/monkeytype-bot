@@ -43,6 +43,10 @@ module.exports.run = async (bot, message, args, guild) => {
             .send(
               `:white_check_mark: <@${args[0]}>, your account is unlinked.`
             );
+            return {
+              status: true,
+              message: `:warning: Uninked <@${args[0]}>.`,
+            };
         } catch (e) {
           return {
             status: true,
