@@ -84,6 +84,6 @@ async function removeAllRoles(member) {
 }
 
 module.exports.cmd = {
-  name: "linkDiscord",
+  name: "unlinkDiscord",
   type: "db",
 };
