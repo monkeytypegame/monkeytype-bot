@@ -271,14 +271,13 @@ export class Client extends DiscordClient {
   }
 
   public async logInBotLogChannel(
-    message: string,
-    guild: Guild
+    message: string
   ): Promise<Message | undefined> {
     if (
       this.clientOptions.channels.botLog !== null &&
       this.clientOptions.channels.botLog !== undefined
     ) {
-      const channel = guild.channels.cache.find(
+      const channel = (await this.guild)?.channels.cache.find(
         (ch) => ch.id === this.clientOptions.channels.botLog
       );
 
@@ -287,5 +286,13 @@ export class Client extends DiscordClient {
     }
 
     return;
+  }
+
+  public get guild(): Promise<Guild | undefined> {
+    return this.guilds.fetch({
+      guild: this.clientOptions.guildId,
+      force: true,
+      cache: true
+    });
   }
 }

@@ -13,8 +13,7 @@ export default {
     // const deletionLog = fetchedLogs.entries.first();
 
     client.logInBotLogChannel(
-      `:wastebasket: ${message.author}'s message in <#${message.channel.id}> was deleted:\n${message.content}`,
-      message.guild
+      `:wastebasket: ${message.author}'s message in <#${message.channel.id}> was deleted:\n${message.content}`
     );
   }
 } as Event<"messageDelete">;
