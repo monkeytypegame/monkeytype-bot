@@ -31,6 +31,7 @@ export interface ClientOptions extends DiscordClientOptions {
   guildId: string;
   githubApiToken: string;
   dev: boolean;
+  devID: string;
   roles: Roles;
   wpmRoles: WPMRole[];
   challenges: Challenges;

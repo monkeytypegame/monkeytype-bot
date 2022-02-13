@@ -4,6 +4,7 @@ import {
   ClientEvents,
   Collection,
   CommandInteraction,
+  Guild,
   InteractionCollector,
   Message,
   MessageActionRow,
@@ -128,7 +129,7 @@ export class Client extends DiscordClient {
     return [this.commands.size, events.length];
   }
 
-  embed(embedOptions: MessageEmbedOptions) {
+  public embed(embedOptions: MessageEmbedOptions) {
     if (!embedOptions.title?.startsWith(this.user?.username ?? "George"))
       embedOptions.title = `${this.user?.username ?? "George"}: \`${
         embedOptions.title
@@ -152,7 +153,7 @@ export class Client extends DiscordClient {
     return embed;
   }
 
-  async paginate<T>(
+  public async paginate<T>(
     embedOptions: MessageEmbedOptions,
     interaction: CommandInteraction,
     maxPage: number,
@@ -267,5 +268,24 @@ export class Client extends DiscordClient {
       interaction.editReply({ embeds: [embed], components: [row] });
       buttonInteraction.update({});
     });
+  }
+
+  public async logInBotLogChannel(
+    message: string,
+    guild: Guild
+  ): Promise<Message | undefined> {
+    if (
+      this.clientOptions.channels.botLog !== null &&
+      this.clientOptions.channels.botLog !== undefined
+    ) {
+      const channel = guild.channels.cache.find(
+        (ch) => ch.id === this.clientOptions.channels.botLog
+      );
+
+      if (channel !== undefined && channel.isText())
+        return channel.send(message);
+    }
+
+    return;
   }
 }

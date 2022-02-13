@@ -8,7 +8,6 @@ const dotenv = require("dotenv");
 const path = require("path");
 dotenv.config({ path: path.join(__dirname, ".env") });
 
-
 const { connectDB, mongoDB } = require("./mongodb.js");
 
 // initialise are bot
@@ -103,7 +102,11 @@ bot.on("message", (msg) => {
         msg.channel.send("<:hmph:736029217380237363>");
       }
     }
-    if (/(good|nice|thanks|good job|thank you|ty|great)/g.test(msg.content.toLowerCase())) {
+    if (
+      /(good|nice|thanks|good job|thank you|ty|great)/g.test(
+        msg.content.toLowerCase()
+      )
+    ) {
       msg.channel.send(":)");
     }
     return;
@@ -202,7 +205,7 @@ bot.on("messageDelete", async (message) => {
   if (!message.guild) return;
   const fetchedLogs = await message.guild.fetchAuditLogs({
     limit: 1,
-    type: "MESSAGE_DELETE",
+    type: "MESSAGE_DELETE"
   });
   // Since we only have 1 audit log entry in this collection, we can simply grab the first one
   const deletionLog = fetchedLogs.entries.first();
@@ -238,9 +241,9 @@ bot.on("messageDelete", async (message) => {
 bot.login(config.token);
 
 var commandsQueue = async.queue(async function (task, callback) {
-  try{
+  try {
     console.log(`queue length: ${commandsQueue.length()}`);
-  } catch {} 
+  } catch {}
 
   let result = await task.cmdObj.run(bot, null, task.args, guild);
   console.log(result);
@@ -252,10 +255,9 @@ var commandsQueue = async.queue(async function (task, callback) {
     console.log(result.message);
     logInChannel(result.message);
   }
-  await mongoDB().collection("bot-commands").deleteOne({ _id: task.commandId});
+  await mongoDB().collection("bot-commands").deleteOne({ _id: task.commandId });
 
   callback();
-  
 });
 
 bot.on("ready", async () => {
@@ -263,13 +265,13 @@ bot.on("ready", async () => {
   guild = bot.guilds.cache.get(config.guildId);
   await guild.fetch();
   bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
-    type: "WATCHING",
+    type: "WATCHING"
   });
   setInterval(async () => {
     guild = bot.guilds.cache.get(config.guildId);
     await guild.fetch();
     bot.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
-      type: "WATCHING",
+      type: "WATCHING"
     });
   }, 3600000);
 
@@ -277,89 +279,84 @@ bot.on("ready", async () => {
 
   await connectDB();
 
-  console.log('db connected');
+  console.log("db connected");
 
-  
-  setInterval( async () => {
-
+  setInterval(async () => {
     checkCommands();
-
   }, 30000);
-
-
 
   // }, 10000);
 
-
-
-  
-
-
   // botCommandsStream = mongoDB().collection("bot-commands").watch();
   // botCommandsStream.on('change', async (doc) => {
-      // let docData = doc.fullDocument;
-      // if (docData.executed === false) {
-      //   console.log("new command found");
-      //   let cmd = docData.command;
-      //   let args = docData.arguments;
-      //   let cmdObj = bot.commands.get(cmd); //gets the command based on its name
-      //   if (cmdObj) {
-      //     if (cmdObj.cmd.type !== "db"){
-      //       callback();
-      //       return;
-      //     }
-      //     cmdObj.run(bot, null, args, db, guild).then(async (result) => {
-      //       if (result.status) {
-      //         console.log(`Command ${cmd} complete. Updating database`);
-      //         console.log(result.message);
-      //         logInChannel(result.message);
-      //       } else {
-      //         console.log(result.message);
-      //       }
-      //       //why is the command updated and then deleted?
-      //       await mongoDB().collection("bot-commands").updateOne({ _id: docData._id}, {
-      //         executed: true,
-      //         executedTimestamp: Date.now(),
-      //         status: result.status,
-      //       });
-      //       await mongoDB().collection("bot-commands").deleteOne({ _id: docData._id});
-      //       callback();
-      //     });
-      //   }else{
-      //     callback();
-      //   }
-      // }else{
-      //   callback();
-      // }
+  // let docData = doc.fullDocument;
+  // if (docData.executed === false) {
+  //   console.log("new command found");
+  //   let cmd = docData.command;
+  //   let args = docData.arguments;
+  //   let cmdObj = bot.commands.get(cmd); //gets the command based on its name
+  //   if (cmdObj) {
+  //     if (cmdObj.cmd.type !== "db"){
+  //       callback();
+  //       return;
+  //     }
+  //     cmdObj.run(bot, null, args, db, guild).then(async (result) => {
+  //       if (result.status) {
+  //         console.log(`Command ${cmd} complete. Updating database`);
+  //         console.log(result.message);
+  //         logInChannel(result.message);
+  //       } else {
+  //         console.log(result.message);
+  //       }
+  //       //why is the command updated and then deleted?
+  //       await mongoDB().collection("bot-commands").updateOne({ _id: docData._id}, {
+  //         executed: true,
+  //         executedTimestamp: Date.now(),
+  //         status: result.status,
+  //       });
+  //       await mongoDB().collection("bot-commands").deleteOne({ _id: docData._id});
+  //       callback();
+  //     });
+  //   }else{
+  //     callback();
+  //   }
+  // }else{
+  //   callback();
+  // }
   // });
 });
 
-async function checkCommands(){
-    
-  const array = await mongoDB().collection("bot-commands").find({executed: false}).limit(10).toArray();
+async function checkCommands() {
+  const array = await mongoDB()
+    .collection("bot-commands")
+    .find({ executed: false })
+    .limit(10)
+    .toArray();
 
   console.log(`Checking DB for commands. Found ${array.length}`);
 
-  array.forEach(async command => {
-    if (command.executed === false){
+  array.forEach(async (command) => {
+    if (command.executed === false) {
       let cmd = command.command;
       let args = command.arguments;
       let cmdObj = bot.commands.get(cmd);
       if (cmdObj) {
-        if (cmdObj.cmd.type !== "db"){
+        if (cmdObj.cmd.type !== "db") {
           // callback();
           return;
         }
-        await mongoDB().collection("bot-commands").updateOne({ _id: command._id}, {$set: {executed: true}});
-        await commandsQueue.push({cmd, cmdObj, args, commandId: command._id});
+        await mongoDB()
+          .collection("bot-commands")
+          .updateOne({ _id: command._id }, { $set: { executed: true } });
+        await commandsQueue.push({ cmd, cmdObj, args, commandId: command._id });
         // callback();
-      }else{
+      } else {
         // callback();
       }
-    }else{
+    } else {
       // callback();
     }
-  })
+  });
 }
 
 function logInChannel(message) {
