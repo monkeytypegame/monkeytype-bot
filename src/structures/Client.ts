@@ -36,6 +36,8 @@ export class Client extends DiscordClient {
 
     const [commands, events] = await this.load();
 
+    this.emit("ready", this as DiscordClient<true>);
+
     return `Loaded ${commands} commands and ${events} events.`;
   }
 
