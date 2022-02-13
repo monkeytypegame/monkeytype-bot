@@ -1,9 +1,16 @@
 {
-  "token": "bot token",
   "secret": "secret for github webhook",
   "guildId": "guild (server) id",
   "githubApiToken": "access token for creating issues",
-  "dev": "true/false",
+  "dev": true,
+  "commandsPath": "./commands",
+  "eventsPath": "./events",
+  "deleteUnusedSlashCommands": true,
+  "intents": [
+    "GUILDS",
+    "GUILD_MESSAGES",
+    "GUILD_MEMBERS"
+  ],
   "roles": {
     "adminRole": "admin role id",
     "modRole": "mod role id",
@@ -17,14 +24,12 @@
       "max": 99
     }
   ],
-  "challenges": { 
+  "challenges": {
     "name": "role id"
   },
   "channels": {
     "botLog": "channel id where the bot will log debug messages",
     "general": "general id",
     "updates": "updates channel id"
-  },
-  "DB_URI": "mongodb://localhost:27017",
-  "DB_NAME": "monkeytype"
+  }
 }
