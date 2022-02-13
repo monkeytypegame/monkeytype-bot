@@ -1,7 +1,7 @@
 import { Client } from "./structures/Client";
 import { ClientOptions } from "./interfaces/ClientOptions";
 import { config } from "dotenv";
-import { connectDB } from "./functions/connectDB";
+import { connectDB } from "./functions/mongodb";
 import clientOptions from "./config/config.json";
 
 console.clear();
