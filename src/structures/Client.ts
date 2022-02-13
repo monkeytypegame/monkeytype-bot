@@ -20,7 +20,7 @@ import { Event } from "../interfaces/Event";
 import { APIMessage } from "discord-api-types";
 
 export class Client extends DiscordClient {
-  private clientOptions: ClientOptions;
+  public clientOptions: ClientOptions;
   private glob = promisify(globCB);
   private iconURL =
     "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";

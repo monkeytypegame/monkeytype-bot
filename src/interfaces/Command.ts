@@ -6,5 +6,6 @@ export interface Command {
   description: string;
   category: string;
   options?: ApplicationCommandOption[];
+  needMod?: boolean;
   run: (interaction: CommandInteraction, client: Client) => any;
 }

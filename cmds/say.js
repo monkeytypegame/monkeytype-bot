@@ -5,17 +5,17 @@ module.exports.run = async (bot, message, args, guild) => {
     guild.channels.cache.find((ch) => ch.name === chname).send(args.join(" "));
     return {
       status: true,
-      message: ":speech_balloon: Done",
+      message: ":speech_balloon: Done"
     };
   } catch (e) {
     return {
       status: false,
-      message: ":x: Can't find channel",
+      message: ":x: Can't find channel"
     };
   }
 };
 
 module.exports.cmd = {
   name: "say",
-  needMod: true,
+  needMod: true
 };

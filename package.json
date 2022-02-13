@@ -28,7 +28,7 @@
     "husky": "^5.1.1",
     "json-beautify": "^1.1.1",
     "mongodb": "^4.1.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.2.0",
     "save": "^2.4.0",
     "simple-git": "^2.31.0",
     "string-similarity": "^4.0.4"
