@@ -39,6 +39,7 @@ export default {
       }
 
       command.run(interaction, client);
+      console.log(`Running command "${command.name}"`);
     } else if (interaction.isButton()) {
       console.log(`Button clicked ${interaction.customId}`);
     }

@@ -27,21 +27,7 @@ export default {
 
     if (role === null) return;
 
-    const members = [
-      ...role.members.values(),
-      { user: { tag: "test1" } },
-      { user: { tag: "test2" } },
-      { user: { tag: "test1" } },
-      { user: { tag: "test2" } },
-      { user: { tag: "test1" } },
-      { user: { tag: "test2" } },
-      { user: { tag: "test1" } },
-      { user: { tag: "test2" } },
-      { user: { tag: "test1" } },
-      { user: { tag: "test2" } }
-    ].map((member) => member.user.tag);
-
-    const maxPage = members.length === 0 ? 1 : Math.ceil(members.length / 5);
+    const members = [...role.members.values()].map((member) => member.user.tag);
 
     const embedOptions: MessageEmbedOptions = {
       title: "In-Role",
@@ -51,6 +37,8 @@ export default {
         url: guild.iconURL({ dynamic: true }) ?? ""
       }
     };
+
+    const maxPage = members.length === 0 ? 1 : Math.ceil(members.length / 5);
 
     client.paginate(
       embedOptions,

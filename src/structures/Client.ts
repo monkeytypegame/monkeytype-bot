@@ -19,13 +19,34 @@ import { promisify } from "util";
 import { resolve } from "path";
 import { Event } from "../interfaces/Event";
 import { APIMessage } from "discord-api-types";
+import { queue } from "async";
+import { Task } from "../interfaces/Task";
 
 export class Client extends DiscordClient {
   public clientOptions: ClientOptions;
-  private glob = promisify(globCB);
-  private iconURL =
+  public glob = promisify(globCB);
+  public iconURL =
     "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";
   public commands: Collection<string, Command> = new Collection();
+  public categories: string[] = [];
+  public taskQueue = queue<Task>(async (task, callback) => {
+    console.log(`queue length: ${this.taskQueue.length()}`);
+
+    const result = await task.run(this, (await this.guild) as Guild);
+
+    console.log(result);
+
+    if (result.status) {
+      console.log(`Task ${task.name} completed.`);
+      console.log(result.message);
+      this.logInBotLogChannel(result.message);
+    } else {
+      console.log(result.message);
+      this.logInBotLogChannel(result.message);
+    }
+
+    callback();
+  });
   constructor(options: ClientOptions) {
     super(options);
 
@@ -90,6 +111,9 @@ export class Client extends DiscordClient {
 
     commands.forEach((command) => {
       this.commands.set(command.name, command);
+
+      if (!this.categories.includes(command.category))
+        this.categories.push(command.category);
 
       if (
         !slashCommands ||
@@ -294,5 +318,11 @@ export class Client extends DiscordClient {
       force: true,
       cache: true
     });
+  }
+
+  public getCommandsByCategory(category: string): Command[] {
+    return Array.from(
+      this.commands.filter((cmd) => cmd.category === category).values()
+    );
   }
 }
