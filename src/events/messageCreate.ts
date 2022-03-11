@@ -2,6 +2,10 @@ import { User } from "discord.js";
 import { randomBoolean } from "../functions/random";
 import { Event } from "../interfaces/Event";
 
+const re = /\[#([0-9]{4})\]/g;
+
+const githubIssueLink = "https://github.com/miodec/monkeytype/issues/";
+
 export default {
   event: "messageCreate",
   run: async (client, message) => {
@@ -14,14 +18,23 @@ export default {
     )
       return;
 
+    const githubLinkMatches = [...message.content.matchAll(re)];
+
+    const githubLinks = githubLinkMatches.map((v) => githubIssueLink + v[1]);
+
+    if (githubLinks.length !== 0) {
+      message.reply(githubLinks.join("\n"));
+      return;
+    }
+
     if (
+      message.content === "ping" &&
       message.member?.roles.cache.some((r) =>
         [
           client.clientOptions.roles.modRole,
           client.clientOptions.roles.adminRole
         ].includes(r.id)
-      ) &&
-      message.content === "ping"
+      )
     )
       return message.reply("pong");
 
