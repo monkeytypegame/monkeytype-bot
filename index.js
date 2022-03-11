@@ -407,7 +407,7 @@ app.post("/release", verifyPostData, function (req, res) {
   const releasedata = req.body;
   if (releasedata.action == "released") {
     let message = "";
-    message += `<@&${config.roles.updatePing}>\n`;
+    message += `<@&${config.roles.updatePingRole}>\n`;
     message += "**monkeytype " + releasedata.release.tag_name + "**";
     message += "```\n";
     message += releasedata.release.body + "\n";

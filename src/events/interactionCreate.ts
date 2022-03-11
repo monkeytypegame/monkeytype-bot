@@ -11,8 +11,8 @@ export default {
       if (command === undefined)
         return interaction.reply("Could not find this command on the bot.");
 
-      if (command.needMod === true) {
-        const apiMember = await interaction.member;
+      if (command.roles !== undefined && command.roles.length !== 0) {
+        const apiMember = interaction.member;
 
         if (apiMember === null || !interaction.guild)
           return interaction.reply(
@@ -25,11 +25,11 @@ export default {
 
         if (
           member &&
-          !member.roles.cache.some((r) =>
-            [
-              client.clientOptions.roles.modRole,
-              client.clientOptions.roles.adminRole
-            ].includes(r.id)
+          !member.roles.cache.some(
+            (r) =>
+              command.roles
+                ?.map((v) => client.clientOptions.roles[v])
+                ?.includes(r.id) ?? false
           )
         )
           return interaction.reply({

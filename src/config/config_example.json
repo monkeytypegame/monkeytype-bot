@@ -7,16 +7,14 @@
   "commandsPath": "./commands",
   "eventsPath": "./events",
   "deleteUnusedSlashCommands": true,
-  "intents": [
-    "GUILDS",
-    "GUILD_MESSAGES",
-    "GUILD_MEMBERS"
-  ],
+  "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
+  "repo": "miodec/monkeytype",
   "roles": {
     "adminRole": "admin role id",
     "modRole": "mod role id",
     "memberRole": "member role id",
-    "updatePing": "update ping role id"
+    "updatePingRole": "update ping role id",
+    "collaboratorRole": "collaborator role id"
   },
   "wpmRoles": [
     {

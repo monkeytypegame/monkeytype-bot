@@ -1,6 +1,6 @@
 import { EmbedFieldData, MessageEmbed } from "discord.js";
-import { toPascalCase } from "../functions/toPascalCase";
-import { Command } from "../interfaces/Command";
+import { toPascalCase } from "../../functions/toPascalCase";
+import { Command, RolesEnum } from "../../interfaces/Command";
 
 export default {
   name: "help",
@@ -14,6 +14,7 @@ export default {
       required: false
     }
   ],
+  roles: [RolesEnum.MEMBER],
   run: async (interaction, client) => {
     if (!interaction) return;
 
@@ -79,8 +80,8 @@ export default {
           inline: true
         },
         {
-          name: "Requires Moderator",
-          value: command.needMod ? "Yes" : "No",
+          name: "Required Roles",
+          value: command.roles?.join(" ") ?? "None",
           inline: true
         }
       ]);

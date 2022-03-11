@@ -23,7 +23,7 @@ export default {
     const githubLinks = githubLinkMatches.map((v) => githubIssueLink + v[1]);
 
     if (githubLinks.length !== 0) {
-      message.reply(githubLinks.join("\n"));
+      message.reply({ content: githubLinks.join("\n") });
       return;
     }
 

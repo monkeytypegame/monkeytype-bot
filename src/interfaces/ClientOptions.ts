@@ -4,7 +4,8 @@ interface Roles {
   adminRole: string;
   modRole: string;
   memberRole: string;
-  updatePing: string;
+  updatePingRole: string;
+  collaboratorRole: string;
 }
 
 interface WPMRole {
@@ -24,6 +25,7 @@ interface Channels {
 }
 
 export interface ClientOptions extends DiscordClientOptions {
+  repo: string;
   commandsPath: string;
   eventsPath: string;
   deleteUnusedSlashCommands: boolean;

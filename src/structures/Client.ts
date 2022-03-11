@@ -147,6 +147,11 @@ export class Client extends DiscordClient {
         }
       } else {
         // add some code to edit the command if contents are different
+        slashCommand.edit({
+          name: command.name,
+          description: command.description,
+          options: <ApplicationCommandOptionData[]>command.options
+        });
       }
     });
 
