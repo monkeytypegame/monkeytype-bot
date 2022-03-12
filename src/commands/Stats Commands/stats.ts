@@ -38,7 +38,7 @@ export default {
           inline: false
         },
         {
-          name: "Test Completion Ratio",
+          name: "Test Completion Rate",
           value: (
             (user.completedTests || 1) / (user.startedTests || 1)
           ).toFixed(2),
