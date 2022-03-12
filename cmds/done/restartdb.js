@@ -4,8 +4,9 @@ module.exports.run = async (bot, message, args, guild) => {
   const { exec } = require("child_process");
 
   try {
-    
-    let questionMessage = await message.channel.send(":question: Are you sure?");
+    let questionMessage = await message.channel.send(
+      ":question: Are you sure?"
+    );
     await questionMessage.react("✅");
     await questionMessage.react("❌");
     showtimeout = true;
@@ -18,7 +19,7 @@ module.exports.run = async (bot, message, args, guild) => {
 
     let collector = questionMessage.createReactionCollector(filter, {
       max: 2,
-      time: 10000,
+      time: 10000
     });
 
     collector.on("end", async (r) => {
@@ -39,7 +40,7 @@ module.exports.run = async (bot, message, args, guild) => {
         try {
           exec("systemctl restart mongod", (error, stdout, stderr) => {
             if (error) {
-                throw error;
+              throw error;
             }
             if (stderr) {
               throw stderr;
@@ -62,12 +63,12 @@ module.exports.run = async (bot, message, args, guild) => {
   } catch (e) {
     return {
       status: false,
-      message: ":x: Something went wrong: " + e.message,
+      message: ":x: Something went wrong: " + e.message
     };
   }
 };
 
 module.exports.cmd = {
   name: "restartdb",
-  needMod: true,
+  needMod: true
 };
