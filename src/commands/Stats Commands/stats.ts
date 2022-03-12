@@ -8,6 +8,7 @@ export default {
   description: "Shows the amount of completed test and total time typing",
   category: "Stats",
   roles: [RolesEnum.MEMBER],
+  requiredChannel: "bot-commands",
   run: async (interaction, client) => {
     const db = mongoDB();
 

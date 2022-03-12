@@ -7,6 +7,7 @@ export default {
   description: "Shows your personal bests",
   category: "Stats",
   roles: [RolesEnum.MEMBER],
+  requiredChannel: "bot-commands",
   run: async (interaction, client) => {
     const db = mongoDB();
 
