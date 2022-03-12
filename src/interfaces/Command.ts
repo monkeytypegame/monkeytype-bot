@@ -15,5 +15,6 @@ export interface Command {
   category: string;
   options?: ApplicationCommandOption[];
   roles?: RolesEnum[];
+  requiredChannel?: string;
   run: (interaction: CommandInteraction, client: Client) => any;
 }

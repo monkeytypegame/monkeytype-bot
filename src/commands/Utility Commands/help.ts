@@ -16,8 +16,6 @@ export default {
   ],
   roles: [RolesEnum.MEMBER],
   run: async (interaction, client) => {
-    if (!interaction) return;
-
     const command = client.commands.get(
       interaction.options.getString("command", false) || ""
     );

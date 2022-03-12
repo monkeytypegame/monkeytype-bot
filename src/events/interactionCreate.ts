@@ -3,7 +3,7 @@ import { Event } from "../interfaces/Event";
 export default {
   event: "interactionCreate",
   run: async (client, interaction) => {
-    if (interaction.isCommand()) {
+    if (interaction.isCommand() && interaction.channel?.type !== "DM") {
       const commandName = interaction.commandName;
 
       const command = client.commands.get(commandName);
@@ -45,6 +45,18 @@ export default {
 
           return;
         }
+      }
+
+      if (
+        command.requiredChannel !== undefined &&
+        interaction.channel?.name !== command.requiredChannel
+      ) {
+        interaction.reply({
+          ephemeral: true,
+          content: "You are not using this command in the required channel!"
+        });
+
+        return;
       }
 
       console.log(`Running command "${command.name}"`);
