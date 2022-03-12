@@ -38,8 +38,8 @@ export default {
           });
       }
 
-      command.run(interaction, client);
       console.log(`Running command "${command.name}"`);
+      command.run(interaction, client);
     } else if (interaction.isButton()) {
       console.log(`Button clicked ${interaction.customId}`);
     }
