@@ -8,16 +8,22 @@ export default {
 
       const command = client.commands.get(commandName);
 
-      if (command === undefined)
-        return interaction.reply("Could not find this command on the bot.");
+      if (command === undefined) {
+        interaction.reply("Could not find this command.");
+
+        return;
+      }
 
       if (command.roles !== undefined && command.roles.length !== 0) {
         const apiMember = interaction.member;
 
-        if (apiMember === null || !interaction.guild)
-          return interaction.reply(
+        if (apiMember === null || !interaction.guild) {
+          interaction.reply(
             "Your member object was not found. Was this message used in a DM channel?"
           );
+
+          return;
+        }
 
         const member = await interaction.guild.members
           .fetch(apiMember.user.id)
@@ -31,11 +37,14 @@ export default {
                 ?.map((v) => client.clientOptions.roles[v])
                 ?.includes(r.id) ?? false
           )
-        )
-          return interaction.reply({
+        ) {
+          interaction.reply({
             ephemeral: true,
             content: "You are not a moderator and thus cannot run this command."
           });
+
+          return;
+        }
       }
 
       console.log(`Running command "${command.name}"`);

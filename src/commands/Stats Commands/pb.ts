@@ -15,10 +15,12 @@ export default {
     );
 
     if (user === null) {
-      return interaction.reply({
+      interaction.reply({
         ephemeral: true,
         content: ":x: Could not find user. Make sure your accounts are paired."
       });
+
+      return;
     }
 
     const pbs = user.personalBests;

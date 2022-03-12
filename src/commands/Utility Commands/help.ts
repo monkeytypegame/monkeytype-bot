@@ -90,6 +90,6 @@ export default {
         .addFields(commands);
     }
 
-    return interaction.reply({ embeds: [embed], ephemeral: true });
+    interaction.reply({ embeds: [embed], ephemeral: true });
   }
 } as Command;

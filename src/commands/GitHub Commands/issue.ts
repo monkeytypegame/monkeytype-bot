@@ -46,10 +46,13 @@ export default {
     }
   ],
   run: async (interaction, client) => {
-    if (apiToken === undefined)
-      return interaction.reply({
+    if (apiToken === undefined) {
+      interaction.reply({
         content: "The bot does not have a github api token attached!"
       });
+
+      return;
+    }
 
     interaction.deferReply({ fetchReply: false });
 

@@ -15,11 +15,14 @@ export default {
       await db.collection("users").findOne({ discordId: interaction.user.id })
     );
 
-    if (user === null)
-      return interaction.reply({
+    if (user === null) {
+      interaction.reply({
         ephemeral: true,
         content: ":x: Could not find user."
       });
+
+      return;
+    }
 
     const duration = moment.duration({ seconds: user.timeTyping });
 
