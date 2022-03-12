@@ -1,4 +1,4 @@
-const { connectDB, mongoDB } = require("../mongodb.js");
+const { connectDB, mongoDB } = require("../../mongodb.js");
 
 module.exports.run = async (bot, message, args, guild) => {
   await connectDB();
@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args, guild) => {
   if (config.noLog) {
     return {
       status: false,
-      message: "",
+      message: ""
     };
   }
   // if (args.length === 0) {
@@ -24,33 +24,36 @@ module.exports.run = async (bot, message, args, guild) => {
       (role) => role.id === config.roles.memberRole
     );
 
-    let member = await guild.members.cache.find((member) => member.user.id == args[0])
+    let member = await guild.members.cache.find(
+      (member) => member.user.id == args[0]
+    );
 
-    if(!member){
+    if (!member) {
       return {
         status: false,
-        message: `:x: Could not unlink <@${args[0]}>. Member not found in cache.`,
+        message: `:x: Could not unlink <@${args[0]}>. Member not found in cache.`
       };
     }
 
-    return member.roles.remove(memberRole)
+    return member.roles
+      .remove(memberRole)
       .then(async (d) => {
         // logInChannel(`<@${args[0]}> just verified their account.`)
-        try{
+        try {
           await removeAllRoles(config.wpmRoles, member);
           guild.channels.cache
             .find((ch) => ch.id === config.channels.botCommands)
             .send(
               `:white_check_mark: <@${args[0]}>, your account is unlinked.`
             );
-            return {
-              status: true,
-              message: `:warning: Uninked <@${args[0]}>.`,
-            };
+          return {
+            status: true,
+            message: `:warning: Uninked <@${args[0]}>.`
+          };
         } catch (e) {
           return {
             status: true,
-            message: `:warning: Uninked <@${args[0]}>. Error removing speed roles: ${e.message}`,
+            message: `:warning: Uninked <@${args[0]}>. Error removing speed roles: ${e.message}`
           };
         }
       })
@@ -58,13 +61,13 @@ module.exports.run = async (bot, message, args, guild) => {
         logInChannel(`:x: Could not unlink <@${args[0]}> - ${e}`);
         return {
           status: false,
-          message: `:x: Could not unlink <@${args[0]}> <@102819690287489024>  - ${e}`,
+          message: `:x: Could not unlink <@${args[0]}> <@102819690287489024>  - ${e}`
         };
       });
   } catch (e) {
     return {
       status: false,
-      message: `:x: Unlinking <@${args[0]}> failed!!! <@102819690287489024> - ${e}`,
+      message: `:x: Unlinking <@${args[0]}> failed!!! <@102819690287489024> - ${e}`
     };
   }
 
@@ -78,7 +81,6 @@ module.exports.run = async (bot, message, args, guild) => {
         .send(message);
     }
   }
-  
 };
 
 async function removeAllRoles(wpmRoles, member) {
@@ -89,5 +91,5 @@ async function removeAllRoles(wpmRoles, member) {
 
 module.exports.cmd = {
   name: "unlinkDiscord",
-  type: "db",
+  type: "db"
 };

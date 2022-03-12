@@ -1,4 +1,4 @@
-const { connectDB, mongoDB } = require("../mongodb.js");
+const { connectDB, mongoDB } = require("../../mongodb.js");
 
 module.exports.run = async (bot, message, args, guild) => {
   await connectDB();
@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args, guild) => {
   if (config.noLog) {
     return {
       status: false,
-      message: "",
+      message: ""
     };
   }
   // if (args.length === 0) {
@@ -24,16 +24,19 @@ module.exports.run = async (bot, message, args, guild) => {
       (role) => role.id === config.roles.memberRole
     );
 
-    let member = await guild.members.cache.find((member) => member.user.id == args[0])
+    let member = await guild.members.cache.find(
+      (member) => member.user.id == args[0]
+    );
 
-    if(!member){
+    if (!member) {
       return {
         status: false,
-        message: `:x: Could not link <@${args[0]}>. Member not found in cache.`,
+        message: `:x: Could not link <@${args[0]}>. Member not found in cache.`
       };
     }
 
-    return member.roles.add(memberRole)
+    return member.roles
+      .add(memberRole)
       .then(async (d) => {
         // logInChannel(`<@${args[0]}> just verified their account.`);
         guild.channels.cache
@@ -41,7 +44,9 @@ module.exports.run = async (bot, message, args, guild) => {
           .send(
             `:white_check_mark: <@${args[0]}>, your account is linked. If you have a 60s personal best, you will get a role soon.`
           );
-        let userData = await mongoDB().collection("users").findOne({uid: args[1]});
+        let userData = await mongoDB()
+          .collection("users")
+          .findOne({ uid: args[1] });
         //let userData = await db.collection("users").doc(args[1]).get();
         let pbs;
         try {
@@ -49,13 +54,13 @@ module.exports.run = async (bot, message, args, guild) => {
         } catch (e) {
           return {
             status: true,
-            message: `:white_check_mark: Linked <@${args[0]}>, but no time 60 pb found.`,
+            message: `:white_check_mark: Linked <@${args[0]}>, but no time 60 pb found.`
           };
         }
         if (pbs === undefined) {
           return {
             status: true,
-            message: `:white_check_mark: Linked <@${args[0]}>, but no time 60 pb found.`,
+            message: `:white_check_mark: Linked <@${args[0]}>, but no time 60 pb found.`
           };
         }
         try {
@@ -64,7 +69,6 @@ module.exports.run = async (bot, message, args, guild) => {
             if (pb.wpm > bestwpm) bestwpm = pb.wpm;
           });
           if (bestwpm > -1) {
-
             let cmd = bot.commands.get("updateRole");
 
             let result = await cmd.run(bot, null, [args[0], bestwpm], guild);
@@ -72,19 +76,19 @@ module.exports.run = async (bot, message, args, guild) => {
             if (result.status) {
               return {
                 status: true,
-                message: `:white_check_mark: Linked <@${args[0]}> and updated role`,
+                message: `:white_check_mark: Linked <@${args[0]}> and updated role`
               };
-            }else{
+            } else {
               return {
                 status: true,
-                message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+                message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`
               };
             }
           }
         } catch (e) {
           return {
             status: true,
-            message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`,
+            message: `:warning: Linked <@${args[0]}>. Error while finding t60 pb ${e.message}`
           };
         }
       })
@@ -92,13 +96,13 @@ module.exports.run = async (bot, message, args, guild) => {
         logInChannel(`:x: Could not update role for <@${args[0]}> - ${e}`);
         return {
           status: false,
-          message: `:x: Could not update role for <@${args[0]}> <@102819690287489024>  - ${e}`,
+          message: `:x: Could not update role for <@${args[0]}> <@102819690287489024>  - ${e}`
         };
       });
   } catch (e) {
     return {
       status: false,
-      message: `:x: Linking <@${args[0]}> failed!!! <@102819690287489024> - ${e}`,
+      message: `:x: Linking <@${args[0]}> failed!!! <@102819690287489024> - ${e}`
     };
   }
 
@@ -116,5 +120,5 @@ module.exports.run = async (bot, message, args, guild) => {
 
 module.exports.cmd = {
   name: "linkDiscord",
-  type: "db",
+  type: "db"
 };
