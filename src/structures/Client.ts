@@ -22,6 +22,19 @@ import { APIMessage } from "discord-api-types";
 import { queue } from "async";
 import { Task } from "../interfaces/Task";
 
+interface PaginationOptions<T> {
+  embedOptions: MessageEmbedOptions;
+  interaction: CommandInteraction;
+  amount: number;
+  entries: T[];
+  id: string;
+  fieldName: string;
+  send?: (
+    embed: MessageEmbed,
+    row: MessageActionRow
+  ) => Promise<Message | APIMessage>;
+}
+
 export class Client extends DiscordClient {
   public clientOptions: ClientOptions;
   public glob = promisify(globCB);
@@ -182,19 +195,20 @@ export class Client extends DiscordClient {
     return embed;
   }
 
-  public async paginate<T>(
-    embedOptions: MessageEmbedOptions,
-    interaction: CommandInteraction,
-    maxPage: number,
-    amount: number,
-    entries: T[],
-    id: string,
-    fieldName: string,
-    send?: (
-      embed: MessageEmbed,
-      row: MessageActionRow
-    ) => Promise<Message | APIMessage>
-  ) {
+  public async paginate<T>(options: PaginationOptions<T>) {
+    const {
+      embedOptions,
+      interaction,
+      amount,
+      entries,
+      id,
+      fieldName,
+      send
+    } = options;
+
+    const maxPage =
+      entries.length === 0 ? 1 : Math.ceil(entries.length / amount);
+
     let page: number = 0;
 
     if (embedOptions.fields === undefined) embedOptions.fields = [];

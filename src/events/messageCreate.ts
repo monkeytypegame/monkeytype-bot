@@ -2,9 +2,7 @@ import { User } from "discord.js";
 import { randomBoolean } from "../functions/random";
 import { Event } from "../interfaces/Event";
 
-const re = /\[#([0-9]{4})\]/g;
-
-const githubIssueLink = "https://github.com/miodec/monkeytype/issues/";
+const re = /\[#([0-9]{1,4})\]/g;
 
 export default {
   event: "messageCreate",
@@ -17,6 +15,8 @@ export default {
       message.author.id !== client.clientOptions.devID
     )
       return;
+
+    const githubIssueLink = `https://github.com/${client.clientOptions.repo}/issues/`;
 
     const githubLinkMatches = [...message.content.matchAll(re)];
 

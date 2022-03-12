@@ -39,16 +39,13 @@ export default {
       }
     };
 
-    const maxPage = members.length === 0 ? 1 : Math.ceil(members.length / 5);
-
-    client.paginate(
+    client.paginate({
       embedOptions,
       interaction,
-      maxPage,
-      5,
-      members,
-      "inrole",
-      "Members"
-    );
+      amount: 5,
+      entries: members,
+      id: "inrole",
+      fieldName: "Members"
+    });
   }
 } as Command;
