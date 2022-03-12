@@ -33,14 +33,14 @@ export default {
       const maxValue = timePBs?.sort((a, b) => b.wpm - a.wpm)[0];
 
       if (maxValue === undefined) return;
-      else timePB[parseInt(key)] = maxValue;
+      else timePB[+key] = maxValue;
     });
 
     Object.entries(sortedWords).forEach(([key, wordsPBs]) => {
       const maxValue = wordsPBs?.sort((a, b) => b.wpm - a.wpm)[0];
 
       if (maxValue === undefined) return;
-      else wordsPB[parseInt(key)] = maxValue;
+      else wordsPB[+key] = maxValue;
     });
 
     const embed = client.embed({
