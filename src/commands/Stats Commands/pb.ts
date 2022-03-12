@@ -1,6 +1,6 @@
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
-import { User } from "../../types";
+import { PersonalBest, User } from "../../types";
 
 export default {
   name: "pb",
@@ -21,6 +21,51 @@ export default {
       });
     }
 
-    const pb = user.personalBests;
+    const pbs = user.personalBests;
+
+    const sortedTime = pbs.time;
+    const sortedWords = pbs.words;
+
+    const timePB: { [key: number]: PersonalBest } = {};
+    const wordsPB: { [key: number]: PersonalBest } = {};
+
+    Object.entries(sortedTime).forEach(([key, timePBs]) => {
+      const maxValue = timePBs?.sort((a, b) => b.wpm - a.wpm)[0];
+
+      if (maxValue === undefined) return;
+      else timePB[parseInt(key)] = maxValue;
+    });
+
+    Object.entries(sortedWords).forEach(([key, wordsPBs]) => {
+      const maxValue = wordsPBs?.sort((a, b) => b.wpm - a.wpm)[0];
+
+      if (maxValue === undefined) return;
+      else wordsPB[parseInt(key)] = maxValue;
+    });
+
+    const embed = client.embed({
+      title: "Personal Bests",
+      color: 0xe2b714,
+      thumbnail: {
+        url:
+          "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
+      }
+    });
+
+    embed.addFields(
+      Object.entries(timePB).map(([key, pb]) => ({
+        name: `${key} seconds`,
+        value: `${pb.wpm} wpm (${pb.raw} raw) ${pb.acc}% acc`
+      }))
+    );
+
+    embed.addFields(
+      Object.entries(wordsPB).map(([key, pb]) => ({
+        name: `${key} words`,
+        value: `${pb.wpm} wpm (${pb.raw} raw) ${pb.acc}% acc`
+      }))
+    );
+
+    interaction.reply({ embeds: [embed] });
   }
 } as Command;
