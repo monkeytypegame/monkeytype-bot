@@ -1,4 +1,4 @@
-const { connectDB, mongoDB } = require("../mongodb.js");
+const { connectDB, mongoDB } = require("../../mongodb.js");
 
 module.exports.run = async (bot, message, args, guild) => {
   await connectDB();
@@ -7,12 +7,11 @@ module.exports.run = async (bot, message, args, guild) => {
   if (args.length !== 1) {
     return {
       status: false,
-      message: ":x: Must provide one argument",
+      message: ":x: Must provide one argument"
     };
   }
 
   let statusmsg;
-
 
   const config = require("../config.json");
 
@@ -21,12 +20,12 @@ module.exports.run = async (bot, message, args, guild) => {
   const discordId = targetUser.id;
 
   statusmsg = await message.channel.send(`:thinking: Accessing database...`);
-  let doc = await mongoDB().collection("users").findOne({ discordId })
+  let doc = await mongoDB().collection("users").findOne({ discordId });
   if (!doc) {
     await statusmsg.delete();
     return {
       status: false,
-      message: `:x: Fix wpm role: Could not find user. Make sure your accounts are paired.`,
+      message: `:x: Fix wpm role: Could not find user. Make sure your accounts are paired.`
     };
   }
 
@@ -36,18 +35,18 @@ module.exports.run = async (bot, message, args, guild) => {
 
   let time60s = pbObj?.time?.[60];
 
-  if(time60s == undefined || time60s.length == 0){
+  if (time60s == undefined || time60s.length == 0) {
     await statusmsg.delete();
     return {
       status: false,
-      message: `:x: Fix wpm role: No time 60 results found.`,
+      message: `:x: Fix wpm role: No time 60 results found.`
     };
   }
 
   let wpm = 0;
-  time60s.forEach(pb => {
-    if(pb.wpm > wpm) wpm = pb.wpm;
-  })
+  time60s.forEach((pb) => {
+    if (pb.wpm > wpm) wpm = pb.wpm;
+  });
   wpm = Math.round(wpm);
 
   await statusmsg.edit(`:thinking: Checking personal bests... Got it...`);
@@ -64,31 +63,31 @@ module.exports.run = async (bot, message, args, guild) => {
 
   try {
     await statusmsg.edit(`:thinking: Removing all other speed roles...`);
-      await removeAllRoles(config.wpmRoles, member);
-      await statusmsg.edit(`:thinking: Adding member role...`);
-      await member.roles.add(config.roles.memberRole);
-      await statusmsg.edit(`:thinking: Adding speed role...`);
-      return member.roles
-        .add(correctRole)
-        .then(async (ret) => {
-          await statusmsg.delete();
-          return {
-            status: true,
-            message: `:white_check_mark: Fix wpm role: Assigned role ${correctRole.name} to user <@${discordId}>`,
-          };
-        })
-        .catch(async (e) => {
-          await statusmsg.delete();
-          return {
-            status: false,
-            message: ":x: Something went wrong",
-          };
-        });
+    await removeAllRoles(config.wpmRoles, member);
+    await statusmsg.edit(`:thinking: Adding member role...`);
+    await member.roles.add(config.roles.memberRole);
+    await statusmsg.edit(`:thinking: Adding speed role...`);
+    return member.roles
+      .add(correctRole)
+      .then(async (ret) => {
+        await statusmsg.delete();
+        return {
+          status: true,
+          message: `:white_check_mark: Fix wpm role: Assigned role ${correctRole.name} to user <@${discordId}>`
+        };
+      })
+      .catch(async (e) => {
+        await statusmsg.delete();
+        return {
+          status: false,
+          message: ":x: Something went wrong"
+        };
+      });
   } catch (e) {
     await statusmsg.delete();
     return {
       status: false,
-      message: ":x: Something went wrong",
+      message: ":x: Something went wrong"
     };
   }
 
@@ -112,5 +111,5 @@ async function removeAllRoles(wpmRoles, member) {
 
 module.exports.cmd = {
   name: "fixwpmrole",
-  needMod: true,
+  needMod: true
 };
