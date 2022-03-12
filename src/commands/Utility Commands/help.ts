@@ -1,4 +1,4 @@
-import { EmbedFieldData, MessageEmbed } from "discord.js";
+import { EmbedFieldData } from "discord.js";
 import { toPascalCase } from "../../functions/toPascalCase";
 import { Command, RolesEnum } from "../../interfaces/Command";
 
@@ -22,27 +22,17 @@ export default {
       interaction.options.getString("command", false) || ""
     );
 
-    const embed = new MessageEmbed();
-
-    embed
-      .setTitle("Help")
-      .setColor(0xe2b714)
-      .setAuthor({
+    const embed = client.embed({
+      title: "Help",
+      color: 0xe2b714,
+      author: {
         name: interaction.user.username,
-        iconURL:
-          interaction.user.avatarURL({
-            dynamic: true
-          }) || ""
-      })
-      .setThumbnail(
-        client.user?.avatarURL({
-          dynamic: true
-        }) || ""
-      )
-      .setTimestamp(interaction.createdTimestamp)
-      .setFooter({
-        text: "Sent at:"
-      });
+        iconURL: interaction.user.avatarURL({ dynamic: true }) ?? ""
+      },
+      thumbnail: {
+        url: client.user!.avatarURL({ dynamic: true }) ?? ""
+      }
+    });
 
     if (command) {
       embed
@@ -80,8 +70,8 @@ export default {
           inline: true
         },
         {
-          name: "Required Roles",
-          value: command.roles?.join(" ") ?? "None",
+          name: "Required Roles (any)",
+          value: command.roles?.join(", ") ?? "None",
           inline: true
         }
       ]);
