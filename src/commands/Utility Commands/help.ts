@@ -26,7 +26,7 @@ export default {
 
     embed
       .setTitle("Help")
-      .setColor("#e2b714")
+      .setColor(0xe2b714)
       .setAuthor({
         name: interaction.user.username,
         iconURL:

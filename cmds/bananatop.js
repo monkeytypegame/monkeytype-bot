@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args, guild) => {
     if (bananaData.length === 0) {
       return {
         status: true,
-        message: ":x: No users found",
+        message: ":x: No users found"
       };
     } else {
       let dekeyd = [];
@@ -27,7 +27,7 @@ module.exports.run = async (bot, message, args, guild) => {
         dekeyd.push({
           id: key,
           balance: bananaData[key].balance,
-          lastCollect: bananaData[key].lastCollect,
+          lastCollect: bananaData[key].lastCollect
         });
       });
       let sorted = dekeyd.sort((a, b) => {
@@ -57,7 +57,7 @@ module.exports.run = async (bot, message, args, guild) => {
         top10string += `${user.name} - ${user.balance}\n`;
       });
       let embed = new Discord.MessageEmbed()
-        .setColor("#e2b714")
+        .setColor(0xe2b714)
         .setTitle(`Top 10 Banana Hoarders`)
         .setThumbnail(
           "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
@@ -68,14 +68,14 @@ module.exports.run = async (bot, message, args, guild) => {
       message.channel.send(embed);
       return {
         status: true,
-        message: "",
+        message: ""
       };
     }
   } catch (e) {
     return {
       status: false,
       message:
-        "Something went wrong when getting top banana hoarders: " + e.message,
+        "Something went wrong when getting top banana hoarders: " + e.message
     };
   }
 
@@ -89,5 +89,5 @@ module.exports.run = async (bot, message, args, guild) => {
 module.exports.cmd = {
   name: "bananatop",
   needMod: false,
-  requiredChannel: "banana",
+  requiredChannel: "banana"
 };

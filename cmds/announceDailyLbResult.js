@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args, guild) => {
   if (args.length !== 1) {
     return {
       status: false,
-      message: "Error: Need exactly 1 argument",
+      message: "Error: Need exactly 1 argument"
     };
   }
 
@@ -19,17 +19,20 @@ module.exports.run = async (bot, message, args, guild) => {
   if (config.noLog !== undefined && config.noLog) {
     return {
       status: true,
-      message: `Not logging due to config`,
+      message: `Not logging due to config`
     };
   }
 
   try {
-    return mongoDB.collection("users").findOne({ uid: winner.uid }).then((docdata) => {
+    return mongoDB
+      .collection("users")
+      .findOne({ uid: winner.uid })
+      .then((docdata) => {
         let name = docdata.name;
         let discordId = docdata.discordId;
 
         const embed = new Discord.MessageEmbed()
-          .setColor("#e2b714")
+          .setColor(0xe2b714)
           .setTitle(
             `Daily ${lb.mode} ${lb.mode2} Leaderboard Winner‏‏‎‏‏‎‏‏‎‏‏‎‏‏‎‏`
           )
@@ -53,7 +56,11 @@ module.exports.run = async (bot, message, args, guild) => {
             { name: "raw", value: winner.raw, inline: true },
             { name: "\u200B", value: "\u200B", inline: true },
             { name: "accuracy", value: winner.acc + "%", inline: true },
-            { name: "consistency", value: winner.consistency + "%", inline: true },
+            {
+              name: "consistency",
+              value: winner.consistency + "%",
+              inline: true
+            },
             { name: "\u200B", value: "\u200B", inline: true }
           );
         } else {
@@ -71,7 +78,11 @@ module.exports.run = async (bot, message, args, guild) => {
             { name: "raw", value: winner.raw, inline: true },
             { name: "\u200B", value: "\u200B", inline: true },
             { name: "accuracy", value: winner.acc + "%", inline: true },
-            { name: "consistency", value: winner.consistency + "%", inline: true },
+            {
+              name: "consistency",
+              value: winner.consistency + "%",
+              inline: true
+            },
             { name: "\u200B", value: "\u200B", inline: true }
           );
         }
@@ -90,13 +101,13 @@ module.exports.run = async (bot, message, args, guild) => {
 
         return {
           status: true,
-          message: `Logged daily lb result for ${lb.mode} ${lb.mode2}`,
+          message: `Logged daily lb result for ${lb.mode} ${lb.mode2}`
         };
-    });
+      });
   } catch (e) {
     return {
       status: false,
-      message: `Error while trying to announce leaderboard - ${e}`,
+      message: `Error while trying to announce leaderboard - ${e}`
     };
   }
 
@@ -114,5 +125,5 @@ module.exports.run = async (bot, message, args, guild) => {
 
 module.exports.cmd = {
   name: "announceDailyLbResult",
-  type: "db",
+  type: "db"
 };

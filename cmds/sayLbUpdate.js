@@ -6,7 +6,7 @@ module.exports.run = async (bot, message, args, guild) => {
   if (args.length !== 7) {
     return {
       status: false,
-      message: "Error: Need exactly 7 arguments",
+      message: "Error: Need exactly 7 arguments"
     };
   }
 
@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args, guild) => {
   if (config.noLog !== undefined && config.noLog) {
     return {
       status: true,
-      message: `:warning: Not logging due to config`,
+      message: `:warning: Not logging due to config`
     };
   }
 
@@ -46,7 +46,7 @@ module.exports.run = async (bot, message, args, guild) => {
     }
 
     const embed = new Discord.MessageEmbed()
-      .setColor("#e2b714")
+      .setColor(0xe2b714)
       .setTitle(`Leaderboard Update`)
       .setThumbnail(
         "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
@@ -78,20 +78,17 @@ module.exports.run = async (bot, message, args, guild) => {
 
     return {
       status: true,
-      message: `${usrstring} ${pos}${posstr} ${lb.replace(
-        "_",
-        " "
-      )} ${wpm} wpm`,
+      message: `${usrstring} ${pos}${posstr} ${lb.replace("_", " ")} ${wpm} wpm`
     };
   } catch (e) {
     return {
       status: false,
-      message: `:x: Error while trying to announce leaderboard - ${e}`,
+      message: `:x: Error while trying to announce leaderboard - ${e}`
     };
   }
 };
 
 module.exports.cmd = {
   name: "sayLbUpdate",
-  type: "db",
+  type: "db"
 };

@@ -9,21 +9,23 @@ module.exports.run = async (bot, message, args, guild) => {
   if (config.noLog) {
     return {
       status: false,
-      message: "",
+      message: ""
     };
   }
   //if there is a mention return, as this command is for personal use only
   if (message.mentions.members.first())
     return {
       status: true,
-      message: ":x: Error: You may not view other users profiles",
+      message: ":x: Error: You may not view other users profiles"
     };
 
-  let doc = await mongoDB().collection("users").findOne({ discordId: discordID })
+  let doc = await mongoDB()
+    .collection("users")
+    .findOne({ discordId: discordID });
   if (!doc) {
     return {
       status: false,
-      message: `:x: Could not find user. Make sure your accounts are paired.`,
+      message: `:x: Could not find user. Make sure your accounts are paired.`
     };
   }
 
@@ -34,7 +36,7 @@ module.exports.run = async (bot, message, args, guild) => {
     maxesTime = Object.fromEntries(
       Object.entries(pbObj.time).map(([key, array]) => [
         key,
-        Math.max(...array.map(({ wpm }) => wpm)),
+        Math.max(...array.map(({ wpm }) => wpm))
       ])
     );
   } catch (error) {
@@ -49,7 +51,7 @@ module.exports.run = async (bot, message, args, guild) => {
     maxesWords = Object.fromEntries(
       Object.entries(pbObj.words).map(([key, array]) => [
         key,
-        Math.max(...array.map(({ wpm }) => wpm)),
+        Math.max(...array.map(({ wpm }) => wpm))
       ])
     );
   } catch (error) {
@@ -63,7 +65,7 @@ module.exports.run = async (bot, message, args, guild) => {
   let scoreTimeEmbed;
   if (maxesTime !== null) {
     scoreTimeEmbed = new Discord.MessageEmbed()
-      .setColor("#e2b714")
+      .setColor(0xe2b714)
       .setTitle(`Time Personal Bests for ${message.author.username}`)
       .setThumbnail(
         "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
@@ -79,7 +81,7 @@ module.exports.run = async (bot, message, args, guild) => {
   let scoreWordsEmbed;
   if (maxesWords !== null) {
     scoreWordsEmbed = new Discord.MessageEmbed()
-      .setColor("#e2b714")
+      .setColor(0xe2b714)
       .setTitle(`Word Personal Bests for ${message.author.username}`)
       .setThumbnail(
         "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
@@ -94,7 +96,7 @@ module.exports.run = async (bot, message, args, guild) => {
 
   return {
     status: true,
-    message: "",
+    message: ""
   };
 
   //functions for adding fields and finding values (some of which are a nightmare)
@@ -162,5 +164,5 @@ module.exports.run = async (bot, message, args, guild) => {
 module.exports.cmd = {
   name: "pb",
   needMod: false,
-  requiredChannel: "botCommands",
+  requiredChannel: "botCommands"
 };

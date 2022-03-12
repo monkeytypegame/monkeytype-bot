@@ -9,14 +9,14 @@ module.exports.run = async (bot, message, args, guild) => {
     customTheme: false,
     customThemeColors: [
       "#323437",
-      "#e2b714",
-      "#e2b714",
+      0xe2b714,
+      0xe2b714,
       "#646669",
       "#d1d0c5",
       "#ca4754",
       "#7e2a33",
       "#ca4754",
-      "#7e2a33",
+      "#7e2a33"
     ],
     favThemes: [],
     showKeyTips: true,
@@ -95,13 +95,13 @@ module.exports.run = async (bot, message, args, guild) => {
     minBurstCustomSpeed: 100,
     burstHeatmap: false,
     britishEnglish: false,
-    lazyMode: false,
+    lazyMode: false
   };
 
   if (args.length !== 1) {
     return {
       status: false,
-      message: ":x: Must provide one argument",
+      message: ":x: Must provide one argument"
     };
   }
 
@@ -112,34 +112,38 @@ module.exports.run = async (bot, message, args, guild) => {
 
   statusmsg = await message.channel.send(`:thinking: Accessing database...`);
   let docs = await mongoDB().collection("users").find({ discordId }).toArray();
-  if(docs.length === 0) {
+  if (docs.length === 0) {
     await statusmsg.delete();
     return {
       status: false,
-      message: `:x: User not found.`,
+      message: `:x: User not found.`
     };
-  }else if (docs.length === 1) {
+  } else if (docs.length === 1) {
     await statusmsg.edit(`:thinking: User Found...`);
     const uid = docs[0].uid;
     await statusmsg.edit(`:thinking: Resetting config...`);
     await mongoDB()
       .collection("configs")
-      .updateOne({ uid }, { $set: { config: defaultConfig } }, { upsert: true });
+      .updateOne(
+        { uid },
+        { $set: { config: defaultConfig } },
+        { upsert: true }
+      );
     await statusmsg.delete();
     return {
       status: true,
-      message: `:white_check_mark: Done`,
+      message: `:white_check_mark: Done`
     };
-  }else if (docs.length > 1) {
+  } else if (docs.length > 1) {
     await statusmsg.delete();
     return {
       status: true,
-      message: `:x: Multiple users found.`,
+      message: `:x: Multiple users found.`
     };
   }
 };
 
 module.exports.cmd = {
   name: "resetconfig",
-  needMod: true,
+  needMod: true
 };

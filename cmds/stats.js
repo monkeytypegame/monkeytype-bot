@@ -13,18 +13,20 @@ module.exports.run = async (bot, message, args, guild) => {
         "Error: You may not view other users profiles"
       );
 
-    let doc = await mongoDB().collection("users").findOne({ discordId: discordID });
+    let doc = await mongoDB()
+      .collection("users")
+      .findOne({ discordId: discordID });
     if (!doc) {
       return {
         status: false,
-        message: `:x: Could not find user`,
+        message: `:x: Could not find user`
       };
     }
 
     let dataObj = {
       started: doc.startedTests,
       completed: doc.completedTests,
-      time: doc.timeTyping,
+      time: doc.timeTyping
     };
 
     //embeds that display records
@@ -42,7 +44,7 @@ module.exports.run = async (bot, message, args, guild) => {
     }
 
     const statsEmbed = new Discord.MessageEmbed()
-      .setColor("#e2b714")
+      .setColor(0xe2b714)
       .setTitle(`Typing Stats for ${message.author.username}`)
       .setThumbnail(
         "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/bar-chart_1f4ca.png"
@@ -54,12 +56,12 @@ module.exports.run = async (bot, message, args, guild) => {
     message.channel.send(statsEmbed);
     return {
       status: true,
-      message: "",
+      message: ""
     };
   } catch (e) {
     return {
       status: false,
-      message: ":x: Something went wrong while trying to get your stats: " + e,
+      message: ":x: Something went wrong while trying to get your stats: " + e
     };
   }
 };
@@ -67,5 +69,5 @@ module.exports.run = async (bot, message, args, guild) => {
 module.exports.cmd = {
   name: "stats",
   needMod: false,
-  requiredChannel: "botCommands",
+  requiredChannel: "botCommands"
 };

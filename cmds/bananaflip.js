@@ -11,7 +11,7 @@ module.exports.run = async (bot, message, args, guild) => {
   } catch (e) {
     return {
       status: true,
-      message: ":x: No users found",
+      message: ":x: No users found"
     };
   }
   try {
@@ -44,7 +44,7 @@ module.exports.run = async (bot, message, args, guild) => {
 
       //https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/slot-machine_1f3b0.png
       let embed = new Discord.MessageEmbed()
-        .setColor("#e2b714")
+        .setColor(0xe2b714)
         .setTitle(`Last 10 Global Flips`)
         .setThumbnail(
           "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/slot-machine_1f3b0.png"
@@ -73,19 +73,19 @@ module.exports.run = async (bot, message, args, guild) => {
 
       return {
         status: true,
-        message: "",
+        message: ""
       };
     } else {
       if (isNaN(bananaBet)) {
         return {
           status: false,
-          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananaflip 1 heads`,
+          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananaflip 1 heads`
         };
       }
       if (bananaBet < 1) {
         return {
           status: false,
-          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananaflip 1 heads`,
+          message: `:x: Can't flip for ${bananaBet} bananas. Example: !bananaflip 1 heads`
         };
       }
       try {
@@ -102,7 +102,7 @@ module.exports.run = async (bot, message, args, guild) => {
         console.log(e);
         return {
           status: false,
-          message: `:x: Side prediction must be a string and begin with either h or t. Example: !bananaflip 1 tails or !bananaflip 1 h`,
+          message: `:x: Side prediction must be a string and begin with either h or t. Example: !bananaflip 1 tails or !bananaflip 1 h`
         };
       }
 
@@ -116,13 +116,13 @@ module.exports.run = async (bot, message, args, guild) => {
       if (userData === undefined || userData.balance === 0) {
         return {
           status: true,
-          message: ":x: You have no bananas",
+          message: ":x: You have no bananas"
         };
       } else {
         if (bananaBet > userData.balance) {
           return {
             status: true,
-            message: ":x: You don't have enough bananas.",
+            message: ":x: You don't have enough bananas."
           };
         } else {
           //flip a coin
@@ -197,7 +197,7 @@ module.exports.run = async (bot, message, args, guild) => {
 
             return {
               status: true,
-              message: ``,
+              message: ``
             };
           } else {
             let embed = new Discord.MessageEmbed()
@@ -230,7 +230,7 @@ module.exports.run = async (bot, message, args, guild) => {
 
             return {
               status: true,
-              message: ``,
+              message: ``
             };
           }
         }
@@ -239,7 +239,7 @@ module.exports.run = async (bot, message, args, guild) => {
   } catch (e) {
     return {
       status: false,
-      message: "Something went very wrong: " + e.message,
+      message: "Something went very wrong: " + e.message
     };
   }
 };
@@ -247,5 +247,5 @@ module.exports.run = async (bot, message, args, guild) => {
 module.exports.cmd = {
   name: "bananaflip",
   needMod: false,
-  requiredChannel: "banana",
+  requiredChannel: "banana"
 };

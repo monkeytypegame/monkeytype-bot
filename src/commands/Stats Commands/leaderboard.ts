@@ -1,32 +1,11 @@
 import { Command, RolesEnum } from "../../interfaces/Command";
+import { User, LeaderboardEntry } from "../../types";
 import { mongoDB } from "../../functions/mongodb";
-import { Document, WithId } from "mongodb";
-
-interface LeaderboardEntry extends WithId<Document> {
-  difficulty: string;
-  timestamp: number;
-  language: string;
-  wpm: number;
-  consistency: number | "-";
-  punctuation: boolean;
-  acc: number;
-  raw: number;
-  uid?: string;
-  name: string;
-  discordId?: string;
-  rank: number;
-  count?: number;
-  hidden?: boolean;
-}
-
-interface User extends WithId<Document> {
-  uid: string;
-}
 
 export default {
   name: "leaderboard",
   description: "Shows a paginated leaderboard that shows your rank",
-  category: "Monkeytype",
+  category: "Stats",
   options: [
     {
       name: "language",
@@ -63,6 +42,11 @@ export default {
   ],
   roles: [RolesEnum.MEMBER],
   run: async (interaction, client) => {
+    await interaction.deferReply({
+      ephemeral: true,
+      fetchReply: false
+    });
+
     const db = mongoDB();
 
     const language = interaction.options.getString("language", true);
@@ -119,7 +103,7 @@ export default {
           );
         }
 
-        return await interaction.reply({
+        return await interaction.followUp({
           embeds: [embed],
           components: [row],
           fetchReply: true

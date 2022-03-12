@@ -20,7 +20,9 @@ module.exports.run = async (bot, message, args, guild) => {
 
     let t60bananas = 0;
 
-    await mongoDB().collection("users").findOne({ discordId: discordID })
+    await mongoDB()
+      .collection("users")
+      .findOne({ discordId: discordID })
       .then(async (snapshot) => {
         if (!snapshot) {
           message.channel.send(
@@ -42,7 +44,7 @@ module.exports.run = async (bot, message, args, guild) => {
       //no user found, add a new one
       bananaData[message.author.id] = {
         balance: 1,
-        lastCollect: milisNow,
+        lastCollect: milisNow
       };
       //success show balance
       await fs.writeFile("bananas.json", JSON.stringify(bananaData));
@@ -67,7 +69,7 @@ module.exports.run = async (bot, message, args, guild) => {
         timeLeftString = ts === 1 ? `${ts} second` : `${ts} seconds`;
       }
       let embed = new Discord.MessageEmbed()
-        .setColor("#e2b714")
+        .setColor(0xe2b714)
         .setTitle(`${message.author.username}'s Bananas`)
         .setThumbnail(
           "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
@@ -84,19 +86,18 @@ module.exports.run = async (bot, message, args, guild) => {
 
       message.channel.send(embed);
 
-      if (
-        t60bananas !== undefined &&
-        t60bananas !== 0
-      ) {
+      if (t60bananas !== undefined && t60bananas !== 0) {
         bananaData = JSON.parse(await fs.readFile("bananas.json"));
         bananaData[message.author.id].balance += t60bananas;
         await fs.writeFile("bananas.json", JSON.stringify(bananaData));
-        mongoDB().collection("users").updateOne({discordId: discordID},  {$set: { bananas: 0 }})
+        mongoDB()
+          .collection("users")
+          .updateOne({ discordId: discordID }, { $set: { bananas: 0 } });
       }
 
       return {
         status: true,
-        message: "",
+        message: ""
       };
     } else {
       //else user found incrementing and setting last collect data
@@ -130,7 +131,7 @@ module.exports.run = async (bot, message, args, guild) => {
           timeLeftString = ts === 1 ? `${ts} second` : `${ts} seconds`;
         }
         let embed = new Discord.MessageEmbed()
-          .setColor("#e2b714")
+          .setColor(0xe2b714)
           .setTitle(`${message.author.username}'s Bananas`)
           .setThumbnail(
             "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
@@ -147,19 +148,18 @@ module.exports.run = async (bot, message, args, guild) => {
 
         message.channel.send(embed);
 
-        if (
-          t60bananas !== undefined &&
-          t60bananas !== 0
-        ) {
+        if (t60bananas !== undefined && t60bananas !== 0) {
           bananaData = JSON.parse(await fs.readFile("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
           await fs.writeFile("bananas.json", JSON.stringify(bananaData));
-          mongoDB().collection("users").updateOne({discordId: discordID},  {$set: { bananas: 0 }})
+          mongoDB()
+            .collection("users")
+            .updateOne({ discordId: discordID }, { $set: { bananas: 0 } });
         }
 
         return {
           status: true,
-          message: "",
+          message: ""
         };
       } else {
         //collect banana
@@ -193,7 +193,7 @@ module.exports.run = async (bot, message, args, guild) => {
           timeLeftString = ts === 1 ? `${ts} second` : `${ts} seconds`;
         }
         let embed = new Discord.MessageEmbed()
-          .setColor("#e2b714")
+          .setColor(0xe2b714)
           .setTitle(`${message.author.username}'s Bananas`)
           .setThumbnail(
             "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
@@ -210,26 +210,25 @@ module.exports.run = async (bot, message, args, guild) => {
 
         message.channel.send(embed);
 
-        if (
-          t60bananas !== undefined &&
-          t60bananas !== 0
-        ) {
+        if (t60bananas !== undefined && t60bananas !== 0) {
           bananaData = JSON.parse(await fs.readFile("bananas.json"));
           bananaData[message.author.id].balance += t60bananas;
           await fs.writeFile("bananas.json", JSON.stringify(bananaData));
-          mongoDB().collection("users").updateOne({discordId: discordID}, {$set: { bananas: 0 }})
+          mongoDB()
+            .collection("users")
+            .updateOne({ discordId: discordID }, { $set: { bananas: 0 } });
         }
 
         return {
           status: true,
-          message: "",
+          message: ""
         };
       }
     }
   } catch (e) {
     return {
       status: false,
-      message: "Something went wrong getting your banana balance: " + e.message,
+      message: "Something went wrong getting your banana balance: " + e.message
     };
   }
 
@@ -243,5 +242,5 @@ module.exports.run = async (bot, message, args, guild) => {
 module.exports.cmd = {
   name: "banana",
   needMod: false,
-  requiredChannel: "banana",
+  requiredChannel: "banana"
 };

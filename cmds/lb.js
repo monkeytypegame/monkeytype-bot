@@ -58,7 +58,7 @@ module.exports.run = async (bot, message, args, guild) => {
   );
 
   const embed = new Discord.MessageEmbed()
-    .setColor("#e2b714")
+    .setColor(0xe2b714)
     .setTitle(`Leaderboard for ${mode2} sec ${type}`)
     .setDescription("```\n" + leaderboard.toString() + "\n```")
     .setFooter("www.monkeytype.com");
