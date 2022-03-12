@@ -92,7 +92,7 @@ export default {
     );
 
     const fieldArray = leaderboardArray.map(
-      (entry) => `\`${entry.rank}\`: ${entry.name} (${entry.wpm})`
+      (entry) => `\`${entry.rank}\`: ${entry.name} (${entry.wpm} wpm)`
     );
 
     const embedOptions = {
@@ -115,7 +115,7 @@ export default {
         if (leaderboardUser !== null) {
           embed.addField(
             "You",
-            `\`${leaderboardUser.rank}\`: ${leaderboardUser.name} (${leaderboardUser.wpm})`
+            `\`${leaderboardUser.rank}\`: ${leaderboardUser.name} (${leaderboardUser.wpm} wpm)`
           );
         }
 
