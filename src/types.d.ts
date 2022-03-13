@@ -1,8 +1,29 @@
 import { Document, WithId } from "mongodb";
 
-type Difficulty = "normal" | "expert" | "master";
+export type Difficulty = "normal" | "expert" | "master";
 
-interface PersonalBest {
+export type Mode = "time" | "words" | "quote" | "zen" | "custom";
+
+export type Mode2<M extends Mode> = keyof PersonalBests[M];
+
+export interface Quote {
+  text: string;
+  source: string;
+  length: number;
+  id: number;
+  group?: number;
+  language: string;
+  textSplit?: string[];
+}
+
+export type QuoteCollection = {
+  quotes: Quote[];
+  length?: number;
+  language?: string;
+  groups: number[][] | Quote[][];
+};
+
+export interface PersonalBest {
   acc: number;
   consistency: number;
   difficulty: Difficulty;
@@ -14,7 +35,7 @@ interface PersonalBest {
   timestamp: number;
 }
 
-interface PersonalBests {
+export interface PersonalBests {
   time: {
     [key: number]: PersonalBest[];
   };
@@ -140,4 +161,39 @@ export interface Config {
   britishEnglish: boolean;
   lazyMode: boolean;
   showAvg: boolean;
+}
+
+export interface Result<M extends Mode> {
+  _id: string;
+  wpm: number;
+  rawWpm: number;
+  charStats: number[];
+  correctChars?: number; // --------------
+  incorrectChars?: number; // legacy results
+  acc: number;
+  mode: M;
+  mode2: Mode2<M>;
+  quoteLength: number;
+  timestamp: number;
+  restartCount: number;
+  incompleteTestSeconds: number;
+  testDuration: number;
+  afkDuration: number;
+  tags: string[];
+  consistency: number;
+  keyConsistency: number;
+  chartData: ChartData | "toolong";
+  uid: string;
+  keySpacingStats: KeyStats;
+  keyDurationStats: KeyStats;
+  isPb?: boolean;
+  bailedOut?: boolean;
+  blindMode?: boolean;
+  lazyMode?: boolean;
+  difficulty: Difficulty;
+  funbox?: string;
+  language: string;
+  numbers?: boolean;
+  punctuation?: boolean;
+  hash?: string;
 }
