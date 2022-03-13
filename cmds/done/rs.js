@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const fetch = require("node-fetch");
-const { connectDB, mongoDB } = require("../mongodb.js");
+const { connectDB, mongoDB } = require("../../mongodb.js");
 
 module.exports.run = async (bot, message, args, guild) => {
   await connectDB();
