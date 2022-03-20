@@ -24,7 +24,7 @@ module.exports.run = async (bot, message, args, guild) => {
       returnMessage = `Added quote to ${language}.json.`;
       // questionMessageContent[0] = `:thinking: Pulling latest changes from upstream...`;
       // questionMessage.edit(questionMessageContent.join(''));
-      // await git.pull('upstream', 'master');
+      // await git.pull('upstream', 'dev');
       // questionMessageContent[0] = `:thinking: Staging ${language}.json...`;
       // questionMessage.edit(questionMessageContent.join(''));
       // await git.add([`static/quotes/${language}.json`]);
@@ -33,7 +33,7 @@ module.exports.run = async (bot, message, args, guild) => {
       // await git.commit(`Added quote to ${language}.json`);
       // questionMessageContent[0] = `:thinking: Pushing to origin...`;
       // questionMessage.edit(questionMessageContent.join(''));
-      // await git.push('origin', 'master');
+      // await git.push('origin', 'dev');
 
       questionMessageContent[0] = `:white_check_mark: ${returnMessage}`;
       questionMessageContent.push(`Suggested by ${suggestedBy}`);
