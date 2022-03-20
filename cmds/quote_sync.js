@@ -7,13 +7,13 @@ module.exports.run = async (bot, message, args, guild) => {
 
   let statusmsg;
   try {
-    await git.fetch("upstream", "master");
+    await git.fetch("upstream", "dev");
     statusmsg = await message.channel.send(`:thinking: Fetching...`);
-    await git.checkout("master");
-    await statusmsg.edit(`:thinking: Switching to master...`);
-    await git.mergeFromTo("upstream/master", "master");
+    await git.checkout("dev");
+    await statusmsg.edit(`:thinking: Switching to dev...`);
+    await git.mergeFromTo("upstream/dev", "dev");
     await statusmsg.edit(`:thinking: Merging...`);
-    await git.push("origin", "master");
+    await git.push("origin", "dev");
     await statusmsg.edit(`:thinking: Pushing...`);
     await statusmsg.delete();
     return {

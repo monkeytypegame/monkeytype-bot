@@ -15,7 +15,6 @@ if (arguments.length !== 3) {
       message: "Exactly 3 arguments expected.",
     })
   );
-  return;
 }
 
 try {
@@ -65,10 +64,10 @@ try {
     returnValue.status = true;
     returnValue.message = `Created file ${arguments[2]}.json and added quote.`;
   }
-  git.pull("upstream", "master");
+  git.pull("upstream", "dev");
   git.add([`static/quotes/${arguments[2]}.json`]);
   git.commit(`Added quote to ${arguments[2]}.json`);
-  git.push("origin", "master");
+  git.push("origin", "dev");
 
   console.log(JSON.stringify(returnValue));
 } catch (e) {
@@ -78,5 +77,4 @@ try {
       message: `Something went wrong: ${e}`,
     })
   );
-  return;
 }
