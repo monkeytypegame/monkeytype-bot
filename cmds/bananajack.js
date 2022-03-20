@@ -82,13 +82,14 @@ module.exports.run = async (bot, message, args, guild) => {
           }
 
           function shuffleDeck(deck) {
-            for (let i = 0; i < deck.length; i++) {
-              //create a for loop and loop through every card in the deck.
-              let swapIndex = Math.trunc(Math.random() * deck.length); //calculate and index of a card we can swap with eg. card #1 and swap with any random card within the 52 cards between [0] and [51] then remove decimals with trunc
-              let tmp = deck[swapIndex];
-              deck[swapIndex] = deck[i];
+            // Fisher-Yates shuffle with Durstenfeld's improvement.
+            for (let i = 0; i < deck.length - 1; i++) {
+              // i <= j < deck.length
+              let j = i + Math.trunc(Math.random() * (deck.length - i));
+              // Swap deck[i] and deck[j]:
+              let tmp = deck[j];
+              deck[j] = deck[i];
               deck[i] = tmp;
-              //swap deck subscript i with deck subscript swapIndex so will temporarily hold onto deck swapIndex and then deck swapIndex will set that to deck i and then will set deck i to our tmp variable hence we are swapping deck i with deck swapIndex hence shuffling the entire deck.
             }
           }
 
