@@ -16,7 +16,7 @@ export default {
     const git = SimpleGit(client.clientOptions.repoPath);
 
     try {
-      await git.pull("upstream", "master");
+      await git.pull("upstream", "dev");
 
       await git.add(["."]);
 
@@ -33,8 +33,8 @@ export default {
           },
           body: JSON.stringify({
             title: "Added more quotes",
-            head: "monkeytypegeorge:master",
-            base: "master",
+            head: "monkeytypegeorge:dev",
+            base: "dev",
             maintainer_can_modify: true
           })
         }

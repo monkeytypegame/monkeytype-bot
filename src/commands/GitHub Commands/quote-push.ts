@@ -16,13 +16,13 @@ export default {
     const git = SimpleGit(client.clientOptions.repoPath);
 
     try {
-      await git.pull("upstream", "master");
+      await git.pull("upstream", "dev");
 
       await git.add(["."]);
 
       await git.commit("Added quotes from Discord");
 
-      await git.push("origin", "master");
+      await git.push("origin", "dev");
 
       interaction.followUp({
         ephemeral: true,
