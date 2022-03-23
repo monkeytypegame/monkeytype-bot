@@ -24,8 +24,8 @@ module.exports.run = async (bot, message, args, guild) => {
       referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify({
         title: "Added more quotes",
-        head: "monkeytypegeorge:master",
-        base: "master",
+        head: "monkeytypegeorge:dev",
+        base: "dev",
         maintainer_can_modify: true,
       }),
     })
