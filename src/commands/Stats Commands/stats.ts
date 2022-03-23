@@ -37,8 +37,13 @@ export default {
 
     const duration = moment.duration({ seconds: user.timeTyping });
 
+    const nameDisplay =
+      user.name === discordUser.username
+        ? user.name
+        : `${user.name} (${discordUser.username})`;
+
     const embed = client.embed({
-      title: `Typing Stats for ${user.name}`,
+      title: `Typing Stats for ${nameDisplay}`,
       color: 0xe2b714,
       thumbnail: {
         url:

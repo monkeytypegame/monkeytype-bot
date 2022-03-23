@@ -61,8 +61,13 @@ export default {
       return;
     }
 
+    const nameDisplay =
+      user.name === discordUser.username
+        ? user.name
+        : `${user.name} (${discordUser.username})`;
+
     const embed = client.embed({
-      title: `Recent Result for ${interaction.user.username}`,
+      title: `Recent Result for ${nameDisplay}`,
       color: 0xe2b714
     });
 

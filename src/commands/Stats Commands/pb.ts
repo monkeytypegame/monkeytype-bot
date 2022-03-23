@@ -56,8 +56,13 @@ export default {
       else wordsPB[+key] = maxValue;
     });
 
+    const nameDisplay =
+      user.name === discordUser.username
+        ? user.name
+        : `${user.name} (${discordUser.username})`;
+
     const embed = client.embed({
-      title: "Personal Bests",
+      title: `Personal Bests for ${nameDisplay}`,
       color: 0xe2b714,
       thumbnail: {
         url:
