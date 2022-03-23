@@ -26,6 +26,7 @@ interface Channels {
 
 export interface ClientOptions extends DiscordClientOptions {
   repo: string;
+  repoPath: string;
   commandsPath: string;
   eventsPath: string;
   deleteUnusedSlashCommands: boolean;

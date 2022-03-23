@@ -26,7 +26,7 @@ module.exports.run = async (bot, message, args, guild) => {
   if (!user) {
     return {
       status: false,
-      message: `:x: Could not find user. Make sure your accounts are paired.`
+      message: `:x: Could not find user. Make sure accounts are paired.`
     };
   }
 

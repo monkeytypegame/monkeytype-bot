@@ -7,8 +7,13 @@
   "commandsPath": "./commands",
   "eventsPath": "./events",
   "deleteUnusedSlashCommands": true,
-  "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
+  "intents": [
+    "GUILDS",
+    "GUILD_MESSAGES",
+    "GUILD_MEMBERS"
+  ],
   "repo": "miodec/monkeytype",
+  "repoPath": "../monkeytype",
   "roles": {
     "adminRole": "admin role id",
     "modRole": "mod role id",

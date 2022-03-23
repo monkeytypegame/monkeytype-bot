@@ -26,7 +26,7 @@ module.exports.run = async (bot, message, args, guild) => {
       .then(async (snapshot) => {
         if (!snapshot) {
           message.channel.send(
-            ":x: Could not find user. Make sure your accounts are paired."
+            ":x: Could not find user. Make sure accounts are paired."
           );
           t60bananas = 0;
         } else {

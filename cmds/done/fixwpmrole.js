@@ -25,7 +25,7 @@ module.exports.run = async (bot, message, args, guild) => {
     await statusmsg.delete();
     return {
       status: false,
-      message: `:x: Fix wpm role: Could not find user. Make sure your accounts are paired.`
+      message: `:x: Fix wpm role: Could not find user. Make sure accounts are paired.`
     };
   }
 

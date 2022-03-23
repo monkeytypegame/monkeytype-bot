@@ -7,18 +7,28 @@ export default {
   description: "Shows your personal bests",
   category: "Stats",
   roles: [RolesEnum.MEMBER],
+  options: [
+    {
+      name: "user",
+      description: "The user to get the personal bests of",
+      type: "USER",
+      required: false
+    }
+  ],
   requiredChannel: "bot-commands",
   run: async (interaction, client) => {
     const db = mongoDB();
 
+    const discordUser = interaction.options.getUser("user") ?? interaction.user;
+
     const user = <User | null>(
-      await db.collection("users").findOne({ discordId: interaction.user.id })
+      await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
     if (user === null) {
       interaction.reply({
         ephemeral: true,
-        content: ":x: Could not find user. Make sure your accounts are paired."
+        content: ":x: Could not find user. Make sure accounts are paired."
       });
 
       return;

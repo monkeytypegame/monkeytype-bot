@@ -2,18 +2,18 @@ import { Command, RolesEnum } from "../../interfaces/Command";
 
 import SimpleGit from "simple-git";
 
-const git = SimpleGit("../../../monkeytype");
-
 export default {
   name: "quote-push",
   description: "Push quotes to github",
   category: "GitHub",
   roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
-  run: async (interaction) => {
+  run: async (interaction, client) => {
     await interaction.deferReply({
       ephemeral: true,
       fetchReply: false
     });
+
+    const git = SimpleGit(client.clientOptions.repoPath);
 
     try {
       await git.pull("upstream", "master");
