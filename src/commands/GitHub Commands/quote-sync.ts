@@ -1,10 +1,9 @@
 import { Command, RolesEnum } from "../../interfaces/Command";
-
 import SimpleGit from "simple-git";
 
 export default {
-  name: "quote-push",
-  description: "Push quotes to GitHub",
+  name: "quote-sync",
+  description: "Sync quotes from GitHub",
   category: "GitHub",
   roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
   run: async (interaction, client) => {
@@ -16,24 +15,24 @@ export default {
     const git = SimpleGit(client.clientOptions.repoPath);
 
     try {
-      await git.pull("upstream", "master");
+      await git.fetch("upstream", "master");
 
-      await git.add(["."]);
+      await git.checkout("master");
 
-      await git.commit("Added quotes from Discord");
+      await git.mergeFromTo("upstream", "master");
 
       await git.push("origin", "master");
 
       interaction.followUp({
         ephemeral: true,
-        content: ":white_check_mark: Successfully pushed quotes to GitHub"
+        content: ":white_check_mark: Successfully synced quotes from GitHub"
       });
     } catch (err) {
       console.log(err);
 
       interaction.followUp({
         ephemeral: true,
-        content: `:x: Error trying to push quotes to GitHub: \`\`\`${err}\`\`\``
+        content: `:x: Error trying to sync quotes from GitHub: \`\`\`${err}\`\`\``
       });
     }
   }
