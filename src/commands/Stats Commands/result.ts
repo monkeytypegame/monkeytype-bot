@@ -80,7 +80,7 @@ export default {
       );
     } else if (result.mode === "quote") {
       const res = await fetch(
-        `https://raw.githubusercontent.com/${client.clientOptions.repo}/frontend/static/quotes/${language}.json`
+        `https://raw.githubusercontent.com/${client.clientOptions.repo}/master/frontend/static/quotes/${language}.json`
       );
 
       const quoteColl = <QuoteCollection>await res.json();
