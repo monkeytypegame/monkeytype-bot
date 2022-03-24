@@ -55,6 +55,7 @@ export interface User extends WithId<Document> {
   completedTests: number;
   timeTyping: number;
   personalBests: PersonalBests;
+  bananas?: number;
 }
 
 export interface LeaderboardEntry extends WithId<Document> {
@@ -196,4 +197,21 @@ export interface Result<M extends Mode> {
   numbers?: boolean;
   punctuation?: boolean;
   hash?: string;
+}
+
+export interface BananaEntry {
+  balance: number;
+  lastCollect: number;
+  flipLosses: number;
+  flipWins: number;
+  bananajackLosses: number;
+  rpsWins: number;
+  rpsLosses: number;
+  rpsTies: number;
+  bananajackTies: number;
+  bananajackWins: number;
+}
+
+export interface BananaData {
+  [key: string]: BananaEntry;
 }
