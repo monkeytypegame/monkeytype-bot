@@ -138,7 +138,7 @@ module.exports.run = async (bot, message, args, guild) => {
           .setDescription(
             `Too early! Come back in ${timeLeftString} to collect your banana.`
           )
-          .addField("Bananas", userData.balance + t60bananas)
+          .addField("Bananas", (userData.balance || 0) + t60bananas)
           .setFooter("www.monkeytype.com");
 
         if (t60bananas > 0) {
@@ -201,7 +201,7 @@ module.exports.run = async (bot, message, args, guild) => {
           .setDescription(
             `Banana collected! Come back in ${timeLeftString} for more.`
           )
-          .addField("Bananas", userData.balance + (t60bananas ? t60bananas : 0))
+          .addField("Bananas", (userData.balance || 0) + (t60bananas ? t60bananas : 0))
           .setFooter("www.monkeytype.com");
 
         if (t60bananas > 0) {
