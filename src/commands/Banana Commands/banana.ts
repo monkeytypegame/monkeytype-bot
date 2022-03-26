@@ -40,11 +40,19 @@ export default {
 
       const nextReset = getNextDay(now);
 
-      const dateDiff = Math.floor((nextReset.getTime() - now) / 1000);
+      const dateDiff = nextReset.getTime() - now;
 
-      const timeString = moment(dateDiff).format(
-        "H [hours], m [minutes], s [seconds]"
-      );
+      const momentDuration = moment.duration(dateDiff);
+
+      let timeString = "";
+
+      if (momentDuration.hours())
+        timeString = `${momentDuration.hours()} hour(s)`;
+      else if (momentDuration.minutes())
+        timeString = `${momentDuration.minutes()} minute(s)`;
+      else if (momentDuration.seconds())
+        timeString = `${momentDuration.seconds()} second(s)`;
+      else timeString = "less than a second";
 
       const lastCollectDate = new Date(bananaEntry.lastCollect);
 
