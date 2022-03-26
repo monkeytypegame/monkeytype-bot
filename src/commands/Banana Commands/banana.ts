@@ -9,7 +9,7 @@ export default {
   name: "banana",
   description: "Collect bananas",
   category: "Banana",
-  roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  roles: [RolesEnum.MEMBER],
   requiredChannel: "banana",
   run: async (interaction, client) => {
     await interaction.deferReply({ ephemeral: false, fetchReply: false });
