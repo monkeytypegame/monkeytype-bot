@@ -23,7 +23,7 @@ export default {
   run: async (interaction) => {
     const targetUser = interaction.options.getUser("user", true);
 
-    const amount = interaction.options.getNumber("amount", true);
+    const amount = interaction.options.getInteger("amount", true);
 
     const authorBananaEntry = getUser(interaction.user.id);
 
