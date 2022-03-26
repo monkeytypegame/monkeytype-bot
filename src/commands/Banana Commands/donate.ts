@@ -41,6 +41,11 @@ export default {
       return;
     }
 
+    if (amount < 1) {
+      interaction.reply(":x: You must donate at least 1 banana.");
+      return;
+    }
+
     if (authorBananaEntry.balance < amount) {
       interaction.reply(":x: You do not have enough bananas to donate.");
       return;
