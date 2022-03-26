@@ -32,7 +32,7 @@ export default {
         });
       }
 
-      const time60Bananas = snapshot === null ? 0 : snapshot.bananas;
+      const time60Bananas = (snapshot === null ? 0 : snapshot.bananas) ?? 0;
 
       const now = Date.now();
 
@@ -67,9 +67,7 @@ export default {
         fields: [
           {
             name: "Bananas",
-            value: (
-              (bananaEntry.balance ?? 0) + (time60Bananas ?? 0)
-            ).toString(),
+            value: (bananaEntry.balance + time60Bananas).toString(),
             inline: false
           }
         ]
@@ -84,9 +82,14 @@ export default {
       } else {
         bananaEntry.balance++;
         bananaEntry.lastCollect = now;
+
+        if (embed.fields[0] !== undefined)
+          embed.fields[0].value = (
+            bananaEntry.balance + time60Bananas
+          ).toString();
       }
 
-      if (time60Bananas !== undefined && time60Bananas > 0) {
+      if (time60Bananas > 0) {
         embed.addField("Bonus! :partying_face:", time60Bananas.toString());
 
         bananaEntry.balance += time60Bananas;

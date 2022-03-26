@@ -213,5 +213,5 @@ export interface BananaEntry {
 }
 
 export interface BananaData {
-  [key: string]: BananaEntry;
+  [key: string]: Partial<BananaEntry>;
 }
