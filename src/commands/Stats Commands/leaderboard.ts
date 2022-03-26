@@ -44,7 +44,7 @@ export default {
   requiredChannel: "bot-commands",
   run: async (interaction, client) => {
     await interaction.deferReply({
-      ephemeral: true,
+      ephemeral: false,
       fetchReply: false
     });
 
@@ -76,6 +76,12 @@ export default {
         .toArray()
     );
 
+    if (leaderboardArray.length === 0) {
+      return interaction.followUp(
+        ":x: There are no users on the leaderboard. Did you enter in a valid mode?"
+      );
+    }
+
     const fieldArray = leaderboardArray.map(
       (entry) => `\`${entry.rank}\`: ${entry.name} (${entry.wpm} wpm)`
     );
@@ -96,8 +102,11 @@ export default {
       entries: fieldArray,
       id: "leaderboard",
       fieldName: "Leaderboard",
-      send: async (embed, row) => {
-        if (leaderboardUser !== null) {
+      send: async (embed, row, currentEntries) => {
+        if (
+          leaderboardUser !== null &&
+          !currentEntries?.find((entry) => entry.includes(leaderboardUser.name))
+        ) {
           embed.addField(
             "You",
             `\`${leaderboardUser.rank}\`: ${leaderboardUser.name} (${leaderboardUser.wpm} wpm)`
@@ -109,7 +118,35 @@ export default {
           components: [row],
           fetchReply: true
         });
+      },
+      onPageChange: (embed, currentEntries) => {
+        if (embed.fields[1] !== undefined) {
+          if (
+            leaderboardUser === null ||
+            currentEntries?.find((entry) =>
+              entry.includes(leaderboardUser.name)
+            )
+          ) {
+            embed.fields.splice(1, 1);
+          }
+        } else {
+          if (
+            leaderboardUser !== null &&
+            !currentEntries?.find((entry) =>
+              entry.includes(leaderboardUser.name)
+            )
+          ) {
+            embed.addField(
+              "You",
+              `\`${leaderboardUser.rank}\`: ${leaderboardUser.name} (${leaderboardUser.wpm} wpm)`
+            );
+          }
+        }
+
+        return embed;
       }
     });
+
+    return;
   }
 } as Command;

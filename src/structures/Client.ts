@@ -31,8 +31,10 @@ interface PaginationOptions<T> {
   fieldName: string;
   send?: (
     embed: MessageEmbed,
-    row: MessageActionRow
+    row: MessageActionRow,
+    currentEntries: T[]
   ) => Promise<Message | APIMessage>;
+  onPageChange?: (embed: MessageEmbed, currentEntries: T[]) => MessageEmbed;
 }
 
 export class Client extends DiscordClient {
@@ -203,7 +205,8 @@ export class Client extends DiscordClient {
       entries,
       id,
       fieldName,
-      send
+      send,
+      onPageChange
     } = options;
 
     const maxPage =
@@ -213,11 +216,11 @@ export class Client extends DiscordClient {
 
     if (embedOptions.fields === undefined) embedOptions.fields = [];
 
+    const currentEntries = entries.slice(page * amount, page * amount + amount);
+
     embedOptions.fields.push({
       name: fieldName,
-      value:
-        entries.slice(page * amount, page * amount + amount).join("\n") ||
-        "None"
+      value: currentEntries.join("\n") || "None"
     });
 
     let embed = this.embed(embedOptions);
@@ -251,7 +254,7 @@ export class Client extends DiscordClient {
             components: [row],
             fetchReply: true
           })
-        : await send(embed, row);
+        : await send(embed, row, currentEntries);
 
     const collector = new InteractionCollector(this, {
       channel: interaction.channel === null ? undefined : interaction.channel,
@@ -291,17 +294,22 @@ export class Client extends DiscordClient {
 
       if (embedOptions.fields === undefined) embedOptions.fields = [];
 
+      const pageChangeEntries = entries.slice(
+        page * amount,
+        page * amount + amount
+      );
+
       embedOptions.fields[
         embedOptions.fields.findIndex((field) => field.name === fieldName)
       ] = {
         name: fieldName,
-        value:
-          entries.slice(page * amount, page * amount + amount).join("\n") ||
-          "None",
+        value: pageChangeEntries.join("\n") || "None",
         inline: false
       };
 
       embed = this.embed(embedOptions);
+      if (onPageChange !== undefined)
+        embed = onPageChange(embed, pageChangeEntries);
 
       if (row.components[1])
         (row.components[1] as MessageButton).setLabel(
