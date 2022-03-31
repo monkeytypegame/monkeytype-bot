@@ -20,7 +20,10 @@ import { resolve } from "path";
 import { Event } from "../interfaces/Event";
 import { APIMessage } from "discord-api-types";
 import { queue } from "async";
-import { Task } from "../interfaces/Task";
+import { QueuedTask, Task, TaskFile } from "../interfaces/Task";
+import { mongoDB } from "../functions/mongodb";
+
+const db = mongoDB();
 
 interface PaginationOptions<T> {
   embedOptions: MessageEmbedOptions;
@@ -43,13 +46,25 @@ export class Client extends DiscordClient {
   public iconURL =
     "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";
   public commands: Collection<string, Command> = new Collection();
+  public tasks: Collection<string, TaskFile> = new Collection();
   public categories: string[] = [];
-  public taskQueue = queue<Task>(async (task, callback) => {
+  public taskQueue = queue<QueuedTask>(async (task, callback) => {
     console.log(`queue length: ${this.taskQueue.length()}`);
 
-    const result = await task.run(this, (await this.guild) as Guild);
+    const guild = await this.guild;
 
-    console.log(result);
+    if (guild === undefined) {
+      console.error("Guild not found.");
+      return;
+    }
+
+    const result = await task.run(this, guild, task.args);
+
+    console.log(
+      `Task ${task.name} finished ${
+        result.status ? "successfully" : `with errors\n${result.message}`
+      }.`
+    );
 
     if (result.status) {
       console.log(`Task ${task.name} completed.`);
@@ -62,6 +77,7 @@ export class Client extends DiscordClient {
 
     callback();
   });
+
   constructor(options: ClientOptions) {
     super(options);
 
@@ -99,6 +115,10 @@ export class Client extends DiscordClient {
       )
     );
 
+    const taskFiles = await this.glob(
+      resolve(__dirname, "../", this.clientOptions.tasksPath, "**", "*.{ts,js}")
+    );
+
     const commands = (await Promise.all(
       commandFiles.map(
         async (commandFilePath) =>
@@ -115,6 +135,15 @@ export class Client extends DiscordClient {
     )) as Event<keyof ClientEvents>[];
 
     events.forEach((event) => this.on(event.event, event.run.bind(null, this)));
+
+    const tasks = (await Promise.all(
+      taskFiles.map(
+        async (taskFilePath) =>
+          (await import(taskFilePath)).default || (await import(taskFilePath))
+      )
+    )) as TaskFile[];
+
+    tasks.forEach((task) => this.tasks.set(task.name, task));
 
     // Handing slash commands
 
@@ -351,5 +380,21 @@ export class Client extends DiscordClient {
     return Array.from(
       this.commands.filter((cmd) => cmd.category === category).values()
     );
+  }
+
+  public async appendTasks(): Promise<void> {
+    const tasks = <Task[]>(
+      await db.collection("bot-commands").find({ executed: false }).toArray()
+    );
+
+    for (const task of tasks) {
+      const taskFile = this.tasks.get(task.name);
+
+      if (taskFile === undefined) {
+        continue;
+      }
+
+      this.taskQueue.push({ ...task, ...taskFile });
+    }
   }
 }

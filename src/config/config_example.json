@@ -6,6 +6,7 @@
   "devID": "your id",
   "commandsPath": "./commands",
   "eventsPath": "./events",
+  "tasksPath": "./tasks",
   "deleteUnusedSlashCommands": true,
   "intents": [
     "GUILDS",
