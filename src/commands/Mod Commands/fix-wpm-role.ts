@@ -1,7 +1,6 @@
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { User } from "../../types";
-import { GuildMember } from "discord.js";
 
 export default {
   name: "fix-wpm-role",
@@ -19,7 +18,16 @@ export default {
   run: async (interaction, client) => {
     const user = interaction.options.getUser("user", true);
 
-    const member = <GuildMember>await interaction.guild?.members.fetch(user);
+    const member = await interaction.guild?.members.fetch(user);
+
+    if (member === undefined) {
+      interaction.reply({
+        ephemeral: false,
+        content: ":x: Could not find user"
+      });
+
+      return;
+    }
 
     const db = mongoDB();
 
@@ -60,24 +68,26 @@ export default {
 
     const timePB = Math.round(Math.max(...timePBs.map(({ wpm }) => wpm), 0));
 
-    const role = client.clientOptions.wpmRoles.find(
-      (r) => timePB >= r.min && timePB <= r.max
-    );
+    const role = await client.getWPMRole(timePB);
 
     if (role === undefined) {
       interaction.reply({
         ephemeral: false,
-        content: `:x: Could not find role for wpm ${timePB}`
+        content: `:x: Could not find role for ${timePB} wpm`
       });
 
       return;
     }
 
-    member.roles.add(role.id).then(() => {
-      interaction.reply({
-        ephemeral: false,
-        content: `:white_check_mark: Fixed wpm role: Assigned role ${role.id} to user ${member}`
-      });
+    await client.removeAllWPMRoles(member);
+
+    await member.roles.add(role.id);
+
+    interaction.reply({
+      ephemeral: false,
+      content: `:white_check_mark: Fixed wpm role: Assigned role ${role.id} to user ${member}`
     });
+
+    return;
   }
 } as Command;

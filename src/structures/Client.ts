@@ -5,12 +5,14 @@ import {
   Collection,
   CommandInteraction,
   Guild,
+  GuildMember,
   InteractionCollector,
   Message,
   MessageActionRow,
   MessageButton,
   MessageEmbed,
-  MessageEmbedOptions
+  MessageEmbedOptions,
+  Role
 } from "discord.js";
 import { ClientOptions } from "../interfaces/ClientOptions";
 import { Command } from "../interfaces/Command";
@@ -58,7 +60,7 @@ export class Client extends DiscordClient {
       return;
     }
 
-    const result = await task.run(this, guild, task.args);
+    const result = await task.run(this, guild, ...task.args);
 
     console.log(
       `Task ${task.name} finished ${
@@ -396,5 +398,48 @@ export class Client extends DiscordClient {
 
       this.taskQueue.push({ ...task, ...taskFile });
     }
+  }
+
+  public async getWPMRole(wpm: number): Promise<Role | undefined> {
+    const guild = await this.guild;
+
+    if (guild === undefined) return;
+
+    const roleID = this.clientOptions.wpmRoles.find(
+      (role) => role.min <= wpm && wpm <= role.max
+    )?.id;
+
+    if (roleID === undefined) return;
+
+    return guild.roles.cache.find((role) => role.id === roleID);
+  }
+
+  public async removeAllWPMRoles(member: GuildMember): Promise<void> {
+    const guild = await this.guild;
+
+    if (guild === undefined) return;
+
+    const roles = this.clientOptions.wpmRoles.map((role) => role.id);
+
+    const containedRoles = member.roles.cache.filter((role) =>
+      roles.includes(role.id)
+    );
+
+    await member.roles.remove(containedRoles, "Removing WPM Roles");
+  }
+
+  public getUserWPMFromRole(member: GuildMember): number | undefined {
+    const roles = this.clientOptions.wpmRoles.map((role) => role.id);
+
+    const roleID = member.roles.cache.find((role) => roles.includes(role.id))
+      ?.id;
+
+    if (roleID === undefined) return;
+
+    const role = this.clientOptions.wpmRoles.find((role) => role.id === roleID);
+
+    if (role === undefined) return;
+
+    return role.max;
   }
 }
