@@ -5,6 +5,7 @@ let mongoClient;
 
 module.exports = {
   async connectDB() {
+    if (mongoClient) return mongoClient;
     return MongoClient.connect(process.env.DB_URI)
       .then((client) => {
         mongoClient = client;
