@@ -1,4 +1,3 @@
-import { mongoDB } from "../functions/mongodb";
 import { TaskFile } from "../interfaces/Task";
 
 export default {
@@ -35,11 +34,9 @@ export default {
 
     await client.removeAllWPMRoles(member);
 
-    const botCommandsChannel = guild.channels.cache.find(
-      (ch) => ch.name === "bot-commands"
-    );
+    const botCommandsChannel = await client.getChannel("botCommands");
 
-    if (botCommandsChannel !== undefined && botCommandsChannel.isText()) {
+    if (botCommandsChannel !== undefined) {
       botCommandsChannel.send(
         `:white_check_mark: ${member}, your account is unlinked.`
       );

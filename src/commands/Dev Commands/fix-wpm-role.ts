@@ -5,7 +5,7 @@ import { User } from "../../types";
 export default {
   name: "fix-wpm-role",
   description: "Fixes the WPM role on the supplied user",
-  category: "Mod",
+  category: "Dev",
   options: [
     {
       name: "user",
@@ -14,7 +14,7 @@ export default {
       required: true
     }
   ],
-  roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  roles: [RolesEnum.COLLABORATOR, RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
   run: async (interaction, client) => {
     const user = interaction.options.getUser("user", true);
 

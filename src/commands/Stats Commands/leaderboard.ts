@@ -41,7 +41,7 @@ export default {
     }
   ],
   roles: [RolesEnum.MEMBER],
-  requiredChannel: "bot-commands",
+  requiredChannel: "botCommands",
   run: async (interaction, client) => {
     await interaction.deferReply({
       ephemeral: false,

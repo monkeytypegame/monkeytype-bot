@@ -18,10 +18,12 @@ interface Challenges {
   [key: string]: string;
 }
 
-interface Channels {
+export interface Channels {
   botLog: string;
-  general: string;
+  lounge: string;
   updates: string;
+  botCommands: string;
+  banana: string;
 }
 
 export interface ClientOptions extends DiscordClientOptions {
@@ -31,9 +33,7 @@ export interface ClientOptions extends DiscordClientOptions {
   eventsPath: string;
   tasksPath: string;
   deleteUnusedSlashCommands: boolean;
-  secret: string;
   guildId: string;
-  githubApiToken: string;
   dev: boolean;
   devID: string;
   roles: Roles;

@@ -1,20 +1,5 @@
-import {
-  ApplicationCommandOptionData,
-  Client as DiscordClient,
-  ClientEvents,
-  Collection,
-  CommandInteraction,
-  Guild,
-  GuildMember,
-  InteractionCollector,
-  Message,
-  MessageActionRow,
-  MessageButton,
-  MessageEmbed,
-  MessageEmbedOptions,
-  Role
-} from "discord.js";
-import { ClientOptions } from "../interfaces/ClientOptions";
+import * as Discord from "discord.js";
+import { Channels, ClientOptions } from "../interfaces/ClientOptions";
 import { Command } from "../interfaces/Command";
 import globCB from "glob";
 import { promisify } from "util";
@@ -25,30 +10,31 @@ import { queue } from "async";
 import { QueuedTask, Task, TaskFile } from "../interfaces/Task";
 import { mongoDB } from "../functions/mongodb";
 
-const db = mongoDB();
-
 interface PaginationOptions<T> {
-  embedOptions: MessageEmbedOptions;
-  interaction: CommandInteraction;
+  embedOptions: Discord.MessageEmbedOptions;
+  interaction: Discord.CommandInteraction;
   amount: number;
   entries: T[];
   id: string;
   fieldName: string;
   send?: (
-    embed: MessageEmbed,
-    row: MessageActionRow,
+    embed: Discord.MessageEmbed,
+    row: Discord.MessageActionRow,
     currentEntries: T[]
-  ) => Promise<Message | APIMessage>;
-  onPageChange?: (embed: MessageEmbed, currentEntries: T[]) => MessageEmbed;
+  ) => Promise<Discord.Message | APIMessage>;
+  onPageChange?: (
+    embed: Discord.MessageEmbed,
+    currentEntries: T[]
+  ) => Discord.MessageEmbed;
 }
 
-export class Client extends DiscordClient {
+export class Client extends Discord.Client {
   public clientOptions: ClientOptions;
   public glob = promisify(globCB);
   public iconURL =
     "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";
-  public commands: Collection<string, Command> = new Collection();
-  public tasks: Collection<string, TaskFile> = new Collection();
+  public commands = new Discord.Collection<string, Command>();
+  public tasks = new Discord.Collection<string, TaskFile>();
   public categories: string[] = [];
   public taskQueue = queue<QueuedTask>(async (task, callback) => {
     console.log(`queue length: ${this.taskQueue.length()}`);
@@ -91,7 +77,7 @@ export class Client extends DiscordClient {
 
     const [commands, events] = await this.load();
 
-    this.emit("ready", this as DiscordClient<true>);
+    this.emit("ready", <Discord.Client>this);
 
     return `Loaded ${commands} commands and ${events} events.`;
   }
@@ -134,7 +120,7 @@ export class Client extends DiscordClient {
         async (eventFilePath) =>
           (await import(eventFilePath)).default || (await import(eventFilePath))
       )
-    )) as Event<keyof ClientEvents>[];
+    )) as Event<keyof Discord.ClientEvents>[];
 
     events.forEach((event) => this.on(event.event, event.run.bind(null, this)));
 
@@ -171,7 +157,7 @@ export class Client extends DiscordClient {
               name: command.name,
               description: command.description,
               type: "CHAT_INPUT",
-              options: command.options as ApplicationCommandOptionData[]
+              options: command.options as Discord.ApplicationCommandOptionData[]
             },
             this.clientOptions.guildId
           )
@@ -196,7 +182,7 @@ export class Client extends DiscordClient {
         slashCommand.edit({
           name: command.name,
           description: command.description,
-          options: <ApplicationCommandOptionData[]>command.options
+          options: <Discord.ApplicationCommandOptionData[]>command.options
         });
       }
     });
@@ -204,7 +190,7 @@ export class Client extends DiscordClient {
     return [this.commands.size, events.length];
   }
 
-  public embed(embedOptions: MessageEmbedOptions) {
+  public embed(embedOptions: Discord.MessageEmbedOptions) {
     if (!embedOptions.title?.startsWith(this.user?.username ?? "George"))
       embedOptions.title = `${this.user?.username ?? "George"}: \`${
         embedOptions.title
@@ -221,7 +207,7 @@ export class Client extends DiscordClient {
         iconURL: this.user?.avatarURL({ dynamic: true }) ?? ""
       };
 
-    const embed = new MessageEmbed(embedOptions);
+    const embed = new Discord.MessageEmbed(embedOptions);
 
     embed.setTimestamp();
 
@@ -256,21 +242,21 @@ export class Client extends DiscordClient {
 
     let embed = this.embed(embedOptions);
 
-    const row = new MessageActionRow();
+    const row = new Discord.MessageActionRow();
 
     row.addComponents([
-      new MessageButton()
+      new Discord.MessageButton()
         .setCustomId(`${id.toLowerCase()}PreviousPage`)
         .setEmoji("⬅️")
         .setLabel("Previous")
         .setStyle("PRIMARY")
         .setDisabled(false),
-      new MessageButton()
+      new Discord.MessageButton()
         .setCustomId(`${id.toLowerCase()}PageDisplay`)
         .setLabel(`Page ${page + 1} of ${maxPage}`)
         .setStyle("SECONDARY")
         .setDisabled(true),
-      new MessageButton()
+      new Discord.MessageButton()
         .setCustomId(`${id.toLowerCase()}NextPage`)
         .setEmoji("➡️")
         .setLabel("Next")
@@ -287,7 +273,7 @@ export class Client extends DiscordClient {
           })
         : await send(embed, row, currentEntries);
 
-    const collector = new InteractionCollector(this, {
+    const collector = new Discord.InteractionCollector(this, {
       channel: interaction.channel === null ? undefined : interaction.channel,
       componentType: "BUTTON",
       dispose: true,
@@ -343,7 +329,7 @@ export class Client extends DiscordClient {
         embed = onPageChange(embed, pageChangeEntries);
 
       if (row.components[1])
-        (row.components[1] as MessageButton).setLabel(
+        (row.components[1] as Discord.MessageButton).setLabel(
           `Page ${page + 1} of ${maxPage}`
         );
 
@@ -354,26 +340,19 @@ export class Client extends DiscordClient {
 
   public async logInBotLogChannel(
     message: string
-  ): Promise<Message | undefined> {
-    if (
-      this.clientOptions.channels.botLog !== null &&
-      this.clientOptions.channels.botLog !== undefined
-    ) {
-      const channel = (await this.guild)?.channels.cache.find(
-        (ch) => ch.id === this.clientOptions.channels.botLog
-      );
+  ): Promise<Discord.Message | undefined> {
+    const botLogChannel = await this.getChannel("botLog");
 
-      if (channel !== undefined && channel.isText())
-        return channel.send(message);
+    if (botLogChannel !== undefined) {
+      return botLogChannel.send(message);
     }
 
     return;
   }
 
-  public get guild(): Promise<Guild | undefined> {
+  public get guild(): Promise<Discord.Guild | undefined> {
     return this.guilds.fetch({
       guild: this.clientOptions.guildId,
-      force: true,
       cache: true
     });
   }
@@ -385,6 +364,8 @@ export class Client extends DiscordClient {
   }
 
   public async appendTasks(): Promise<void> {
+    const db = mongoDB();
+
     const tasks = <Task[]>(
       await db.collection("bot-commands").find({ executed: false }).toArray()
     );
@@ -400,7 +381,7 @@ export class Client extends DiscordClient {
     }
   }
 
-  public async getWPMRole(wpm: number): Promise<Role | undefined> {
+  public async getWPMRole(wpm: number): Promise<Discord.Role | undefined> {
     const guild = await this.guild;
 
     if (guild === undefined) return;
@@ -414,7 +395,7 @@ export class Client extends DiscordClient {
     return guild.roles.cache.find((role) => role.id === roleID);
   }
 
-  public async removeAllWPMRoles(member: GuildMember): Promise<void> {
+  public async removeAllWPMRoles(member: Discord.GuildMember): Promise<void> {
     const guild = await this.guild;
 
     if (guild === undefined) return;
@@ -428,7 +409,7 @@ export class Client extends DiscordClient {
     await member.roles.remove(containedRoles, "Removing WPM Roles");
   }
 
-  public getUserWPMFromRole(member: GuildMember): number | undefined {
+  public getUserWPMFromRole(member: Discord.GuildMember): number | undefined {
     const roles = this.clientOptions.wpmRoles.map((role) => role.id);
 
     const roleID = member.roles.cache.find((role) => roles.includes(role.id))
@@ -441,5 +422,21 @@ export class Client extends DiscordClient {
     if (role === undefined) return;
 
     return role.max;
+  }
+
+  public async getChannel(
+    channel: keyof Channels
+  ): Promise<Discord.TextChannel | undefined> {
+    const guild = await this.guild;
+
+    const guildChannel = guild?.channels.cache.find(
+      (ch) => ch.id === this.clientOptions.channels[channel]
+    );
+
+    if (!guildChannel?.isText()) return;
+
+    if (guildChannel.type === "GUILD_TEXT") return guildChannel;
+
+    return;
   }
 }

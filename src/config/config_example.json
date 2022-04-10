@@ -1,7 +1,5 @@
 {
-  "secret": "secret for github webhook",
   "guildId": "guild (server) id",
-  "githubApiToken": "access token for creating issues",
   "dev": false,
   "devID": "your id",
   "commandsPath": "./commands",
@@ -34,7 +32,9 @@
   },
   "channels": {
     "botLog": "channel id where the bot will log debug messages",
-    "general": "general id",
-    "updates": "updates channel id"
+    "lounge": "lounge id",
+    "updates": "updates channel id",
+    "botCommands": "bot commands channel id",
+    "banana": "banana channel id"
   }
 }

@@ -1,4 +1,3 @@
-import { runTasks } from "../tasks/runTasks";
 import { connectDB } from "../functions/mongodb";
 import { Event } from "../interfaces/Event";
 
@@ -28,7 +27,7 @@ export default {
     }, 3600000);
 
     setInterval(async () => {
-      runTasks(client);
+      client.appendTasks();
     }, 30000);
   }
 } as Event<"ready">;

@@ -4,7 +4,7 @@ import { spawn } from "child_process";
 export default {
   name: "upgrade",
   description: "Upgrade the bot",
-  category: "Utility",
+  category: "Dev",
   roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
   run: async (interaction) => {
     try {

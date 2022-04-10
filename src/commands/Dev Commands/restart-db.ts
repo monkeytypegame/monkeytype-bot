@@ -1,5 +1,4 @@
 import { Command, RolesEnum } from "../../interfaces/Command";
-
 import { exec } from "child_process";
 import {
   InteractionCollector,
@@ -10,8 +9,8 @@ import {
 export default {
   name: "restart-db",
   description: "Restart the MongoDB database",
-  category: "Utility",
-  roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  category: "Dev",
+  roles: [, RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
   run: async (interaction, client) => {
     try {
       const message = await interaction.reply({

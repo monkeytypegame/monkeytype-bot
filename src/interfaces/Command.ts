@@ -1,5 +1,6 @@
 import { ApplicationCommandOption, CommandInteraction } from "discord.js";
 import { Client } from "../structures/Client";
+import type { Channels } from "./ClientOptions";
 
 export enum RolesEnum {
   ADMINISTRATOR = "adminRole",
@@ -15,6 +16,6 @@ export interface Command {
   category: string;
   options?: ApplicationCommandOption[];
   roles?: RolesEnum[];
-  requiredChannel?: string;
+  requiredChannel?: keyof Channels;
   run: (interaction: CommandInteraction, client: Client) => any;
 }

@@ -68,11 +68,11 @@ module.exports.run = async (bot, message, args, guild) => {
       );
 
     if (
-      config.channels.general !== null &&
-      config.channels.general !== undefined
+      config.channels.lounge !== null &&
+      config.channels.lounge !== undefined
     ) {
       guild.channels.cache
-        .find((ch) => ch.id === config.channels.general)
+        .find((ch) => ch.id === config.channels.lounge)
         .send(embed);
     }
 

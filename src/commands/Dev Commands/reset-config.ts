@@ -6,7 +6,7 @@ import { User } from "../../types";
 export default {
   name: "reset-config",
   description: "Resets a user's config",
-  category: "Mod",
+  category: "Dev",
   options: [
     {
       name: "user",
@@ -15,7 +15,7 @@ export default {
       required: true
     }
   ],
-  roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  roles: [RolesEnum.COLLABORATOR, RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
   run: async (interaction) => {
     await interaction.deferReply({
       ephemeral: true,

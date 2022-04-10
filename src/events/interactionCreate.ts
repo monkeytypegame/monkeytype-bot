@@ -49,7 +49,8 @@ export default {
 
       if (
         command.requiredChannel !== undefined &&
-        interaction.channel?.name !== command.requiredChannel
+        interaction.channel?.id !==
+          (await client.getChannel(command.requiredChannel))?.id
       ) {
         interaction.reply({
           ephemeral: true,

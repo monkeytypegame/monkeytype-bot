@@ -17,7 +17,7 @@ export default {
       required: false
     }
   ],
-  requiredChannel: "bot-commands",
+  requiredChannel: "botCommands",
   run: async (interaction, client) => {
     const db = mongoDB();
 

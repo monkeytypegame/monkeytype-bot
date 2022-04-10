@@ -44,7 +44,7 @@ module.exports.run = async (bot, message, args, guild) => {
         if (discordId !== undefined) {
           //not paired, go by name
           // guild.channels.cache
-          //   .find((ch) => ch.id === config.channels.general)
+          //   .find((ch) => ch.id === config.channels.lounge)
           //   .send(
           //     `<@${discordId}> has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
           //   );
@@ -66,7 +66,7 @@ module.exports.run = async (bot, message, args, guild) => {
         } else {
           //paired, tag the user
           // guild.channels.cache
-          //   .find((ch) => ch.id === config.channels.general)
+          //   .find((ch) => ch.id === config.channels.lounge)
           //   .send(
           //     `**${name}** has won the daily ${lb.mode} ${lb.mode2} leaderboard with ${winner.wpm} wpm (${winner.raw} raw) and ${winner.acc}% accuracy.`
           //   );
@@ -87,11 +87,11 @@ module.exports.run = async (bot, message, args, guild) => {
           );
         }
         guild.channels.cache
-          .find((ch) => ch.id === config.channels.general)
+          .find((ch) => ch.id === config.channels.lounge)
           .send(embed);
 
         guild.channels.cache
-          .find((ch) => ch.id === config.channels.general)
+          .find((ch) => ch.id === config.channels.lounge)
           .send(
             `<@${discordId}> You won the daily ${lb.mode} ${lb.mode2} leaderboard!`
           )

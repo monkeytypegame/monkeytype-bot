@@ -14,7 +14,7 @@ export default {
     }
   ],
   roles: [RolesEnum.MEMBER],
-  requiredChannel: "bot-commands",
+  requiredChannel: "botCommands",
   run: async (interaction, client) => {
     const apiRole = interaction.options.getRole("role", true);
 

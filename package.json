@@ -7,7 +7,7 @@
     "build": "tsc",
     "run": "node .",
     "start": "npm run build && npm run run",
-    "start:dev": "nodemon"
+    "dev": "nodemon"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +31,7 @@
     "moment": "^2.29.1",
     "mongodb": "^4.1.0",
     "node-fetch-commonjs": "^3.1.1",
+    "nodemon": "^2.0.15",
     "save": "^2.4.0",
     "simple-git": "^3.3.0",
     "string-similarity": "^4.0.4"
