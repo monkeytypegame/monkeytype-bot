@@ -1,3 +1,5 @@
+/** @format */
+
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { exec } from "child_process";
 import {
@@ -10,7 +12,7 @@ export default {
   name: "restart-db",
   description: "Restart the MongoDB database",
   category: "Dev",
-  roles: [, RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
   run: async (interaction, client) => {
     try {
       const message = await interaction.reply({
@@ -45,7 +47,9 @@ export default {
       });
 
       collector.on("collect", (buttonInteraction) => {
-        if (!buttonInteraction.isButton()) return;
+        if (!buttonInteraction.isButton()) {
+          return;
+        }
 
         if (buttonInteraction.customId === "restartDBYes") {
           interaction.channel?.send("Sending command...");

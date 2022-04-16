@@ -1,3 +1,5 @@
+/** @format */
+
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { spawn } from "child_process";
 

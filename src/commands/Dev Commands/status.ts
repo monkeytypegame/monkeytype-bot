@@ -1,3 +1,5 @@
+/** @format */
+
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { InstatusClient } from "instatus.ts";
 

@@ -1,3 +1,5 @@
+/** @format */
+
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { getData, getUser } from "../../functions/banana";
 
@@ -14,8 +16,7 @@ export default {
       title: "Top 10 Banana Hoarders",
       color: 0xe2b714,
       thumbnail: {
-        url:
-          "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
+        url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
       }
     });
 

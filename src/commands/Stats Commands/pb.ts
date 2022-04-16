@@ -1,3 +1,5 @@
+/** @format */
+
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { PersonalBest, User } from "../../types";
@@ -45,15 +47,21 @@ export default {
     Object.entries(sortedTime).forEach(([key, timePBs]) => {
       const maxValue = timePBs?.sort((a, b) => b.wpm - a.wpm)[0];
 
-      if (maxValue === undefined) return;
-      else timePB[+key] = maxValue;
+      if (maxValue === undefined) {
+        return;
+      } else {
+        timePB[+key] = maxValue;
+      }
     });
 
     Object.entries(sortedWords).forEach(([key, wordsPBs]) => {
       const maxValue = wordsPBs?.sort((a, b) => b.wpm - a.wpm)[0];
 
-      if (maxValue === undefined) return;
-      else wordsPB[+key] = maxValue;
+      if (maxValue === undefined) {
+        return;
+      } else {
+        wordsPB[+key] = maxValue;
+      }
     });
 
     const nameDisplay =
@@ -65,8 +73,7 @@ export default {
       title: `Personal Bests for ${nameDisplay}`,
       color: 0xe2b714,
       thumbnail: {
-        url:
-          "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
+        url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
       }
     });
 

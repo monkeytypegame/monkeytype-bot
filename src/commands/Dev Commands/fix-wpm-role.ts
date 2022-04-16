@@ -1,3 +1,5 @@
+/** @format */
+
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { User } from "../../types";

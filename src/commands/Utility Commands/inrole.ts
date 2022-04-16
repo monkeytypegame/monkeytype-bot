@@ -1,3 +1,5 @@
+/** @format */
+
 import { MessageEmbedOptions } from "discord.js";
 import { Command, RolesEnum } from "../../interfaces/Command";
 
@@ -20,14 +22,18 @@ export default {
 
     const guild = interaction.guild;
 
-    if (guild === null) return;
+    if (guild === null) {
+      return;
+    }
 
     const role = await guild.roles.fetch(apiRole.id, {
       force: true,
       cache: true
     });
 
-    if (role === null) return;
+    if (role === null) {
+      return;
+    }
 
     const members = [...role.members.values()].map((member) => member.user.tag);
 

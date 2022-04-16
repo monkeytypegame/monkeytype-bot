@@ -1,3 +1,5 @@
+/** @format */
+
 import { NewsChannel, TextChannel } from "discord.js";
 import { Command, RolesEnum } from "../../interfaces/Command";
 

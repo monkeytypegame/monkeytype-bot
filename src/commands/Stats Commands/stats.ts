@@ -1,3 +1,5 @@
+/** @format */
+
 import { mongoDB } from "../../functions/mongodb";
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { User } from "../../types";
@@ -46,8 +48,7 @@ export default {
       title: `Typing Stats for ${nameDisplay}`,
       color: 0xe2b714,
       thumbnail: {
-        url:
-          "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/bar-chart_1f4ca.png"
+        url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/bar-chart_1f4ca.png"
       },
       fields: [
         {
@@ -69,10 +70,7 @@ export default {
         },
         {
           name: "Time Typing",
-          value: `${duration
-            .hours()
-            .toString()
-            .padStart(2, "0")}:${duration
+          value: `${duration.hours().toString().padStart(2, "0")}:${duration
             .minutes()
             .toString()
             .padStart(2, "0")}:${duration

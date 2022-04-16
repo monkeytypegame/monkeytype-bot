@@ -1,3 +1,5 @@
+/** @format */
+
 import { EmbedFieldData } from "discord.js";
 import { toPascalCase } from "../../functions/toPascalCase";
 import { Command, RolesEnum } from "../../interfaces/Command";
@@ -29,7 +31,7 @@ export default {
         iconURL: interaction.user.avatarURL({ dynamic: true }) ?? ""
       },
       thumbnail: {
-        url: client.user!.avatarURL({ dynamic: true }) ?? ""
+        url: client.user?.avatarURL({ dynamic: true }) ?? ""
       }
     });
 

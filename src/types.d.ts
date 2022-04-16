@@ -1,3 +1,5 @@
+/** @format */
+
 import { Document, WithId } from "mongodb";
 
 export type Difficulty = "normal" | "expert" | "master";

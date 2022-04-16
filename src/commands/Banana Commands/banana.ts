@@ -1,3 +1,5 @@
+/** @format */
+
 import { Command, RolesEnum } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { createUser, getUser, setUser } from "../../functions/banana";
@@ -46,13 +48,15 @@ export default {
 
       let timeString = "";
 
-      if (momentDuration.hours())
+      if (momentDuration.hours()) {
         timeString = `${momentDuration.hours()} hour(s)`;
-      else if (momentDuration.minutes())
+      } else if (momentDuration.minutes()) {
         timeString = `${momentDuration.minutes()} minute(s)`;
-      else if (momentDuration.seconds())
+      } else if (momentDuration.seconds()) {
         timeString = `${momentDuration.seconds()} second(s)`;
-      else timeString = "less than a second";
+      } else {
+        timeString = "less than a second";
+      }
 
       const lastCollectDate = new Date(bananaEntry.lastCollect);
 
@@ -60,8 +64,7 @@ export default {
         title: `${interaction.user.username}'s Bananas`,
         color: 0xe2b714,
         thumbnail: {
-          url:
-            "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
+          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
         },
         description: `Banana collected! Come back in ${timeString} for more.`,
         fields: [
@@ -83,10 +86,11 @@ export default {
         bananaEntry.balance++;
         bananaEntry.lastCollect = now;
 
-        if (embed.fields[0] !== undefined)
+        if (embed.fields[0] !== undefined) {
           embed.fields[0].value = (
             bananaEntry.balance + time60Bananas
           ).toString();
+        }
       }
 
       if (time60Bananas > 0) {

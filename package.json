@@ -8,8 +8,8 @@
     "run": "node .",
     "start": "npm run build && npm run run",
     "dev": "nodemon",
-    "lint": "eslint -c .eslintrc.json src/**/*.ts",
-    "lint:fix": "eslint --fix -c .eslintrc.json src/**/*.ts"
+    "lint": "eslint -c .eslintrc.json 'src/**/*.ts'",
+    "lint:fix": "eslint --fix -c .eslintrc.json 'src/**/*.ts'"
   },
   "author": "",
   "license": "ISC",

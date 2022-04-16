@@ -1,3 +1,5 @@
+/** @format */
+
 import { Command, RolesEnum } from "../../interfaces/Command";
 import labels from "../../labels.json";
 import fetch from "node-fetch-commonjs";
@@ -64,9 +66,15 @@ export default {
 
     const lbls: string[] = [];
 
-    if (label1 !== null) lbls.push(label1);
-    if (label2 !== null) lbls.push(label2);
-    if (label3 !== null) lbls.push(label3);
+    if (label1 !== null) {
+      lbls.push(label1);
+    }
+    if (label2 !== null) {
+      lbls.push(label2);
+    }
+    if (label3 !== null) {
+      lbls.push(label3);
+    }
 
     const description = interaction.options.getString("description", false);
 
