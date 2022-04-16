@@ -36,7 +36,7 @@ export default {
 
     if (botCommandsChannel !== undefined) {
       botCommandsChannel.send(
-        `:white_check_mark: Congratulations ${member} for passing the challeng. You have been awarded the ${challengeRole.name} role.`
+        `:white_check_mark: Congratulations ${member} for passing the challenge. You have been awarded the ${challengeRole.name} role.`
       );
     }
 
