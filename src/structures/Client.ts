@@ -380,7 +380,7 @@ export class Client extends Discord.Client {
     const db = mongoDB();
 
     const tasks = <Task[]>(
-      await db.collection("bot-commands").find({ executed: false }).toArray()
+      await db.collection("bot-tasks").find({ executed: false }).toArray()
     );
 
     for (const task of tasks) {
