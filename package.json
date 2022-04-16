@@ -15,24 +15,16 @@
     "ascii-table": "0.0.9",
     "async": "^3.2.3",
     "body-parser": "^1.19.0",
-    "console-stamp": "^3.0.2",
     "crypto": "^1.0.1",
     "discord.js": "^13.6.0",
     "dotenv": "^8.6.0",
-    "dotenv-extended": "^2.8.0",
     "express": "^4.17.1",
-    "firebase": "^7.14.5",
-    "firebase-admin": "^9.4.2",
-    "firebase-functions": "^3.6.1",
     "glob": "^7.2.0",
     "husky": "^5.1.1",
-    "json-beautify": "^1.1.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mongodb": "^4.1.0",
     "node-fetch-commonjs": "^3.1.1",
-    "nodemon": "^2.0.15",
-    "save": "^2.4.0",
     "simple-git": "^3.3.0",
     "string-similarity": "^4.0.4"
   },
@@ -44,6 +36,8 @@
   "devDependencies": {
     "@types/async": "^3.2.12",
     "@types/glob": "^7.2.0",
-    "prettier": "2.2.1"
+    "prettier": "^2.6.2",
+    "eslint": "^8.13.0",
+    "nodemon": "^2.0.15"
   }
 }
