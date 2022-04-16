@@ -1,3 +1,5 @@
+/** @format */
+
 const { connectDB, mongoDB } = require("../../mongodb.js");
 
 module.exports.run = async (bot, message, args, guild) => {
@@ -45,7 +47,9 @@ module.exports.run = async (bot, message, args, guild) => {
 
   let wpm = 0;
   time60s.forEach((pb) => {
-    if (pb.wpm > wpm) wpm = pb.wpm;
+    if (pb.wpm > wpm) {
+      wpm = pb.wpm;
+    }
   });
   wpm = Math.round(wpm);
 

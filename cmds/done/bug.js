@@ -1,3 +1,5 @@
+/** @format */
+
 module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   const issueName = args.join(" ");
@@ -14,38 +16,38 @@ module.exports.run = async (bot, message, args, guild) => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `token ${config.githubApiToken}`,
-        accept: "application/vnd.github.v3+json",
+        accept: "application/vnd.github.v3+json"
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify({
         title: issueName,
-        labels: ["bug"],
-      }), // body data type must match "Content-Type" header
+        labels: ["bug"]
+      }) // body data type must match "Content-Type" header
     }).then(async (response) => {
       let data = await response.json();
       if (response.status === 201 && response.statusText == "Created") {
         return {
           status: true,
-          message: "Done: " + data.html_url,
+          message: "Done: " + data.html_url
         };
       } else {
         return {
           status: false,
-          message: "Something went wrong. Code " + response.status,
+          message: "Something went wrong. Code " + response.status
         };
       }
     });
   } catch (e) {
     return {
       status: false,
-      message: "Could not create issue: " + e.message,
+      message: "Could not create issue: " + e.message
     };
   }
 };
 
 module.exports.cmd = {
   name: "bug",
-  needMod: true,
+  needMod: true
 };

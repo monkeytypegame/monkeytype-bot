@@ -1,3 +1,5 @@
+/** @format */
+
 const Discord = require("discord.js");
 
 module.exports.run = async (bot, message, args, guild) => {
@@ -16,21 +18,21 @@ module.exports.run = async (bot, message, args, guild) => {
   } catch (e) {
     return {
       status: true,
-      message: ":x: No users found",
+      message: ":x: No users found"
     };
   }
   try {
     if (isNaN(targetUser)) {
       return {
         status: false,
-        message: `:x: Did you specify a user?`,
+        message: `:x: Did you specify a user?`
       };
     }
 
     if (isNaN(amount) || amount < 1) {
       return {
         status: false,
-        message: `:x: You cannot donate for ${amount} bananas. Example: !donate <@user> 1`,
+        message: `:x: You cannot donate for ${amount} bananas. Example: !donate <@user> 1`
       };
     }
 
@@ -40,13 +42,13 @@ module.exports.run = async (bot, message, args, guild) => {
     if (senderData === undefined || senderData.balance === 0) {
       return {
         status: true,
-        message: ":x: You have no bananas",
+        message: ":x: You have no bananas"
       };
     } else {
       if (amount > senderData.balance) {
         return {
           status: true,
-          message: `:x: You don't have enough bananas to give to <@${targetUserID}>.`,
+          message: `:x: You don't have enough bananas to give to <@${targetUserID}>.`
         };
       } else {
         bananaData = JSON.parse(await fs.readFile("bananas.json"));
@@ -57,14 +59,14 @@ module.exports.run = async (bot, message, args, guild) => {
 
         return {
           status: true,
-          message: `:partying_face: Successfully donated ${amount} bananas to <@${targetUserID}>.`,
+          message: `:partying_face: Successfully donated ${amount} bananas to <@${targetUserID}>.`
         };
       }
     }
   } catch (e) {
     return {
       status: false,
-      message: "Something went very wrong: " + e.message,
+      message: "Something went very wrong: " + e.message
     };
   }
 };
@@ -72,5 +74,5 @@ module.exports.run = async (bot, message, args, guild) => {
 module.exports.cmd = {
   name: "donate",
   needMod: false,
-  requiredChannel: "banana",
+  requiredChannel: "banana"
 };

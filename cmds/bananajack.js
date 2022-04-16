@@ -1,3 +1,5 @@
+/** @format */
+
 const Discord = require("discord.js");
 
 let suits = ["♥", "♣", "♦", "♠"];
@@ -15,26 +17,26 @@ module.exports.run = async (bot, message, args, guild) => {
   } catch (e) {
     return {
       status: true,
-      message: ":x: No users found",
+      message: ":x: No users found"
     };
   }
   try {
     if (isNaN(bananaBet)) {
       return {
         status: false,
-        message: `:x: Can't bananajack for ${bananaBet} bananas. Example: !bananajack 1`,
+        message: `:x: Can't bananajack for ${bananaBet} bananas. Example: !bananajack 1`
       };
     } else {
       if (isNaN(bananaBet)) {
         return {
           status: false,
-          message: `:x: Can't bananajack for ${bananaBet} bananas. Example: !bananajack 1`,
+          message: `:x: Can't bananajack for ${bananaBet} bananas. Example: !bananajack 1`
         };
       }
       if (bananaBet < 1) {
         return {
           status: false,
-          message: `:x: Can't bananajack for ${bananaBet} bananas. Example: !bananajack 1`,
+          message: `:x: Can't bananajack for ${bananaBet} bananas. Example: !bananajack 1`
         };
       }
 
@@ -42,20 +44,20 @@ module.exports.run = async (bot, message, args, guild) => {
       if (userData === undefined || userData.balance === 0) {
         return {
           status: true,
-          message: ":x: You have no bananas",
+          message: ":x: You have no bananas"
         };
       } else {
         if (bananaBet > userData.balance) {
           return {
             status: true,
-            message: ":x: You don't have enough bananas.",
+            message: ":x: You don't have enough bananas."
           };
         } else {
           if (currentlyPlaying.has(message.author.id)) {
             return {
               status: true,
               message:
-                ":x: It seems like you already have an ongoing bananajack game.",
+                ":x: It seems like you already have an ongoing bananajack game."
             };
           }
 
@@ -73,7 +75,7 @@ module.exports.run = async (bot, message, args, guild) => {
                 let card = {
                   //creating card object with a suit property and value property
                   suit: suits[suitIndex],
-                  value: values[valueIndex],
+                  value: values[valueIndex]
                 };
                 deck.push(card); //and we want to push the card onto the deck
               }
@@ -222,10 +224,10 @@ module.exports.run = async (bot, message, args, guild) => {
             .send({
               embed: {
                 author: {
-                  name: `${message.member.displayName}'s bananajack game`,
+                  name: `${message.member.displayName}'s bananajack game`
                 },
                 thumbnail: {
-                  url: "https://i.ibb.co/2k7vbYx/bananajack.png",
+                  url: "https://i.ibb.co/2k7vbYx/bananajack.png"
                 },
                 color: 15589385,
                 fields: [
@@ -237,7 +239,7 @@ module.exports.run = async (bot, message, args, guild) => {
                       "\n Total - ``" +
                       getScore(playerCards) +
                       "``",
-                    inline: true,
+                    inline: true
                   },
                   {
                     name: "George",
@@ -247,14 +249,13 @@ module.exports.run = async (bot, message, args, guild) => {
                       "\n Total - ``" +
                       getScore(dealerCards) +
                       "``",
-                    inline: true,
-                  },
+                    inline: true
+                  }
                 ],
                 footer: {
-                  text:
-                    "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com",
-                },
-              },
+                  text: "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
+                }
+              }
             })
             .then((msg) => {
               msg.react("🇭").then((r) => {
@@ -264,11 +265,11 @@ module.exports.run = async (bot, message, args, guild) => {
                 const hitFilter = (reaction, user) =>
                   reaction.emoji.name === "🇭" && user.id === message.author.id;
                 const stand = msg.createReactionCollector(standFilter, {
-                  time: 60000,
+                  time: 60000
                 });
 
                 const hit = msg.createReactionCollector(hitFilter, {
-                  time: 60000,
+                  time: 60000
                 });
 
                 const removeReaction = (msg, message, emoji) => {
@@ -298,7 +299,9 @@ module.exports.run = async (bot, message, args, guild) => {
 
                   if (gameOver) {
                     if (tied) {
-                      bananaData = JSON.parse(await fs.readFile("bananas.json"));
+                      bananaData = JSON.parse(
+                        await fs.readFile("bananas.json")
+                      );
                       if (
                         bananaData[message.author.id].bananajackTies ===
                         undefined
@@ -319,10 +322,10 @@ module.exports.run = async (bot, message, args, guild) => {
                           description:
                             "**Tied!**\nNobody wins! Your bananas is returned.",
                           author: {
-                            name: `${message.member.displayName}'s bananajack game`,
+                            name: `${message.member.displayName}'s bananajack game`
                           },
                           thumbnail: {
-                            url: "https://i.ibb.co/2k7vbYx/bananajack.png",
+                            url: "https://i.ibb.co/2k7vbYx/bananajack.png"
                           },
                           color: 16620865,
                           fields: [
@@ -334,7 +337,7 @@ module.exports.run = async (bot, message, args, guild) => {
                                 "\n Total - ``" +
                                 getScore(playerCards) +
                                 "``",
-                              inline: true,
+                              inline: true
                             },
                             {
                               name: "George",
@@ -344,26 +347,27 @@ module.exports.run = async (bot, message, args, guild) => {
                                 "\n Total - ``" +
                                 getScore(dealerCards) +
                                 "``",
-                              inline: true,
-                            },
+                              inline: true
+                            }
                           ],
                           footer: {
-                            text:
-                              "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com",
-                          },
-                        },
+                            text: "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
+                          }
+                        }
                       });
                       hit.stop();
                       stand.stop();
                       currentlyPlaying.delete(message.author.id);
                       return {
                         status: true,
-                        message: ``,
+                        message: ``
                       };
                     }
 
                     if (playerWon) {
-                      bananaData = JSON.parse(await fs.readFile("bananas.json"));
+                      bananaData = JSON.parse(
+                        await fs.readFile("bananas.json")
+                      );
                       bananaData[message.author.id].balance += bananaBet;
                       if (
                         bananaData[message.author.id].bananajackWins ===
@@ -386,10 +390,10 @@ module.exports.run = async (bot, message, args, guild) => {
                             bananaData[message.author.id].balance
                           }**.`,
                           author: {
-                            name: `${message.member.displayName}'s bananajack game`,
+                            name: `${message.member.displayName}'s bananajack game`
                           },
                           thumbnail: {
-                            url: "https://i.ibb.co/2k7vbYx/bananajack.png",
+                            url: "https://i.ibb.co/2k7vbYx/bananajack.png"
                           },
                           color: 4324703,
                           fields: [
@@ -401,7 +405,7 @@ module.exports.run = async (bot, message, args, guild) => {
                                 "\n Total - ``" +
                                 getScore(playerCards) +
                                 "``",
-                              inline: true,
+                              inline: true
                             },
                             {
                               name: "George",
@@ -411,24 +415,25 @@ module.exports.run = async (bot, message, args, guild) => {
                                 "\n Total - ``" +
                                 getScore(dealerCards) +
                                 "``",
-                              inline: true,
-                            },
+                              inline: true
+                            }
                           ],
                           footer: {
-                            text:
-                              "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com",
-                          },
-                        },
+                            text: "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
+                          }
+                        }
                       });
                       hit.stop();
                       stand.stop();
                       currentlyPlaying.delete(message.author.id);
                       return {
                         status: true,
-                        message: ``,
+                        message: ``
                       };
                     } else {
-                      bananaData = JSON.parse(await fs.readFile("bananas.json"));
+                      bananaData = JSON.parse(
+                        await fs.readFile("bananas.json")
+                      );
                       bananaData[message.author.id].balance -= bananaBet;
                       bananaData[bot.user.id].balance += bananaBet;
                       if (
@@ -452,10 +457,10 @@ module.exports.run = async (bot, message, args, guild) => {
                             bananaData[message.author.id].balance
                           }**.`,
                           author: {
-                            name: `${message.member.displayName}'s bananajack game`,
+                            name: `${message.member.displayName}'s bananajack game`
                           },
                           thumbnail: {
-                            url: "https://i.ibb.co/2k7vbYx/bananajack.png",
+                            url: "https://i.ibb.co/2k7vbYx/bananajack.png"
                           },
                           color: 16597313,
                           fields: [
@@ -467,7 +472,7 @@ module.exports.run = async (bot, message, args, guild) => {
                                 "\n Total - ``" +
                                 getScore(playerCards) +
                                 "``",
-                              inline: true,
+                              inline: true
                             },
                             {
                               name: "George",
@@ -477,31 +482,30 @@ module.exports.run = async (bot, message, args, guild) => {
                                 "\n Total - ``" +
                                 getScore(dealerCards) +
                                 "``",
-                              inline: true,
-                            },
+                              inline: true
+                            }
                           ],
                           footer: {
-                            text:
-                              "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com",
-                          },
-                        },
+                            text: "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
+                          }
+                        }
                       });
                       hit.stop();
                       stand.stop();
                       currentlyPlaying.delete(message.author.id);
                       return {
                         status: true,
-                        message: ``,
+                        message: ``
                       };
                     }
                   } else {
                     msg.edit({
                       embed: {
                         author: {
-                          name: `${message.member.displayName}'s bananajack game`,
+                          name: `${message.member.displayName}'s bananajack game`
                         },
                         thumbnail: {
-                          url: "https://i.ibb.co/2k7vbYx/bananajack.png",
+                          url: "https://i.ibb.co/2k7vbYx/bananajack.png"
                         },
                         color: 15589385,
                         fields: [
@@ -513,7 +517,7 @@ module.exports.run = async (bot, message, args, guild) => {
                               "\n Total - ``" +
                               getScore(playerCards) +
                               "``",
-                            inline: true,
+                            inline: true
                           },
                           {
                             name: "George",
@@ -523,14 +527,13 @@ module.exports.run = async (bot, message, args, guild) => {
                               "\n Total - ``" +
                               getScore(dealerCards) +
                               "``",
-                            inline: true,
-                          },
+                            inline: true
+                          }
                         ],
                         footer: {
-                          text:
-                            "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com",
-                        },
-                      },
+                          text: "K, Q, J = 10  |  A = 1 or 11\nH - Hit | S - Stand\nwww.monkeytype.com"
+                        }
+                      }
                     });
                   }
                 }
@@ -565,7 +568,7 @@ module.exports.run = async (bot, message, args, guild) => {
   } catch (e) {
     return {
       status: false,
-      message: "Something went very wrong: " + e.message,
+      message: "Something went very wrong: " + e.message
     };
   }
 };
@@ -573,5 +576,5 @@ module.exports.run = async (bot, message, args, guild) => {
 module.exports.cmd = {
   name: "bananajack",
   needMod: false,
-  requiredChannel: "banana",
+  requiredChannel: "banana"
 };

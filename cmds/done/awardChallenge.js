@@ -1,10 +1,12 @@
+/** @format */
+
 module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name} ${JSON.stringify(args)}`);
 
   if (args.length !== 2) {
     return {
       status: false,
-      message: ":x: Must provide two arguments",
+      message: ":x: Must provide two arguments"
     };
   }
 
@@ -16,7 +18,7 @@ module.exports.run = async (bot, message, args, guild) => {
     let challengeRole = guild.roles.cache.find(
       (role) => role.id === config.challenges[challengeName]
     );
-  
+
     let member = await guild.members.cache.find(
       (member) => member.user.id == discordId
     );
@@ -31,24 +33,24 @@ module.exports.run = async (bot, message, args, guild) => {
           );
         return {
           status: true,
-          message: `:white_check_mark: Assigned role ${challengeRole.name} to user <@${member.user.id}>`,
+          message: `:white_check_mark: Assigned role ${challengeRole.name} to user <@${member.user.id}>`
         };
       })
       .catch((e) => {
         return {
           status: false,
-          message: e,
+          message: e
         };
       });
   } catch (e) {
     return {
       status: false,
-      message: ":x: Error: Something went wrong - " + e,
+      message: ":x: Error: Something went wrong - " + e
     };
   }
-}
+};
 
 module.exports.cmd = {
   name: "awardChallenge",
-  type: "db",
+  type: "db"
 };

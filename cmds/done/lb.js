@@ -1,3 +1,5 @@
+/** @format */
+
 const Discord = require("discord.js");
 const AsciiTable = require("ascii-table");
 

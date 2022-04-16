@@ -1,3 +1,5 @@
+/** @format */
+
 module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name}`);
 
@@ -5,11 +7,21 @@ module.exports.run = async (bot, message, args, guild) => {
     first = first.replace(/\s+/g, "");
     second = second.replace(/\s+/g, "");
 
-    if (!first.length && !second.length) return 1; // if both are empty strings
-    if (!first.length || !second.length) return 0; // if only one is empty string
-    if (first === second) return 1; // identical
-    if (first.length === 1 && second.length === 1) return 0; // both are 1-letter strings
-    if (first.length < 2 || second.length < 2) return 0; // if either is a 1-letter string
+    if (!first.length && !second.length) {
+      return 1;
+    } // if both are empty strings
+    if (!first.length || !second.length) {
+      return 0;
+    } // if only one is empty string
+    if (first === second) {
+      return 1;
+    } // identical
+    if (first.length === 1 && second.length === 1) {
+      return 0;
+    } // both are 1-letter strings
+    if (first.length < 2 || second.length < 2) {
+      return 0;
+    } // if either is a 1-letter string
 
     let firstBigrams = new Map();
     for (let i = 0; i < first.length - 1; i++) {
@@ -37,7 +49,7 @@ module.exports.run = async (bot, message, args, guild) => {
     if (!areArgsValid(mainString, targetStrings)) {
       return {
         status: true,
-        message: `:x: Bad arguments: First argument should be a string, second should be an array of strings. Should not happen, contact <@450147582740791307>.`,
+        message: `:x: Bad arguments: First argument should be a string, second should be an array of strings. Should not happen, contact <@450147582740791307>.`
       }; // should not happen because I've made a check whether first argument exists or not. if it does, discord should(?) automatically detect them as a string.
     }
 
@@ -49,7 +61,7 @@ module.exports.run = async (bot, message, args, guild) => {
       const currentRating = compareTwoStrings(mainString, currentTargetString);
       ratings.push({
         target: currentTargetString,
-        rating: currentRating,
+        rating: currentRating
       });
       if (currentRating > ratings[bestMatchIndex].rating) {
         bestMatchIndex = i;
@@ -61,15 +73,23 @@ module.exports.run = async (bot, message, args, guild) => {
     return {
       ratings,
       bestMatch,
-      bestMatchIndex,
+      bestMatchIndex
     };
   }
 
   function areArgsValid(mainString, targetStrings) {
-    if (typeof mainString !== "string") return false;
-    if (!Array.isArray(targetStrings)) return false;
-    if (!targetStrings.length) return false;
-    if (targetStrings.find((s) => typeof s !== "string")) return false;
+    if (typeof mainString !== "string") {
+      return false;
+    }
+    if (!Array.isArray(targetStrings)) {
+      return false;
+    }
+    if (!targetStrings.length) {
+      return false;
+    }
+    if (targetStrings.find((s) => typeof s !== "string")) {
+      return false;
+    }
     return true;
   }
 
@@ -90,7 +110,7 @@ module.exports.run = async (bot, message, args, guild) => {
   if (!args[0]) {
     return {
       status: true,
-      message: `:x: Please specify a role name.`,
+      message: `:x: Please specify a role name.`
     };
   }
 
@@ -113,7 +133,7 @@ module.exports.run = async (bot, message, args, guild) => {
     if (match.bestMatch.rating == 0) {
       return {
         status: true,
-        message: `:x: Could not find role " + args.join(' ') + ", best match accuracy returned 0.00%.`,
+        message: `:x: Could not find role " + args.join(' ') + ", best match accuracy returned 0.00%.`
       };
     }
 
@@ -126,7 +146,7 @@ module.exports.run = async (bot, message, args, guild) => {
     if (role === undefined) {
       return {
         status: true,
-        message: `:x: Could not find role " + args.join(' ') + ", best match returned accuracy is " + match.bestMatch.rating + ".`,
+        message: `:x: Could not find role " + args.join(' ') + ", best match returned accuracy is " + match.bestMatch.rating + ".`
       };
     } // shouldn't happen, but just for precaution.
 
@@ -164,23 +184,23 @@ module.exports.run = async (bot, message, args, guild) => {
             color: 1699677,
             description: `${members.join("\n")}`,
             footer: {
-              text: "Page 1 of 1 \nwww.monkeytype.com",
+              text: "Page 1 of 1 \nwww.monkeytype.com"
             },
             thumbnail: {
               url: message.guild.iconURL({
                 format: "png",
                 dynamic: true,
-                size: 256,
-              }),
+                size: 256
+              })
             },
             author: {
-              name: `Full list of people with the role: ${bestMatch}`,
-            },
-          },
+              name: `Full list of people with the role: ${bestMatch}`
+            }
+          }
         });
         return {
           status: true,
-          message: ``,
+          message: ``
         };
       } else {
         let pages = [];
@@ -218,19 +238,19 @@ module.exports.run = async (bot, message, args, guild) => {
               color: 1699677,
               description: `${pages[0]}`,
               footer: {
-                text: `Page ${page} of ${pages.length} \nwww.monkeytype.com`,
+                text: `Page ${page} of ${pages.length} \nwww.monkeytype.com`
               },
               thumbnail: {
                 url: message.guild.iconURL({
                   format: "png",
                   dynamic: true,
-                  size: 256,
-                }),
+                  size: 256
+                })
               },
               author: {
-                name: `Full list of people with the role: ${bestMatch}`,
-              },
-            },
+                name: `Full list of people with the role: ${bestMatch}`
+              }
+            }
           })
           .then((msg) => {
             msg.react("⬅️").then((r) => {
@@ -242,11 +262,11 @@ module.exports.run = async (bot, message, args, guild) => {
                 reaction.emoji.name === "➡️" && user.id === message.author.id;
 
               const backwards = msg.createReactionCollector(backwardsFilter, {
-                time: 60000,
+                time: 60000
               });
 
               const forwards = msg.createReactionCollector(forwardsFilter, {
-                time: 60000,
+                time: 60000
               });
 
               const removeReaction = (msg, message, emoji) => {
@@ -262,7 +282,9 @@ module.exports.run = async (bot, message, args, guild) => {
 
               backwards.on("collect", (r) => {
                 removeReaction(msg, message, "⬅️");
-                if (page === 1) return;
+                if (page === 1) {
+                  return;
+                }
                 page--;
 
                 msg.edit({
@@ -270,25 +292,27 @@ module.exports.run = async (bot, message, args, guild) => {
                     color: 1699677,
                     description: `${pages[page - 1]}`,
                     footer: {
-                      text: `Page ${page} of ${pages.length} \nwww.monkeytype.com`,
+                      text: `Page ${page} of ${pages.length} \nwww.monkeytype.com`
                     },
                     thumbnail: {
                       url: message.guild.iconURL({
                         format: "png",
                         dynamic: true,
-                        size: 256,
-                      }),
+                        size: 256
+                      })
                     },
                     author: {
-                      name: `Full list of people with the role: ${bestMatch}`,
-                    },
-                  },
+                      name: `Full list of people with the role: ${bestMatch}`
+                    }
+                  }
                 });
               });
 
               forwards.on("collect", (r) => {
                 removeReaction(msg, message, "➡️");
-                if (page === pages.length) return;
+                if (page === pages.length) {
+                  return;
+                }
                 page++;
 
                 msg.edit({
@@ -296,19 +320,19 @@ module.exports.run = async (bot, message, args, guild) => {
                     color: 1699677,
                     description: `${pages[page - 1]}`,
                     footer: {
-                      text: `Page ${page} of ${pages.length} \nwww.monkeytype.com`,
+                      text: `Page ${page} of ${pages.length} \nwww.monkeytype.com`
                     },
                     thumbnail: {
                       url: message.guild.iconURL({
                         format: "png",
                         dynamic: true,
-                        size: 256,
-                      }),
+                        size: 256
+                      })
                     },
                     author: {
-                      name: `Full list of people with the role: ${bestMatch}`,
-                    },
-                  },
+                      name: `Full list of people with the role: ${bestMatch}`
+                    }
+                  }
                 });
               });
             });
@@ -316,14 +340,14 @@ module.exports.run = async (bot, message, args, guild) => {
 
         return {
           status: true,
-          message: ``,
+          message: ``
         };
       }
     }
   } catch (e) {
     return {
       status: true,
-      message: "Something went wrong when running command: " + e,
+      message: "Something went wrong when running command: " + e
     };
   }
 };
@@ -331,5 +355,5 @@ module.exports.run = async (bot, message, args, guild) => {
 module.exports.cmd = {
   name: "inrole",
   needMod: false,
-  requiredChannel: "botCommands",
+  requiredChannel: "botCommands"
 };

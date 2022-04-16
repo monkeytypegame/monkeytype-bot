@@ -1,3 +1,5 @@
+/** @format */
+
 const { connectDB, mongoDB } = require("../../mongodb.js");
 
 module.exports.run = async (bot, message, args, guild) => {

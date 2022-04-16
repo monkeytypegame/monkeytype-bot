@@ -1,3 +1,5 @@
+/** @format */
+
 const Discord = require("discord.js");
 const { connectDB, mongoDB } = require("../mongodb.js");
 
@@ -13,11 +15,12 @@ module.exports.run = async (bot, message, args, guild) => {
     };
   }
   //if there is a mention return, as this command is for personal use only
-  if (message.mentions.members.first())
+  if (message.mentions.members.first()) {
     return {
       status: true,
       message: ":x: Error: You may not view other users profiles"
     };
+  }
 
   let doc = await mongoDB()
     .collection("users")

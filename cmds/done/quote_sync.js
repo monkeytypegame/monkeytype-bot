@@ -1,3 +1,5 @@
+/** @format */
+
 const fs = require("fs");
 const simpleGit = require("simple-git");
 const git = simpleGit("../monkeytype");
@@ -18,18 +20,18 @@ module.exports.run = async (bot, message, args, guild) => {
     await statusmsg.delete();
     return {
       status: true,
-      message: ":white_check_mark: Synchronised...",
+      message: ":white_check_mark: Synchronised..."
     };
   } catch (e) {
     statusmsg.delete();
     return {
       status: false,
-      message: ":x: Could not sync: " + e.message,
+      message: ":x: Could not sync: " + e.message
     };
   }
 };
 
 module.exports.cmd = {
   name: "quote_sync",
-  needMod: true,
+  needMod: true
 };

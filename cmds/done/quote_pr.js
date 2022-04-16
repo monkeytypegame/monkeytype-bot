@@ -1,3 +1,5 @@
+/** @format */
+
 const fs = require("fs");
 const simpleGit = require("simple-git");
 const git = simpleGit("../monkeytype");
@@ -17,7 +19,7 @@ module.exports.run = async (bot, message, args, guild) => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `token ${config.githubApiToken}`,
-        accept: "application/vnd.github.v3+json",
+        accept: "application/vnd.github.v3+json"
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       redirect: "follow", // manual, *follow, error
@@ -26,8 +28,8 @@ module.exports.run = async (bot, message, args, guild) => {
         title: "Added more quotes",
         head: "monkeytypegeorge:dev",
         base: "dev",
-        maintainer_can_modify: true,
-      }),
+        maintainer_can_modify: true
+      })
     })
       .then(async (response) => {
         let data = await response.json();
@@ -35,32 +37,32 @@ module.exports.run = async (bot, message, args, guild) => {
           msg.delete();
           return {
             status: true,
-            message: ":white_check_mark: Done: " + data.html_url,
+            message: ":white_check_mark: Done: " + data.html_url
           };
         } else {
           msg.delete();
           return {
             status: false,
-            message: "Something went wrong. Code " + response.status,
+            message: "Something went wrong. Code " + response.status
           };
         }
       })
       .catch((e) => {
         return {
           status: false,
-          message: "Something went wrong. " + e,
+          message: "Something went wrong. " + e
         };
       });
   } catch (e) {
     msg.delete();
     return {
       status: false,
-      message: ":x: Could not push quotes: " + e.message,
+      message: ":x: Could not push quotes: " + e.message
     };
   }
 };
 
 module.exports.cmd = {
   name: "quote_pr",
-  needMod: true,
+  needMod: true
 };

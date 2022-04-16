@@ -1,3 +1,5 @@
+/** @format */
+
 const Discord = require("discord.js");
 
 const currentlyPlaying = new Discord.Collection();
@@ -12,26 +14,26 @@ module.exports.run = async (bot, message, args, guild) => {
   } catch (e) {
     return {
       status: true,
-      message: ":x: No users found",
+      message: ":x: No users found"
     };
   }
   try {
     if (isNaN(bananaBet)) {
       return {
         status: false,
-        message: `:x: Can't play rock paper scissors for ${bananaBet} bananas. Example: !rps 1`,
+        message: `:x: Can't play rock paper scissors for ${bananaBet} bananas. Example: !rps 1`
       };
     } else {
       if (isNaN(bananaBet)) {
         return {
           status: false,
-          message: `:x: Can't play rock paper scissors for ${bananaBet} bananas. Example: !rps 1`,
+          message: `:x: Can't play rock paper scissors for ${bananaBet} bananas. Example: !rps 1`
         };
       }
       if (bananaBet < 1) {
         return {
           status: false,
-          message: `:x: Can't play rock paper scissors for ${bananaBet} bananas. Example: !rps 1`,
+          message: `:x: Can't play rock paper scissors for ${bananaBet} bananas. Example: !rps 1`
         };
       }
 
@@ -39,20 +41,20 @@ module.exports.run = async (bot, message, args, guild) => {
       if (userData === undefined || userData.balance === 0) {
         return {
           status: true,
-          message: ":x: You have no bananas",
+          message: ":x: You have no bananas"
         };
       } else {
         if (bananaBet > userData.balance) {
           return {
             status: true,
-            message: ":x: You don't have enough bananas.",
+            message: ":x: You don't have enough bananas."
           };
         } else {
           if (currentlyPlaying.has(message.author.id)) {
             return {
               status: true,
               message:
-                ":x: It seems like you already have an ongoing rock paper scissors game.",
+                ":x: It seems like you already have an ongoing rock paper scissors game."
             };
           }
 
@@ -90,28 +92,28 @@ module.exports.run = async (bot, message, args, guild) => {
             .send({
               embed: {
                 author: {
-                  name: `${message.member.displayName}'s Rock Paper Scissors`,
+                  name: `${message.member.displayName}'s Rock Paper Scissors`
                 },
                 thumbnail: {
-                  url: "https://static.thenounproject.com/png/477919-200.png",
+                  url: "https://static.thenounproject.com/png/477919-200.png"
                 },
                 color: 15589385,
                 fields: [
                   {
                     name: `${message.member.displayName}`,
                     value: "Pick your gesture.",
-                    inline: true,
+                    inline: true
                   },
                   {
                     name: "George",
                     value: ":grey_question:",
-                    inline: true,
-                  },
+                    inline: true
+                  }
                 ],
                 footer: {
-                  text: "Rock, Paper, Scissors\nwww.monkeytype.com",
-                },
-              },
+                  text: "Rock, Paper, Scissors\nwww.monkeytype.com"
+                }
+              }
             })
             .then((msg) => {
               msg.react("✌️").then((r) => {
@@ -128,15 +130,15 @@ module.exports.run = async (bot, message, args, guild) => {
                     user.id === message.author.id;
 
                   const scissors = msg.createReactionCollector(scissorsFilter, {
-                    time: 60000,
+                    time: 60000
                   });
 
                   const paper = msg.createReactionCollector(paperFilter, {
-                    time: 60000,
+                    time: 60000
                   });
 
                   const rock = msg.createReactionCollector(rockFilter, {
-                    time: 60000,
+                    time: 60000
                   });
 
                   async function tie() {
@@ -159,29 +161,28 @@ module.exports.run = async (bot, message, args, guild) => {
                         description:
                           "**Tied!**\nNobody wins! Your bananas is returned.",
                         author: {
-                          name: `${message.member.displayName}'s Rock Paper Scissors`,
+                          name: `${message.member.displayName}'s Rock Paper Scissors`
                         },
                         thumbnail: {
-                          url:
-                            "https://static.thenounproject.com/png/477919-200.png",
+                          url: "https://static.thenounproject.com/png/477919-200.png"
                         },
                         color: 16620865,
                         fields: [
                           {
                             name: `${message.member.displayName}`,
                             value: getEmoji(playerChoice),
-                            inline: true,
+                            inline: true
                           },
                           {
                             name: "George",
                             value: getEmoji(computerChoice),
-                            inline: true,
-                          },
+                            inline: true
+                          }
                         ],
                         footer: {
-                          text: "Rock, Paper, Scissors\nwww.monkeytype.com",
-                        },
-                      },
+                          text: "Rock, Paper, Scissors\nwww.monkeytype.com"
+                        }
+                      }
                     });
                     paper.stop();
                     scissors.stop();
@@ -189,7 +190,7 @@ module.exports.run = async (bot, message, args, guild) => {
                     currentlyPlaying.delete(message.author.id);
                     return {
                       status: true,
-                      message: ``,
+                      message: ``
                     };
                   }
 
@@ -213,29 +214,28 @@ module.exports.run = async (bot, message, args, guild) => {
                           bananaData[message.author.id].balance
                         }**.`,
                         author: {
-                          name: `${message.member.displayName}'s Rock Paper Scissors`,
+                          name: `${message.member.displayName}'s Rock Paper Scissors`
                         },
                         thumbnail: {
-                          url:
-                            "https://static.thenounproject.com/png/477919-200.png",
+                          url: "https://static.thenounproject.com/png/477919-200.png"
                         },
                         color: 4324703,
                         fields: [
                           {
                             name: `${message.member.displayName}`,
                             value: getEmoji(playerChoice),
-                            inline: true,
+                            inline: true
                           },
                           {
                             name: "George",
                             value: getEmoji(computerChoice),
-                            inline: true,
-                          },
+                            inline: true
+                          }
                         ],
                         footer: {
-                          text: "Rock, Paper, Scissors\nwww.monkeytype.com",
-                        },
-                      },
+                          text: "Rock, Paper, Scissors\nwww.monkeytype.com"
+                        }
+                      }
                     });
                     paper.stop();
                     scissors.stop();
@@ -243,7 +243,7 @@ module.exports.run = async (bot, message, args, guild) => {
                     currentlyPlaying.delete(message.author.id);
                     return {
                       status: true,
-                      message: ``,
+                      message: ``
                     };
                   }
 
@@ -268,29 +268,28 @@ module.exports.run = async (bot, message, args, guild) => {
                           bananaData[message.author.id].balance
                         }**.`,
                         author: {
-                          name: `${message.member.displayName}'s Rock Paper Scissors`,
+                          name: `${message.member.displayName}'s Rock Paper Scissors`
                         },
                         thumbnail: {
-                          url:
-                            "https://static.thenounproject.com/png/477919-200.png",
+                          url: "https://static.thenounproject.com/png/477919-200.png"
                         },
                         color: 16597313,
                         fields: [
                           {
                             name: `${message.member.displayName}`,
                             value: getEmoji(playerChoice),
-                            inline: true,
+                            inline: true
                           },
                           {
                             name: "George",
                             value: getEmoji(computerChoice),
-                            inline: true,
-                          },
+                            inline: true
+                          }
                         ],
                         footer: {
-                          text: "Rock, Paper, Scissors\nwww.monkeytype.com",
-                        },
-                      },
+                          text: "Rock, Paper, Scissors\nwww.monkeytype.com"
+                        }
+                      }
                     });
                     paper.stop();
                     scissors.stop();
@@ -298,7 +297,7 @@ module.exports.run = async (bot, message, args, guild) => {
                     currentlyPlaying.delete(message.author.id);
                     return {
                       status: true,
-                      message: ``,
+                      message: ``
                     };
                   }
 
@@ -308,29 +307,28 @@ module.exports.run = async (bot, message, args, guild) => {
                         description:
                           "**Timeout!** User was unable to react within 60 seconds.",
                         author: {
-                          name: `${message.member.displayName}'s Rock Paper Scissors`,
+                          name: `${message.member.displayName}'s Rock Paper Scissors`
                         },
                         thumbnail: {
-                          url:
-                            "https://static.thenounproject.com/png/477919-200.png",
+                          url: "https://static.thenounproject.com/png/477919-200.png"
                         },
                         color: 16597313,
                         fields: [
                           {
                             name: `${message.member.displayName}`,
                             value: `:x:`,
-                            inline: true,
+                            inline: true
                           },
                           {
                             name: "George",
                             value: getEmoji(computerChoice),
-                            inline: true,
-                          },
+                            inline: true
+                          }
                         ],
                         footer: {
-                          text: "Rock, Paper, Scissors\nwww.monkeytype.com",
-                        },
-                      },
+                          text: "Rock, Paper, Scissors\nwww.monkeytype.com"
+                        }
+                      }
                     });
                     paper.stop();
                     scissors.stop();
@@ -338,7 +336,7 @@ module.exports.run = async (bot, message, args, guild) => {
                     currentlyPlaying.delete(message.author.id);
                     return {
                       status: true,
-                      message: ``,
+                      message: ``
                     };
                   }
 
@@ -411,7 +409,7 @@ module.exports.run = async (bot, message, args, guild) => {
   } catch (e) {
     return {
       status: false,
-      message: "Something went very wrong: " + e.message,
+      message: "Something went very wrong: " + e.message
     };
   }
 };
@@ -419,5 +417,5 @@ module.exports.run = async (bot, message, args, guild) => {
 module.exports.cmd = {
   name: "rps",
   needMod: false,
-  requiredChannel: "banana",
+  requiredChannel: "banana"
 };

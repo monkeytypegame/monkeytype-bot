@@ -1,10 +1,12 @@
+/** @format */
+
 module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name} ${JSON.stringify(args)}`);
 
   if (args.length !== 2) {
     return {
       status: false,
-      message: ":x: Must provide two arguments",
+      message: ":x: Must provide two arguments"
     };
   }
 
@@ -19,10 +21,10 @@ module.exports.run = async (bot, message, args, guild) => {
     (member) => member.user.id == discordId
   );
 
-  if(!member){
+  if (!member) {
     return {
       status: false,
-      message: `:x: Could not update role for <@${args[0]}>. Member not found in cache.`,
+      message: `:x: Could not update role for <@${args[0]}>. Member not found in cache.`
     };
   }
 
@@ -36,25 +38,25 @@ module.exports.run = async (bot, message, args, guild) => {
         .then((ret) => {
           return {
             status: true,
-            message: `:white_check_mark: Assigned role ${correctRole.name} to user <@${member.user.id}> (${wpm} wpm)`,
+            message: `:white_check_mark: Assigned role ${correctRole.name} to user <@${member.user.id}> (${wpm} wpm)`
           };
         })
         .catch((e) => {
           return {
             status: false,
-            message: e,
+            message: e
           };
         });
     } else {
       return {
         status: true,
-        message: `:warning: Higher role found for user <@${member.user.id}> (requested ${wpm}, but ${minWpm} role was found)`,
+        message: `:warning: Higher role found for user <@${member.user.id}> (requested ${wpm}, but ${minWpm} role was found)`
       };
     }
   } catch (e) {
     return {
       status: false,
-      message: ":x: Error: Could not find member - " + e,
+      message: ":x: Error: Could not find member - " + e
     };
   }
 
@@ -73,7 +75,9 @@ module.exports.run = async (bot, message, args, guild) => {
 async function findCurrent(wpmRoles, member) {
   let ret = 0;
   wpmRoles.forEach((role) => {
-    if (member.roles.cache.has(role.id)) ret = role.max;
+    if (member.roles.cache.has(role.id)) {
+      ret = role.max;
+    }
   });
   return ret;
 }
@@ -86,5 +90,5 @@ async function removeAllRoles(wpmRoles, member) {
 
 module.exports.cmd = {
   name: "updateRole",
-  type: "db",
+  type: "db"
 };

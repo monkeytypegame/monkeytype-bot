@@ -1,3 +1,5 @@
+/** @format */
+
 module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name}`);
 
@@ -8,11 +10,11 @@ module.exports.run = async (bot, message, args, guild) => {
   );
   return {
     status: true,
-    message: "",
+    message: ""
   };
 };
 
 module.exports.cmd = {
   name: "refresh",
-  needMod: true,
+  needMod: true
 };

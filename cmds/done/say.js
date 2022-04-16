@@ -1,3 +1,5 @@
+/** @format */
+
 module.exports.run = async (bot, message, args, guild) => {
   console.log(`Running command ${this.cmd.name}`);
   let chname = args.shift();

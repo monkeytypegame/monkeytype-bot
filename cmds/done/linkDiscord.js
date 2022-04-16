@@ -1,3 +1,5 @@
+/** @format */
+
 const { connectDB, mongoDB } = require("../../mongodb.js");
 
 module.exports.run = async (bot, message, args, guild) => {
@@ -66,7 +68,9 @@ module.exports.run = async (bot, message, args, guild) => {
         try {
           let bestwpm = -1;
           pbs.forEach((pb) => {
-            if (pb.wpm > bestwpm) bestwpm = pb.wpm;
+            if (pb.wpm > bestwpm) {
+              bestwpm = pb.wpm;
+            }
           });
           if (bestwpm > -1) {
             let cmd = bot.commands.get("updateRole");

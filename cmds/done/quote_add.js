@@ -1,3 +1,5 @@
+/** @format */
+
 const fs = require("fs");
 const simpleGit = require("simple-git");
 const git = simpleGit("../monkeytype");
@@ -55,7 +57,7 @@ module.exports.run = async (bot, message, args, guild) => {
       newQuote = {
         text: messageContent.text,
         source: messageContent.source,
-        length: messageContent.text.length,
+        length: messageContent.text.length
       };
     } catch {
       messageContent = messageContent.content
@@ -66,7 +68,7 @@ module.exports.run = async (bot, message, args, guild) => {
       newQuote = {
         text: messageContent[0].trim(),
         source: messageContent[1].trim(),
-        length: messageContent[0].length,
+        length: messageContent[0].length
       };
     }
 
@@ -81,7 +83,7 @@ module.exports.run = async (bot, message, args, guild) => {
       "«": "<<",
       "»": ">>",
       "–": "-",
-      "„": '"',
+      "„": '"'
     };
     newQuote.text = newQuote.text.replace(
       /[“”’‘—,…«»–„]/g,
@@ -92,7 +94,7 @@ module.exports.run = async (bot, message, args, guild) => {
 
     let questionMessageContent = [
       `:question: I'm about to add this quote to the **${language}** file. Is this correct?`,
-      `\`\`\`json\n${JSON.stringify(newQuote, null, 2)}\`\`\``,
+      `\`\`\`json\n${JSON.stringify(newQuote, null, 2)}\`\`\``
     ];
 
     if (/(\\\\t)|(\\\\n)|(\\t)|(\\n)/g.test(newQuote.text)) {
@@ -124,7 +126,7 @@ module.exports.run = async (bot, message, args, guild) => {
 
     let collector = questionMessage.createReactionCollector(filter, {
       max: 2,
-      time: 60000,
+      time: 60000
     });
 
     collector.on("end", async (r) => {
@@ -217,9 +219,9 @@ module.exports.run = async (bot, message, args, guild) => {
                     [0, 100],
                     [101, 300],
                     [301, 600],
-                    [601, 9999],
+                    [601, 9999]
                   ],
-                  quotes: [newQuote],
+                  quotes: [newQuote]
                 },
                 null,
                 2
@@ -269,12 +271,12 @@ module.exports.run = async (bot, message, args, guild) => {
     console.error(e);
     return {
       status: false,
-      message: ":x: Could not add quote: " + e.message,
+      message: ":x: Could not add quote: " + e.message
     };
   }
 };
 
 module.exports.cmd = {
   name: "quote_add",
-  needMod: true,
+  needMod: true
 };
