@@ -1,9 +1,13 @@
+/** @format */
+
 import { Event } from "../interfaces/Event";
 
 export default {
   event: "messageDelete",
   run: async (client, message) => {
-    if (message.guild === null) return;
+    if (message.guild === null) {
+      return;
+    }
 
     // const fetchedLogs = await message.guild.fetchAuditLogs({
     //   limit: 1,

@@ -1,3 +1,5 @@
+/** @format */
+
 import { ClientOptions as DiscordClientOptions } from "discord.js";
 
 interface Roles {

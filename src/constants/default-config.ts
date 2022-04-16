@@ -1,3 +1,5 @@
+/** @format */
+
 import { Config } from "../types";
 
 export const DefaultConfig = <Config>{

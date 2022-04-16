@@ -1,3 +1,5 @@
+/** @format */
+
 import { ApplicationCommandOption, CommandInteraction } from "discord.js";
 import { Client } from "../structures/Client";
 import type { Channels } from "./ClientOptions";

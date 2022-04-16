@@ -1,3 +1,5 @@
+/** @format */
+
 import { TaskFile } from "../interfaces/Task";
 
 export default {
@@ -65,7 +67,7 @@ export default {
 //     let challengeRole = guild.roles.cache.find(
 //       (role) => role.id === config.challenges[challengeName]
 //     );
-  
+
 //     let member = await guild.members.cache.find(
 //       (member) => member.user.id == discordId
 //     );

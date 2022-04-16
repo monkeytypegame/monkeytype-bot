@@ -1,3 +1,5 @@
+/** @format */
+
 export function randomInteger(min: number, max: number): number {
   return Math.floor(randomFloat(min, max));
 }

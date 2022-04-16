@@ -1,3 +1,5 @@
+/** @format */
+
 import { TaskFile } from "../interfaces/Task";
 
 export default {

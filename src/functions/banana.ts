@@ -1,3 +1,5 @@
+/** @format */
+
 import fs from "fs";
 import type { BananaEntry, BananaData } from "../types";
 
@@ -21,15 +23,14 @@ export function setUser(userID: string, bananaEntry: BananaEntry): void {
   setData(data);
 }
 
-export function createUser(
-  userID: string,
-  initialBal: number = 1
-): BananaEntry {
+export function createUser(userID: string, initialBal = 1): BananaEntry {
   const data = getData();
 
   const user = data[userID];
 
-  if (user !== undefined) return partialToFull(user);
+  if (user !== undefined) {
+    return partialToFull(user);
+  }
 
   const newUser: Partial<BananaEntry> = {
     balance: initialBal
@@ -66,15 +67,33 @@ function partialToFull(partial: Partial<BananaEntry>): BananaEntry {
 }
 
 function shakePartial(partial: Partial<BananaEntry>): Partial<BananaEntry> {
-  if (partial.lastCollect === 0) delete partial.lastCollect;
-  if (partial.flipLosses === 0) delete partial.flipLosses;
-  if (partial.flipWins === 0) delete partial.flipWins;
-  if (partial.bananajackLosses === 0) delete partial.bananajackLosses;
-  if (partial.rpsWins === 0) delete partial.rpsWins;
-  if (partial.rpsLosses === 0) delete partial.rpsLosses;
-  if (partial.rpsTies === 0) delete partial.rpsTies;
-  if (partial.bananajackTies === 0) delete partial.bananajackTies;
-  if (partial.bananajackWins === 0) delete partial.bananajackWins;
+  if (partial.lastCollect === 0) {
+    delete partial.lastCollect;
+  }
+  if (partial.flipLosses === 0) {
+    delete partial.flipLosses;
+  }
+  if (partial.flipWins === 0) {
+    delete partial.flipWins;
+  }
+  if (partial.bananajackLosses === 0) {
+    delete partial.bananajackLosses;
+  }
+  if (partial.rpsWins === 0) {
+    delete partial.rpsWins;
+  }
+  if (partial.rpsLosses === 0) {
+    delete partial.rpsLosses;
+  }
+  if (partial.rpsTies === 0) {
+    delete partial.rpsTies;
+  }
+  if (partial.bananajackTies === 0) {
+    delete partial.bananajackTies;
+  }
+  if (partial.bananajackWins === 0) {
+    delete partial.bananajackWins;
+  }
 
   return partial;
 }

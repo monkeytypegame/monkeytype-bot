@@ -1,3 +1,5 @@
+/** @format */
+
 import * as Discord from "discord.js";
 import { Channels, ClientOptions } from "../interfaces/ClientOptions";
 import { Command } from "../interfaces/Command";
@@ -144,8 +146,9 @@ export class Client extends Discord.Client {
     commands.forEach((command) => {
       this.commands.set(command.name, command);
 
-      if (!this.categories.includes(command.category))
+      if (!this.categories.includes(command.category)) {
         this.categories.push(command.category);
+      }
 
       if (
         !slashCommands ||
@@ -191,21 +194,23 @@ export class Client extends Discord.Client {
   }
 
   public embed(embedOptions: Discord.MessageEmbedOptions) {
-    if (!embedOptions.title?.startsWith(this.user?.username ?? "George"))
+    if (!embedOptions.title?.startsWith(this.user?.username ?? "George")) {
       embedOptions.title = `${this.user?.username ?? "George"}: \`${
         embedOptions.title
       }\``;
+    }
 
     embedOptions.footer = {
       text: "www.monkeytype.com",
       iconURL: this.iconURL
     };
 
-    if (embedOptions.author === undefined)
+    if (embedOptions.author === undefined) {
       embedOptions.author = {
         name: this.user?.username ?? "George",
         iconURL: this.user?.avatarURL({ dynamic: true }) ?? ""
       };
+    }
 
     const embed = new Discord.MessageEmbed(embedOptions);
 
@@ -229,9 +234,11 @@ export class Client extends Discord.Client {
     const maxPage =
       entries.length === 0 ? 1 : Math.ceil(entries.length / amount);
 
-    let page: number = 0;
+    let page = 0;
 
-    if (embedOptions.fields === undefined) embedOptions.fields = [];
+    if (embedOptions.fields === undefined) {
+      embedOptions.fields = [];
+    }
 
     const currentEntries = entries.slice(page * amount, page * amount + amount);
 
@@ -283,7 +290,9 @@ export class Client extends Discord.Client {
     });
 
     collector.on("collect", (buttonInteraction) => {
-      if (!buttonInteraction.isButton()) return;
+      if (!buttonInteraction.isButton()) {
+        return;
+      }
 
       if (buttonInteraction.customId === `${id.toLowerCase()}PreviousPage`) {
         if (page <= 0) {
@@ -309,7 +318,9 @@ export class Client extends Discord.Client {
         page++;
       }
 
-      if (embedOptions.fields === undefined) embedOptions.fields = [];
+      if (embedOptions.fields === undefined) {
+        embedOptions.fields = [];
+      }
 
       const pageChangeEntries = entries.slice(
         page * amount,
@@ -325,13 +336,15 @@ export class Client extends Discord.Client {
       };
 
       embed = this.embed(embedOptions);
-      if (onPageChange !== undefined)
+      if (onPageChange !== undefined) {
         embed = onPageChange(embed, pageChangeEntries);
+      }
 
-      if (row.components[1])
+      if (row.components[1]) {
         (row.components[1] as Discord.MessageButton).setLabel(
           `Page ${page + 1} of ${maxPage}`
         );
+      }
 
       interaction.editReply({ embeds: [embed], components: [row] });
       buttonInteraction.update({});
@@ -384,13 +397,17 @@ export class Client extends Discord.Client {
   public async getWPMRole(wpm: number): Promise<Discord.Role | undefined> {
     const guild = await this.guild;
 
-    if (guild === undefined) return;
+    if (guild === undefined) {
+      return;
+    }
 
     const roleID = this.clientOptions.wpmRoles.find(
       (role) => role.min <= wpm && wpm <= role.max
     )?.id;
 
-    if (roleID === undefined) return;
+    if (roleID === undefined) {
+      return;
+    }
 
     return guild.roles.cache.find((role) => role.id === roleID);
   }
@@ -398,7 +415,9 @@ export class Client extends Discord.Client {
   public async removeAllWPMRoles(member: Discord.GuildMember): Promise<void> {
     const guild = await this.guild;
 
-    if (guild === undefined) return;
+    if (guild === undefined) {
+      return;
+    }
 
     const roles = this.clientOptions.wpmRoles.map((role) => role.id);
 
@@ -412,14 +431,19 @@ export class Client extends Discord.Client {
   public getUserWPMFromRole(member: Discord.GuildMember): number | undefined {
     const roles = this.clientOptions.wpmRoles.map((role) => role.id);
 
-    const roleID = member.roles.cache.find((role) => roles.includes(role.id))
-      ?.id;
+    const roleID = member.roles.cache.find((role) =>
+      roles.includes(role.id)
+    )?.id;
 
-    if (roleID === undefined) return;
+    if (roleID === undefined) {
+      return;
+    }
 
     const role = this.clientOptions.wpmRoles.find((role) => role.id === roleID);
 
-    if (role === undefined) return;
+    if (role === undefined) {
+      return;
+    }
 
     return role.max;
   }
@@ -433,9 +457,13 @@ export class Client extends Discord.Client {
       (ch) => ch.id === this.clientOptions.channels[channel]
     );
 
-    if (!guildChannel?.isText()) return;
+    if (!guildChannel?.isText()) {
+      return;
+    }
 
-    if (guildChannel.type === "GUILD_TEXT") return guildChannel;
+    if (guildChannel.type === "GUILD_TEXT") {
+      return guildChannel;
+    }
 
     return;
   }

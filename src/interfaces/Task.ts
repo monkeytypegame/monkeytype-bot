@@ -1,3 +1,5 @@
+/** @format */
+
 import { Guild } from "discord.js";
 import { Document, WithId } from "mongodb";
 import { Client } from "../structures/Client";

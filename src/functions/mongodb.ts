@@ -1,3 +1,5 @@
+/** @format */
+
 import { MongoClient } from "mongodb";
 
 let mongoClient: MongoClient;

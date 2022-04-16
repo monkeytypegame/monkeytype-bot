@@ -1,3 +1,5 @@
+/** @format */
+
 import { Event } from "../interfaces/Event";
 
 export default {
