@@ -755,13 +755,6 @@ auto-parse@^1.3.0:
   dependencies:
     typpy "2.3.11"
 
-axios@^0.21.4:
-  version "0.21.4"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
-  integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
-  dependencies:
-    follow-redirects "^1.14.0"
-
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
@@ -1390,11 +1383,6 @@ firebase@^7.14.5:
     "@firebase/storage" "0.3.43"
     "@firebase/util" "0.3.2"
 
-follow-redirects@^1.14.0:
-  version "1.14.9"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
-  integrity sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
-
 form-data@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.1.tgz#ebd53791b78356a99af9a300d4282c4d5eb9755f"
@@ -1715,13 +1703,6 @@ ini@~1.3.0:
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
-
-instatus.ts@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/instatus.ts/-/instatus.ts-1.2.2.tgz#1b6315244d0ceddc4e1ce0d3ab5a401060c7929b"
-  integrity sha512-XArNyXa03xeg7tI39WEE2SpiDZPXp3elS/s9O6rzszCfcW/ZDd6BbsF9J8w4ohKgpRNh42LxqJ3tIuh/5NK70g==
-  dependencies:
-    axios "^0.21.4"
 
 ip@^1.1.5:
   version "1.1.5"
