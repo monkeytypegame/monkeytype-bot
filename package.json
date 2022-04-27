@@ -6,10 +6,11 @@
   "scripts": {
     "build": "tsc",
     "run": "node .",
-    "start": "npm run build && npm run run",
+    "start": "yarn build && yarn run run",
     "dev": "nodemon",
     "lint": "eslint -c .eslintrc.json 'src/**/*.ts'",
-    "lint:fix": "eslint --fix -c .eslintrc.json 'src/**/*.ts'"
+    "lint:fix": "eslint --fix -c .eslintrc.json 'src/**/*.ts'",
+    "quote": "yarn build && node dist/insertQuote.js"
   },
   "author": "",
   "license": "ISC",

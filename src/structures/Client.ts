@@ -5,7 +5,7 @@ import { Channels, ClientOptions } from "../interfaces/ClientOptions";
 import { Command } from "../interfaces/Command";
 import globCB from "glob";
 import { promisify } from "util";
-import { resolve } from "path";
+import { resolve, join } from "path";
 import { Event } from "../interfaces/Event";
 import { APIMessage } from "discord-api-types";
 import { queue } from "async";
@@ -72,6 +72,11 @@ export class Client extends Discord.Client {
     super(options);
 
     this.clientOptions = options;
+
+    this.clientOptions.repoPath = join(
+      process.cwd(),
+      this.clientOptions.repoPath
+    );
   }
 
   public async start(token: string) {

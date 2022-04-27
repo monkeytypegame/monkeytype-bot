@@ -14,7 +14,6 @@ export interface Quote {
   length: number;
   id: number;
   group?: number;
-  language: string;
   textSplit?: string[];
 }
 
