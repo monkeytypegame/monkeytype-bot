@@ -70,8 +70,10 @@ export default {
         message.content.toLowerCase()
       )
     ) {
+      const channel = message.guild?.channels.cache.get("741305227637948509");
+
       message.channel.send(
-        `:question: Hey ${message.author}, checkout the <#741305227637948509> channel.`
+        `:question: Hey ${message.author}, checkout the ${channel} channel.`
       );
     }
 
