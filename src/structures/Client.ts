@@ -66,6 +66,12 @@ export class Client extends Discord.Client {
       this.logInBotLogChannel(result.message);
     }
 
+    const db = mongoDB();
+
+    await db
+      .collection("bot-tasks")
+      .updateOne({ _id: task._id }, { $set: { executed: true } });
+
     callback();
   });
 
