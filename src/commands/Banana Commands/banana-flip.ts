@@ -61,9 +61,9 @@ export default {
 
       setCoinFlips(coinFlipsSliced);
 
-      const coinFlipsString = coinFlipsSliced
-        .map((coinFlip) => coinFlip.toUpperCase())
-        .join(" ");
+      const coinFlipsString =
+        coinFlipsSliced.map((coinFlip) => coinFlip.toUpperCase()).join(" ") ||
+        "None";
 
       const embed = client.embed({
         title: "Last 10 Global Flips",
