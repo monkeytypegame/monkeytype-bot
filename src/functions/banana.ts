@@ -1,7 +1,7 @@
 /** @format */
 
 import fs from "fs";
-import type { BananaEntry, BananaData } from "../types";
+import type { BananaEntry, BananaData, CoinFlip } from "../types";
 
 export function getUser(userID: string): BananaEntry | undefined {
   const data = getData();
@@ -96,4 +96,14 @@ function shakePartial(partial: Partial<BananaEntry>): Partial<BananaEntry> {
   }
 
   return partial;
+}
+
+export function getCoinFlips(): CoinFlip[] {
+  const coinFlipsFile = fs.readFileSync("coinFlips.json").toString();
+
+  return JSON.parse(coinFlipsFile) ?? [];
+}
+
+export function setCoinFlips(coinFlips: CoinFlip[]): void {
+  fs.writeFileSync("coinFlips.json", JSON.stringify(coinFlips, null, 2));
 }

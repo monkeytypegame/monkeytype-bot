@@ -10,15 +10,15 @@ module.exports.run = async (bot, message, args, guild) => {
     theme: "serika_dark",
     customTheme: false,
     customThemeColors: [
-      "#323437",
+      0x323437,
       0xe2b714,
       0xe2b714,
-      "#646669",
-      "#d1d0c5",
-      "#ca4754",
-      "#7e2a33",
-      "#ca4754",
-      "#7e2a33"
+      0x646669,
+      0xd1d0c5,
+      0xca4754,
+      0x7e2a33,
+      0xca4754,
+      0x7e2a33
     ],
     favThemes: [],
     showKeyTips: true,

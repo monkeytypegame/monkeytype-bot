@@ -1,7 +1,7 @@
 /** @format */
 
 import { Command, RolesEnum } from "../../interfaces/Command";
-import { getUser, setUser } from "../../functions/banana";
+import { createUser, getUser, setUser } from "../../functions/banana";
 
 export default {
   name: "donate",
@@ -27,14 +27,10 @@ export default {
 
     const amount = interaction.options.getInteger("amount", true);
 
-    const authorBananaEntry = getUser(interaction.user.id);
+    const authorBananaEntry =
+      getUser(interaction.user.id) ?? createUser(interaction.user.id);
 
     const targetBananaEntry = getUser(targetUser.id);
-
-    if (authorBananaEntry === undefined) {
-      interaction.reply(":x: You do not have an existing banana profile.");
-      return;
-    }
 
     if (targetBananaEntry === undefined) {
       interaction.reply(

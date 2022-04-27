@@ -2,7 +2,7 @@
 
 import * as Discord from "discord.js";
 import { Channels, ClientOptions } from "../interfaces/ClientOptions";
-import { Command } from "../interfaces/Command";
+import type { Command } from "../interfaces/Command";
 import globCB from "glob";
 import { promisify } from "util";
 import { resolve, join } from "path";

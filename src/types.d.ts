@@ -8,6 +8,8 @@ export type Mode = "time" | "words" | "quote" | "zen" | "custom";
 
 export type Mode2<M extends Mode> = keyof PersonalBests[M];
 
+export type CoinFlip = "h" | "t";
+
 export interface Quote {
   text: string;
   source: string;
@@ -17,12 +19,12 @@ export interface Quote {
   textSplit?: string[];
 }
 
-export type QuoteCollection = {
+export interface QuoteCollection {
   quotes: Quote[];
   length?: number;
   language?: string;
   groups: number[][] | Quote[][];
-};
+}
 
 export interface PersonalBest {
   acc: number;
