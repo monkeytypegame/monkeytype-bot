@@ -9,7 +9,7 @@ const labelOption = {
   type: "STRING",
   required: false,
   choices: labels.map((label) => ({
-    name: label.replace(/ +/g, "_"),
+    name: label,
     value: label
   }))
 };
