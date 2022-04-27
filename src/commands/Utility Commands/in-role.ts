@@ -4,7 +4,7 @@ import { MessageEmbedOptions } from "discord.js";
 import { Command, RolesEnum } from "../../interfaces/Command";
 
 export default {
-  name: "inrole",
+  name: "in-role",
   description: "See what members have a role",
   category: "Utility",
   options: [

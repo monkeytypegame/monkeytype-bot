@@ -5,7 +5,7 @@ import { mongoDB } from "../../functions/mongodb";
 import { PersonalBest, User } from "../../types";
 
 export default {
-  name: "pb",
+  name: "personal-bests",
   description: "Shows your personal bests",
   category: "Stats",
   roles: [RolesEnum.MEMBER],
