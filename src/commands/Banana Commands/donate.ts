@@ -22,6 +22,7 @@ export default {
     }
   ],
   roles: [RolesEnum.MEMBER],
+  requiredChannel: "banana",
   run: async (interaction) => {
     const targetUser = interaction.options.getUser("user", true);
 

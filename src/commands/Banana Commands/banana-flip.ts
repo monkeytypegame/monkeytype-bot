@@ -32,6 +32,7 @@ export default {
     }
   ],
   roles: [RolesEnum.MEMBER],
+  requiredChannel: "banana",
   run: async (interaction, client) => {
     const amount = interaction.options.getInteger("amount", false);
 

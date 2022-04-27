@@ -1,8 +1,10 @@
 /** @format */
 
 import { Command, RolesEnum } from "../../interfaces/Command";
-import labels from "../../../labels.json";
+import { readFileSync } from "fs";
 import fetch from "node-fetch-commonjs";
+
+const labels: string[] = JSON.parse(readFileSync("./labels.json").toString());
 
 const labelOption = {
   description: "Add a label to the issue",
