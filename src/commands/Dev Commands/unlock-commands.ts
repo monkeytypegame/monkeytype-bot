@@ -18,7 +18,7 @@ export default {
     }
 
     if (client.permissionsAdded.has(interaction.guild?.id ?? "")) {
-      interaction.reply(":x: Permissions have already been set up.");
+      interaction.reply(":x: Commands have already been unlocked.");
 
       return;
     }
