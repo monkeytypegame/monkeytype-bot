@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { createUser, getUser, setUser } from "../../functions/banana";
 import { User } from "../../types";
@@ -11,8 +11,6 @@ export default {
   name: "banana",
   description: "Collect bananas",
   category: "Banana",
-  roles: [RolesEnum.MEMBER],
-  requiredChannel: "banana",
   run: async (interaction, client) => {
     await interaction.deferReply({ ephemeral: false, fetchReply: false });
 

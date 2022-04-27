@@ -7,7 +7,7 @@ import {
   setCoinFlips,
   setUser
 } from "../../functions/banana";
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 
 export default {
   name: "banana-flip",
@@ -31,8 +31,6 @@ export default {
       required: false
     }
   ],
-  roles: [RolesEnum.MEMBER],
-  requiredChannel: "banana",
   run: async (interaction, client) => {
     const amount = interaction.options.getInteger("amount", false);
 

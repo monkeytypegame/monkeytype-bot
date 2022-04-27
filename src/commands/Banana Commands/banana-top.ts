@@ -1,14 +1,12 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { getData, getUser } from "../../functions/banana";
 
 export default {
   name: "banana-top",
   description: "Shows the top banana users",
   category: "Banana",
-  roles: [RolesEnum.MEMBER],
-  requiredChannel: "banana",
   run: async (interaction, client) => {
     const user = getUser(interaction.user.id);
 

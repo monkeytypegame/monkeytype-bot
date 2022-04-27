@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { readFileSync } from "fs";
 import fetch from "node-fetch-commonjs";
 
@@ -22,7 +22,6 @@ export default {
   name: "issue",
   description: "Send an issue to GitHub",
   category: "GitHub",
-  roles: [RolesEnum.COLLABORATOR, RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
   options: [
     {
       name: "name",
@@ -49,6 +48,7 @@ export default {
       required: false
     }
   ],
+  needsPermissions: true,
   run: async (interaction, client) => {
     if (apiToken === undefined) {
       interaction.reply({

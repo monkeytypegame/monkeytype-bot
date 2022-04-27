@@ -16,48 +16,13 @@ export default {
         return;
       }
 
-      if (command.roles !== undefined && command.roles.length !== 0) {
-        const apiMember = interaction.member;
-
-        if (apiMember === null || !interaction.guild) {
-          interaction.reply(
-            "Your member object was not found. Was this message used in a DM channel?"
-          );
-
-          return;
-        }
-
-        const member = await interaction.guild.members
-          .fetch(apiMember.user.id)
-          .catch(console.log);
-
-        if (
-          member &&
-          !member.roles.cache.some(
-            (r) =>
-              command.roles
-                ?.map((v) => client.clientOptions.roles[v])
-                ?.includes(r.id) ?? false
-          )
-        ) {
-          interaction.reply({
-            ephemeral: true,
-            content: "You are not a moderator and thus cannot run this command."
-          });
-
-          return;
-        }
-      }
-
       if (
-        command.requiredChannel !== undefined &&
-        interaction.channel?.id !==
-          (await client.getChannel(command.requiredChannel))?.id
+        !client.permissionsAdded.has(interaction.guild?.id ?? "") &&
+        command.name !== "unlock-commands"
       ) {
-        interaction.reply({
-          ephemeral: true,
-          content: "You are not using this command in the required channel!"
-        });
+        interaction.reply(
+          `:x: Commands have not been unlocked for this server.\nServer owner must run /unlock-commands to unlock commands`
+        );
 
         return;
       }

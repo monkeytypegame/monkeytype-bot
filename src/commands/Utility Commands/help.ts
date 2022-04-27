@@ -2,7 +2,7 @@
 
 import { EmbedFieldData } from "discord.js";
 import { toPascalCase } from "../../functions/toPascalCase";
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 
 export default {
   name: "help",
@@ -16,8 +16,6 @@ export default {
       required: false
     }
   ],
-  roles: [RolesEnum.MEMBER],
-  requiredChannel: "botCommands",
   run: async (interaction, client) => {
     const command = client.commands.get(
       interaction.options.getString("command", false) || ""
@@ -68,11 +66,6 @@ export default {
         {
           name: "Command Category",
           value: toPascalCase(command.category),
-          inline: true
-        },
-        {
-          name: "Required Roles (any)",
-          value: command.roles?.join(", ") ?? "None",
           inline: true
         }
       ]);

@@ -37,12 +37,7 @@ export default {
 
     if (
       message.content === "ping" &&
-      message.member?.roles.cache.some((r) =>
-        [
-          client.clientOptions.roles.modRole,
-          client.clientOptions.roles.adminRole
-        ].includes(r.id)
-      )
+      message.member?.permissions.has("MANAGE_GUILD")
     ) {
       return message.reply("pong");
     }

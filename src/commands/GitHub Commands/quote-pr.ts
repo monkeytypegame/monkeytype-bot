@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import SimpleGit from "simple-git";
 import fetch from "node-fetch";
 
@@ -8,7 +8,7 @@ export default {
   name: "quote-pr",
   description: "Post a pull request for the quotes to GitHub",
   category: "GitHub",
-  roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  needsPermissions: true,
   run: async (interaction, client) => {
     await interaction.deferReply({
       ephemeral: true,

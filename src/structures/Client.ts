@@ -38,6 +38,7 @@ export class Client extends Discord.Client {
   public commands = new Discord.Collection<string, Command>();
   public tasks = new Discord.Collection<string, TaskFile>();
   public categories: string[] = [];
+  public permissionsAdded = new Set<string>();
   public taskQueue = queue<QueuedTask>(async (task, callback) => {
     console.log(`queue length: ${this.taskQueue.length()}`);
 

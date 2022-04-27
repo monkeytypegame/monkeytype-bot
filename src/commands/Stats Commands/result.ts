@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { User, Result, Mode, QuoteCollection } from "../../types";
 import { toPascalCase } from "../../functions/toPascalCase";
@@ -10,7 +10,7 @@ export default {
   name: "result",
   description: "Shows the most recent result",
   category: "Stats",
-  roles: [RolesEnum.MEMBER],
+
   options: [
     {
       name: "user",
@@ -19,7 +19,6 @@ export default {
       required: false
     }
   ],
-  requiredChannel: "botCommands",
   run: async (interaction, client) => {
     const db = mongoDB();
 

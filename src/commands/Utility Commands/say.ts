@@ -1,7 +1,7 @@
 /** @format */
 
 import { NewsChannel, TextChannel } from "discord.js";
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 
 export default {
   name: "say",
@@ -22,7 +22,7 @@ export default {
       required: true
     }
   ],
-  roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  needsPermissions: true,
   run: async (interaction) => {
     const channel = interaction.options.getChannel("channel", true) as
       | TextChannel

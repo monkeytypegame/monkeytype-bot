@@ -2,7 +2,7 @@
 
 import { ButtonInteraction, MessageActionRow, MessageButton } from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 
 const currentlyPlaying = new Set<string>();
 
@@ -28,8 +28,6 @@ export default {
       required: true
     }
   ],
-  roles: [RolesEnum.MEMBER],
-  requiredChannel: "banana",
   run: async (interaction, client) => {
     const amount = interaction.options.getInteger("amount", true);
 

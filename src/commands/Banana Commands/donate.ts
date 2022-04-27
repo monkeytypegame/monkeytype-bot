@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { createUser, getUser, setUser } from "../../functions/banana";
 
 export default {
@@ -21,8 +21,6 @@ export default {
       required: true
     }
   ],
-  roles: [RolesEnum.MEMBER],
-  requiredChannel: "banana",
   run: async (interaction) => {
     const targetUser = interaction.options.getUser("user", true);
 

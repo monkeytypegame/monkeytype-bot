@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { User, LeaderboardEntry } from "../../types";
 import { mongoDB } from "../../functions/mongodb";
 
@@ -42,8 +42,6 @@ export default {
       required: true
     }
   ],
-  roles: [RolesEnum.MEMBER],
-  requiredChannel: "botCommands",
   run: async (interaction, client) => {
     await interaction.deferReply({
       ephemeral: false,

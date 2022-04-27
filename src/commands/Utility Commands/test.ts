@@ -1,12 +1,12 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 
 export default {
   name: "test",
-  description: "Tests the bot",
+  description: "Sends a test message",
   category: "Utility",
-  roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  needsPermissions: true,
   run: async (interaction) => {
     interaction.reply("Test");
   }

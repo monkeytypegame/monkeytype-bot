@@ -1,13 +1,13 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { spawn } from "child_process";
 
 export default {
   name: "upgrade",
   description: "Upgrade the bot",
   category: "Dev",
-  roles: [RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  needsPermissions: true,
   run: async (interaction) => {
     try {
       const subprocess = spawn("/home/ubuntu/monkey-bot/upgrade.sh", [], {

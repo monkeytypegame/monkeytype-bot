@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { User } from "../../types";
 
@@ -16,7 +16,7 @@ export default {
       required: true
     }
   ],
-  roles: [RolesEnum.COLLABORATOR, RolesEnum.MODERATOR, RolesEnum.ADMINISTRATOR],
+  needsPermissions: true,
   run: async (interaction, client) => {
     const user = interaction.options.getUser("user", true);
 

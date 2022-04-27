@@ -1,7 +1,7 @@
 /** @format */
 
 import { MessageEmbedOptions } from "discord.js";
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 
 export default {
   name: "in-role",
@@ -15,8 +15,6 @@ export default {
       required: true
     }
   ],
-  roles: [RolesEnum.MEMBER],
-  requiredChannel: "botCommands",
   run: async (interaction, client) => {
     const apiRole = interaction.options.getRole("role", true);
 

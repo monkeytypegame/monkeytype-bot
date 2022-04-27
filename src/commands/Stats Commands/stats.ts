@@ -1,7 +1,7 @@
 /** @format */
 
 import { mongoDB } from "../../functions/mongodb";
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { User } from "../../types";
 import moment from "moment";
 
@@ -9,7 +9,7 @@ export default {
   name: "stats",
   description: "Shows the amount of completed test and total time typing",
   category: "Stats",
-  roles: [RolesEnum.MEMBER],
+
   options: [
     {
       name: "user",
@@ -18,7 +18,6 @@ export default {
       required: false
     }
   ],
-  requiredChannel: "botCommands",
   run: async (interaction, client) => {
     const db = mongoDB();
 

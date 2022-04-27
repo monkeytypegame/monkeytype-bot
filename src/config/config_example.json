@@ -6,19 +6,11 @@
   "eventsPath": "./events",
   "tasksPath": "./tasks",
   "deleteUnusedSlashCommands": true,
-  "intents": [
-    "GUILDS",
-    "GUILD_MESSAGES",
-    "GUILD_MEMBERS"
-  ],
+  "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
   "repo": "miodec/monkeytype",
   "repoPath": "../monkeytype",
   "roles": {
-    "adminRole": "admin role id",
-    "modRole": "mod role id",
-    "memberRole": "member role id",
-    "updatePingRole": "update ping role id",
-    "collaboratorRole": "collaborator role id"
+    "memberRole": "member role id"
   },
   "wpmRoles": [
     {
@@ -34,7 +26,6 @@
     "botLog": "channel id where the bot will log debug messages",
     "lounge": "lounge id",
     "updates": "updates channel id",
-    "botCommands": "bot commands channel id",
-    "banana": "banana channel id"
+    "botCommands": "bot commands channel id"
   }
 }

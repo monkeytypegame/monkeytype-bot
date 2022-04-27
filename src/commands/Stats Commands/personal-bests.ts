@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command, RolesEnum } from "../../interfaces/Command";
+import { Command } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { PersonalBest, User } from "../../types";
 
@@ -8,7 +8,7 @@ export default {
   name: "personal-bests",
   description: "Shows your personal bests",
   category: "Stats",
-  roles: [RolesEnum.MEMBER],
+
   options: [
     {
       name: "user",
@@ -17,7 +17,6 @@ export default {
       required: false
     }
   ],
-  requiredChannel: "botCommands",
   run: async (interaction, client) => {
     const db = mongoDB();
 
