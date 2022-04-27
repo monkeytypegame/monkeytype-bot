@@ -16,10 +16,7 @@ interface GitHubLabel {
 fetch(`https://api.github.com/repos/${clientOptions.repo}/labels`)
   .then((response) => response.json())
   .then((json: GitHubLabel[]) => {
-    fs.writeFileSync(
-      "src/labels.json",
-      JSON.stringify(json.map((v) => v.name))
-    );
+    fs.writeFileSync("labels.json", JSON.stringify(json.map((v) => v.name)));
 
     console.log("Labels updated!");
   });

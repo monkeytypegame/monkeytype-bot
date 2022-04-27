@@ -1,7 +1,7 @@
 /** @format */
 
 import { Command, RolesEnum } from "../../interfaces/Command";
-import labels from "../../labels.json";
+import labels from "../../../labels.json";
 import fetch from "node-fetch-commonjs";
 
 const labelOption = {
