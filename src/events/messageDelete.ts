@@ -17,7 +17,7 @@ export default {
     // const deletionLog = fetchedLogs.entries.first();
 
     client.logInBotLogChannel(
-      `:wastebasket: ${message.author}'s message in <#${message.channel.id}> was deleted:\n${message.content}`
+      `:wastebasket: ${message.author}'s message in ${message.channel} was deleted:\n${message.content}`
     );
   }
 } as Event<"messageDelete">;
