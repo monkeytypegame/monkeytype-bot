@@ -7,6 +7,7 @@ import { Client } from "../structures/Client";
 export interface Task extends WithId<Document> {
   name: string;
   args: any[];
+  requestTimestamp: number;
 }
 
 export interface TaskResult {
