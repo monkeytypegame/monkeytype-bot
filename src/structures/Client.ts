@@ -72,6 +72,8 @@ export class Client extends Discord.Client {
       .collection("bot-tasks")
       .updateOne({ _id: task._id }, { $set: { executed: true } });
 
+    await db.collection("bot-tasks").deleteOne({ _id: task._id });
+
     callback();
   });
 
