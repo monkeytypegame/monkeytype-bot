@@ -23,7 +23,11 @@ export default {
 
     setInterval(async () => {
       client.user?.setActivity(
-        `over ${guild.approximatePresenceCount ?? guild.memberCount} monkeys`,
+        `over ${
+          guild.memberCount ??
+          guild.approximateMemberCount ??
+          guild.approximatePresenceCount
+        } monkeys`,
         {
           type: "WATCHING"
         }
