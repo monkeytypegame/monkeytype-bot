@@ -4,7 +4,7 @@ import { Command } from "../../interfaces/Command";
 import { createUser, getUser, setUser } from "../../functions/banana";
 
 export default {
-  name: "donate",
+  name: "banana-donate",
   description: "Donate bananas to another user",
   category: "Banana",
   options: [

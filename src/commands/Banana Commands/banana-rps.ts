@@ -17,7 +17,7 @@ const choiceToEmoji: { [key in Choice]: string } = {
 };
 
 export default {
-  name: "rock-paper-scissors",
+  name: "banana-rps",
   description: "Play rock paper scissors",
   category: "Banana",
   options: [
