@@ -24,10 +24,16 @@ export default {
   category: "GitHub",
   options: [
     {
-      name: "name",
-      description: "The name of the issue",
+      name: "title",
+      description: "The issue title",
       type: "STRING",
       required: true
+    },
+    {
+      name: "body",
+      description: "The issue body",
+      type: "STRING",
+      required: false
     },
     {
       name: "label1",
@@ -40,12 +46,6 @@ export default {
     {
       name: "label3",
       ...labelOption
-    },
-    {
-      name: "description",
-      description: "The description of the issue",
-      type: "STRING",
-      required: false
     }
   ],
   needsPermissions: true,
@@ -60,7 +60,7 @@ export default {
 
     interaction.deferReply({ fetchReply: false });
 
-    const name = interaction.options.getString("name", true);
+    const title = interaction.options.getString("title", true);
 
     const label1 = interaction.options.getString("label1", false);
     const label2 = interaction.options.getString("label2", false);
@@ -78,7 +78,7 @@ export default {
       lbls.push(label3);
     }
 
-    const description = interaction.options.getString("description", false);
+    const body = interaction.options.getString("body", false);
 
     const apiIssuesURL = `https://api.github.com/repos/${client.clientOptions.repo}/issues`;
 
@@ -92,15 +92,15 @@ export default {
       redirect: "follow",
       referrerPolicy: "no-referrer",
       body: JSON.stringify({
-        title: name,
-        body: description ?? undefined,
+        title,
+        body,
         labels: lbls.length !== 0 ? lbls : undefined
       })
     });
 
     if (response.ok) {
       interaction.followUp(
-        `Created issue \`${name}\` with description \`${description}\` and labels \`${lbls.join(
+        `Created issue \`${title}\` with body \`${body}\` and labels \`${lbls.join(
           ", "
         )}\`.`
       );
