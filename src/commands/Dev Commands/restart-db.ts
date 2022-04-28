@@ -23,13 +23,11 @@ export default {
             new MessageButton()
               .setCustomId("restartDBYes")
               .setLabel("Yes")
-              .setEmoji("✅")
               .setStyle("SUCCESS")
               .setDisabled(false),
             new MessageButton()
               .setCustomId("restartDBNo")
               .setLabel("No")
-              .setEmoji("❌")
               .setStyle("DANGER")
               .setDisabled(false)
           ])
@@ -74,8 +72,6 @@ export default {
         } else if (buttonInteraction.customId === "restartDBNo") {
           buttonInteraction.reply(":x: Cancelled");
         }
-
-        collector.emit("end");
       });
     } catch (err) {
       console.log(err);
