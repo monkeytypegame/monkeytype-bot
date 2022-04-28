@@ -9,32 +9,32 @@ export default {
   description: "Shows a paginated leaderboard that shows your rank",
   category: "Stats",
   options: [
-    {
-      name: "language",
-      description: "The langauge to query",
-      type: "STRING",
-      required: true
-    },
-    {
-      name: "mode",
-      description: "The mode to query",
-      type: "STRING",
-      required: true,
-      choices: [
-        {
-          name: "time",
-          value: "time"
-        },
-        {
-          name: "words",
-          value: "words"
-        },
-        {
-          name: "quote",
-          value: "quote"
-        }
-      ]
-    },
+    // {
+    //   name: "language",
+    //   description: "The langauge to query",
+    //   type: "STRING",
+    //   required: true
+    // },
+    // {
+    //   name: "mode",
+    //   description: "The mode to query",
+    //   type: "STRING",
+    //   required: true,
+    //   choices: [
+    //     {
+    //       name: "time",
+    //       value: "time"
+    //     },
+    //     {
+    //       name: "words",
+    //       value: "words"
+    //     },
+    //     {
+    //       name: "quote",
+    //       value: "quote"
+    //     }
+    //   ]
+    // },
     {
       name: "mode2",
       description: "The mode2 to query",
@@ -50,8 +50,8 @@ export default {
 
     const db = mongoDB();
 
-    const language = interaction.options.getString("language", true);
-    const mode = interaction.options.getString("mode", true);
+    const language = "english"; // interaction.options.getString("language", true);
+    const mode = "time"; // interaction.options.getString("mode", true);
     const mode2 = interaction.options.getString("mode2", true);
 
     const user = <User | null>(
