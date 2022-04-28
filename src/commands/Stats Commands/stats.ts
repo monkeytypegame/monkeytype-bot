@@ -9,22 +9,11 @@ export default {
   name: "stats",
   description: "Shows the amount of completed test and total time typing",
   category: "Stats",
-
-  options: [
-    {
-      name: "user",
-      description: "The user to get the stats of",
-      type: "USER",
-      required: false
-    }
-  ],
   run: async (interaction, client) => {
     const db = mongoDB();
 
-    const discordUser = interaction.options.getUser("user") ?? interaction.user;
-
     const user = <User | null>(
-      await db.collection("users").findOne({ discordId: discordUser.id })
+      await db.collection("users").findOne({ discordId: interaction.user.id })
     );
 
     if (user === null) {
@@ -39,9 +28,9 @@ export default {
     const duration = moment.duration({ seconds: user.timeTyping });
 
     const nameDisplay =
-      user.name === discordUser.username
+      user.name === interaction.user.username
         ? user.name
-        : `${user.name} (${discordUser.username})`;
+        : `${user.name} (${interaction.user.username})`;
 
     const embed = client.embed({
       title: `Typing Stats for ${nameDisplay}`,

@@ -10,22 +10,13 @@ export default {
   name: "result",
   description: "Shows the most recent result",
   category: "Stats",
-
-  options: [
-    {
-      name: "user",
-      description: "The user to fetch the most recent result from",
-      type: "USER",
-      required: false
-    }
-  ],
   run: async (interaction, client) => {
     const db = mongoDB();
 
-    const discordUser = interaction.options.getUser("user") ?? interaction.user;
+    interation.user
 
     const user = <User | null>(
-      await db.collection("users").findOne({ discordId: discordUser.id })
+      await db.collection("users").findOne({ discordId: interation.user.id })
     );
 
     if (user === null) {
@@ -63,9 +54,9 @@ export default {
     }
 
     const nameDisplay =
-      user.name === discordUser.username
+      user.name === interation.user.username
         ? user.name
-        : `${user.name} (${discordUser.username})`;
+        : `${user.name} (${interation.user.username})`;
 
     const embed = client.embed({
       title: `Recent Result for ${nameDisplay}`,
