@@ -51,17 +51,6 @@ export default {
           }
         ]);
 
-      // const usage = await client.getCommandUsage(command);
-
-      // const args = await command.getCommandArguments(command);
-
-      // if (usage && args) {
-      //   embed.addFields([
-      //     { name: "Command Usage", value: usage, inline: false },
-      //     { name: "Command Arguments", value: args, inline: false }
-      //   ]);
-      // }
-
       embed.addFields([
         {
           name: "Command Category",
@@ -74,6 +63,7 @@ export default {
         name: `${category}${category.endsWith("Commands") ? "" : " Commands"}`,
         value: client
           .getCommandsByCategory(category)
+          .filter((cmd) => !cmd.needsPermissions)
           .map((cmd) => cmd.name)
           .join("\n"),
         inline: true
