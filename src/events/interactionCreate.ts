@@ -17,6 +17,7 @@ export default {
       }
 
       if (
+        !client.clientOptions.dev &&
         !client.permissionsAdded.has(interaction.guild?.id ?? "") &&
         command.name !== "unlock-commands"
       ) {

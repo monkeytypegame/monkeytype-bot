@@ -115,7 +115,7 @@ export default {
       return;
     }
 
-    const result = Math.floor(Math.random()) ? "heads" : "tails";
+    const result = Math.floor(Math.random() * 2) ? "heads" : "tails";
 
     coinFlips.push(result === "heads" ? "h" : "t");
 

@@ -29,8 +29,7 @@ export default {
 
     const sortedData10 = sortedData.slice(0, 10);
 
-    embed.addField(
-      "Top",
+    embed.setDescription(
       sortedData10
         .map(
           ([id, user], index) =>
