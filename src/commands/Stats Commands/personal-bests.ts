@@ -87,7 +87,7 @@ export default {
       Object.entries(timePB).map(([key, pb]) => {
         timeFields.push({
           name: `${key} seconds`,
-          value: `‎`,
+          value: "‎",
           inline: true
         });
         timeFields.push({
@@ -124,7 +124,7 @@ export default {
       Object.entries(wordsPB).map(([key, pb]) => {
         wordsFields.push({
           name: `${key} words`,
-          value: `‎`,
+          value: "‎",
           inline: true
         });
         wordsFields.push({
