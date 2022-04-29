@@ -32,7 +32,7 @@ export default {
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
-    if (user === null) {
+    if (!user) {
       interaction.followUp({
         ephemeral: true,
         content: ":x: Could not find user"
