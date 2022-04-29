@@ -85,21 +85,23 @@ export default {
 
     if (timeEntryCount !== 0) {
       Object.entries(timePB).map(([key, pb]) => {
-        timeFields.push({
-          name: `${key} seconds`,
-          value: "‎",
-          inline: true
-        });
-        timeFields.push({
-          name: `${pb.wpm} wpm`,
-          value: `${pb.acc}% acc`,
-          inline: true
-        });
-        timeFields.push({
-          name: `${pb.raw} raw`,
-          value: `${pb.consistency}% con`,
-          inline: true
-        });
+        timeFields.push(
+          {
+            name: `${key} seconds`,
+            value: "‎",
+            inline: true
+          },
+          {
+            name: `${pb.wpm} wpm`,
+            value: `${pb.acc}% acc`,
+            inline: true
+          },
+          {
+            name: `${pb.raw} raw`,
+            value: `${pb.consistency}% con`,
+            inline: true
+          }
+        );
       });
     }
 

@@ -6,6 +6,13 @@ import { User, Result, Mode, QuoteCollection } from "../../types";
 import { toPascalCase } from "../../functions/toPascalCase";
 import fetch from "node-fetch-commonjs";
 
+const quoteLengthMap = {
+  1: "short",
+  2: "medium",
+  3: "long",
+  4: "thicc"
+};
+
 export default {
   name: "result",
   description: "Shows the most recent result",
@@ -75,9 +82,22 @@ export default {
     const language = result.language ?? "english";
 
     if (["time", "words"].includes(result.mode)) {
-      embed.addField(
-        toPascalCase(`${result.mode} ${result.mode2}`),
-        `${result.wpm} wpm (${result.rawWpm} raw)\n${result.acc}% accuracy, ${result.consistency}% consistency\nLanguage: ${language}`
+      embed.addFields(
+        {
+          name: toPascalCase(`${result.mode} ${result.mode2}`),
+          value: toPascalCase(language),
+          inline: true
+        },
+        {
+          name: `${result.wpm} wpm`,
+          value: `${result.acc}% acc`,
+          inline: true
+        },
+        {
+          name: `${result.rawWpm} raw`,
+          value: `${result.consistency}% con`,
+          inline: true
+        }
       );
     } else if (result.mode === "quote") {
       const res = await fetch(
@@ -98,18 +118,30 @@ export default {
         return;
       }
 
-      embed.addFields([
+      embed.addFields(
         {
           name: "Quote",
-          value: `${result.wpm} wpm (${result.rawWpm} raw)\n${result.acc}% accuracy, ${result.consistency}% consistency\nLanguage: ${language}`,
-          inline: false
+          value: toPascalCase(
+            `${language} ${quoteLengthMap[result.quoteLength as 1 | 2 | 3 | 4]}`
+          ),
+          inline: true
+        },
+        {
+          name: `${result.wpm} wpm`,
+          value: `${result.acc}% acc`,
+          inline: true
+        },
+        {
+          name: `${result.rawWpm} raw`,
+          value: `${result.consistency}% con`,
+          inline: true
         },
         {
           name: "Quote Text",
           value: `Source: ${quote.source}\n\`\`\`\n${quote.text}\n\`\`\``,
           inline: false
         }
-      ]);
+      );
     } else {
       interaction.followUp({
         content: ":x: Last result was not time, mode, or quote"
