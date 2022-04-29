@@ -82,7 +82,7 @@ export default {
       {
         title: "Bananajack",
         thumbnail: {
-          url: "https://i.ibb.co/2k7vbYx/bananajack.png"
+          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/joker_1f0cf.png"
         },
         color: 0xede009,
         fields: [
