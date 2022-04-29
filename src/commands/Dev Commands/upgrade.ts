@@ -9,19 +9,13 @@ export default {
   category: "Dev",
   needsPermissions: true,
   run: async (interaction) => {
-    try {
-      const subprocess = spawn("/home/ubuntu/monkey-bot/upgrade.sh", [], {
-        detached: true,
-        stdio: "ignore"
-      });
+    const subprocess = spawn("/home/ubuntu/monkey-bot/upgrade.sh", [], {
+      detached: true,
+      stdio: "ignore"
+    });
 
-      subprocess.unref();
+    subprocess.unref();
 
-      interaction.reply(":thinking: Upgrading...");
-    } catch (e) {
-      console.log(e);
-
-      interaction.reply(`:x: Could not upgrade\n\`\`\`${e}\`\`\``);
-    }
+    interaction.reply(":thinking: Upgrading...");
   }
 } as Command;

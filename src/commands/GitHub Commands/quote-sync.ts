@@ -16,26 +16,17 @@ export default {
 
     const git = SimpleGit(client.clientOptions.repoPath);
 
-    try {
-      await git.fetch("upstream", "dev");
+    await git.fetch("upstream", "dev");
 
-      await git.checkout("dev");
+    await git.checkout("dev");
 
-      await git.mergeFromTo("upstream", "dev");
+    await git.mergeFromTo("upstream", "dev");
 
-      await git.push("origin", "dev");
+    await git.push("origin", "dev");
 
-      interaction.followUp({
-        ephemeral: true,
-        content: ":white_check_mark: Successfully synced quotes from GitHub"
-      });
-    } catch (err) {
-      console.log(err);
-
-      interaction.followUp({
-        ephemeral: true,
-        content: `:x: Error trying to sync quotes from GitHub: \`\`\`${err}\`\`\``
-      });
-    }
+    interaction.followUp({
+      ephemeral: true,
+      content: ":white_check_mark: Successfully synced quotes from GitHub"
+    });
   }
 } as Command;

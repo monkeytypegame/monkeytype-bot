@@ -28,7 +28,21 @@ export default {
       }
 
       console.log(`Running command "${command.name}"`);
-      command.run(interaction, client);
+      try {
+        await command.run(interaction, client);
+      } catch (err) {
+        console.log(
+          `An error occured running command "${command.name}"\n${err}`
+        );
+
+        const msg = `Something went wrong.`;
+
+        interaction.reply(msg).catch((err) => {
+          console.log(err);
+
+          interaction.followUp(msg).catch(console.log);
+        });
+      }
     } else if (interaction.isButton()) {
       console.log(`Button clicked "${interaction.customId}"`);
     }

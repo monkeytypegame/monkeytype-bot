@@ -17,26 +17,17 @@ export default {
 
     const git = SimpleGit(client.clientOptions.repoPath);
 
-    try {
-      await git.pull("upstream", "dev");
+    await git.pull("upstream", "dev");
 
-      await git.add(["."]);
+    await git.add(["."]);
 
-      await git.commit("Added quotes from Discord");
+    await git.commit("Added quotes from Discord");
 
-      await git.push("origin", "dev");
+    await git.push("origin", "dev");
 
-      interaction.followUp({
-        ephemeral: true,
-        content: ":white_check_mark: Successfully pushed quotes to GitHub"
-      });
-    } catch (err) {
-      console.log(err);
-
-      interaction.followUp({
-        ephemeral: true,
-        content: `:x: Error trying to push quotes to GitHub: \`\`\`${err}\`\`\``
-      });
-    }
+    interaction.followUp({
+      ephemeral: true,
+      content: ":white_check_mark: Successfully pushed quotes to GitHub"
+    });
   }
 } as Command;
