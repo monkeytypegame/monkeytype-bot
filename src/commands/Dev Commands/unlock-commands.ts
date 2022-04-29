@@ -50,13 +50,18 @@ export default {
 
     row.addComponents(confirmButton);
 
-    await interaction.reply({ embeds: [embed], components: [row] });
+    const replyMessage = await interaction.reply({
+      embeds: [embed],
+      components: [row],
+      fetchReply: true
+    });
 
     const buttonInteraction = await interaction.channel?.awaitMessageComponent({
       componentType: "BUTTON",
       dispose: true,
       time: 900000,
-      filter: (i) => i.user.id === interaction.user.id
+      filter: (i) =>
+        replyMessage.id === i.message.id && i.user.id === interaction.user.id
     });
 
     if (buttonInteraction === undefined) {

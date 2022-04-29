@@ -119,7 +119,11 @@ export default {
 
     row.addComponents(hitButton, standButton);
 
-    await interaction.reply({ embeds: [embed], components: [row] });
+    const replyMessage = await interaction.reply({
+      embeds: [embed],
+      components: [row],
+      fetchReply: true
+    });
 
     while (!gameOver) {
       dealerCards.push(getNextCard(deck), getNextCard(deck));
@@ -148,6 +152,7 @@ export default {
           componentType: "BUTTON",
           dispose: true,
           filter: (i) =>
+            replyMessage.id === i.message.id &&
             i.user.id === interaction.user.id &&
             ["hit", "stand"].includes(i.customId),
           time: 30000
