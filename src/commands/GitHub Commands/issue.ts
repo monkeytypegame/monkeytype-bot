@@ -100,9 +100,9 @@ export default {
 
     if (response.ok) {
       interaction.followUp(
-        `Created issue \`${title}\` with body \`${body}\` and labels \`${lbls.join(
-          ", "
-        )}\`.`
+        `Created issue \`${title}\`${
+          body === null ? "" : ` with body \`${body}\``
+        }${labels.length === 0 ? "" : ` and labels \`${lbls.join(", ")}\``}.`
       );
     } else {
       interaction.followUp("Could not create issue");
