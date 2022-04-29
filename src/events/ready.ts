@@ -6,14 +6,14 @@ import { Event } from "../interfaces/Event";
 export default {
   event: "ready",
   run: async (client) => {
-    console.log(`${client.user?.tag} is online!`);
+    console.log(`${client.user.tag} is online!`);
     const guild = await client.guild;
 
     if (guild === undefined) {
       return;
     }
 
-    client.user?.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
+    client.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
       type: "WATCHING"
     });
 
@@ -22,7 +22,7 @@ export default {
     connectDB().then(() => console.log("Database connected"));
 
     setInterval(async () => {
-      client.user?.setActivity(
+      client.user.setActivity(
         `over ${
           guild.memberCount ??
           guild.approximateMemberCount ??

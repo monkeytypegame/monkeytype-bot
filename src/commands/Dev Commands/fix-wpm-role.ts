@@ -24,7 +24,6 @@ export default {
 
     if (member === undefined) {
       interaction.reply({
-        
         content: ":x: Could not find user"
       });
 
@@ -39,7 +38,6 @@ export default {
 
     if (dbUser === null) {
       interaction.reply({
-        
         content: ":x: Could not find user"
       });
 
@@ -50,7 +48,6 @@ export default {
 
     if (pbs === undefined) {
       interaction.reply({
-        
         content: ":x: User does not have personal bests"
       });
 
@@ -61,7 +58,6 @@ export default {
 
     if (timePBs === undefined || timePBs.length === 0) {
       interaction.reply({
-        
         content: ":x: User does not have time 60 personal bests"
       });
 
@@ -74,7 +70,6 @@ export default {
 
     if (role === undefined) {
       interaction.reply({
-        
         content: `:x: Could not find role for ${timePB} wpm`
       });
 
@@ -86,7 +81,6 @@ export default {
     await member.roles.add(role.id);
 
     interaction.reply({
-      
       content: `:white_check_mark: Fixed wpm role: Assigned role ${role.id} to user ${member}`
     });
 

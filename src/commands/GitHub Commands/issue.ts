@@ -1,10 +1,10 @@
 /** @format */
 
 import { Command } from "../../interfaces/Command";
-import { readFileSync } from "fs";
 import fetch from "node-fetch-commonjs";
+import { parseJSON, readFileOrCreate } from "../../functions/file";
 
-const labels: string[] = JSON.parse(readFileSync("./labels.json").toString());
+const labels: string[] = parseJSON(readFileOrCreate("labels.json", "[]"));
 
 const labelOption = {
   description: "Add a label to the issue",

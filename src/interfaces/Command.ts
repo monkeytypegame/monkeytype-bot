@@ -9,5 +9,5 @@ export interface Command {
   category: string;
   options?: ApplicationCommandOption[];
   needsPermissions?: boolean;
-  run: (interaction: CommandInteraction, client: Client) => any;
+  run: (interaction: CommandInteraction, client: Client<true>) => any;
 }

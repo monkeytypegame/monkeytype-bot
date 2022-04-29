@@ -17,7 +17,11 @@ export interface TaskResult {
 
 export interface TaskFile {
   name: string;
-  run: (client: Client, guild: Guild, ...args: any[]) => Promise<TaskResult>;
+  run: (
+    client: Client<true>,
+    guild: Guild,
+    ...args: any[]
+  ) => Promise<TaskResult>;
 }
 
 export type QueuedTask = Task & TaskFile;

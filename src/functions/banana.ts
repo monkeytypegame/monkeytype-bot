@@ -1,7 +1,8 @@
 /** @format */
 
-import fs from "fs";
+import * as fs from "fs";
 import type { BananaEntry, BananaData, CoinFlip } from "../types";
+import { parseJSON, readFileOrCreate } from "./file";
 
 export function getUser(userID: string): BananaEntry | undefined {
   const data = getData();
@@ -44,7 +45,7 @@ export function createUser(userID: string, initialBal = 1): BananaEntry {
 }
 
 export function getData(): BananaData {
-  return JSON.parse(fs.readFileSync("bananas.json").toString());
+  return parseJSON(readFileOrCreate("bananas.json", "{}").toString());
 }
 
 function setData(bananaData: BananaData) {
@@ -99,9 +100,9 @@ function shakePartial(partial: Partial<BananaEntry>): Partial<BananaEntry> {
 }
 
 export function getCoinFlips(): CoinFlip[] {
-  const coinFlipsFile = fs.readFileSync("coinFlips.json").toString();
+  const coinFlipsFile = readFileOrCreate("coinFlips.json", "[]").toString();
 
-  return JSON.parse(coinFlipsFile) ?? [];
+  return parseJSON(coinFlipsFile) ?? [];
 }
 
 export function setCoinFlips(coinFlips: CoinFlip[]): void {

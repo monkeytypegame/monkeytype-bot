@@ -50,6 +50,9 @@ export default {
     const authorBananaEntry =
       getUser(interaction.user.id) ?? createUser(interaction.user.id);
 
+    const botBananaEntry =
+      getUser(client.user.id) ?? createUser(client.user.id);
+
     const coinFlips = getCoinFlips();
 
     if (amount === null && guess === null) {
@@ -128,9 +131,11 @@ export default {
 
     if (isCorrect) {
       authorBananaEntry.balance += amount;
+      botBananaEntry.balance -= amount;
       authorBananaEntry.flipWins++;
     } else {
       authorBananaEntry.balance -= amount;
+      botBananaEntry.balance += amount;
       authorBananaEntry.flipLosses++;
     }
 
@@ -177,5 +182,6 @@ export default {
     interaction.reply({ embeds: [embed] });
 
     setUser(interaction.user.id, authorBananaEntry);
+    setUser(client.user.id, botBananaEntry);
   }
 } as Command;

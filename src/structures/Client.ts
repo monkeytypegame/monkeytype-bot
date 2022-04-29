@@ -30,7 +30,7 @@ interface PaginationOptions<T> {
   ) => Discord.MessageEmbed;
 }
 
-export class Client extends Discord.Client {
+export class Client<T extends boolean> extends Discord.Client<T> {
   public clientOptions: ClientOptions;
   public glob = promisify(globCB);
   public iconURL =
@@ -49,7 +49,7 @@ export class Client extends Discord.Client {
       return;
     }
 
-    const result = await task.run(this, guild, ...task.args);
+    const result = await task.run(this as Client<true>, guild, ...task.args);
 
     console.log(
       `Task ${task.name} finished ${
@@ -138,7 +138,9 @@ export class Client extends Discord.Client {
       )
     )) as Event<keyof Discord.ClientEvents>[];
 
-    events.forEach((event) => this.on(event.event, event.run.bind(null, this)));
+    events.forEach((event) =>
+      this.on(event.event, event.run.bind(null, this as Client<true>))
+    );
 
     const tasks = (await Promise.all(
       taskFiles.map(

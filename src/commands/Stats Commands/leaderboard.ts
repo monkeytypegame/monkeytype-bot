@@ -44,7 +44,6 @@ export default {
   ],
   run: async (interaction, client) => {
     await interaction.deferReply({
-      
       fetchReply: false
     });
 

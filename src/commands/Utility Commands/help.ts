@@ -30,7 +30,7 @@ export default {
           iconURL: interaction.user.avatarURL({ dynamic: true }) ?? ""
         },
         thumbnail: {
-          url: client.user?.avatarURL({ dynamic: true }) ?? ""
+          url: client.user.avatarURL({ dynamic: true }) ?? ""
         }
       },
       interaction.user

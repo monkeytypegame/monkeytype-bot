@@ -30,6 +30,6 @@ fetch(`https://api.github.com/repos/${clientOptions.repo}/labels`)
 
 config();
 
-const client = new Client(clientOptions as ClientOptions);
+const client = new Client<false>(clientOptions as ClientOptions);
 
 client.start(process.env["TOKEN"] as string).then(console.log);

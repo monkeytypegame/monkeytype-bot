@@ -34,6 +34,9 @@ export default {
     const authorBananaEntry =
       getUser(interaction.user.id) ?? createUser(interaction.user.id);
 
+    const botBananaEntry =
+      getUser(client.user.id) ?? createUser(client.user.id);
+
     if (amount < 1) {
       interaction.reply(":x: You must bet at least 1 banana.");
       return;
@@ -70,7 +73,7 @@ export default {
             inline: true
           },
           {
-            name: client.user?.username ?? "",
+            name: client.user.username,
             value: ":grey_question:",
             inline: true
           }
@@ -214,8 +217,10 @@ export default {
 
           if (won) {
             authorBananaEntry.balance += amount;
+            botBananaEntry.balance -= amount;
           } else {
             authorBananaEntry.balance -= amount;
+            botBananaEntry.balance += amount;
           }
 
           const wonString = won ? "won" : "lost";
@@ -225,13 +230,14 @@ export default {
           embed.setDescription(
             embed.description +
               `\nYou ${wonString}! ${
-                won ? `${client.user?.username} busted` : "Busted"
+                won ? `${client.user.username} busted` : "Busted"
               }!\nYou ${wonString} ${amount} ${countString}!\nNew balance: ${
                 authorBananaEntry.balance
               }`
           );
 
           setUser(interaction.user.id, authorBananaEntry);
+          setUser(client.user.id, botBananaEntry);
 
           interaction.editReply({ embeds: [embed] });
         }

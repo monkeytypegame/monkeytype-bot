@@ -1,9 +1,10 @@
 /** @format */
 
-import { existsSync, readFileSync, writeFileSync } from "fs";
+import * as fs from "fs";
 import { join } from "path";
 import SimpleGit from "simple-git";
 import config from "./config/config.json";
+import { parseJSON, readOptionalFile } from "./functions/file";
 import { Quote, QuoteCollection } from "./types";
 
 const repoPath = join(process.cwd(), config.repoPath);
@@ -35,9 +36,9 @@ const args = process.argv.slice(2);
     `${language}.json`
   );
 
-  const quoteFile = existsSync(filePath)
-    ? <QuoteCollection>JSON.parse(readFileSync(filePath).toString())
-    : undefined;
+  const quoteFile = <QuoteCollection | undefined>(
+    parseJSON(readOptionalFile(filePath))
+  );
 
   const id =
     quoteFile !== undefined
@@ -54,7 +55,7 @@ const args = process.argv.slice(2);
   if (quoteFile !== undefined) {
     quoteFile.quotes.push(quoteObject);
   } else {
-    writeFileSync(
+    fs.writeFileSync(
       filePath,
       JSON.stringify(<QuoteCollection>{
         language,
