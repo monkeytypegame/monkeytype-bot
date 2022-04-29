@@ -157,12 +157,12 @@ export default {
           {
             name: "Last 10 Global Flips",
             value: coinFlipsString,
-            inline: true
+            inline: false
           },
           {
             name: `${interaction.user.username}'s New Balance`,
             value: authorBananaEntry.balance.toString(),
-            inline: true
+            inline: false
           },
           {
             name: "Flip Wins",
