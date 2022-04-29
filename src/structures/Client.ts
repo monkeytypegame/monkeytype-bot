@@ -296,13 +296,17 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           })
         : await send(embed, row, currentEntries);
 
-    const collector = new Discord.InteractionCollector(this, {
-      channel: interaction.channel === null ? undefined : interaction.channel,
+    if (interaction.channel === null) {
+      console.log("Channel is null");
+
+      return;
+    }
+
+    const collector = interaction.channel?.createMessageComponentCollector({
       componentType: "BUTTON",
       dispose: true,
       message: msg,
-      time: 60000,
-      interactionType: "MESSAGE_COMPONENT"
+      time: 60000
     });
 
     collector.on("collect", (buttonInteraction) => {

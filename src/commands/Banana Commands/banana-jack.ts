@@ -155,7 +155,7 @@ export default {
             replyMessage.id === i.message.id &&
             i.user.id === interaction.user.id &&
             ["hit", "stand"].includes(i.customId),
-          time: 30000
+          time: 60000
         });
 
       if (buttonInteraction === undefined) {

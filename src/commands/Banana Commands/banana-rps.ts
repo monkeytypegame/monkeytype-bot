@@ -16,6 +16,18 @@ const choiceToEmoji: { [key in Choice]: string } = {
   scissors: "✌"
 };
 
+const outcomeStringMap = {
+  win: "won",
+  tie: "tied",
+  loss: "lost"
+};
+
+const outcomeColorMap = {
+  win: 0x41fd5f,
+  tie: 0x1e1e1e,
+  loss: 0xfd4141
+};
+
 export default {
   name: "banana-rps",
   description: "Play rock paper scissors",
@@ -58,7 +70,7 @@ export default {
       {
         title: "Rock Paper Scissors",
         thumbnail: {
-          url: "https://static.thenounproject.com/png/477919-200.png"
+          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/322/raised-hand_270b.png"
         },
         color: 0xede009,
         fields: [
@@ -107,7 +119,7 @@ export default {
 
     row.addComponents(rockButton, paperButton, scissorsButton);
 
-    const interactionReply = await interaction.reply({
+    await interaction.reply({
       embeds: [embed],
       components: [row],
       fetchReply: true
@@ -121,133 +133,128 @@ export default {
     };
 
     let wins = 0,
-      losses = 0;
+      losses = 0,
+      ties = 0;
 
-    function game(round: number): void {
-      const collector = interaction.channel?.createMessageComponentCollector({
-        filter,
-        time: 60000,
-        componentType: "BUTTON",
-        dispose: true,
-        max: 1,
-        message: interactionReply
-      });
-
-      if (collector === undefined) {
+    async function game(round: number): Promise<void> {
+      if (interaction.channel === null) {
         interaction.followUp(":x: Something went wrong.");
+
         return;
       }
 
-      collector.on("collect", async (buttonInteraction) => {
-        buttonInteraction.reply({
-          ephemeral: true,
-          content: `:white_check_mark: You chose ${buttonInteraction.customId}`
-        });
-
-        const choice = <Choice>buttonInteraction.customId;
-
-        const random = Math.floor(Math.random() * 3);
-
-        const computerChoice = choices[random] ?? "rock";
-
-        const win =
-          (choice === "paper" && computerChoice === "rock") ||
-          (choice === "scissors" && computerChoice === "paper") ||
-          (choice === "rock" && computerChoice === "scissors");
-
-        const result = choice === computerChoice ? "tie" : win ? "win" : "loss";
-
-        if (result === "win") {
-          wins++;
-
-          embed.setDescription(`You won round ${round}! ${wins}-${losses}`);
-
-          round++;
-        } else if (result === "loss") {
-          losses++;
-
-          embed.setDescription(`You lost round ${round}! ${wins}-${losses}`);
-
-          round++;
-        } else if (result === "tie") {
-          embed.setDescription(`You tied! Try again! ${wins}-${losses}`);
+      const buttonInteraction = await interaction.channel.awaitMessageComponent(
+        {
+          filter,
+          time: 60000,
+          componentType: "BUTTON",
+          dispose: true
         }
+      );
 
+      buttonInteraction.reply({
+        ephemeral: true,
+        content: `:white_check_mark: You chose ${buttonInteraction.customId}`
+      });
+
+      const choice = <Choice>buttonInteraction.customId;
+
+      const random = Math.floor(Math.random() * 3);
+
+      const computerChoice = choices[random] ?? "rock";
+
+      const win =
+        (choice === "paper" && computerChoice === "rock") ||
+        (choice === "scissors" && computerChoice === "paper") ||
+        (choice === "rock" && computerChoice === "scissors");
+
+      const result = choice === computerChoice ? "tie" : win ? "win" : "loss";
+
+      if (result === "win") {
+        wins++;
+
+        embed.setDescription(
+          `${
+            embed.description ?? ""
+          }\nYou won round ${round}! ${wins}-${losses}-${ties}`
+        );
+      } else if (result === "loss") {
+        losses++;
+
+        embed.setDescription(
+          `${
+            embed.description ?? ""
+          }\nYou lost round ${round}! ${wins}-${losses}-${ties}`
+        );
+      } else if (result === "tie") {
+        ties++;
+
+        embed.setDescription(
+          `${
+            embed.description ?? ""
+          }\nYou tied round ${round}! ${wins}-${losses}-${ties}`
+        );
+      }
+
+      const userField = embed.fields[1];
+
+      const computerField = embed.fields[2];
+
+      if (userField !== undefined && computerField !== undefined) {
+        userField.value = choiceToEmoji[choice];
+
+        computerField.value = choiceToEmoji[computerChoice];
+      }
+
+      if (round !== 3) {
         const roundField = embed.fields[0];
 
-        const userField = embed.fields[1];
+        round++;
 
-        const computerField = embed.fields[2];
-
-        if (
-          userField !== undefined &&
-          computerField !== undefined &&
-          roundField !== undefined
-        ) {
+        if (roundField !== undefined) {
           roundField.value = round.toString();
-
-          userField.value = choiceToEmoji[choice];
-
-          computerField.value = choiceToEmoji[computerChoice];
         }
 
         await interaction.editReply({ embeds: [embed] });
 
-        collector.stop("recorded");
-      });
+        game(round);
+      } else {
+        currentlyPlaying.delete(interaction.user.id);
 
-      collector.on("end", (collected, reason) => {
-        if (
-          round <= 3 &&
-          !hasWon(wins) &&
-          losses !== 2 &&
-          collected.size > 0 &&
-          (reason === "recorded" || reason === "limit")
-        ) {
-          game(round);
-        } else {
-          currentlyPlaying.delete(interaction.user.id);
+        const outcome =
+          wins > losses ? "win" : wins === losses ? "tie" : "loss";
 
-          const won =
-            round === 4 || wins === 2 || losses === 2 ? hasWon(wins) : false;
+        const outcomeString = outcomeStringMap[outcome];
 
-          embed.setColor(won ? 0x41fd5f : 0xfd4141);
+        embed.setColor(outcomeColorMap[outcome]);
 
-          embed.fields.shift();
+        embed.fields.shift();
 
-          if (won) {
-            authorBananaEntry.balance += amount;
-            botBananaEntry.balance -= amount;
-          } else {
-            authorBananaEntry.balance -= amount;
-            botBananaEntry.balance += amount;
-          }
-
-          const wonString = won ? "won" : "lost";
-
-          const countString = amount === 1 ? "banana" : "bananas";
-
-          embed.setDescription(
-            embed.description +
-              `\nYou ${wonString}! ${
-                won ? `${client.user.username} busted` : "Busted"
-              }!\nYou ${wonString} ${amount} ${countString}!\nNew balance: ${
-                authorBananaEntry.balance
-              }`
-          );
-
-          setUser(interaction.user.id, authorBananaEntry);
-          setUser(client.user.id, botBananaEntry);
-
-          interaction.editReply({ embeds: [embed] });
+        if (outcome === "win") {
+          authorBananaEntry.balance += amount;
+          botBananaEntry.balance -= amount;
+        } else if (outcome === "loss") {
+          authorBananaEntry.balance -= amount;
+          botBananaEntry.balance += amount;
         }
-      });
+
+        const countString = amount === 1 ? "banana" : "bananas";
+
+        embed.setDescription(
+          `${
+            embed.description ?? ""
+          }\n\nYou ${outcomeString}!\nYou ${outcomeString} ${amount} ${countString}!\nNew balance: ${
+            authorBananaEntry.balance
+          }`
+        );
+
+        setUser(interaction.user.id, authorBananaEntry);
+        setUser(client.user.id, botBananaEntry);
+
+        interaction.editReply({ embeds: [embed], components: [] });
+      }
     }
 
     game(1);
   }
 } as Command;
-
-function hasWon(wins: number): boolean {
-  return wins >= 2;
-}

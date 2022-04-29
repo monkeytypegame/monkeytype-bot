@@ -53,7 +53,8 @@ export default {
     const replyMessage = await interaction.reply({
       embeds: [embed],
       components: [row],
-      fetchReply: true
+      fetchReply: true,
+      ephemeral: true
     });
 
     const buttonInteraction = await interaction.channel?.awaitMessageComponent({
@@ -65,13 +66,19 @@ export default {
     });
 
     if (buttonInteraction === undefined) {
-      interaction.followUp("15 minutes has passed. Please try again.");
+      interaction.followUp({
+        ephemeral: true,
+        content: "15 minutes has passed. Please try again."
+      });
 
       return;
     }
 
     client.permissionsAdded.add(interaction.guild?.id ?? "");
 
-    buttonInteraction.reply("Commands have been unlocked.");
+    buttonInteraction.reply({
+      ephemeral: true,
+      content: "Commands have been unlocked."
+    });
   }
 } as Command;
