@@ -153,6 +153,8 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     // Handing slash commands
 
+    await this.application?.commands.set([]);
+
     const slashCommands = await this.application?.commands.fetch({
       guildId: this.clientOptions.guildId,
       force: true,
