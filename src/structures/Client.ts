@@ -289,7 +289,7 @@ export class Client extends Discord.Client {
       send === undefined
         ? await interaction.reply({
             embeds: [embed],
-            components: [row],
+            components: maxPage === 1 ? undefined : [row],
             fetchReply: true
           })
         : await send(embed, row, currentEntries);
@@ -360,7 +360,10 @@ export class Client extends Discord.Client {
         );
       }
 
-      interaction.editReply({ embeds: [embed], components: [row] });
+      interaction.editReply({
+        embeds: [embed],
+        components: maxPage === 1 ? undefined : [row]
+      });
       buttonInteraction.update({});
     });
   }

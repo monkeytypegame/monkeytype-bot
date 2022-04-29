@@ -29,7 +29,7 @@ export default {
     }
 
     await interaction.deferReply({
-      ephemeral: false,
+      
       fetchReply: false
     });
 
@@ -46,7 +46,7 @@ export default {
 
     if (result === undefined) {
       interaction.followUp({
-        ephemeral: false,
+        
         content: ":x: No recent result found."
       });
 
@@ -83,7 +83,7 @@ export default {
 
       if (quote === undefined) {
         interaction.followUp({
-          ephemeral: false,
+          
           content: ":x: Could not find quote"
         });
 
@@ -104,7 +104,7 @@ export default {
       ]);
     } else {
       interaction.followUp({
-        ephemeral: false,
+        
         content: ":x: Last result was not time, mode, or quote"
       });
 
@@ -112,7 +112,7 @@ export default {
     }
 
     interaction.followUp({
-      ephemeral: false,
+      
       embeds: [embed]
     });
   }

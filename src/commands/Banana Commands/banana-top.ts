@@ -56,7 +56,7 @@ export default {
     }
 
     interaction.reply({
-      ephemeral: false,
+      
       embeds: [embed]
     });
   }

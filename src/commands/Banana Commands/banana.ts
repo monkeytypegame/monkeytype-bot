@@ -12,7 +12,7 @@ export default {
   description: "Collect bananas",
   category: "Banana",
   run: async (interaction, client) => {
-    await interaction.deferReply({ ephemeral: false, fetchReply: false });
+    await interaction.deferReply({  fetchReply: false });
 
     const db = mongoDB();
 
@@ -27,7 +27,7 @@ export default {
 
       if (snapshot === null) {
         interaction.followUp({
-          ephemeral: false,
+          
           content: ":x: Could not find user. Make sure accounts are paired."
         });
       }
@@ -107,7 +107,7 @@ export default {
       interaction.followUp({ embeds: [embed] });
     } catch (err) {
       interaction.followUp({
-        ephemeral: false,
+        
         content: `Something went wrong getting your banana balance: ${err}`
       });
     }
