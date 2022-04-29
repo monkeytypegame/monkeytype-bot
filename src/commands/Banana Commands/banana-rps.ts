@@ -30,7 +30,7 @@ const outcomeColorMap = {
 
 export default {
   name: "banana-rps",
-  description: "Play rock paper scissors",
+  description: "Play best of 3 rock paper scissors",
   category: "Banana",
   options: [
     {
@@ -134,8 +134,7 @@ export default {
     };
 
     let wins = 0,
-      losses = 0,
-      ties = 0;
+      losses = 0;
 
     async function game(round: number): Promise<void> {
       if (interaction.channel === null) {
@@ -171,13 +170,16 @@ export default {
 
       const result = choice === computerChoice ? "tie" : win ? "win" : "loss";
 
+      const choiceEmoji = choiceToEmoji[choice];
+      const computerChoiceEmoji = choiceToEmoji[computerChoice];
+
       if (result === "win") {
         wins++;
 
         embed.setDescription(
           `${
             embed.description ?? ""
-          }\nYou won round ${round}! ${wins}-${losses}-${ties}`
+          }\nRound ${round}: ${choiceEmoji} vs ${computerChoiceEmoji}   🟢 Win`
         );
       } else if (result === "loss") {
         losses++;
@@ -185,15 +187,13 @@ export default {
         embed.setDescription(
           `${
             embed.description ?? ""
-          }\nYou lost round ${round}! ${wins}-${losses}-${ties}`
+          }\nRound ${round}: ${choiceEmoji} vs ${computerChoiceEmoji}   🔴 Loss`
         );
       } else if (result === "tie") {
-        ties++;
-
         embed.setDescription(
           `${
             embed.description ?? ""
-          }\nYou tied round ${round}! ${wins}-${losses}-${ties}`
+          }\nRound ${round}: ${choiceEmoji} vs ${computerChoiceEmoji}   🟠 Tie`
         );
       }
 
@@ -239,12 +239,8 @@ export default {
           botBananaEntry.balance += amount;
         }
 
-        const countString = amount === 1 ? "banana" : "bananas";
-
         embed.setDescription(
-          `${
-            embed.description ?? ""
-          }\n\nYou ${outcomeString}!\nYou ${outcomeString} ${amount} ${countString}!\nNew balance: ${
+          `${embed.description ?? ""}\n\nYou ${outcomeString}!\nNew balance: ${
             authorBananaEntry.balance
           }`
         );
