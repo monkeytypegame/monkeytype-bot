@@ -38,7 +38,7 @@ export default {
         const msg = `Something went wrong.`;
 
         interaction.reply(msg).catch((err) => {
-          console.log(err);
+          console.log("Couldn't reply, sending followUp instead.");
 
           interaction.followUp(msg).catch(console.log);
         });
