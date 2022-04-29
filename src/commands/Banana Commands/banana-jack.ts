@@ -75,6 +75,9 @@ export default {
 
     const deck = shuffleDeck(createDeck());
 
+    dealerCards.push(getNextCard(deck), getNextCard(deck));
+    playerCards.push(getNextCard(deck), getNextCard(deck));
+
     const embed = client.embed(
       {
         title: "Bananajack",
@@ -85,12 +88,16 @@ export default {
         fields: [
           {
             name: interaction.user.username,
-            value: "Nothing to display yet",
+            value: `${playerCards
+              .map((card) => toString(card))
+              .join(" ")}\nTotal: ${getScore(playerCards)}`,
             inline: true
           },
           {
             name: client.user.username,
-            value: "Nothing to display yet",
+            value: `${dealerCards
+              .map((card) => toString(card))
+              .join(" ")}\nTotal: ${getScore(dealerCards)}`,
             inline: true
           },
           {
@@ -125,9 +132,6 @@ export default {
       fetchReply: true
     });
 
-    dealerCards.push(getNextCard(deck), getNextCard(deck));
-    playerCards.push(getNextCard(deck), getNextCard(deck));
-
     while (!gameOver) {
       const playerField = embed.fields[0];
       const dealerField = embed.fields[1];
@@ -137,8 +141,8 @@ export default {
         return;
       }
 
-      const buttonInteraction =
-        await interaction.channel?.awaitMessageComponent({
+      const buttonInteraction = await interaction.channel
+        ?.awaitMessageComponent({
           componentType: "BUTTON",
           dispose: true,
           filter: (i) =>
@@ -146,6 +150,9 @@ export default {
             i.user.id === interaction.user.id &&
             ["hit", "stand"].includes(i.customId),
           time: 60000
+        })
+        .catch((err) => {
+          console.log(err);
         });
 
       if (buttonInteraction === undefined) {
