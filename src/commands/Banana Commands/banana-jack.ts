@@ -125,10 +125,10 @@ export default {
       fetchReply: true
     });
 
-    while (!gameOver) {
-      dealerCards.push(getNextCard(deck), getNextCard(deck));
-      playerCards.push(getNextCard(deck), getNextCard(deck));
+    dealerCards.push(getNextCard(deck), getNextCard(deck));
+    playerCards.push(getNextCard(deck), getNextCard(deck));
 
+    while (!gameOver) {
       const playerField = embed.fields[0];
       const dealerField = embed.fields[1];
 
@@ -136,16 +136,6 @@ export default {
         console.log("Field is undefined");
         return;
       }
-
-      playerField.value = `${playerCards
-        .map((card) => toString(card))
-        .join(" ")}\nTotal: ${getScore(playerCards)}`;
-
-      dealerField.value = `${dealerCards
-        .map((card) => toString(card))
-        .join(" ")}\nTotal: ${getScore(dealerCards)}`;
-
-      await interaction.editReply({ embeds: [embed], components: [row] });
 
       const buttonInteraction =
         await interaction.channel?.awaitMessageComponent({
@@ -170,6 +160,16 @@ export default {
       } else {
         gameOver = true;
       }
+
+      playerField.value = `${playerCards
+        .map((card) => toString(card))
+        .join(" ")}\nTotal: ${getScore(playerCards)}`;
+
+      dealerField.value = `${dealerCards
+        .map((card) => toString(card))
+        .join(" ")}\nTotal: ${getScore(dealerCards)}`;
+
+      await interaction.editReply({ embeds: [embed], components: [row] });
 
       buttonInteraction.reply({
         ephemeral: true,
