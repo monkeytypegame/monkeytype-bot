@@ -44,7 +44,7 @@ export default {
       return;
     }
 
-    const pbs = dbUser.personalBests;
+    const pbs = dbUser?.personalBests;
 
     if (pbs === undefined) {
       interaction.reply({
