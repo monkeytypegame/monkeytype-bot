@@ -13,7 +13,12 @@ export default {
       return;
     }
 
-    client.user.setActivity(`over ${guild.approximatePresenceCount} monkeys`, {
+    const memberCount =
+      guild.memberCount ??
+      guild.approximateMemberCount ??
+      guild.approximatePresenceCount;
+
+    client.user.setActivity(`over ${memberCount} monkeys`, {
       type: "WATCHING"
     });
 
@@ -22,16 +27,9 @@ export default {
     connectDB().then(() => console.log("Database connected"));
 
     setInterval(async () => {
-      client.user.setActivity(
-        `over ${
-          guild.memberCount ??
-          guild.approximateMemberCount ??
-          guild.approximatePresenceCount
-        } monkeys`,
-        {
-          type: "WATCHING"
-        }
-      );
+      client.user.setActivity(`over ${memberCount} monkeys`, {
+        type: "WATCHING"
+      });
     }, 3600000);
 
     setInterval(async () => {
