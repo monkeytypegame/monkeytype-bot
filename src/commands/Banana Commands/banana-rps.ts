@@ -119,16 +119,17 @@ export default {
 
     row.addComponents(rockButton, paperButton, scissorsButton);
 
-    await interaction.reply({
+    const replyMessage = await interaction.reply({
       embeds: [embed],
       components: [row],
       fetchReply: true
     });
 
-    const filter = (buttonInteraction: ButtonInteraction<"cached">) => {
+    const filter = (i: ButtonInteraction<"cached">) => {
       return (
-        buttonInteraction.user.id === interaction.user.id &&
-        ["rock", "paper", "scissors"].includes(buttonInteraction.customId)
+        replyMessage.id === i.message.id &&
+        i.user.id === interaction.user.id &&
+        ["rock", "paper", "scissors"].includes(i.customId)
       );
     };
 
