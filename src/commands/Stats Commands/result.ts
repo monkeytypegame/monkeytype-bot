@@ -13,10 +13,8 @@ export default {
   run: async (interaction, client) => {
     const db = mongoDB();
 
-    interation.user
-
     const user = <User | null>(
-      await db.collection("users").findOne({ discordId: interation.user.id })
+      await db.collection("users").findOne({ discordId: interaction.user.id })
     );
 
     if (user === null) {
@@ -29,7 +27,6 @@ export default {
     }
 
     await interaction.deferReply({
-      
       fetchReply: false
     });
 
@@ -46,7 +43,6 @@ export default {
 
     if (result === undefined) {
       interaction.followUp({
-        
         content: ":x: No recent result found."
       });
 
@@ -54,14 +50,17 @@ export default {
     }
 
     const nameDisplay =
-      user.name === interation.user.username
+      user.name === interaction.user.username
         ? user.name
-        : `${user.name} (${interation.user.username})`;
+        : `${user.name} (${interaction.user.username})`;
 
-    const embed = client.embed({
-      title: `Recent Result for ${nameDisplay}`,
-      color: 0xe2b714
-    });
+    const embed = client.embed(
+      {
+        title: `Recent Result for ${nameDisplay}`,
+        color: 0xe2b714
+      },
+      discordUser
+    );
 
     const language = result.language ?? "english";
 
@@ -83,7 +82,6 @@ export default {
 
       if (quote === undefined) {
         interaction.followUp({
-          
           content: ":x: Could not find quote"
         });
 
@@ -104,7 +102,6 @@ export default {
       ]);
     } else {
       interaction.followUp({
-        
         content: ":x: Last result was not time, mode, or quote"
       });
 
@@ -112,7 +109,6 @@ export default {
     }
 
     interaction.followUp({
-      
       embeds: [embed]
     });
   }

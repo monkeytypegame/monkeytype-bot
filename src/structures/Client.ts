@@ -207,16 +207,22 @@ export class Client extends Discord.Client {
     return [this.commands.size, events.length];
   }
 
-  public embed(embedOptions: Discord.MessageEmbedOptions) {
+  public embed(embedOptions: Discord.MessageEmbedOptions, user?: Discord.User) {
+    if (!embedOptions.title?.startsWith(this.user?.username ?? "George")) {
+      embedOptions.title = `${this.user?.username ?? "George"}: \`${
+        embedOptions.title
+      }\``;
+    }
+
     embedOptions.footer = {
       text: "www.monkeytype.com",
       iconURL: this.iconURL
     };
 
-    if (embedOptions.author === undefined) {
+    if (embedOptions.author === undefined && user !== undefined) {
       embedOptions.author = {
-        name: this.user?.username ?? "George",
-        iconURL: this.user?.avatarURL({ dynamic: true }) ?? ""
+        name: user.username,
+        iconURL: user.avatarURL({ dynamic: true }) ?? ""
       };
     }
 

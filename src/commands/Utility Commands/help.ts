@@ -21,17 +21,20 @@ export default {
       interaction.options.getString("command", false) || ""
     );
 
-    const embed = client.embed({
-      title: "Help",
-      color: 0xe2b714,
-      author: {
-        name: interaction.user.username,
-        iconURL: interaction.user.avatarURL({ dynamic: true }) ?? ""
+    const embed = client.embed(
+      {
+        title: "Help",
+        color: 0xe2b714,
+        author: {
+          name: interaction.user.username,
+          iconURL: interaction.user.avatarURL({ dynamic: true }) ?? ""
+        },
+        thumbnail: {
+          url: client.user?.avatarURL({ dynamic: true }) ?? ""
+        }
       },
-      thumbnail: {
-        url: client.user?.avatarURL({ dynamic: true }) ?? ""
-      }
-    });
+      interaction.user
+    );
 
     if (command) {
       embed

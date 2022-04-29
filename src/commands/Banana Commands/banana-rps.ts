@@ -51,30 +51,33 @@ export default {
 
     currentlyPlaying.add(interaction.user.id);
 
-    const embed = client.embed({
-      title: "Rock Paper Scissors",
-      thumbnail: {
-        url: "https://static.thenounproject.com/png/477919-200.png"
+    const embed = client.embed(
+      {
+        title: "Rock Paper Scissors",
+        thumbnail: {
+          url: "https://static.thenounproject.com/png/477919-200.png"
+        },
+        color: 0xede009,
+        fields: [
+          {
+            name: "Round",
+            value: "1",
+            inline: false
+          },
+          {
+            name: interaction.user.username,
+            value: "Choose your gesture",
+            inline: true
+          },
+          {
+            name: client.user?.username ?? "",
+            value: ":grey_question:",
+            inline: true
+          }
+        ]
       },
-      color: 0xede009,
-      fields: [
-        {
-          name: "Round",
-          value: "1",
-          inline: false
-        },
-        {
-          name: interaction.user.username,
-          value: "Choose your gesture",
-          inline: true
-        },
-        {
-          name: client.user?.username ?? "",
-          value: ":grey_question:",
-          inline: true
-        }
-      ]
-    });
+      interaction.user
+    );
 
     const row = new MessageActionRow();
 

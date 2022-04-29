@@ -68,13 +68,16 @@ export default {
         ? user.name
         : `${user.name} (${discordUser.username})`;
 
-    const embed = client.embed({
-      title: `Personal Bests for ${nameDisplay}`,
-      color: 0xe2b714,
-      thumbnail: {
-        url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
-      }
-    });
+    const embed = client.embed(
+      {
+        title: `Personal Bests for ${nameDisplay}`,
+        color: 0xe2b714,
+        thumbnail: {
+          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
+        }
+      },
+      interaction.user
+    );
 
     embed.addFields(
       Object.entries(timePB).map(([key, pb]) => ({

@@ -1,5 +1,6 @@
 /** @format */
 
+import { GuildMember } from "discord.js";
 import { TaskFile } from "../interfaces/Task";
 
 export default {
@@ -48,22 +49,25 @@ export default {
 
     const leaderboard = lb.replace(/-/g, " ");
 
-    const embed = client.embed({
-      title: "Leaderboard Update",
-      description: `${displayName} just got \`${posString}\` place on the \`${leaderboard}\` leaderboard!`,
-      thumbnail: {
-        url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
+    const embed = client.embed(
+      {
+        title: "Leaderboard Update",
+        description: `${displayName} just got \`${posString}\` place on the \`${leaderboard}\` leaderboard!`,
+        thumbnail: {
+          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
+        },
+        color: 0xe2b714,
+        fields: [
+          { name: "wpm", value: wpm.toString(), inline: true },
+          { name: "raw", value: raw.toString(), inline: true },
+          { name: "\u200B", value: "\u200B", inline: true },
+          { name: "accuracy", value: `${acc}%`, inline: true },
+          { name: "consistency", value: `${con}%`, inline: true },
+          { name: "\u200B", value: "\u200B", inline: true }
+        ]
       },
-      color: 0xe2b714,
-      fields: [
-        { name: "wpm", value: wpm.toString(), inline: true },
-        { name: "raw", value: raw.toString(), inline: true },
-        { name: "\u200B", value: "\u200B", inline: true },
-        { name: "accuracy", value: `${acc}%`, inline: true },
-        { name: "consistency", value: `${con}%`, inline: true },
-        { name: "\u200B", value: "\u200B", inline: true }
-      ]
-    });
+      member instanceof GuildMember ? member.user : undefined
+    );
 
     await loungeChannel.send({ embeds: [embed] });
 

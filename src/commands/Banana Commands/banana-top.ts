@@ -10,13 +10,16 @@ export default {
   run: async (interaction, client) => {
     const user = getUser(interaction.user.id);
 
-    const embed = client.embed({
-      title: "Top 10 Banana Hoarders",
-      color: 0xe2b714,
-      thumbnail: {
-        url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
-      }
-    });
+    const embed = client.embed(
+      {
+        title: "Top 10 Banana Hoarders",
+        color: 0xe2b714,
+        thumbnail: {
+          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
+        }
+      },
+      interaction.user
+    );
 
     const data = getData();
 
@@ -56,7 +59,6 @@ export default {
     }
 
     interaction.reply({
-      
       embeds: [embed]
     });
   }

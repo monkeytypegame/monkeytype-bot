@@ -63,31 +63,34 @@ export default {
         coinFlipsSliced.map((coinFlip) => coinFlip.toUpperCase()).join(" ") ||
         "None";
 
-      const embed = client.embed({
-        title: "Last 10 Global Flips",
-        thumbnail: {
-          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/slot-machine_1f3b0.png"
+      const embed = client.embed(
+        {
+          title: "Last 10 Global Flips",
+          thumbnail: {
+            url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/slot-machine_1f3b0.png"
+          },
+          color: 0xe2b714,
+          description: coinFlipsString,
+          fields: [
+            {
+              name: `${interaction.user.username}'s Available Balance`,
+              value: `${authorBananaEntry.balance} bananas`,
+              inline: true
+            },
+            {
+              name: "Flip Wins",
+              value: authorBananaEntry.flipWins.toString(),
+              inline: true
+            },
+            {
+              name: "Flip Losses",
+              value: authorBananaEntry.flipLosses.toString(),
+              inline: true
+            }
+          ]
         },
-        color: 0xe2b714,
-        description: coinFlipsString,
-        fields: [
-          {
-            name: `${interaction.user.username}'s Available Balance`,
-            value: `${authorBananaEntry.balance} bananas`,
-            inline: true
-          },
-          {
-            name: "Flip Wins",
-            value: authorBananaEntry.flipWins.toString(),
-            inline: true
-          },
-          {
-            name: "Flip Losses",
-            value: authorBananaEntry.flipLosses.toString(),
-            inline: true
-          }
-        ]
-      });
+        interaction.user
+      );
 
       interaction.reply({ embeds: [embed] });
 
@@ -133,40 +136,43 @@ export default {
 
     const countString = amount === 1 ? "banana" : "bananas";
 
-    const embed = client.embed({
-      title: "Coin Flip",
-      thumbnail: {
-        url: isCorrect
-          ? "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
-          : "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/cross-mark_274c.png"
+    const embed = client.embed(
+      {
+        title: "Coin Flip",
+        thumbnail: {
+          url: isCorrect
+            ? "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
+            : "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/cross-mark_274c.png"
+        },
+        color: isCorrect ? 0x41fd5f : 0xfd4141,
+        description: `It's ${result}! ${interaction.user.username} ${
+          isCorrect ? "won" : "lost"
+        } ${amount} ${countString}.`,
+        fields: [
+          {
+            name: "Last 10 Global Flips",
+            value: coinFlipsString,
+            inline: true
+          },
+          {
+            name: `${interaction.user.username}'s New Balance`,
+            value: authorBananaEntry.balance.toString(),
+            inline: true
+          },
+          {
+            name: "Flip Wins",
+            value: authorBananaEntry.flipWins.toString(),
+            inline: true
+          },
+          {
+            name: "Flip Losses",
+            value: authorBananaEntry.flipLosses.toString(),
+            inline: true
+          }
+        ]
       },
-      color: isCorrect ? 0x41fd5f : 0xfd4141,
-      description: `It's ${result}! ${interaction.user.username} ${
-        isCorrect ? "won" : "lost"
-      } ${amount} ${countString}.`,
-      fields: [
-        {
-          name: "Last 10 Global Flips",
-          value: coinFlipsString,
-          inline: true
-        },
-        {
-          name: `${interaction.user.username}'s New Balance`,
-          value: authorBananaEntry.balance.toString(),
-          inline: true
-        },
-        {
-          name: "Flip Wins",
-          value: authorBananaEntry.flipWins.toString(),
-          inline: true
-        },
-        {
-          name: "Flip Losses",
-          value: authorBananaEntry.flipLosses.toString(),
-          inline: true
-        }
-      ]
-    });
+      interaction.user
+    );
 
     interaction.reply({ embeds: [embed] });
 

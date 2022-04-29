@@ -23,19 +23,22 @@ export default {
       return;
     }
 
-    const embed = client.embed({
-      title: "Unlock Commands",
-      description:
-        "The following commands should have their permissions set up (and should NOT be available to everyone) in Server Settings > Integrations before continuing.",
-      fields: client.commands
-        .filter((cmd) => cmd.needsPermissions ?? false)
-        .map((cmd) => ({
-          name: cmd.name,
-          value: cmd.description,
-          inline: false
-        })),
-      color: 0xff0000
-    });
+    const embed = client.embed(
+      {
+        title: "Unlock Commands",
+        description:
+          "The following commands should have their permissions set up (and should NOT be available to everyone) in Server Settings > Integrations before continuing.",
+        fields: client.commands
+          .filter((cmd) => cmd.needsPermissions ?? false)
+          .map((cmd) => ({
+            name: cmd.name,
+            value: cmd.description,
+            inline: false
+          })),
+        color: 0xff0000
+      },
+      interaction.user
+    );
 
     const row = new MessageActionRow();
 

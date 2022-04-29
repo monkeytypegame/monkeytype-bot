@@ -72,30 +72,33 @@ export default {
 
     const deck = shuffleDeck(createDeck());
 
-    const embed = client.embed({
-      title: "Bananajack",
-      thumbnail: {
-        url: "https://i.ibb.co/2k7vbYx/bananajack.png"
+    const embed = client.embed(
+      {
+        title: "Bananajack",
+        thumbnail: {
+          url: "https://i.ibb.co/2k7vbYx/bananajack.png"
+        },
+        color: 0xede009,
+        fields: [
+          {
+            name: interaction.user.username,
+            value: "Nothing to display yet",
+            inline: true
+          },
+          {
+            name: client.user?.username ?? "",
+            value: "Nothing to display yet",
+            inline: true
+          },
+          {
+            name: "Details",
+            value: "K, Q, J = 10 | A = 1 or 11\nH - Hit | S - Stand",
+            inline: false
+          }
+        ]
       },
-      color: 0xede009,
-      fields: [
-        {
-          name: interaction.user.username,
-          value: "Nothing to display yet",
-          inline: true
-        },
-        {
-          name: client.user?.username ?? "",
-          value: "Nothing to display yet",
-          inline: true
-        },
-        {
-          name: "Details",
-          value: "K, Q, J = 10 | A = 1 or 11\nH - Hit | S - Stand",
-          inline: false
-        }
-      ]
-    });
+      interaction.user
+    );
 
     const row = new MessageActionRow();
 
