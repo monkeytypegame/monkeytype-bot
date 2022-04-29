@@ -80,6 +80,8 @@ export default {
 
     await member.roles.add(role.id);
 
+    await member.roles.add(client.clientOptions.roles.memberRole);
+
     interaction.reply({
       content: `:white_check_mark: Fixed wpm role: Assigned role ${role} to user ${member}`
     });
