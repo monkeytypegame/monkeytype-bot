@@ -8,7 +8,6 @@ export default {
   name: "personal-bests",
   description: "Shows your personal bests",
   category: "Stats",
-
   options: [
     {
       name: "user",
@@ -76,7 +75,7 @@ export default {
           url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
         }
       },
-      interaction.user
+      discordUser
     );
 
     embed.addFields(

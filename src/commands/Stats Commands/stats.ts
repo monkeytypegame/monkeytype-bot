@@ -9,7 +9,17 @@ export default {
   name: "stats",
   description: "Shows the amount of completed test and total time typing",
   category: "Stats",
+  options: [
+    {
+      name: "user",
+      description: "The user to get the personal bests of",
+      type: "USER",
+      required: false
+    }
+  ],
   run: async (interaction, client) => {
+    const discordUser = interaction.options.getUser("user") ?? interaction.user;
+
     const db = mongoDB();
 
     const user = <User | null>(

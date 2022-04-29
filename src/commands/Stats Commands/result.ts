@@ -10,7 +10,17 @@ export default {
   name: "result",
   description: "Shows the most recent result",
   category: "Stats",
+  options: [
+    {
+      name: "user",
+      description: "The user to get the personal bests of",
+      type: "USER",
+      required: false
+    }
+  ],
   run: async (interaction, client) => {
+    const discordUser = interaction.options.getUser("user") ?? interaction.user;
+
     const db = mongoDB();
 
     const user = <User | null>(
