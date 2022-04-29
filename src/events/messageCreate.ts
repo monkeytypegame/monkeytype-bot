@@ -4,7 +4,7 @@ import { User } from "discord.js";
 import { randomBoolean } from "../functions/random";
 import { Event } from "../interfaces/Event";
 
-const re = /\[#([0-9]{1,4})\]/g;
+const githubLinkRegex = /\[#([0-9]{1,4})\]/g;
 
 export default {
   event: "messageCreate",
@@ -26,7 +26,7 @@ export default {
 
     const githubIssueLink = `https://github.com/${client.clientOptions.repo}/issues/`;
 
-    const githubLinkMatches = [...message.content.matchAll(re)];
+    const githubLinkMatches = [...message.content.matchAll(githubLinkRegex)];
 
     const githubLinks = githubLinkMatches.map((v) => githubIssueLink + v[1]);
 
