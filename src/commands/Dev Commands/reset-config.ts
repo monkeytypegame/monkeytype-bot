@@ -24,15 +24,15 @@ export default {
       fetchReply: false
     });
 
-    const user = interaction.options.getUser("user", true);
+    const discordUser = interaction.options.getUser("user", true);
 
     const db = mongoDB();
 
-    const dbUser = <User>(
-      await db.collection("users").findOne({ discordId: user.id })
+    const user = <User | null>(
+      await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
-    if (dbUser === null) {
+    if (user === null) {
       interaction.followUp({
         ephemeral: true,
         content: ":x: Could not find user"
@@ -44,10 +44,20 @@ export default {
     await db
       .collection("configs")
       .updateOne(
-        { uid: dbUser.uid },
+        { uid: user.uid },
         { $set: { config: DefaultConfig } },
         { upsert: true }
-      );
+      )
+      .catch((err) => {
+        console.log(err);
+
+        interaction.followUp({
+          ephemeral: true,
+          content: ":x: Could not update config. User has no config."
+        });
+
+        return;
+      });
 
     interaction.followUp({
       ephemeral: true,
