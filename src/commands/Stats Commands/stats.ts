@@ -23,7 +23,7 @@ export default {
     const db = mongoDB();
 
     const user = <User | null>(
-      await db.collection("users").findOne({ discordId: interaction.user.id })
+      await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
     if (user === null) {
@@ -38,9 +38,9 @@ export default {
     const duration = moment.duration({ seconds: user.timeTyping });
 
     const nameDisplay =
-      user.name === interaction.user.username
+      user.name === discordUser.username
         ? user.name
-        : `${user.name} (${interaction.user.username})`;
+        : `${user.name} (${discordUser.username})`;
 
     const embed = client.embed(
       {
