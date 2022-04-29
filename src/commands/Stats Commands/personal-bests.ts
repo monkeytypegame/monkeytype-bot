@@ -21,7 +21,7 @@ export default {
 
     const discordUser = interaction.options.getUser("user") ?? interaction.user;
 
-    const user = <User | null>(
+    const user = <Partial<User> | null>(
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
@@ -34,7 +34,17 @@ export default {
       return;
     }
 
-    const pbs = user.personalBests;
+    const pbs = user?.personalBests;
+
+    if (pbs === undefined) {
+      interaction.reply({
+        ephemeral: true,
+        content:
+          ":x: Could not find personal bests. Make sure accounts are paired and pbs are set."
+      });
+
+      return;
+    }
 
     const sortedTime = pbs.time;
     const sortedWords = pbs.words;
