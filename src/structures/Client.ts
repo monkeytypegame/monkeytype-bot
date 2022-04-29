@@ -211,9 +211,9 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
   public embed(embedOptions: Discord.MessageEmbedOptions, user?: Discord.User) {
     if (!embedOptions.title?.startsWith(this.user?.username ?? "George")) {
-      embedOptions.title = `${this.user?.username ?? "George"}: \`${
-        embedOptions.title
-      }\``;
+      // embedOptions.title = `${this.user?.username ?? "George"}: \`${
+      //   embedOptions.title
+      // }\``;
     }
 
     embedOptions.footer = {
