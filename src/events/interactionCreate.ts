@@ -35,7 +35,11 @@ export default {
           `An error occured running command "${command.name}"\n${err}`
         );
 
-        const msg = `Something went wrong.`;
+        client.logInBotLogChannel(
+          `:x: An error occured running command "${command.name}"\n${err}`
+        );
+
+        const msg = `:x: Unexpected error occured. Please report this.`;
 
         interaction.reply(msg).catch(() => {
           console.log("Couldn't reply, sending followUp instead.");
