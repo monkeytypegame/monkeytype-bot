@@ -98,14 +98,16 @@ export default {
       })
     });
 
+    const responseJson = (await response.json()) as {
+      html_url: string;
+    };
+
     if (response.ok) {
       interaction.followUp(
-        `Created issue \`${title}\` with body \`${body}\` and labels \`${lbls.join(
-          ", "
-        )}\`.`
+        `:white_check_mark: Created! \n ${responseJson["html_url"]}`
       );
     } else {
-      interaction.followUp("Could not create issue");
+      interaction.followUp(":x: Could not create issue");
     }
   }
 } as Command;
