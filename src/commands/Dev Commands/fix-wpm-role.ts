@@ -81,7 +81,7 @@ export default {
     await member.roles.add(role.id);
 
     interaction.reply({
-      content: `:white_check_mark: Fixed wpm role: Assigned role ${role.name} (${role.id}) to user ${member}`
+      content: `:white_check_mark: Fixed wpm role: Assigned role ${role} to user ${member}`
     });
 
     return;
