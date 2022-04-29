@@ -208,12 +208,6 @@ export class Client extends Discord.Client {
   }
 
   public embed(embedOptions: Discord.MessageEmbedOptions) {
-    if (!embedOptions.title?.startsWith(this.user?.username ?? "George")) {
-      embedOptions.title = `${this.user?.username ?? "George"}: \`${
-        embedOptions.title
-      }\``;
-    }
-
     embedOptions.footer = {
       text: "www.monkeytype.com",
       iconURL: this.iconURL
