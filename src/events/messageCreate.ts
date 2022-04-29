@@ -24,11 +24,12 @@ export default {
       return;
     }
 
-    const githubIssueLink = `https://github.com/${client.clientOptions.repo}/issues/`;
-
     const githubLinkMatches = [...message.content.matchAll(githubLinkRegex)];
 
-    const githubLinks = githubLinkMatches.map((v) => githubIssueLink + v[1]);
+    const githubLinks = githubLinkMatches.map(
+      ([, issueNum]) =>
+        `https://github.com/${client.clientOptions.repo}/issues/${issueNum}`
+    );
 
     if (githubLinks.length !== 0) {
       message.reply({ content: githubLinks.join("\n") });
