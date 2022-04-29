@@ -52,7 +52,7 @@ export default {
   run: async (interaction, client) => {
     if (apiToken === undefined) {
       interaction.reply({
-        content: "The bot does not have a github api token attached!"
+        content: ":x: The bot does not have a github api token attached!"
       });
 
       return;
