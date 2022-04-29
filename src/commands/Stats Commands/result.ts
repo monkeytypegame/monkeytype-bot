@@ -34,7 +34,7 @@ export default {
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
-    if (user === null) {
+    if (user === null || user.uid === undefined) {
       interaction.reply({
         ephemeral: true,
         content: ":x: Could not find user. Make sure accounts are paired."
