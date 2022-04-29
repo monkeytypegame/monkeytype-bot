@@ -3,7 +3,7 @@
 import { Command } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { PersonalBest, User } from "../../types";
-import { MessageEmbed } from "discord.js";
+import { EmbedFieldData, MessageEmbed } from "discord.js";
 
 export default {
   name: "personal-bests",
@@ -81,6 +81,28 @@ export default {
     const timeEntryCount = Object.keys(timePB).length;
     const wordsEntryCount = Object.keys(wordsPB).length;
 
+    const timeFields: EmbedFieldData[] = [];
+
+    if (timeEntryCount !== 0) {
+      Object.entries(timePB).map(([key, pb]) => {
+        timeFields.push({
+          name: `${key} seconds`,
+          value: `‎`,
+          inline: true
+        });
+        timeFields.push({
+          name: `${pb.wpm} wpm`,
+          value: `${pb.acc}% acc`,
+          inline: true
+        });
+        timeFields.push({
+          name: `${pb.raw} raw`,
+          value: `${pb.consistency}% con`,
+          inline: true
+        });
+      });
+    }
+
     const timeEmbed =
       timeEntryCount !== 0
         ? client.embed(
@@ -90,14 +112,33 @@ export default {
               thumbnail: {
                 url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
               },
-              fields: Object.entries(timePB).map(([key, pb]) => ({
-                name: `${key} seconds`,
-                value: `${pb.wpm} wpm (${pb.raw} raw) ${pb.acc}% acc`
-              }))
+              fields: timeFields
             },
             discordUser
           )
         : undefined;
+
+    const wordsFields: EmbedFieldData[] = [];
+
+    if (timeEntryCount !== 0) {
+      Object.entries(wordsPB).map(([key, pb]) => {
+        wordsFields.push({
+          name: `${key} words`,
+          value: `‎`,
+          inline: true
+        });
+        wordsFields.push({
+          name: `${pb.wpm} wpm`,
+          value: `${pb.acc}% acc`,
+          inline: true
+        });
+        wordsFields.push({
+          name: `${pb.raw} raw`,
+          value: `${pb.consistency}% con`,
+          inline: true
+        });
+      });
+    }
 
     const wordsEmbed =
       wordsEntryCount !== 0
@@ -108,10 +149,7 @@ export default {
               thumbnail: {
                 url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
               },
-              fields: Object.entries(wordsPB).map(([key, pb]) => ({
-                name: `${key} words`,
-                value: `${pb.wpm} wpm (${pb.raw} raw) ${pb.acc}% acc`
-              }))
+              fields: wordsFields
             },
             discordUser
           )
