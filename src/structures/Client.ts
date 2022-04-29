@@ -316,13 +316,11 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         return;
       }
 
+      buttonInteraction.deferUpdate();
+
       if (buttonInteraction.customId === `${id.toLowerCase()}PreviousPage`) {
         if (page <= 0) {
           page = 0;
-          buttonInteraction.reply({
-            ephemeral: true,
-            content: "This is the first page."
-          });
           return;
         }
 
@@ -330,10 +328,6 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       } else if (buttonInteraction.customId === `${id.toLowerCase()}NextPage`) {
         if (page >= maxPage - 1) {
           page = maxPage - 1;
-          buttonInteraction.reply({
-            ephemeral: true,
-            content: "This is the last page."
-          });
           return;
         }
 

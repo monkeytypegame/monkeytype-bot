@@ -152,10 +152,7 @@ export default {
         }
       );
 
-      buttonInteraction.reply({
-        ephemeral: true,
-        content: `:white_check_mark: You chose ${buttonInteraction.customId}`
-      });
+      buttonInteraction.deferUpdate();
 
       const choice = <Choice>buttonInteraction.customId;
 

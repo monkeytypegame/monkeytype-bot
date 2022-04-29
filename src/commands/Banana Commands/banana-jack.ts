@@ -171,10 +171,7 @@ export default {
 
       await interaction.editReply({ embeds: [embed], components: [row] });
 
-      buttonInteraction.reply({
-        ephemeral: true,
-        content: `:white_check_mark: You chose ${buttonInteraction.customId}`
-      });
+      buttonInteraction.deferUpdate();
 
       if (checkForEndOfGame(dealerCards, playerCards)) {
         gameOver = true;

@@ -114,7 +114,7 @@ export default {
 
         return await interaction.followUp({
           embeds: [embed],
-          components: [row],
+          components: fieldArray.length < 10 ? [] : [row],
           fetchReply: true
         });
       },
