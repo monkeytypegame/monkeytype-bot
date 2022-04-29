@@ -1,6 +1,6 @@
 {
   "guildId": "guild (server) id",
-  "dev": false,
+  "dev": true,
   "devID": "your id",
   "commandsPath": "./commands",
   "eventsPath": "./events",
