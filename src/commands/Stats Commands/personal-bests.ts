@@ -3,6 +3,7 @@
 import { Command } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { PersonalBest, User } from "../../types";
+import { MessageEmbed } from "discord.js";
 
 export default {
   name: "personal-bests",
@@ -77,31 +78,49 @@ export default {
         ? user.name
         : `${user.name} (${discordUser.username})`;
 
-    const embed = client.embed(
-      {
-        title: `Personal Bests for ${nameDisplay}`,
-        color: 0xe2b714,
-        thumbnail: {
-          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
-        }
-      },
-      discordUser
-    );
+    const timeEntryCount = Object.keys(timePB).length;
+    const wordsEntryCount = Object.keys(wordsPB).length;
 
-    embed.addFields(
-      Object.entries(timePB).map(([key, pb]) => ({
-        name: `${key} seconds`,
-        value: `${pb.wpm} wpm (${pb.raw} raw) ${pb.acc}% acc`
-      }))
-    );
+    const timeEmbed =
+      timeEntryCount !== 0
+        ? client.embed(
+            {
+              title: `Time Personal Bests for ${nameDisplay}`,
+              color: 0xe2b714,
+              thumbnail: {
+                url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
+              },
+              fields: Object.entries(timePB).map(([key, pb]) => ({
+                name: `${key} seconds`,
+                value: `${pb.wpm} wpm (${pb.raw} raw) ${pb.acc}% acc`
+              }))
+            },
+            discordUser
+          )
+        : undefined;
 
-    embed.addFields(
-      Object.entries(wordsPB).map(([key, pb]) => ({
-        name: `${key} words`,
-        value: `${pb.wpm} wpm (${pb.raw} raw) ${pb.acc}% acc`
-      }))
-    );
+    const wordsEmbed =
+      wordsEntryCount !== 0
+        ? client.embed(
+            {
+              title: `Word Personal Bests for ${nameDisplay}`,
+              color: 0xe2b714,
+              thumbnail: {
+                url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
+              },
+              fields: Object.entries(wordsPB).map(([key, pb]) => ({
+                name: `${key} words`,
+                value: `${pb.wpm} wpm (${pb.raw} raw) ${pb.acc}% acc`
+              }))
+            },
+            discordUser
+          )
+        : undefined;
 
-    interaction.reply({ embeds: [embed] });
+    interaction.reply({
+      embeds: [timeEmbed, wordsEmbed].filter(
+        (embed) => embed !== undefined
+      ) as MessageEmbed[]
+    });
   }
 } as Command;
