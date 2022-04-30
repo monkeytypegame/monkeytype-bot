@@ -14,9 +14,10 @@ export default {
     }
 
     const memberCount =
+      guild.presences.cache.size ??
+      guild.approximatePresenceCount ??
       guild.memberCount ??
-      guild.approximateMemberCount ??
-      guild.approximatePresenceCount;
+      guild.approximateMemberCount;
 
     client.user.setActivity(`over ${memberCount} monkeys`, {
       type: "WATCHING"
