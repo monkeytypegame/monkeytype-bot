@@ -57,9 +57,7 @@ export default {
         (cid) => cid === message.mentions.roles.first()?.id
       ) ?? "";
 
-    const challengeRole = message.guild?.roles.cache.get(challengeRoleId);
-
-    if (!challengeRole) {
+    if (challengeRoleId === "") {
       return fail(message, "challengeDoesntExist");
     }
 
