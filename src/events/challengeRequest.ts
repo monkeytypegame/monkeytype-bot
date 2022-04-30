@@ -31,7 +31,7 @@ export default {
       return;
     }
 
-    //user pinged the bot in the challenge submission channel
+    // User pinged the bot in the challenge-submissions channel
 
     const messageSplit = message.content.split("\n").map((s) => s.trim());
 
