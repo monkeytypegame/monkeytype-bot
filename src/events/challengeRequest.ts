@@ -8,7 +8,13 @@ type FailReasons = "badFormat" | "challengeDoesntExist" | "noProof";
 function fail(message: Message<boolean>, reason: FailReasons): void {
   let string = ":x: Something went wrong";
   if (reason === "badFormat") {
-    string = ":x: Please use the correct format to submit a challenge";
+    string = ":x: Please use the correct format to submit a challenge:";
+    string += "```[bot ping]\n[role ping]\n";
+    string += "[proof (any amount separated by new lines)]```";
+    string += "for example:";
+    string += "```@George\n@Simp\nhttps://www.imgur.com/...```";
+    string += "or";
+    string += "```@George\n@Accuracy Expert\n(attached screenshot)```";
   } else if (reason === "challengeDoesntExist") {
     string = ":x: Challenge role not found";
   } else if (reason === "noProof") {
@@ -65,6 +71,6 @@ export default {
 
     console.log(proof);
 
-    message.react("✅");
+    message.react("📨");
   }
 } as Event<"messageCreate">;
