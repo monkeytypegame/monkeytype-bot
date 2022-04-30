@@ -38,12 +38,14 @@ export default {
 
     const proof: string[] = [];
 
-    if (!messageSplit || messageSplit.length < 3) {
+    if (!messageSplit || messageSplit.length < 2) {
       return fail(message, "badFormat");
-    } else if (messageSplit.length === 2) {
-      //get the image
+    }
+    if (message.attachments.size > 0) {
+      //get all attachments
       proof.push(...message.attachments.map((a) => a.url));
-    } else if (messageSplit.length >= 3) {
+    }
+    if (messageSplit.length >= 3) {
       //remove first 2 elements from array, return rest
       proof.push(...messageSplit.slice(2));
     }
@@ -60,6 +62,8 @@ export default {
     if (challengeRoleId === "") {
       return fail(message, "challengeDoesntExist");
     }
+
+    console.log(proof);
 
     message.react("✅");
   }
