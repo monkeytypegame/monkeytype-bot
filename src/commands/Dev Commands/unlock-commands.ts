@@ -62,7 +62,8 @@ export default {
       (i) =>
         replyMessage.id === i.message.id &&
         i.user.id === interaction.user.id &&
-        ["unlock"].includes(i.customId)
+        ["unlock"].includes(i.customId),
+      900000
     );
 
     if (buttonInteraction === undefined) {

@@ -374,7 +374,8 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     channel: Discord.TextBasedChannel | null | undefined,
     filter: Discord.CollectorFilter<
       [Discord.MessageComponentInteraction<"cached">]
-    >
+    >,
+    time?: number
   ): Promise<Discord.ButtonInteraction | undefined> {
     return new Promise((resolve) => {
       if (!channel) {
@@ -386,7 +387,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         ?.awaitMessageComponent({
           componentType: "BUTTON",
           filter,
-          time: 60000,
+          time: time ?? 60000,
           dispose: true
         })
         .then(resolve)
