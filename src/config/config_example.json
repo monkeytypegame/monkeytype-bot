@@ -27,6 +27,6 @@
     "lounge": "lounge id",
     "updates": "updates channel id",
     "botCommands": "bot commands channel id",
-    "challengeSubmission": "challenge submission channel id"
+    "challengeSubmissions": "challenge submission channel id"
   }
 }

@@ -25,7 +25,8 @@ export default {
       message.author.bot ||
       message.channel.type === "DM" ||
       !message.member ||
-      message.channelId !== client.clientOptions.channels.challengeSubmission ||
+      message.channelId !==
+        client.clientOptions.channels.challengeSubmissions ||
       !message.mentions.has(client.user as User)
     ) {
       return;
