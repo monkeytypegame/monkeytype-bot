@@ -2,7 +2,6 @@
 
 import { Message, User } from "discord.js";
 import { Event } from "../interfaces/Event";
-import clientOptions from "../config/config.json";
 
 type FailReasons = "badFormat" | "challengeDoesntExist" | "noProof";
 
@@ -26,7 +25,8 @@ export default {
       message.author.bot ||
       message.channel.type === "DM" ||
       !message.member ||
-      message.channelId !== clientOptions.channels.challengeSubmission ||
+      message.channelId !==
+        client.clientOptions.channels.challengeSubmissions ||
       !message.mentions.has(client.user as User)
     ) {
       return;
@@ -36,15 +36,16 @@ export default {
 
     const messageSplit = message.content.split("\n").map((s) => s.trim());
 
-    let proof = "";
+    const proof: string[] = [];
 
-    if (!messageSplit || messageSplit.length === 1) {
+    if (!messageSplit || messageSplit.length < 3) {
       return fail(message, "badFormat");
     } else if (messageSplit.length === 2) {
       //get the image
-      proof = message.attachments.first()?.url ?? "";
-    } else if (messageSplit.length === 3) {
-      proof = messageSplit[2] ?? "";
+      proof.push(...message.attachments.map((a) => a.url));
+    } else if (messageSplit.length >= 3) {
+      //remove first 2 elements from array, return rest
+      proof.push(...messageSplit.slice(2));
     }
 
     if (!proof || proof.length === 0) {
@@ -52,7 +53,7 @@ export default {
     }
 
     const challengeRoleId =
-      Object.values(clientOptions.challenges).find(
+      Object.values(client.clientOptions.challenges).find(
         (cid) => cid === message.mentions.roles.first()?.id
       ) ?? "";
 
