@@ -54,12 +54,11 @@ export default {
       return fail(message, "noProof");
     }
 
-    const challengeRoleId =
-      Object.values(client.clientOptions.challenges).find(
-        (cid) => cid === message.mentions.roles.first()?.id
-      ) ?? "";
+    const challengeRoleId = Object.values(client.clientOptions.challenges).find(
+      (cid) => cid === message.mentions.roles.first()?.id
+    );
 
-    if (challengeRoleId === "") {
+    if (challengeRoleId === undefined) {
       return fail(message, "invalidChallenge");
     }
 
