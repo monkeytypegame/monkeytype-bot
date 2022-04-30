@@ -99,35 +99,38 @@ export default {
       return;
     }
 
-    const embed = client.embed({
-      title: "Challenge Request",
-      thumbnail: {
-        url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/trophy_1f3c6.png"
+    const embed = client.embed(
+      {
+        title: "Challenge Request",
+        thumbnail: {
+          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/trophy_1f3c6.png"
+        },
+        color: 0xe2b714,
+        fields: [
+          {
+            name: "Name",
+            value: challengeRole.toString(),
+            inline: true
+          },
+          {
+            name: "User",
+            value: message.author.toString(),
+            inline: true
+          },
+          {
+            name: "Proof",
+            value: proof.join("\n"),
+            inline: false
+          },
+          {
+            name: "Message Link",
+            value: message.url,
+            inline: false
+          }
+        ]
       },
-      color: 0xe2b714,
-      fields: [
-        {
-          name: "Name",
-          value: challengeRole.toString(),
-          inline: true
-        },
-        {
-          name: "User",
-          value: message.author.toString(),
-          inline: true
-        },
-        {
-          name: "Proof",
-          value: proof.join("\n"),
-          inline: false
-        },
-        {
-          name: "Message Link",
-          value: message.url,
-          inline: false
-        }
-      ]
-    });
+      message.author
+    );
 
     const row = new MessageActionRow();
 
