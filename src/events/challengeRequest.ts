@@ -36,15 +36,16 @@ export default {
 
     const messageSplit = message.content.split("\n").map((s) => s.trim());
 
-    let proof = "";
+    const proof: string[] = [];
 
-    if (!messageSplit || messageSplit.length === 1) {
+    if (!messageSplit || messageSplit.length < 3) {
       return fail(message, "badFormat");
     } else if (messageSplit.length === 2) {
       //get the image
-      proof = message.attachments.first()?.url ?? "";
-    } else if (messageSplit.length === 3) {
-      proof = messageSplit[2] ?? "";
+      proof.push(...message.attachments.map((a) => a.url));
+    } else if (messageSplit.length >= 3) {
+      //remove first 2 elements from array, return rest
+      proof.push(...messageSplit.slice(2));
     }
 
     if (!proof || proof.length === 0) {
@@ -56,9 +57,7 @@ export default {
         (cid) => cid === message.mentions.roles.first()?.id
       ) ?? "";
 
-    const challengeRole = message.guild?.roles.cache.get(challengeRoleId);
-
-    if (!challengeRole) {
+    if (challengeRoleId === "") {
       return fail(message, "challengeDoesntExist");
     }
 
