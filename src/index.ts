@@ -6,6 +6,7 @@ import { config } from "dotenv";
 import clientOptions from "./config/config.json";
 import fetch from "node-fetch";
 import * as fs from "fs";
+import _ from "lodash";
 
 console.clear();
 
@@ -13,20 +14,31 @@ interface GitHubLabel {
   name: string;
 }
 
-fetch(`https://api.github.com/repos/${clientOptions.repo}/labels`)
-  .then((response) => response.json())
-  .then((json: GitHubLabel[]) => {
-    fs.writeFileSync(
-      "labels.json",
-      JSON.stringify(
-        json.map((v) => v.name),
-        null,
-        2
-      )
-    );
+function fetchLabels() {
+  console.log("Fetching GitHub labels...");
 
-    console.log("Labels updated!");
-  });
+  fetch(`https://api.github.com/repos/${clientOptions.repo}/labels`)
+    .then((response) => response.json())
+    .then((json: GitHubLabel[]) => {
+      if (!_.isArray(json)) {
+        console.log(
+          "Could not fetch labels from GitHub, might be rate limited"
+        );
+
+        return;
+      }
+
+      const labelNames = json.map((label) => label.name);
+
+      fs.writeFileSync("labels.json", JSON.stringify(labelNames, null, 2));
+
+      console.log("Labels updated!");
+    });
+}
+
+fetchLabels();
+
+setInterval(fetchLabels, 3600000);
 
 config();
 
