@@ -129,7 +129,6 @@ export default {
       row.addComponents(declineReasonSelectMenu);
 
       const replyMessage = await interaction.reply({
-        ephemeral: true,
         content: "Select declination reasons below:",
         components: [row],
         fetchReply: true
@@ -147,6 +146,8 @@ export default {
       if (declineReasonInteraction === undefined) {
         return;
       }
+
+      interaction.deleteReply();
 
       const declineReasons = declineReasonInteraction.values.map(
         (reason) =>
