@@ -82,6 +82,7 @@ export default {
       proof,
       timestamp: Date.now()
     });
+
     message.react("📨");
   }
 } as Event<"messageCreate">;
