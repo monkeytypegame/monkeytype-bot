@@ -4,11 +4,43 @@ import { parseJSON, readFileOrCreate } from "./file";
 import { ChallengeRequest } from "../interfaces/ChallengeRequest";
 
 export function getRequests(): ChallengeRequest[] {
-  return parseJSON(readFileOrCreate("challengeRequests.json", "[]").toString());
+  return parseJSON(readFileOrCreate("challengeRequests.json", "[]"));
 }
 
-export function pushRequest(data: ChallengeRequest): void {
+export function setRequests(challengeRequests: ChallengeRequest[]): void {
+  fs.writeFileSync(
+    "challengeRequests.json",
+    JSON.stringify(challengeRequests, null, 2)
+  );
+}
+
+export function addRequest(data: ChallengeRequest): void {
   const requests = getRequests();
   requests.push(data);
-  fs.writeFileSync("challengeRequests.json", JSON.stringify(requests, null, 2));
+  setRequests(requests);
+}
+
+export function getRequest(
+  userID: string,
+  messageID: string
+): ChallengeRequest | undefined {
+  const requests = getRequests();
+  return requests.find(
+    (request) => request.userID === userID && request.messageID === messageID
+  );
+}
+
+export function deleteRequest(userID: string, messageID: string): void {
+  const requests = getRequests();
+  const index = requests.findIndex(
+    (request) => request.userID === userID && request.messageID === messageID
+  );
+
+  if (index === -1) {
+    return;
+  }
+
+  requests.splice(index, 1);
+
+  setRequests(requests);
 }

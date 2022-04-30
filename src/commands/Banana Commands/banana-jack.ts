@@ -141,12 +141,13 @@ export default {
         return;
       }
 
-      const buttonInteraction = await client.getButtonInteraction(
+      const buttonInteraction = await client.awaitMessageComponent(
         interaction.channel,
         (i) =>
           replyMessage.id === i.message.id &&
           i.user.id === interaction.user.id &&
-          ["hit", "stand"].includes(i.customId)
+          ["hit", "stand"].includes(i.customId),
+        "BUTTON"
       );
 
       if (buttonInteraction === undefined) {

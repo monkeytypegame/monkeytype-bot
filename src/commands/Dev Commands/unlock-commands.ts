@@ -57,12 +57,13 @@ export default {
       ephemeral: true
     });
 
-    const buttonInteraction = await client.getButtonInteraction(
+    const buttonInteraction = await client.awaitMessageComponent(
       interaction.channel,
       (i) =>
         replyMessage.id === i.message.id &&
         i.user.id === interaction.user.id &&
         ["unlock"].includes(i.customId),
+      "BUTTON",
       900000
     );
 

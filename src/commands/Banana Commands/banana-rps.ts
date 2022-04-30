@@ -129,12 +129,13 @@ export default {
       losses = 0;
 
     async function game(round: number): Promise<void> {
-      const buttonInteraction = await client.getButtonInteraction(
+      const buttonInteraction = await client.awaitMessageComponent(
         interaction.channel,
         (i) =>
           replyMessage.id === i.message.id &&
           i.user.id === interaction.user.id &&
-          ["rock", "paper", "scissors"].includes(i.customId)
+          ["rock", "paper", "scissors"].includes(i.customId),
+        "BUTTON"
       );
 
       async function finishRound() {

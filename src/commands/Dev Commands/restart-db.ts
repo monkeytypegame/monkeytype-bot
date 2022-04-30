@@ -29,12 +29,13 @@ export default {
       ]
     });
 
-    const buttonInteraction = await client.getButtonInteraction(
+    const buttonInteraction = await client.awaitMessageComponent(
       interaction.channel,
       (i) =>
         message.id === i.message.id &&
         i.user.id === interaction.user.id &&
-        ["restartDBYes", "restartDBNo"].includes(i.customId)
+        ["restartDBYes", "restartDBNo"].includes(i.customId),
+      "BUTTON"
     );
 
     if (buttonInteraction === undefined) {

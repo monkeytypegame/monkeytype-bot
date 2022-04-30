@@ -1,9 +1,9 @@
 /** @format */
 
 export interface ChallengeRequest {
-  userId: string;
-  messageId: string;
-  challengeRoleId: string;
+  userID: string;
+  messageID: string;
+  challengeRoleID: string;
   proof: string[];
   timestamp: number;
 }

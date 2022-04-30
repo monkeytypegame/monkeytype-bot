@@ -1,6 +1,6 @@
 /** @format */
-import { Message } from "discord.js";
-import { pushRequest } from "../functions/challengeRequest";
+import { Message, MessageActionRow, MessageButton } from "discord.js";
+import { addRequest } from "../functions/challengeRequest";
 import { Event } from "../interfaces/Event";
 
 type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
@@ -75,14 +75,79 @@ export default {
       return;
     }
 
-    pushRequest({
-      userId: message.author.id,
-      messageId: message.id,
-      challengeRoleId: challengeRoleId,
+    addRequest({
+      userID: message.author.id,
+      messageID: message.id,
+      challengeRoleID: challengeRoleId,
       proof,
       timestamp: Date.now()
     });
 
     message.react("📨");
+
+    const challengeSubmissionsModsChannel = await client.getChannel(
+      "challengeSubmissionsMods"
+    );
+
+    if (challengeSubmissionsModsChannel === undefined) {
+      return;
+    }
+
+    const challengeRole = await message.guild.roles.cache.get(challengeRoleId);
+
+    if (challengeRole === undefined) {
+      return;
+    }
+
+    const embed = client.embed({
+      title: "Challenge Request",
+      thumbnail: {
+        url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/trophy_1f3c6.png"
+      },
+      color: 0xe2b714,
+      fields: [
+        {
+          name: "Name",
+          value: challengeRole.toString(),
+          inline: true
+        },
+        {
+          name: "User",
+          value: message.author.toString(),
+          inline: true
+        },
+        {
+          name: "Proof",
+          value: proof.join("\n"),
+          inline: false
+        },
+        {
+          name: "Message Link",
+          value: message.url,
+          inline: false
+        }
+      ]
+    });
+
+    const row = new MessageActionRow();
+
+    const acceptButton = new MessageButton()
+      .setCustomId("accept")
+      .setLabel("Accept")
+      .setStyle("SUCCESS")
+      .setDisabled(false);
+
+    const declineButton = new MessageButton()
+      .setCustomId("decline")
+      .setLabel("Decline")
+      .setStyle("DANGER")
+      .setDisabled(false);
+
+    row.addComponents(acceptButton, declineButton);
+
+    challengeSubmissionsModsChannel.send({
+      embeds: [embed],
+      components: [row]
+    });
   }
 } as Event<"messageCreate">;

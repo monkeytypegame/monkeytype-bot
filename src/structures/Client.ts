@@ -362,29 +362,22 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     });
   }
 
-  public getButtonInteraction(
+  public async awaitMessageComponent<T extends Discord.MessageComponentType>(
     channel: Discord.TextBasedChannel | null | undefined,
     filter: Discord.CollectorFilter<
       [Discord.MessageComponentInteraction<"cached">]
     >,
-    time?: number
-  ): Promise<Discord.ButtonInteraction | undefined> {
-    return new Promise((resolve) => {
-      if (!channel) {
-        resolve(undefined);
-        return;
-      }
-
-      channel
-        ?.awaitMessageComponent({
-          componentType: "BUTTON",
-          filter,
-          time: time ?? 60000,
-          dispose: true
-        })
-        .then(resolve)
-        .catch(() => resolve(undefined));
-    });
+    componentType: T,
+    time = 60000
+  ): Promise<Discord.MappedInteractionTypes[T] | undefined> {
+    return channel
+      ?.awaitMessageComponent({
+        componentType,
+        filter,
+        time,
+        dispose: true
+      })
+      .catch(() => undefined);
   }
 
   public async logInBotLogChannel(
