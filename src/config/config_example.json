@@ -26,6 +26,7 @@
     "botLog": "channel id where the bot will log debug messages",
     "lounge": "lounge id",
     "updates": "updates channel id",
-    "botCommands": "bot commands channel id"
+    "botCommands": "bot commands channel id",
+    "challengeSubmission": "challenge submission channel id"
   }
 }
