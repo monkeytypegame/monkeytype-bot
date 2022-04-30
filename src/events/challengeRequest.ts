@@ -3,7 +3,7 @@
 import { Message } from "discord.js";
 import { Event } from "../interfaces/Event";
 
-type FailReasons = "badFormat" | "challengeDoesntExist" | "noProof";
+type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
 
 function fail(message: Message<boolean>, reason: FailReasons): void {
   let string = ":x: Something went wrong";
@@ -15,7 +15,7 @@ function fail(message: Message<boolean>, reason: FailReasons): void {
     string += "```@George\n@Simp\nhttps://www.imgur.com/...```";
     string += "or";
     string += "```@George\n@Accuracy Expert\n(attached screenshot)```";
-  } else if (reason === "challengeDoesntExist") {
+  } else if (reason === "invalidChallenge") {
     string = ":x: Challenge role not found";
   } else if (reason === "noProof") {
     string = ":x: Please provide proof that you've completed the challenge";
@@ -27,46 +27,52 @@ export default {
   event: "messageCreate",
   run: async (client, message) => {
     if (
-      !message ||
       message.author.bot ||
-      message.channel.type === "DM" ||
+      !message.guild ||
       !message.member ||
       message.channelId !==
-        client.clientOptions.channels.challengeSubmissions ||
+        (await client.getChannel("challengeSubmissions"))?.id ||
       !message.mentions.has(client.user)
     ) {
       return;
     }
 
-    //user pinged the bot in the challenge submission channel
+    // User pinged the bot in the challenge-submissions channel
 
     const messageSplit = message.content.split("\n").map((s) => s.trim());
 
     const proof: string[] = [];
 
     if (!messageSplit || messageSplit.length < 2) {
-      return fail(message, "badFormat");
+      fail(message, "badFormat");
+
+      return;
     }
+
     if (message.attachments.size > 0) {
       //get all attachments
       proof.push(...message.attachments.map((a) => a.url));
     }
+
     if (messageSplit.length >= 3) {
       //remove first 2 elements from array, return rest
       proof.push(...messageSplit.slice(2));
     }
 
     if (!proof || proof.length === 0) {
-      return fail(message, "noProof");
+      fail(message, "noProof");
+
+      return;
     }
 
-    const challengeRoleId =
-      Object.values(client.clientOptions.challenges).find(
-        (cid) => cid === message.mentions.roles.first()?.id
-      ) ?? "";
+    const challengeRoleId = Object.values(client.clientOptions.challenges).find(
+      (cid) => cid === message.mentions.roles.first()?.id
+    );
 
-    if (challengeRoleId === "") {
-      return fail(message, "challengeDoesntExist");
+    if (challengeRoleId === undefined) {
+      fail(message, "invalidChallenge");
+
+      return;
     }
 
     console.log(proof);
