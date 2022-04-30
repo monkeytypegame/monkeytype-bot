@@ -21,7 +21,6 @@ export default {
   event: "messageCreate",
   run: async (client, message) => {
     if (
-      !message ||
       message.author.bot ||
       !message.guild ||
       !message.member ||
