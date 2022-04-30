@@ -50,7 +50,7 @@ export default {
       amount: 5,
       entries: members,
       id: "inrole",
-      fieldName: "Members"
+      fieldName: `Members (${members.length})`
     });
   }
 } as Command;

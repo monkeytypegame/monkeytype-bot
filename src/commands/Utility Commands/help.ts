@@ -51,31 +51,39 @@ export default {
             name: "Command Description",
             value: command.description.trim(),
             inline: true
+          },
+          {
+            name: "Command Category",
+            value: toPascalCase(command.category),
+            inline: true
           }
         ]);
-
-      embed.addFields([
-        {
-          name: "Command Category",
-          value: toPascalCase(command.category),
-          inline: true
-        }
-      ]);
     } else {
-      const commands: EmbedFieldData[] = client.categories.map((category) => ({
-        name: `${category}${category.endsWith("Commands") ? "" : " Commands"}`,
-        value: client
-          .getCommandsByCategory(category)
-          .filter((cmd) => !cmd.needsPermissions)
-          .map((cmd) => cmd.name)
-          .join("\n"),
-        inline: true
-      }));
+      const commands: EmbedFieldData[] = client.categories
+        .filter((category) =>
+          client
+            .getCommandsByCategory(category)
+            .every((cmd) => !cmd.needsPermissions)
+        )
+        .map((category) => ({
+          name: `${category}${
+            category.endsWith("Commands") ? "" : " Commands"
+          }`,
+          value: client
+            .getCommandsByCategory(category)
+            .map((cmd) => cmd.name)
+            .join("\n"),
+          inline: true
+        }));
+
+      console.log(commands);
 
       embed
         .setDescription("The following are all the commands that I offer!")
         .addFields(commands);
     }
+
+    console.log(embed);
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   }

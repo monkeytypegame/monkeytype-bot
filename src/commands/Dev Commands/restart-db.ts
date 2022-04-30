@@ -46,8 +46,6 @@ export default {
     });
 
     if (buttonInteraction.customId === "restartDBYes") {
-      interaction.channel?.send("Sending command...");
-
       exec("systemctl restart mongod", (error, _, stderr) => {
         if (error) {
           console.log(error);
