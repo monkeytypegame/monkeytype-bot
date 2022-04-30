@@ -38,19 +38,25 @@ export default {
     const proof: string[] = [];
 
     if (!messageSplit || messageSplit.length < 2) {
-      return fail(message, "badFormat");
+      fail(message, "badFormat");
+
+      return;
     }
+
     if (message.attachments.size > 0) {
       //get all attachments
       proof.push(...message.attachments.map((a) => a.url));
     }
+
     if (messageSplit.length >= 3) {
       //remove first 2 elements from array, return rest
       proof.push(...messageSplit.slice(2));
     }
 
     if (!proof || proof.length === 0) {
-      return fail(message, "noProof");
+      fail(message, "noProof");
+
+      return;
     }
 
     const challengeRoleId = Object.values(client.clientOptions.challenges).find(
@@ -58,7 +64,9 @@ export default {
     );
 
     if (challengeRoleId === undefined) {
-      return fail(message, "invalidChallenge");
+      fail(message, "invalidChallenge");
+
+      return;
     }
 
     console.log(proof);
