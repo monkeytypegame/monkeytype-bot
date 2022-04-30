@@ -57,13 +57,14 @@ export default {
       ephemeral: true
     });
 
-    const buttonInteraction = await interaction.channel?.awaitMessageComponent({
-      componentType: "BUTTON",
-      dispose: true,
-      time: 900000,
-      filter: (i) =>
-        replyMessage.id === i.message.id && i.user.id === interaction.user.id
-    });
+    const buttonInteraction = await client.getButtonInteraction(
+      interaction.channel,
+      (i) =>
+        replyMessage.id === i.message.id &&
+        i.user.id === interaction.user.id &&
+        ["unlock"].includes(i.customId),
+      900000
+    );
 
     if (buttonInteraction === undefined) {
       interaction.followUp({

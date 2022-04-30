@@ -7,7 +7,7 @@
   "tasksPath": "./tasks",
   "deleteUnusedSlashCommands": true,
   "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
-  "repo": "miodec/monkeytype",
+  "repo": "monkeytypegame/monkeytype",
   "repoPath": "../monkeytype",
   "roles": {
     "memberRole": "member role id"

@@ -370,6 +370,31 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     });
   }
 
+  public getButtonInteraction(
+    channel: Discord.TextBasedChannel | null | undefined,
+    filter: Discord.CollectorFilter<
+      [Discord.MessageComponentInteraction<"cached">]
+    >,
+    time?: number
+  ): Promise<Discord.ButtonInteraction | undefined> {
+    return new Promise((resolve) => {
+      if (!channel) {
+        resolve(undefined);
+        return;
+      }
+
+      channel
+        ?.awaitMessageComponent({
+          componentType: "BUTTON",
+          filter,
+          time: time ?? 60000,
+          dispose: true
+        })
+        .then(resolve)
+        .catch(() => resolve(undefined));
+    });
+  }
+
   public async logInBotLogChannel(
     message: string
   ): Promise<Discord.Message | undefined> {

@@ -9,7 +9,7 @@ export default {
   description: "Restart the MongoDB database",
   category: "Dev",
   needsPermissions: true,
-  run: async (interaction) => {
+  run: async (interaction, client) => {
     const message = await interaction.reply({
       content: "Are you sure?",
       fetchReply: true,
@@ -29,21 +29,19 @@ export default {
       ]
     });
 
-    if (interaction.channel === null) {
-      console.log("Channel is null");
+    const buttonInteraction = await client.getButtonInteraction(
+      interaction.channel,
+      (i) =>
+        message.id === i.message.id &&
+        i.user.id === interaction.user.id &&
+        ["restartDBYes", "restartDBNo"].includes(i.customId)
+    );
+
+    if (buttonInteraction === undefined) {
+      interaction.followUp(":x: Timed out.");
 
       return;
     }
-
-    const buttonInteraction = await interaction.channel?.awaitMessageComponent({
-      componentType: "BUTTON",
-      dispose: true,
-      filter: (i) =>
-        message.id === i.message.id &&
-        i.user.id === interaction.user.id &&
-        ["restartDBYes", "restartDBNo"].includes(i.customId),
-      time: 60000
-    });
 
     if (buttonInteraction.customId === "restartDBYes") {
       exec("systemctl restart mongod", (error, _, stderr) => {
