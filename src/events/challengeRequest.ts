@@ -78,7 +78,7 @@ export default {
     pushRequest({
       userId: message.author.id,
       messageId: message.id,
-      challengeId: challengeRoleId,
+      challengeRoleId: challengeRoleId,
       proof,
       timestamp: Date.now()
     });
