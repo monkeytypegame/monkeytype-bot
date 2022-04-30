@@ -65,6 +65,6 @@ export default {
 
     console.log(proof);
 
-    message.react("✅");
+    message.react("📨");
   }
 } as Event<"messageCreate">;
