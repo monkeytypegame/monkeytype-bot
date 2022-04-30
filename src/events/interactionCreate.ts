@@ -48,8 +48,14 @@ export default {
           interaction.followUp(msg).catch(console.log);
         });
       }
+    } else if (interaction.isAutocomplete()) {
+      console.log(`Running autocomplete for "${interaction.commandName}"`);
     } else if (interaction.isButton()) {
       console.log(`Button clicked "${interaction.customId}"`);
+    } else if (interaction.isContextMenu()) {
+      console.log(`Context menu ran for "${interaction.targetId}"`);
+    } else if (interaction.isSelectMenu()) {
+      console.log(`Select Menu filled out "${interaction.customId}"`);
     }
   }
 } as Event<"interactionCreate">;
