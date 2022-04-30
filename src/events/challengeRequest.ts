@@ -1,6 +1,6 @@
 /** @format */
 
-import { Message, User } from "discord.js";
+import { Message } from "discord.js";
 import { Event } from "../interfaces/Event";
 
 type FailReasons = "badFormat" | "challengeDoesntExist" | "noProof";
@@ -27,7 +27,7 @@ export default {
       !message.member ||
       message.channelId !==
         client.clientOptions.channels.challengeSubmissions ||
-      !message.mentions.has(client.user as User)
+      !message.mentions.has(client.user)
     ) {
       return;
     }
