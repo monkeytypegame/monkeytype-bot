@@ -21,6 +21,7 @@ export interface Channels {
   lounge: string;
   updates: string;
   botCommands: string;
+  challengeSubmissions: string;
 }
 
 export interface ClientOptions extends DiscordClientOptions {
