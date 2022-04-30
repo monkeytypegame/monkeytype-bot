@@ -3,15 +3,9 @@ import * as fs from "fs";
 import { Message } from "discord.js";
 import { Event } from "../interfaces/Event";
 import { parseJSON, readFileOrCreate } from "../functions/file";
+import { ChallengeRequest } from "../interfaces/ChallengeRequest";
 
 type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
-
-interface ChallengeRequest {
-  userId: string;
-  messageId: string;
-  challengeId: string;
-  timestamp: number;
-}
 
 function fail(message: Message<boolean>, reason: FailReasons): void {
   let string = ":x: Something went wrong";
@@ -97,8 +91,9 @@ export default {
       userId: message.author.id,
       messageId: message.id,
       challengeId: challengeRoleId,
-      timestamp: Date.now(),
+      timestamp: Date.now()
     });
+
     message.react("📨");
   }
 } as Event<"messageCreate">;
