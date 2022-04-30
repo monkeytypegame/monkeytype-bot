@@ -26,7 +26,7 @@ export default {
       !message.guild ||
       !message.member ||
       message.channelId !==
-        client.clientOptions.channels.challengeSubmissions ||
+        (await client.getChannel("challengeSubmissions"))?.id ||
       !message.mentions.has(client.user)
     ) {
       return;
