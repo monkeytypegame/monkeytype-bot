@@ -153,26 +153,36 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     // Handing slash commands
 
-    await this.application?.commands.set([]);
-
     const slashCommands = await this.application?.commands.fetch({
       guildId: this.clientOptions.guildId,
-      force: true,
-      cache: true
+      cache: true,
+      force: true
     });
 
-    commands.forEach((command) => {
+    commands.forEach(async (command) => {
       this.commands.set(command.name, command);
 
       if (!this.categories.includes(command.category)) {
         this.categories.push(command.category);
       }
 
-      if (
-        !slashCommands ||
-        !slashCommands.find((appCommand) => appCommand.name === command.name)
-      ) {
-        this.application?.commands
+      const cmd = slashCommands?.find((c) => c.name === command.name);
+
+      if (cmd !== undefined) {
+        await this.application?.commands.edit(
+          cmd,
+          {
+            name: command.name,
+            description: command.description,
+            type: "CHAT_INPUT",
+            options: command.options as Discord.ApplicationCommandOptionData[]
+          },
+          this.clientOptions.guildId
+        );
+
+        console.log(`Edited slash command "${cmd.name}" (${cmd.id})`);
+      } else {
+        const c = await this.application?.commands
           .create(
             {
               name: command.name,
@@ -182,29 +192,11 @@ export class Client<T extends boolean> extends Discord.Client<T> {
             },
             this.clientOptions.guildId
           )
-          .then((c) =>
-            console.log(
-              `Successfully created slash command ${c.name} (${c.id}).`
-            )
-          )
-          .catch(console.error);
-      }
-    });
+          .catch(console.log);
 
-    slashCommands?.forEach((slashCommand) => {
-      const command = this.commands.get(slashCommand.name);
-
-      if (command === undefined) {
-        if (this.clientOptions.deleteUnusedSlashCommands) {
-          slashCommand.delete();
+        if (c !== undefined) {
+          console.log(`Created slash command "${c.name}" (${c.id})`);
         }
-      } else {
-        // add some code to edit the command if contents are different
-        slashCommand.edit({
-          name: command.name,
-          description: command.description,
-          options: <Discord.ApplicationCommandOptionData[]>command.options
-        });
       }
     });
 
