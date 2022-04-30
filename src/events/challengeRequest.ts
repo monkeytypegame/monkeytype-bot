@@ -3,13 +3,13 @@
 import { Message } from "discord.js";
 import { Event } from "../interfaces/Event";
 
-type FailReasons = "badFormat" | "challengeDoesntExist" | "noProof";
+type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
 
 function fail(message: Message<boolean>, reason: FailReasons): void {
   let string = ":x: Something went wrong";
   if (reason === "badFormat") {
     string = ":x: Please use the correct format to submit a challenge";
-  } else if (reason === "challengeDoesntExist") {
+  } else if (reason === "invalidChallenge") {
     string = ":x: Challenge role not found";
   } else if (reason === "noProof") {
     string = ":x: Please provide proof that you've completed the challenge";
@@ -60,7 +60,7 @@ export default {
       ) ?? "";
 
     if (challengeRoleId === "") {
-      return fail(message, "challengeDoesntExist");
+      return fail(message, "invalidChallenge");
     }
 
     console.log(proof);
