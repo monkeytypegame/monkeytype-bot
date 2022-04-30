@@ -6,6 +6,7 @@ interface ChallengeRequest {
   userId: string;
   messageId: string;
   challengeId: string;
+  proof: string[];
   timestamp: number;
 }
 

@@ -79,6 +79,7 @@ export default {
       userId: message.author.id,
       messageId: message.id,
       challengeId: challengeRoleId,
+      proof,
       timestamp: Date.now()
     });
     message.react("📨");
