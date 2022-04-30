@@ -1,6 +1,7 @@
 /** @format */
 import * as fs from "fs";
 import { parseJSON, readFileOrCreate } from "./file";
+import { ChallengeRequest } from "../interfaces/ChallengeRequest";
 
 export function getRequests(): ChallengeRequest[] {
   return parseJSON(readFileOrCreate("challengeRequests.json", "[]").toString());
