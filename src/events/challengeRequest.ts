@@ -23,7 +23,7 @@ export default {
     if (
       !message ||
       message.author.bot ||
-      message.channel.type === "DM" ||
+      !message.guild ||
       !message.member ||
       message.channelId !==
         client.clientOptions.channels.challengeSubmissions ||
