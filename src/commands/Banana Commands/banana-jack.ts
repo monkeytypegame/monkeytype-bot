@@ -141,19 +141,13 @@ export default {
         return;
       }
 
-      const buttonInteraction = await interaction.channel
-        ?.awaitMessageComponent({
-          componentType: "BUTTON",
-          dispose: true,
-          filter: (i) =>
-            replyMessage.id === i.message.id &&
-            i.user.id === interaction.user.id &&
-            ["hit", "stand"].includes(i.customId),
-          time: 60000
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const buttonInteraction = await client.getButtonInteraction(
+        interaction.channel,
+        (i) =>
+          replyMessage.id === i.message.id &&
+          i.user.id === interaction.user.id &&
+          ["hit", "stand"].includes(i.customId)
+      );
 
       if (buttonInteraction === undefined) {
         gameOver = true;

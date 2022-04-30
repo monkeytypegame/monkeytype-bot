@@ -1,6 +1,6 @@
 /** @format */
 
-import { ButtonInteraction, MessageActionRow, MessageButton } from "discord.js";
+import { MessageActionRow, MessageButton } from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
 import { Command } from "../../interfaces/Command";
 
@@ -125,32 +125,77 @@ export default {
       fetchReply: true
     });
 
-    const filter = (i: ButtonInteraction<"cached">) => {
-      return (
-        replyMessage.id === i.message.id &&
-        i.user.id === interaction.user.id &&
-        ["rock", "paper", "scissors"].includes(i.customId)
-      );
-    };
-
     let wins = 0,
       losses = 0;
 
     async function game(round: number): Promise<void> {
-      if (interaction.channel === null) {
-        interaction.followUp(":x: Something went wrong.");
+      const buttonInteraction = await client.getButtonInteraction(
+        interaction.channel,
+        (i) =>
+          replyMessage.id === i.message.id &&
+          i.user.id === interaction.user.id &&
+          ["rock", "paper", "scissors"].includes(i.customId)
+      );
+
+      async function finishRound() {
+        if (round !== 3) {
+          const roundField = embed.fields[0];
+
+          round++;
+
+          if (roundField !== undefined) {
+            roundField.value = round.toString();
+          }
+
+          await interaction.editReply({ embeds: [embed] });
+
+          game(round);
+        } else {
+          currentlyPlaying.delete(interaction.user.id);
+
+          const outcome =
+            wins > losses ? "win" : wins === losses ? "tie" : "loss";
+
+          const outcomeString = outcomeStringMap[outcome];
+
+          embed.setColor(outcomeColorMap[outcome]);
+
+          embed.fields.shift();
+
+          if (outcome === "win") {
+            authorBananaEntry.balance += amount;
+            botBananaEntry.balance -= amount;
+          } else if (outcome === "loss") {
+            authorBananaEntry.balance -= amount;
+            botBananaEntry.balance += amount;
+          }
+
+          embed.setDescription(
+            `${
+              embed.description ?? ""
+            }\n\nYou ${outcomeString}!\nNew balance: ${
+              authorBananaEntry.balance
+            }`
+          );
+
+          setUser(interaction.user.id, authorBananaEntry);
+          setUser(client.user.id, botBananaEntry);
+
+          interaction.editReply({ embeds: [embed], components: [] });
+        }
+      }
+
+      if (buttonInteraction === undefined) {
+        losses++;
+
+        embed.setDescription(
+          `${embed.description ?? ""}\nRound ${round}: Timed Out 🔴 Loss`
+        );
+
+        await finishRound();
 
         return;
       }
-
-      const buttonInteraction = await interaction.channel.awaitMessageComponent(
-        {
-          filter,
-          time: 60000,
-          componentType: "BUTTON",
-          dispose: true
-        }
-      );
 
       buttonInteraction.deferUpdate();
 
@@ -204,49 +249,7 @@ export default {
         computerField.value = choiceToEmoji[computerChoice];
       }
 
-      if (round !== 3) {
-        const roundField = embed.fields[0];
-
-        round++;
-
-        if (roundField !== undefined) {
-          roundField.value = round.toString();
-        }
-
-        await interaction.editReply({ embeds: [embed] });
-
-        game(round);
-      } else {
-        currentlyPlaying.delete(interaction.user.id);
-
-        const outcome =
-          wins > losses ? "win" : wins === losses ? "tie" : "loss";
-
-        const outcomeString = outcomeStringMap[outcome];
-
-        embed.setColor(outcomeColorMap[outcome]);
-
-        embed.fields.shift();
-
-        if (outcome === "win") {
-          authorBananaEntry.balance += amount;
-          botBananaEntry.balance -= amount;
-        } else if (outcome === "loss") {
-          authorBananaEntry.balance -= amount;
-          botBananaEntry.balance += amount;
-        }
-
-        embed.setDescription(
-          `${embed.description ?? ""}\n\nYou ${outcomeString}!\nNew balance: ${
-            authorBananaEntry.balance
-          }`
-        );
-
-        setUser(interaction.user.id, authorBananaEntry);
-        setUser(client.user.id, botBananaEntry);
-
-        interaction.editReply({ embeds: [embed], components: [] });
-      }
+      await finishRound();
     }
 
     game(1);
