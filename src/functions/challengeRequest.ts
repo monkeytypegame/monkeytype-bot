@@ -2,14 +2,6 @@
 import * as fs from "fs";
 import { parseJSON, readFileOrCreate } from "./file";
 
-interface ChallengeRequest {
-  userId: string;
-  messageId: string;
-  challengeRoleId: string;
-  proof: string[];
-  timestamp: number;
-}
-
 export function getRequests(): ChallengeRequest[] {
   return parseJSON(readFileOrCreate("challengeRequests.json", "[]").toString());
 }

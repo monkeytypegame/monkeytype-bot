@@ -3,6 +3,7 @@
 export interface ChallengeRequest {
   userId: string;
   messageId: string;
-  challengeId: string;
+  challengeRoleId: string;
+  proof: string[];
   timestamp: number;
 }
