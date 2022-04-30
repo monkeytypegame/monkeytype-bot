@@ -1,6 +1,6 @@
 /** @format */
 import * as fs from "fs";
-import { parseJSON, readFileOrCreate } from "../functions/file";
+import { parseJSON, readFileOrCreate } from "./file";
 
 interface ChallengeRequest {
   userId: string;

@@ -1,6 +1,6 @@
 /** @format */
 import { Message } from "discord.js";
-import { pushRequest } from "../functions/challengeRequests";
+import { pushRequest } from "../functions/challengeRequest";
 import { Event } from "../interfaces/Event";
 
 type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
