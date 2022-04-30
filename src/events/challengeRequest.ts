@@ -2,7 +2,6 @@
 
 import { Message, User } from "discord.js";
 import { Event } from "../interfaces/Event";
-import clientOptions from "../config/config.json";
 
 type FailReasons = "badFormat" | "challengeDoesntExist" | "noProof";
 
@@ -26,7 +25,7 @@ export default {
       message.author.bot ||
       message.channel.type === "DM" ||
       !message.member ||
-      message.channelId !== clientOptions.channels.challengeSubmission ||
+      message.channelId !== client.clientOptions.channels.challengeSubmission ||
       !message.mentions.has(client.user as User)
     ) {
       return;
@@ -52,7 +51,7 @@ export default {
     }
 
     const challengeRoleId =
-      Object.values(clientOptions.challenges).find(
+      Object.values(client.clientOptions.challenges).find(
         (cid) => cid === message.mentions.roles.first()?.id
       ) ?? "";
 
