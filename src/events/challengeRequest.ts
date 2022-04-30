@@ -1,17 +1,9 @@
 /** @format */
-import * as fs from "fs";
 import { Message } from "discord.js";
+import { pushRequest } from "../functions/challengeRequests";
 import { Event } from "../interfaces/Event";
-import { parseJSON, readFileOrCreate } from "../functions/file";
 
 type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
-
-interface ChallengeRequest {
-  userId: string;
-  messageId: string;
-  challengeId: string;
-  timestamp: number;
-}
 
 function fail(message: Message<boolean>, reason: FailReasons): void {
   let string = ":x: Something went wrong";
@@ -29,16 +21,6 @@ function fail(message: Message<boolean>, reason: FailReasons): void {
     string = ":x: Please provide proof that you've completed the challenge";
   }
   message.channel.send(string);
-}
-
-function getRequests(): ChallengeRequest[] {
-  return parseJSON(readFileOrCreate("challengeRequests.json", "{}").toString());
-}
-
-async function pushRequest(data: ChallengeRequest): Promise<void> {
-  const requests = getRequests();
-  requests.push(data);
-  fs.writeFileSync("bananas.json", JSON.stringify(data, null, 2));
 }
 
 export default {
@@ -93,7 +75,7 @@ export default {
       return;
     }
 
-    await pushRequest({
+    pushRequest({
       userId: message.author.id,
       messageId: message.id,
       challengeId: challengeRoleId,
