@@ -63,7 +63,7 @@ export default {
         .filter((category) =>
           client
             .getCommandsByCategory(category)
-            .every((cmd) => !cmd.needsPermissions)
+            .some((cmd) => !cmd.needsPermissions)
         )
         .map((category) => ({
           name: `${category}${
@@ -71,6 +71,7 @@ export default {
           }`,
           value: client
             .getCommandsByCategory(category)
+            .filter((cmd) => !cmd.needsPermissions)
             .map((cmd) => cmd.name)
             .join("\n"),
           inline: true

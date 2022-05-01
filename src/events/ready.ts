@@ -9,6 +9,7 @@ import { parseJSON, readFileOrCreate } from "../functions/file";
 import { Client } from "../structures/Client";
 import {
   ApplicationCommandChoicesOption,
+  ApplicationCommandData,
   ApplicationCommandOption
 } from "discord.js";
 import fetch from "node-fetch-commonjs";
@@ -134,7 +135,7 @@ async function updateIssueCommand(client: Client<true>) {
     }
   ];
 
-  await issueCommand.edit(issueCommand);
+  await issueCommand.edit(issueCommand as ApplicationCommandData);
 
   console.log("Issue command updated!");
 }
