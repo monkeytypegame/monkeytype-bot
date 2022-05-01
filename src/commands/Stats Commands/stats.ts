@@ -3,7 +3,8 @@
 import { mongoDB } from "../../functions/mongodb";
 import type { Command } from "../../interfaces/Command";
 import { User } from "../../types";
-import moment from "moment";
+import intervalToDuration from "date-fns/intervalToDuration";
+import formatDuration from "date-fns/formatDuration";
 
 export default {
   name: "stats",
@@ -35,7 +36,12 @@ export default {
       return;
     }
 
-    const duration = moment.duration({ seconds: user.timeTyping });
+    const duration = formatDuration(
+      intervalToDuration({ start: 0, end: user.timeTyping * 1000 }),
+      {
+        format: ["hours", "minutes", "seconds"]
+      }
+    );
 
     const nameDisplay =
       user.name === discordUser.username
@@ -69,13 +75,7 @@ export default {
           },
           {
             name: "Time Typing",
-            value: `${duration.hours().toString().padStart(2, "0")}:${duration
-              .minutes()
-              .toString()
-              .padStart(2, "0")}:${duration
-              .seconds()
-              .toString()
-              .padStart(2, "0")}`,
+            value: duration,
             inline: false
           }
         ],

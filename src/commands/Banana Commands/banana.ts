@@ -5,7 +5,7 @@ import { mongoDB } from "../../functions/mongodb";
 import { createUser, getUser, setUser } from "../../functions/banana";
 import { User } from "../../types";
 import { getNextDay, isSameDay } from "../../functions/date";
-import moment from "moment";
+import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
 export default {
   name: "banana",
@@ -38,21 +38,7 @@ export default {
 
     const nextReset = getNextDay(now);
 
-    const dateDiff = nextReset.getTime() - now;
-
-    const momentDuration = moment.duration(dateDiff);
-
-    let timeString = "";
-
-    if (momentDuration.hours()) {
-      timeString = `${momentDuration.hours()} hour(s)`;
-    } else if (momentDuration.minutes()) {
-      timeString = `${momentDuration.minutes()} minute(s)`;
-    } else if (momentDuration.seconds()) {
-      timeString = `${momentDuration.seconds()} second(s)`;
-    } else {
-      timeString = "less than a second";
-    }
+    const timeString = formatDistanceStrict(nowDate, nextReset);
 
     const lastCollectDate = new Date(bananaEntry.lastCollect);
 
