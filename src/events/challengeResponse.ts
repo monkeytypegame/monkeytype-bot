@@ -24,11 +24,6 @@ const declineReasonOptions: MessageSelectOptionData[] = [
     value: "requirementsNotMet"
   },
   {
-    label: "High AFK",
-    description: "Your time away from keyboard was too large",
-    value: "highAfk"
-  },
-  {
     label: "Invalid Challenge",
     description:
       "Challenge doesn't exist or proof doesn't apply to the requested challenge",
