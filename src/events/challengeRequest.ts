@@ -97,9 +97,10 @@ export default {
 
       confirmationRow.addComponents(yesButton, noButton);
 
-      const m = await message.channel.send(
-        `:question: Did you mean ${foundChallengeRole.name}?`
-      );
+      const m = await message.channel.send({
+        content: `:question: Did you mean ${foundChallengeRole.name}?`,
+        components: [confirmationRow]
+      });
 
       const confirmationInteraction = await client.awaitMessageComponent(
         message.channel,
