@@ -1,0 +1,6 @@
+{
+  "watch": ["src/"],
+  "ext": "ts,json",
+  "ignore": "labels.json",
+  "exec": "ts-node ./src/index.ts --enable-source-maps"
+}

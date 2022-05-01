@@ -1,0 +1,33 @@
+{
+  "guildId": "guild (server) id",
+  "dev": true,
+  "devID": "your id",
+  "commandsPath": "./commands",
+  "eventsPath": "./events",
+  "tasksPath": "./tasks",
+  "deleteUnusedSlashCommands": true,
+  "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
+  "repo": "monkeytypegame/monkeytype",
+  "repoPath": "../monkeytype",
+  "roles": {
+    "memberRole": "member role id"
+  },
+  "wpmRoles": [
+    {
+      "id": "role id",
+      "min": 0,
+      "max": 99
+    }
+  ],
+  "challenges": {
+    "name": "role id"
+  },
+  "channels": {
+    "botLog": "channel id where the bot will log debug messages",
+    "lounge": "lounge id",
+    "updates": "updates channel id",
+    "botCommands": "bot commands channel id",
+    "challengeSubmissions": "challenge submission channel id",
+    "challengeSubmissionsMods": "challenge submission moderation channel id"
+  }
+}
