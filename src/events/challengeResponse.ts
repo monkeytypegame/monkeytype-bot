@@ -104,11 +104,11 @@ export default {
 
       member
         .send(
-          `Challenge "${challengeRole?.name}" accepted! You will be given the role shortly.`
+          `:white_check_mark: Challenge "${challengeRole?.name}" accepted! You will be given the role shortly.`
         )
         .catch(() => {
           challengeMessage.reply(
-            `Challenge "${challengeRole?.name}" accepted! You will be given the role shortly.`
+            `:white_check_mark: Challenge "${challengeRole?.name}" accepted! You will be given the role shortly.`
           );
         });
 
@@ -172,13 +172,13 @@ export default {
 
       member
         .send(
-          `Challenge "${
+          `:x: Challenge "${
             challengeRole?.name
           }" declined with reasons:\n${declineReasons.join("\n")}`
         )
         .catch(() => {
           challengeMessage.reply(
-            `Challenge "${
+            `:x: Challenge "${
               challengeRole?.name
             }" declined with reasons:\n${declineReasons.join("\n")}`
           );
