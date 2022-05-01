@@ -3,7 +3,7 @@
 import type { Command } from "../../interfaces/Command";
 import { getStats } from "../../dal/challengeRequestStats";
 import { MessageEmbedOptions } from "discord.js";
-import differenceInDays from "date-fns/differenceInDays";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 export default {
   name: "challenge-requests-stats",
@@ -32,7 +32,7 @@ export default {
         {
           name: "Last Accepted",
           value: stat.lastAccepted
-            ? differenceInDays(new Date(), stat.lastAccepted) + " days ago"
+            ? formatDistanceToNow(stat.lastAccepted) + " ago"
             : "-",
           inline: true
         },
@@ -49,7 +49,7 @@ export default {
         {
           name: "Last Denied",
           value: stat.lastDenied
-            ? differenceInDays(new Date(), stat.lastDenied) + " days ago"
+            ? formatDistanceToNow(stat.lastDenied) + " ago"
             : "-",
           inline: true
         },
