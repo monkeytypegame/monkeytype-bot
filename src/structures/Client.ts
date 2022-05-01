@@ -4,7 +4,12 @@ import * as Discord from "discord.js";
 import type { Channels, ClientOptions } from "../interfaces/ClientOptions";
 import type { Command } from "../interfaces/Command";
 import type { Event } from "../interfaces/Event";
-import type { Task, TaskFile, UnknownTask } from "../interfaces/Task";
+import type {
+  Task,
+  TaskFile,
+  TaskResult,
+  UnknownTask
+} from "../interfaces/Task";
 import { promisify } from "util";
 import { resolve, join } from "path";
 import { APIMessage } from "discord-api-types";
@@ -53,7 +58,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   }
 
   public initWorker(): void {
-    const worker = new Worker<UnknownTask>(
+    const worker = new Worker<UnknownTask, TaskResult | undefined>(
       "george-tasks",
       async (job) => {
         const unknownTask = job.data;
@@ -92,25 +97,35 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           ...task.args
         );
 
-        console.log(
-          `Task ${task.name} finished ${
-            result.status ? "successfully" : `with errors\n${result.message}`
-          }.`
-        );
-
-        if (result.status) {
-          console.log(`Task ${task.name} completed.`);
-          console.log(result.message);
-          this.logInBotLogChannel(result.message);
-        } else {
-          console.log(result.message);
-          this.logInBotLogChannel(result.message);
-        }
+        return result;
       },
       {
         connection: redis()
       }
     );
+
+    worker.on("completed", (job, result) => {
+      if (result === undefined) {
+        return;
+      }
+
+      const taskName = job.data.name ?? job.data.command;
+
+      console.log(
+        `Task ${taskName} finished ${
+          result.status ? "successfully" : `with errors\n${result.message}`
+        }.`
+      );
+
+      if (result.status) {
+        console.log(`Task ${taskName} completed.`);
+        console.log(result.message);
+        this.logInBotLogChannel(result.message);
+      } else {
+        console.log(result.message);
+        this.logInBotLogChannel(result.message);
+      }
+    });
 
     console.log(`Initialized task worker "${worker.name}"`);
   }
