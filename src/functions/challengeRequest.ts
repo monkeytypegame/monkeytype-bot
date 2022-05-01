@@ -3,6 +3,11 @@ import * as fs from "fs";
 import { parseJSON, readFileOrCreate } from "./file";
 import { ChallengeRequest } from "../interfaces/ChallengeRequest";
 
+export function getRequestCount(): number {
+  const data = getRequests();
+  return data.length;
+}
+
 export function getRequests(): ChallengeRequest[] {
   return parseJSON(readFileOrCreate("challengeRequests.json", "[]"));
 }
