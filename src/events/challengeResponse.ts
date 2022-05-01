@@ -45,6 +45,10 @@ export default {
     );
 
     if (challengeSubmissionsChannel === undefined) {
+      interaction.reply(
+        ":x: The challenge submissions channel could not be found"
+      );
+
       return;
     }
 
@@ -57,6 +61,8 @@ export default {
     const embed = message.embeds[0];
 
     if (embed === undefined) {
+      interaction.reply(":x: The embed could not be found on the message");
+
       return;
     }
 
@@ -71,6 +77,8 @@ export default {
       proof === undefined ||
       challengeMessageLink === undefined
     ) {
+      interaction.reply(":x: There seems to be data missing from the embed");
+
       return;
     }
 
@@ -82,6 +90,10 @@ export default {
       .catch(() => undefined);
 
     if (challengeMessageID === undefined || member === undefined) {
+      interaction.reply(
+        ":x: The challenge message id or member could not be found"
+      );
+
       return;
     }
 
@@ -92,6 +104,10 @@ export default {
     const challengeRequest = getRequest(userID, challengeMessageID);
 
     if (challengeRequest === undefined || challengeMessage === undefined) {
+      interaction.reply(
+        ":x: The challenge request or message could not be found"
+      );
+
       return;
     }
 
@@ -152,6 +168,11 @@ export default {
       );
 
       if (declineReasonInteraction === undefined) {
+        interaction.editReply({
+          content: ":x: The decline reason selection menu timed out",
+          components: []
+        });
+
         return;
       }
 
