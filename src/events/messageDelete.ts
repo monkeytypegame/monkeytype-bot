@@ -5,16 +5,9 @@ import { Event } from "../interfaces/Event";
 export default {
   event: "messageDelete",
   run: async (client, message) => {
-    if (message.guild === null) {
+    if (message.guild === null || message.author?.bot) {
       return;
     }
-
-    // const fetchedLogs = await message.guild.fetchAuditLogs({
-    //   limit: 1,
-    //   type: "MESSAGE_DELETE"
-    // });
-
-    // const deletionLog = fetchedLogs.entries.first();
 
     client.logInBotLogChannel(
       `:wastebasket: ${message.author}'s message in ${message.channel} was deleted:\n${message.content}`
