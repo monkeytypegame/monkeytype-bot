@@ -5,7 +5,7 @@ import {
   deleteRequest,
   getRequest,
   getRequestCount
-} from "../functions/challengeRequest";
+} from "../dal/challengeRequest";
 import {
   MessageActionRow,
   MessageSelectMenu,
