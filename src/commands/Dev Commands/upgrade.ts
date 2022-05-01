@@ -16,6 +16,6 @@ export default {
 
     subprocess.unref();
 
-    interaction.reply(":thinking: Upgrading...");
+    interaction.reply("🤔 Upgrading...");
   }
 } as Command;

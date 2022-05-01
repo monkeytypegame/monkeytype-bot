@@ -10,7 +10,7 @@ export default {
     }
 
     client.logInBotLogChannel(
-      `:wastebasket: ${message.author}'s message in ${message.channel} was deleted:\n${message.content}`
+      `🗑️ ${message.author}'s message in ${message.channel} was deleted:\n${message.content}`
     );
   }
 } as Event<"messageDelete">;

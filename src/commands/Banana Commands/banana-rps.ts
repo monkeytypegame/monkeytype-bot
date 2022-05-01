@@ -50,17 +50,17 @@ export default {
       getUser(client.user.id) ?? createUser(client.user.id);
 
     if (amount < 1) {
-      interaction.reply(":x: You must bet at least 1 banana.");
+      interaction.reply("❌ You must bet at least 1 banana.");
       return;
     }
 
     if (authorBananaEntry.balance < amount) {
-      interaction.reply(":x: You do not have enough bananas to bet.");
+      interaction.reply("❌ You do not have enough bananas to bet.");
       return;
     }
 
     if (currentlyPlaying.has(interaction.user.id)) {
-      interaction.reply(":x: You are already playing.");
+      interaction.reply("❌ You are already playing.");
       return;
     }
 
@@ -86,7 +86,7 @@ export default {
           },
           {
             name: client.user.username,
-            value: ":grey_question:",
+            value: "❔",
             inline: true
           }
         ]

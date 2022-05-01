@@ -11,15 +11,13 @@ export default {
   needsPermissions: true,
   run: async (interaction, client) => {
     if (interaction.guild?.ownerId !== interaction.user.id) {
-      interaction.reply(
-        ":x: You must be the server owner to run this command."
-      );
+      interaction.reply("❌ You must be the server owner to run this command.");
 
       return;
     }
 
     if (client.permissionsAdded.has(interaction.guild?.id ?? "")) {
-      interaction.reply(":x: Commands have already been unlocked.");
+      interaction.reply("❌ Commands have already been unlocked.");
 
       return;
     }

@@ -27,7 +27,7 @@ export default {
 
     interaction.followUp({
       ephemeral: true,
-      content: ":white_check_mark: Successfully pushed quotes to GitHub"
+      content: "✅ Successfully pushed quotes to GitHub"
     });
   }
 } as Command;

@@ -35,7 +35,7 @@ export default {
     if (!user) {
       interaction.followUp({
         ephemeral: true,
-        content: ":x: Could not find user"
+        content: "❌ Could not find user"
       });
 
       return;
@@ -53,7 +53,7 @@ export default {
 
         interaction.followUp({
           ephemeral: true,
-          content: ":x: Could not update config. User has no config."
+          content: "❌ Could not update config. User has no config."
         });
 
         return;
@@ -61,7 +61,7 @@ export default {
 
     interaction.followUp({
       ephemeral: true,
-      content: ":white_check_mark: Done!"
+      content: "✅ Done!"
     });
   }
 } as Command;

@@ -48,7 +48,11 @@ export default {
         if (randomBoolean()) {
           message.channel.send(":(");
         } else {
-          message.channel.send("<:hmph:736029217380237363>");
+          message.channel.send(
+            message.guild?.emojis.cache
+              .find((e) => e.name === "hmph")
+              ?.toString() ?? "<:hmph:736029217380237363>"
+          );
         }
       } else if (
         /(good|nice|thanks|good job|thank you|ty|great)/g.test(
@@ -69,7 +73,7 @@ export default {
       const channel = message.guild?.channels.cache.get("741305227637948509");
 
       message.channel.send(
-        `:question: Hey ${message.author}, checkout the ${channel} channel.`
+        `❓ Hey ${message.author}, checkout the ${channel} channel.`
       );
     }
 

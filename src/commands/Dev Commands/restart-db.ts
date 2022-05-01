@@ -39,7 +39,7 @@ export default {
     );
 
     if (buttonInteraction === undefined) {
-      interaction.followUp(":x: Timed out.");
+      interaction.followUp("❌ Timed out.");
 
       return;
     }
@@ -59,7 +59,7 @@ export default {
         }
       });
     } else if (buttonInteraction.customId === "restartDBNo") {
-      buttonInteraction.reply(":x: Cancelled");
+      buttonInteraction.reply("❌ Cancelled");
     }
   }
 } as Command;

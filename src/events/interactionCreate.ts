@@ -22,7 +22,7 @@ export default {
         command.name !== "unlock-commands"
       ) {
         interaction.reply(
-          `:x: Commands have not been unlocked for this server.\nServer owner must run /unlock-commands to unlock commands`
+          `❌ Commands have not been unlocked for this server.\nServer owner must run /unlock-commands to unlock commands`
         );
 
         return;
@@ -37,10 +37,10 @@ export default {
         );
 
         client.logInBotLogChannel(
-          `:x: An error occured running command "${command.name}"\n${err}`
+          `❌ An error occured running command "${command.name}"\n${err}`
         );
 
-        const msg = `:x: Unexpected error occured. Please report this.`;
+        const msg = `❌ Unexpected error occured. Please report this.`;
 
         interaction.reply(msg).catch(() => {
           console.log("Couldn't reply, sending followUp instead.");

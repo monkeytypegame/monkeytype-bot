@@ -40,7 +40,7 @@ export default {
 
     if (botCommandsChannel !== undefined) {
       botCommandsChannel.send(
-        `:white_check_mark: ${member}, your account is unlinked.`
+        `✅ ${member}, your account is unlinked.`
       );
     }
 

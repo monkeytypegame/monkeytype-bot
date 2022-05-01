@@ -41,7 +41,7 @@ export default {
       (amount === null && guess !== null)
     ) {
       interaction.reply(
-        ":x: You must specify both/neither an amount and a guess."
+        "❌ You must specify both/neither an amount and a guess."
       );
 
       return;
@@ -106,12 +106,12 @@ export default {
     }
 
     if (amount < 1) {
-      interaction.reply(":x: You must bet at least 1 banana.");
+      interaction.reply("❌ You must bet at least 1 banana.");
       return;
     }
 
     if (authorBananaEntry.balance < amount) {
-      interaction.reply(":x: You do not have enough bananas to bet.");
+      interaction.reply("❌ You do not have enough bananas to bet.");
       return;
     }
 

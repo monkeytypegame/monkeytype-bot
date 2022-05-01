@@ -26,7 +26,7 @@ export default {
 
     if (snapshot === null) {
       interaction.followUp({
-        content: ":x: Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are paired."
       });
     }
 
@@ -93,7 +93,7 @@ export default {
     }
 
     if (time60Bananas > 0) {
-      embed.addField("Bonus! :partying_face:", time60Bananas.toString());
+      embed.addField("Bonus! 🥳", time60Bananas.toString());
 
       bananaEntry.balance += time60Bananas;
 

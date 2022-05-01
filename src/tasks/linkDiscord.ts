@@ -38,7 +38,7 @@ export default {
 
     if (botCommandsChannel !== undefined) {
       botCommandsChannel.send(
-        `:white_check_mark: ${member}, your account is linked.`
+        `✅ ${member}, your account is linked.`
       );
     }
 

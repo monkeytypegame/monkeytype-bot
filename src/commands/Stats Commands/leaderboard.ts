@@ -77,7 +77,7 @@ export default {
 
     if (leaderboardArray.length === 0) {
       return interaction.followUp(
-        ":x: There are no users on the leaderboard. Did you enter in a valid mode?"
+        "❌ There are no users on the leaderboard. Did you enter in a valid mode?"
       );
     }
 

@@ -33,18 +33,18 @@ export default {
 
     if (targetBananaEntry === undefined) {
       interaction.reply(
-        ":x: The user you are donating to does not have a banana profile."
+        "❌ The user you are donating to does not have a banana profile."
       );
       return;
     }
 
     if (amount < 1) {
-      interaction.reply(":x: You must donate at least 1 banana.");
+      interaction.reply("❌ You must donate at least 1 banana.");
       return;
     }
 
     if (authorBananaEntry.balance < amount) {
-      interaction.reply(":x: You do not have enough bananas to donate.");
+      interaction.reply("❌ You do not have enough bananas to donate.");
       return;
     }
 
@@ -55,7 +55,7 @@ export default {
     setUser(targetUser.id, targetBananaEntry);
 
     interaction.reply(
-      `:white_check_mark: Successfully donated ${amount} banana(s) to ${targetUser.tag}.`
+      `✅ Successfully donated ${amount} banana(s) to ${targetUser.tag}.`
     );
   }
 } as Command;

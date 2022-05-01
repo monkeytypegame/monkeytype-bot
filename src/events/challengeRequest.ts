@@ -7,9 +7,9 @@ import { Event } from "../interfaces/Event";
 type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
 
 function fail(message: Message<boolean>, reason: FailReasons): void {
-  let string = ":x: Something went wrong";
+  let string = "❌ Something went wrong";
   if (reason === "badFormat") {
-    string = ":x: Please use the correct format to submit a challenge:";
+    string = "❌ Please use the correct format to submit a challenge:";
     string += "```[bot ping]\n[role ping]\n";
     string += "[proof (any amount separated by new lines)]```";
     string += "for example:";
@@ -17,9 +17,9 @@ function fail(message: Message<boolean>, reason: FailReasons): void {
     string += "or";
     string += "```@George\n@Accuracy Expert\n(attached screenshot)```";
   } else if (reason === "invalidChallenge") {
-    string = ":x: Challenge role not found";
+    string = "❌ Challenge role not found";
   } else if (reason === "noProof") {
-    string = ":x: Please provide proof that you've completed the challenge";
+    string = "❌ Please provide proof that you've completed the challenge";
   }
   message.channel.send(string);
 }
@@ -98,7 +98,7 @@ export default {
       confirmationRow.addComponents(yesButton, noButton);
 
       const m = await message.channel.send({
-        content: `:question: Did you mean ${foundChallengeRole.name}?`,
+        content: `❓ Did you mean ${foundChallengeRole.name}?`,
         components: [confirmationRow]
       });
 

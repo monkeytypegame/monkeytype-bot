@@ -37,7 +37,7 @@ export default {
     if (user === null || user.uid === undefined) {
       interaction.reply({
         ephemeral: true,
-        content: ":x: Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are paired."
       });
 
       return;
@@ -60,7 +60,7 @@ export default {
 
     if (result === undefined) {
       interaction.followUp({
-        content: ":x: No recent result found."
+        content: "❌ No recent result found."
       });
 
       return;
@@ -112,7 +112,7 @@ export default {
 
       if (quote === undefined) {
         interaction.followUp({
-          content: ":x: Could not find quote"
+          content: "❌ Could not find quote"
         });
 
         return;
@@ -144,7 +144,7 @@ export default {
       );
     } else {
       interaction.followUp({
-        content: ":x: Last result was not time, mode, or quote"
+        content: "❌ Last result was not time, mode, or quote"
       });
 
       return;

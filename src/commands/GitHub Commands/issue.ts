@@ -52,7 +52,7 @@ export default {
   run: async (interaction, client) => {
     if (apiToken === undefined) {
       interaction.reply({
-        content: ":x: The bot does not have a github api token attached!"
+        content: "❌ The bot does not have a github api token attached!"
       });
 
       return;
@@ -104,10 +104,10 @@ export default {
 
     if (response.ok) {
       interaction.followUp(
-        `:white_check_mark: Created! \n ${responseJson["html_url"]}`
+        `✅ Created! \n ${responseJson["html_url"]}`
       );
     } else {
-      interaction.followUp(":x: Could not create issue");
+      interaction.followUp("❌ Could not create issue");
     }
   }
 } as Command;

@@ -32,6 +32,6 @@ export default {
 
     channel.send({ content: message });
 
-    interaction.reply({ ephemeral: true, content: ":speech_balloon: Done." });
+    interaction.reply({ ephemeral: true, content: "💬 Done." });
   }
 } as Command;

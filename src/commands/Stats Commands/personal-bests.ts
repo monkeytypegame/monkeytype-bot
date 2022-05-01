@@ -29,7 +29,7 @@ export default {
     if (user === null) {
       interaction.reply({
         ephemeral: true,
-        content: ":x: Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are paired."
       });
 
       return;
@@ -41,7 +41,7 @@ export default {
       interaction.reply({
         ephemeral: true,
         content:
-          ":x: Could not find personal bests. Make sure accounts are paired and pbs are set."
+          "❌ Could not find personal bests. Make sure accounts are paired and pbs are set."
       });
 
       return;

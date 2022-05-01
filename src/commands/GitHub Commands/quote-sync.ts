@@ -26,7 +26,7 @@ export default {
 
     interaction.followUp({
       ephemeral: true,
-      content: ":white_check_mark: Successfully synced quotes from GitHub"
+      content: "✅ Successfully synced quotes from GitHub"
     });
   }
 } as Command;

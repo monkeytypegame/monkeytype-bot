@@ -23,7 +23,7 @@ export default {
       type: "WATCHING"
     });
 
-    client.logInBotLogChannel(":smile: Ready");
+    client.logInBotLogChannel("😄 Ready");
 
     connectDB().then(() => console.log("Database connected"));
 

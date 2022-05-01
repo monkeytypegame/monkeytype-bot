@@ -46,12 +46,12 @@ export default {
     if (response.status === 201 && response.statusText === "Created") {
       interaction.followUp({
         ephemeral: true,
-        content: `:white_check_mark: Successfully created pull request: \`\`\`${json.html_url}\`\`\``
+        content: `✅ Successfully created pull request: \`\`\`${json.html_url}\`\`\``
       });
     } else {
       interaction.followUp({
         ephemeral: true,
-        content: `:x: Error trying to create pull request: \`\`\`${json.message}\`\`\``
+        content: `❌ Error trying to create pull request: \`\`\`${json.message}\`\`\``
       });
     }
   }
