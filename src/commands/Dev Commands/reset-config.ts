@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/Command";
 import { mongoDB } from "../../functions/mongodb";
 import { DefaultConfig } from "../../constants/default-config";
 import { User } from "../../types";

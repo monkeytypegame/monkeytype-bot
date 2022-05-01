@@ -1,6 +1,6 @@
 /** @format */
 
-import { TaskFile } from "../interfaces/Task";
+import type { TaskFile } from "../interfaces/Task";
 
 export default {
   name: "unlinkDiscord",

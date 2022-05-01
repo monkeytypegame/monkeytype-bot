@@ -1,7 +1,7 @@
 /** @format */
 
 import { mongoDB } from "../../functions/mongodb";
-import { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/Command";
 import { User } from "../../types";
 import moment from "moment";
 

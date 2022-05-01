@@ -1,7 +1,7 @@
 /** @format */
 
 import { MessageEmbedOptions } from "discord.js";
-import { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/Command";
 
 export default {
   name: "in-role",

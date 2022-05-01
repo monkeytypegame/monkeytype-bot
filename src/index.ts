@@ -1,7 +1,7 @@
 /** @format */
 
 import { Client } from "./structures/Client";
-import { ClientOptions } from "./interfaces/ClientOptions";
+import type { ClientOptions } from "./interfaces/ClientOptions";
 import { config } from "dotenv";
 import clientOptions from "./config/config.json";
 import fetch from "node-fetch";

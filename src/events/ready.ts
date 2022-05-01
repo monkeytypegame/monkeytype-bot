@@ -1,7 +1,7 @@
 /** @format */
 
 import { connectDB } from "../functions/mongodb";
-import { Event } from "../interfaces/Event";
+import type { Event } from "../interfaces/Event";
 
 export default {
   event: "ready",

@@ -1,7 +1,7 @@
 /** @format */
 import * as fs from "fs";
 import { parseJSON, readFileOrCreate } from "./file";
-import { ChallengeRequest } from "../interfaces/ChallengeRequest";
+import type { ChallengeRequest } from "../interfaces/ChallengeRequest";
 
 export function getRequestCount(): number {
   const data = getRequests();

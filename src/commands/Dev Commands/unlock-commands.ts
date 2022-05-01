@@ -1,7 +1,7 @@
 /** @format */
 
 import { MessageActionRow, MessageButton } from "discord.js";
-import { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/Command";
 import { Client } from "../../structures/Client";
 
 export default {

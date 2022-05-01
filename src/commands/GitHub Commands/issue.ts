@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/Command";
 import fetch from "node-fetch-commonjs";
 import { parseJSON, readFileOrCreate } from "../../functions/file";
 

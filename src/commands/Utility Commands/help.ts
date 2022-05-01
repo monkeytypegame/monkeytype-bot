@@ -2,7 +2,7 @@
 
 import { EmbedFieldData } from "discord.js";
 import { toPascalCase } from "../../functions/toPascalCase";
-import { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/Command";
 
 export default {
   name: "help",

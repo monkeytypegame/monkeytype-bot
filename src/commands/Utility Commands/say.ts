@@ -1,7 +1,7 @@
 /** @format */
 
 import { NewsChannel, TextChannel } from "discord.js";
-import { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/Command";
 
 export default {
   name: "say",

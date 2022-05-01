@@ -1,6 +1,6 @@
 /** @format */
 
-import { Event } from "../interfaces/Event";
+import type { Event } from "../interfaces/Event";
 
 export default {
   event: "interactionCreate",

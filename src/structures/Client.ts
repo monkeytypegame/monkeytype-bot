@@ -1,16 +1,16 @@
 /** @format */
 
 import * as Discord from "discord.js";
-import { Channels, ClientOptions } from "../interfaces/ClientOptions";
+import type { Channels, ClientOptions } from "../interfaces/ClientOptions";
 import type { Command } from "../interfaces/Command";
-import globCB from "glob";
+import type { Event } from "../interfaces/Event";
+import type { QueuedTask, Task, TaskFile } from "../interfaces/Task";
 import { promisify } from "util";
 import { resolve, join } from "path";
-import { Event } from "../interfaces/Event";
 import { APIMessage } from "discord-api-types";
 import { queue } from "async";
-import { QueuedTask, Task, TaskFile } from "../interfaces/Task";
 import { mongoDB } from "../functions/mongodb";
+import globCB from "glob";
 
 interface PaginationOptions<T> {
   embedOptions: Discord.MessageEmbedOptions;

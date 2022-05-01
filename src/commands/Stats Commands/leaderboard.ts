@@ -1,6 +1,6 @@
 /** @format */
 
-import { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/Command";
 import { User, LeaderboardEntry } from "../../types";
 import { mongoDB } from "../../functions/mongodb";
 

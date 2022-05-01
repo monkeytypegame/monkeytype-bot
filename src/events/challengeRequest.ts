@@ -2,7 +2,7 @@
 import { Message, MessageActionRow, MessageButton } from "discord.js";
 import { compareTwoStrings } from "string-similarity";
 import { addRequest, getRequestCount } from "../functions/challengeRequest";
-import { Event } from "../interfaces/Event";
+import type { Event } from "../interfaces/Event";
 
 type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
 
