@@ -31,10 +31,11 @@ interface PaginationOptions<T> {
 }
 
 export class Client<T extends boolean> extends Discord.Client<T> {
-  public clientOptions: ClientOptions;
-  public glob = promisify(globCB);
-  public iconURL =
+  public static timeoutTime = 60000;
+  public static iconURL =
     "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";
+  public static glob = promisify(globCB);
+  public clientOptions: ClientOptions;
   public commands = new Discord.Collection<string, Command>();
   public tasks = new Discord.Collection<string, TaskFile>();
   public categories: string[] = [];
@@ -99,7 +100,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   }
 
   public async load(): Promise<[number, number]> {
-    const commandFiles = await this.glob(
+    const commandFiles = await Client.glob(
       resolve(
         __dirname,
         "../",
@@ -109,7 +110,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       )
     );
 
-    const eventFiles = await this.glob(
+    const eventFiles = await Client.glob(
       resolve(
         __dirname,
         "../",
@@ -119,7 +120,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       )
     );
 
-    const taskFiles = await this.glob(
+    const taskFiles = await Client.glob(
       resolve(__dirname, "../", this.clientOptions.tasksPath, "**", "*.{ts,js}")
     );
 
@@ -212,7 +213,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     embedOptions.footer = {
       text: "www.monkeytype.com",
-      iconURL: this.iconURL
+      iconURL: Client.iconURL
     };
 
     if (embedOptions.author === undefined && user !== undefined) {
@@ -300,7 +301,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       componentType: "BUTTON",
       dispose: true,
       message: msg,
-      time: 60000
+      time: Client.timeoutTime
     });
 
     collector.on("collect", (buttonInteraction) => {
@@ -368,7 +369,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       [Discord.MessageComponentInteraction<"cached">]
     >,
     componentType: T,
-    time = 60000
+    time = Client.timeoutTime
   ): Promise<Discord.MappedInteractionTypes[T] | undefined> {
     return channel
       ?.awaitMessageComponent({
