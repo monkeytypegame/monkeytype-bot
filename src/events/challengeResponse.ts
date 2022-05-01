@@ -1,7 +1,11 @@
 /** @format */
 
 import { Event } from "../interfaces/Event";
-import { deleteRequest, getRequest, getRequestCount } from "../functions/challengeRequest";
+import {
+  deleteRequest,
+  getRequest,
+  getRequestCount
+} from "../functions/challengeRequest";
 import {
   MessageActionRow,
   MessageSelectMenu,
