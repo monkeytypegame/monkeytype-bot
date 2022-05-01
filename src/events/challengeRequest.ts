@@ -1,7 +1,7 @@
 /** @format */
 import { Message, MessageActionRow, MessageButton } from "discord.js";
 import { compareTwoStrings } from "string-similarity";
-import { addRequest } from "../functions/challengeRequest";
+import { addRequest, getRequestCount } from "../functions/challengeRequest";
 import { Event } from "../interfaces/Event";
 
 type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
@@ -161,7 +161,12 @@ export default {
 
     challengeSubmissionsModsChannel.send({
       embeds: [embed],
-      components: [row]
+      components: [row],
+      files: Array.from(message.attachments.values())
+    });
+
+    challengeSubmissionsModsChannel.edit({
+      name: `${getRequestCount()}-cs-mods`
     });
   }
 } as Event<"messageCreate">;

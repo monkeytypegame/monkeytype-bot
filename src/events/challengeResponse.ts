@@ -1,7 +1,7 @@
 /** @format */
 
 import { Event } from "../interfaces/Event";
-import { deleteRequest, getRequest } from "../functions/challengeRequest";
+import { deleteRequest, getRequest, getRequestCount } from "../functions/challengeRequest";
 import {
   MessageActionRow,
   MessageSelectMenu,
@@ -190,6 +190,11 @@ export default {
       });
 
       deleteRequest(userID, challengeMessageID);
+    }
+    if (message.channel.type === "GUILD_TEXT") {
+      message.channel.edit({
+        name: `${getRequestCount()}-cs-mods`
+      });
     }
   }
 } as Event<"interactionCreate">;
