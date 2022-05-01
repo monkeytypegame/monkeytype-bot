@@ -8,6 +8,8 @@
     "run": "node .",
     "start": "yarn build && yarn run run",
     "dev": "nodemon",
+    "pretty": "prettier 'src/**/*.ts'",
+    "pretty:fix": "prettier --write 'src/**/*.ts'",
     "lint": "eslint -c .eslintrc.json 'src/**/*.ts'",
     "lint:fix": "eslint --fix -c .eslintrc.json 'src/**/*.ts'",
     "quote": "yarn build && node dist/insertQuote.js"
@@ -30,7 +32,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "yarn pretty:fix && yarn lint:fix"
     }
   },
   "devDependencies": {

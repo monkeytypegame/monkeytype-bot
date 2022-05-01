@@ -37,9 +37,7 @@ export default {
     const botCommandsChannel = await client.getChannel("botCommands");
 
     if (botCommandsChannel !== undefined) {
-      botCommandsChannel.send(
-        `✅ ${member}, your account is linked.`
-      );
+      botCommandsChannel.send(`✅ ${member}, your account is linked.`);
     }
 
     return {

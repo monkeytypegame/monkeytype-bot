@@ -3,10 +3,12 @@
 import type { Command } from "../../interfaces/Command";
 import fetch from "node-fetch-commonjs";
 import { parseJSON, readFileOrCreate } from "../../functions/file";
+import { ApplicationCommandOption } from "discord.js";
 
 const labels: string[] = parseJSON(readFileOrCreate("labels.json", "[]"));
 
-const labelOption = {
+const labelOption: ApplicationCommandOption = {
+  name: "label",
   description: "Add a label to the issue",
   type: "STRING",
   required: false,
@@ -36,16 +38,16 @@ export default {
       required: false
     },
     {
-      name: "label1",
-      ...labelOption
+      ...labelOption,
+      name: "label1"
     },
     {
-      name: "label2",
-      ...labelOption
+      ...labelOption,
+      name: "label2"
     },
     {
-      name: "label3",
-      ...labelOption
+      ...labelOption,
+      name: "label3"
     }
   ],
   needsPermissions: true,
@@ -103,9 +105,7 @@ export default {
     };
 
     if (response.ok) {
-      interaction.followUp(
-        `✅ Created! \n ${responseJson["html_url"]}`
-      );
+      interaction.followUp(`✅ Created! \n ${responseJson["html_url"]}`);
     } else {
       interaction.followUp("❌ Could not create issue");
     }
