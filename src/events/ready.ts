@@ -36,7 +36,9 @@ export default {
     client.logInBotLogChannel("😄 Ready");
 
     connectDB().then(() => console.log("Database connected"));
-    connectRedis().then(() => console.log("Redis connected"));
+    connectRedis().then(() => {
+      console.log("Redis connected");
+    });
 
     fetchLabels(client);
 

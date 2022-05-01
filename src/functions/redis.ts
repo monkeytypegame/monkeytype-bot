@@ -1,8 +1,8 @@
 /** @format */
 
-import { createClient } from "redis";
+import Redis from "ioredis";
 
-let redisClient: ReturnType<typeof createClient>;
+let redisClient: Redis;
 
 export async function connectRedis() {
   const redisURI = process.env["REDIS_URI"];
@@ -12,16 +12,10 @@ export async function connectRedis() {
     process.exit(1);
   }
 
-  const client = createClient({ url: redisURI });
-
-  await client.connect().catch((err) => {
-    console.log(err);
-    process.exit(1);
+  redisClient = new Redis(redisURI, {
+    lazyConnect: true,
+    enableReadyCheck: false
   });
-
-  if (client) {
-    redisClient = client;
-  }
 
   return redisClient;
 }
