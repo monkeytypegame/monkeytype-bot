@@ -96,7 +96,11 @@ export default {
       .catch(() => undefined);
 
     if (accepted) {
-      interaction.reply("Challenge accepted!");
+      const newEmbeds = message.embeds;
+      newEmbeds[0]?.addFields({
+        name: "Accepted by",
+        value: `${interaction.member.user}`
+      });
 
       member
         .send(
@@ -111,7 +115,7 @@ export default {
       member.roles.add(challengeRoleID);
 
       message.edit({
-        embeds: message.embeds,
+        embeds: newEmbeds,
         components: []
       });
 
@@ -155,9 +159,16 @@ export default {
             ?.description
       );
 
-      declineReasonInteraction.reply(
-        `Declined with reasons:\n${declineReasons.join("\n")}`
-      );
+      const newEmbeds = message.embeds;
+      newEmbeds[0]?.addFields({
+        name: "Declined by",
+        value: `<@${interaction.member.user.id}>`
+      });
+
+      newEmbeds[0]?.addFields({
+        name: "Reasons",
+        value: declineReasons.join("\n")
+      });
 
       member
         .send(
@@ -174,7 +185,7 @@ export default {
         });
 
       message.edit({
-        embeds: message.embeds,
+        embeds: newEmbeds,
         components: []
       });
 
