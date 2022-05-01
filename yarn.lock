@@ -135,6 +135,11 @@
 "@types/node@*":
   "version" "13.13.9"
 
+"@types/string-similarity@^4.0.0":
+  "integrity" "sha512-dMS4S07fbtY1AILG/RhuwmptmzK1Ql8scmAebOTJ/8iBtK/KI17NwGwKzu1uipjj8Kk+3mfPxum56kKZE93mzQ=="
+  "resolved" "https://registry.npmjs.org/@types/string-similarity/-/string-similarity-4.0.0.tgz"
+  "version" "4.0.0"
+
 "@types/webidl-conversions@*":
   "integrity" "sha512-XAahCdThVuCFDQLT7R7Pk/vqeObFNL3YqRyFZg+AqAP/W1/w3xHaIxuW7WszQqTbIBOPRcItYJIou3i/mppu3Q=="
   "resolved" "https://registry.npmjs.org/@types/webidl-conversions/-/webidl-conversions-6.1.1.tgz"
