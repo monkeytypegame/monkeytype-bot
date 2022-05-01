@@ -1,5 +1,6 @@
 /** @format */
 import { Message, MessageActionRow, MessageButton } from "discord.js";
+import { compareTwoStrings } from "string-similarity";
 import { addRequest } from "../functions/challengeRequest";
 import { Event } from "../interfaces/Event";
 
@@ -65,20 +66,28 @@ export default {
       return;
     }
 
-    const challengeRoleId = Object.values(client.clientOptions.challenges).find(
-      (cid) => cid === message.mentions.roles.first()?.id
-    );
+    const foundChallengeRole = Object.entries(client.clientOptions.challenges)
+      .map((challenge) => {
+        return {
+          name: challenge[0],
+          id: challenge[1],
+          ss: compareTwoStrings(challenge[0], messageSplit[1] ?? "")
+        };
+      })
+      .sort((a, b) => b.ss - a.ss)[0];
 
-    if (challengeRoleId === undefined) {
+    if (foundChallengeRole === undefined) {
       fail(message, "invalidChallenge");
 
       return;
     }
 
+    //add "did you mean" foundChallengeRole.name confirmation
+
     addRequest({
       userID: message.author.id,
       messageID: message.id,
-      challengeRoleID: challengeRoleId,
+      challengeRoleID: foundChallengeRole.id,
       proof,
       timestamp: Date.now()
     });
@@ -93,7 +102,9 @@ export default {
       return;
     }
 
-    const challengeRole = await message.guild.roles.cache.get(challengeRoleId);
+    const challengeRole = await message.guild.roles.cache.get(
+      foundChallengeRole.id
+    );
 
     if (challengeRole === undefined) {
       return;
