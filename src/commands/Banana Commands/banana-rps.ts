@@ -24,7 +24,7 @@ const outcomeStringMap = {
 
 const outcomeColorMap = {
   win: 0x41fd5f,
-  tie: 0x1e1e1e,
+  tie: 0xede009,
   loss: 0xfd4141
 };
 
