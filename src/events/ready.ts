@@ -64,7 +64,7 @@ async function fetchLabels(client: Client<true>) {
   const response = await fetch(
     `https://api.github.com/repos/${client.clientOptions.repo}/labels`
   );
-  const json: GitHubLabel[] = (await response.json()) as any;
+  const json: GitHubLabel[] = (await response.json()) as GitHubLabel[];
 
   if (!_.isArray(json)) {
     console.log("Could not fetch labels from GitHub, might be rate limited");
