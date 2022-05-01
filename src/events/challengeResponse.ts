@@ -25,7 +25,7 @@ const declineReasonOptions: MessageSelectOptionData[] = [
   },
   {
     label: "High AFK",
-    description: "Your time away from keyboard was too large",
+    description: "You were AFK too long",
     value: "highAfk"
   },
   {
