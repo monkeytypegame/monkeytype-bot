@@ -5,6 +5,7 @@ import { ChallengeRequest } from "../interfaces/ChallengeRequest";
 
 export function getRequestCount(): number {
   const data = getRequests();
+
   return data.length;
 }
 

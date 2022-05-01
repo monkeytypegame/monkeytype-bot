@@ -195,6 +195,7 @@ export default {
 
       deleteRequest(userID, challengeMessageID);
     }
+
     if (message.channel.type === "GUILD_TEXT") {
       message.channel.edit({
         name: `${getRequestCount()}-cs-mods`
