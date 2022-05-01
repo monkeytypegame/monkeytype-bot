@@ -115,7 +115,14 @@ export default {
         confirmationInteraction === undefined ||
         confirmationInteraction.customId === "no"
       ) {
-        fail(message, "invalidChallenge");
+        m.edit({
+          content: `:question: Did you mean ${foundChallengeRole.name}?`,
+          components: []
+        });
+
+        m.react("❌");
+
+        confirmationInteraction?.deferUpdate();
 
         return;
       }
