@@ -40,11 +40,11 @@ export default {
 
     // User pinged the bot in the challenge-submissions channel
 
-    const messageSplit = message.content.split("\n").map((s) => s.trim());
+    const [botPing, roleName, ...proof] = message.content
+      .split("\n")
+      .map((s) => s.trim());
 
-    const proof: string[] = [];
-
-    if (!messageSplit || messageSplit.length < 2) {
+    if (!botPing || !roleName) {
       fail(message, "badFormat");
 
       return;
@@ -53,11 +53,6 @@ export default {
     if (message.attachments.size > 0) {
       //get all attachments
       proof.push(...message.attachments.map((a) => a.url));
-    }
-
-    if (messageSplit.length >= 3) {
-      //remove first 2 elements from array, return rest
-      proof.push(...messageSplit.slice(2));
     }
 
     if (!proof || proof.length === 0) {
@@ -71,10 +66,10 @@ export default {
         return {
           name: challenge[0],
           id: challenge[1],
-          ss: compareTwoStrings(challenge[0], messageSplit[1] ?? "")
+          similarity: compareTwoStrings(challenge[0], roleName)
         };
       })
-      .sort((a, b) => b.ss - a.ss)[0];
+      .sort((a, b) => b.similarity - a.similarity)[0];
 
     if (foundChallengeRole === undefined) {
       fail(message, "invalidChallenge");
@@ -83,6 +78,49 @@ export default {
     }
 
     //add "did you mean" foundChallengeRole.name confirmation
+    const exactMatch = compareTwoStrings(foundChallengeRole.name, roleName);
+
+    if (exactMatch < 1) {
+      const confirmationRow = new MessageActionRow();
+
+      const yesButton = new MessageButton()
+        .setCustomId("yes")
+        .setLabel("Yes")
+        .setStyle("SUCCESS")
+        .setDisabled(false);
+
+      const noButton = new MessageButton()
+        .setCustomId("no")
+        .setLabel("No")
+        .setStyle("DANGER")
+        .setDisabled(false);
+
+      confirmationRow.addComponents(yesButton, noButton);
+
+      const m = await message.channel.send(
+        `:x: Did you mean ${foundChallengeRole.name}?`
+      );
+
+      const confirmationInteraction = await client.awaitMessageComponent(
+        message.channel,
+        (i) =>
+          i.user.id === message.author.id &&
+          ["yes", "no"].includes(i.customId) &&
+          i.channel?.id === message.channel.id,
+        "BUTTON"
+      );
+
+      if (
+        confirmationInteraction === undefined ||
+        confirmationInteraction.customId === "no"
+      ) {
+        fail(message, "invalidChallenge");
+
+        return;
+      }
+
+      await m.delete();
+    }
 
     addRequest({
       userID: message.author.id,
@@ -143,7 +181,7 @@ export default {
       message.author
     );
 
-    const row = new MessageActionRow();
+    const approvalRow = new MessageActionRow();
 
     const acceptButton = new MessageButton()
       .setCustomId("accept")
@@ -157,11 +195,11 @@ export default {
       .setStyle("DANGER")
       .setDisabled(false);
 
-    row.addComponents(acceptButton, declineButton);
+    approvalRow.addComponents(acceptButton, declineButton);
 
     challengeSubmissionsModsChannel.send({
       embeds: [embed],
-      components: [row],
+      components: [approvalRow],
       files: Array.from(message.attachments.values())
     });
 
