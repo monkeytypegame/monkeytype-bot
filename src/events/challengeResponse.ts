@@ -22,6 +22,22 @@ const declineReasonOptions: MessageSelectOptionData[] = [
     label: "Requirements Not Met",
     description: "Your result did not meet the challenge requirements",
     value: "requirementsNotMet"
+  },
+  {
+    label: "High AFK",
+    description: "Your time away from keyboard was too large",
+    value: "highAfk"
+  },
+  {
+    label: "Invalid Challenge",
+    description:
+      "Challenge doesn't exist or proof doesn't apply to the requested challenge",
+    value: "invalidChallenge"
+  },
+  {
+    label: "Other",
+    description: "Contact a moderator for more info",
+    value: "other"
   }
 ];
 
