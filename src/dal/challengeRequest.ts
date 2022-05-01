@@ -10,8 +10,8 @@ export async function getRequests(): Promise<ChallengeRequest[]> {
   return await mongoDB().collection("bot-challenge-requests").find().toArray();
 }
 
-export function addRequest(data: ChallengeRequest): void {
-  mongoDB().collection("bot-challenge-requests").insertOne(data);
+export async function addRequest(data: ChallengeRequest): Promise<void> {
+  await mongoDB().collection("bot-challenge-requests").insertOne(data);
 }
 
 export async function getRequest(

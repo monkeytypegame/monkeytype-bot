@@ -126,7 +126,7 @@ export default {
       }
     }
 
-    addRequest({
+    await addRequest({
       _id: new ObjectId(),
       userID: message.author.id,
       messageID: message.id,
