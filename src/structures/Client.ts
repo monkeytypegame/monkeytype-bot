@@ -4,13 +4,13 @@ import * as Discord from "discord.js";
 import type { Channels, ClientOptions } from "../interfaces/ClientOptions";
 import type { Command } from "../interfaces/Command";
 import type { Event } from "../interfaces/Event";
-import type { QueuedTask, Task, TaskFile } from "../interfaces/Task";
+import type { Task, TaskFile, UnknownTask } from "../interfaces/Task";
 import { promisify } from "util";
 import { resolve, join } from "path";
 import { APIMessage } from "discord-api-types";
-import { queue } from "async";
-import { mongoDB } from "../functions/mongodb";
 import globCB from "glob";
+import { Worker } from "bullmq";
+import { redis } from "../functions/redis";
 
 interface PaginationOptions<T> {
   embedOptions: Discord.MessageEmbedOptions;
@@ -40,43 +40,6 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   public tasks = new Discord.Collection<string, TaskFile>();
   public categories = new Array<string>();
   public permissionsAdded = new Set<string>();
-  public taskQueue = queue<QueuedTask>(async (task, callback) => {
-    console.log(`queue length: ${this.taskQueue.length()}`);
-
-    const guild = await this.guild;
-
-    if (guild === undefined) {
-      console.error("Guild not found.");
-      return;
-    }
-
-    const result = await task.run(this as Client<true>, guild, ...task.args);
-
-    console.log(
-      `Task ${task.name} finished ${
-        result.status ? "successfully" : `with errors\n${result.message}`
-      }.`
-    );
-
-    if (result.status) {
-      console.log(`Task ${task.name} completed.`);
-      console.log(result.message);
-      this.logInBotLogChannel(result.message);
-    } else {
-      console.log(result.message);
-      this.logInBotLogChannel(result.message);
-    }
-
-    const db = mongoDB();
-
-    await db
-      .collection("bot-tasks")
-      .updateOne({ _id: task._id }, { $set: { executed: true } });
-
-    await db.collection("bot-tasks").deleteOne({ _id: task._id });
-
-    callback();
-  });
 
   constructor(options: ClientOptions) {
     super(options);
@@ -87,6 +50,69 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       process.cwd(),
       this.clientOptions.repoPath
     );
+  }
+
+  public initWorker(): void {
+    const worker = new Worker<UnknownTask>(
+      "george-tasks",
+      async (job) => {
+        const unknownTask = job.data;
+
+        if (unknownTask.command) {
+          unknownTask.name = unknownTask.command;
+        }
+
+        if (unknownTask.arguments) {
+          unknownTask.args = unknownTask.arguments;
+        }
+
+        const task = unknownTask as Task;
+
+        console.log(`Running task "${task.name}"`);
+
+        const guild = await this.guild;
+
+        if (guild === undefined) {
+          console.error("Guild not found.");
+
+          return;
+        }
+
+        const taskFile = this.tasks.get(task.name);
+
+        if (taskFile === undefined) {
+          console.error(`Task file for "${task.name}" not found.`);
+
+          return;
+        }
+
+        const result = await taskFile.run(
+          this as Client<true>,
+          guild,
+          ...task.args
+        );
+
+        console.log(
+          `Task ${task.name} finished ${
+            result.status ? "successfully" : `with errors\n${result.message}`
+          }.`
+        );
+
+        if (result.status) {
+          console.log(`Task ${task.name} completed.`);
+          console.log(result.message);
+          this.logInBotLogChannel(result.message);
+        } else {
+          console.log(result.message);
+          this.logInBotLogChannel(result.message);
+        }
+      },
+      {
+        connection: redis()
+      }
+    );
+
+    console.log(`Initialized task worker "${worker.name}"`);
   }
 
   public async start(token: string) {
@@ -406,24 +432,6 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     );
   }
 
-  public async appendTasks(): Promise<void> {
-    const db = mongoDB();
-
-    const tasks = <Task[]>(
-      await db.collection("bot-tasks").find({ executed: false }).toArray()
-    );
-
-    for (const task of tasks) {
-      const taskFile = this.tasks.get(task.name);
-
-      if (taskFile === undefined) {
-        continue;
-      }
-
-      this.taskQueue.push({ ...task, ...taskFile });
-    }
-  }
-
   public async getWPMRole(wpm: number): Promise<Discord.Role | undefined> {
     const guild = await this.guild;
 
@@ -439,7 +447,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       return;
     }
 
-    return guild.roles.cache.find((role) => role.id === roleID);
+    return (await guild.roles.fetch(roleID)) ?? undefined;
   }
 
   public async removeAllWPMRoles(member: Discord.GuildMember): Promise<void> {

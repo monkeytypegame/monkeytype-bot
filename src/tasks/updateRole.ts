@@ -12,7 +12,9 @@ export default {
       };
     }
 
-    const member = guild.members.cache.get(discordUserID);
+    const member = await guild.members
+      .fetch(discordUserID)
+      .catch(() => undefined);
 
     if (member === undefined) {
       return {

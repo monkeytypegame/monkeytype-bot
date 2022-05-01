@@ -12,7 +12,9 @@ export default {
       };
     }
 
-    const member = guild.members.cache.get(discordUserID);
+    const member = await guild.members
+      .fetch(discordUserID)
+      .catch(() => undefined);
 
     if (member === undefined) {
       return {
@@ -21,9 +23,10 @@ export default {
       };
     }
 
-    const challengeRole = guild.roles.cache.get(
-      client.clientOptions.challenges[challengeName] ?? ""
-    );
+    const challengeRole =
+      (await guild.roles.fetch(
+        client.clientOptions.challenges[challengeName] ?? ""
+      )) ?? undefined;
 
     if (challengeRole === undefined) {
       return {

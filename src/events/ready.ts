@@ -36,8 +36,10 @@ export default {
     client.logInBotLogChannel("😄 Ready");
 
     connectDB().then(() => console.log("Database connected"));
-    connectRedis().then(() => {
+    connectRedis().then(async () => {
       console.log("Redis connected");
+
+      client.initWorker();
     });
 
     fetchLabels(client);
@@ -49,8 +51,6 @@ export default {
 
       fetchLabels(client);
     }, 3600000);
-
-    setInterval(() => client.appendTasks(), 30000);
   }
 } as Event<"ready">;
 

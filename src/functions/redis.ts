@@ -13,6 +13,7 @@ export async function connectRedis() {
   }
 
   redisClient = new Redis(redisURI, {
+    maxRetriesPerRequest: null,
     lazyConnect: true,
     enableReadyCheck: false
   });

@@ -31,7 +31,9 @@ export default {
       };
     }
 
-    const member = guild.members.cache.get(discordUserID) ?? discordUserID;
+    const member =
+      (await guild.members.fetch(discordUserID).catch(() => undefined)) ??
+      discordUserID;
 
     const displayName =
       typeof member === "string" ? member : member.displayName;

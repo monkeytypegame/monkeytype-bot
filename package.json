@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "3.2.3",
+    "bullmq": "1.81.1",
     "discord.js": "13.6.0",
     "dotenv": "8.6.0",
     "glob": "7.2.0",
