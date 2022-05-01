@@ -11,6 +11,10 @@ import {
   MessageSelectMenu,
   MessageSelectOptionData
 } from "discord.js";
+import {
+  incrementApproved,
+  incrementDenied
+} from "../dal/challengeRequestStats";
 
 const declineReasonOptions: MessageSelectOptionData[] = [
   {
@@ -151,6 +155,7 @@ export default {
       });
 
       deleteRequest(userID, challengeMessageID);
+      incrementApproved(interaction.member.user.id);
     } else {
       const row = new MessageActionRow();
 
@@ -226,6 +231,7 @@ export default {
       });
 
       await deleteRequest(userID, challengeMessageID);
+      incrementDenied(interaction.member.user.id);
     }
 
     if (message.channel.type === "GUILD_TEXT") {

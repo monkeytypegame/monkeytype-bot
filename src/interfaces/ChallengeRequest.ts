@@ -9,3 +9,11 @@ export interface ChallengeRequest extends WithId<Document> {
   proof: string[];
   timestamp: number;
 }
+
+export interface ChallengeRequestStats extends WithId<Document> {
+  userID: string;
+  accepted?: number;
+  denied?: number;
+  lastAccepted?: number;
+  lastDenied?: number;
+}
