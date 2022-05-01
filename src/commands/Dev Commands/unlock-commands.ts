@@ -2,6 +2,7 @@
 
 import { MessageActionRow, MessageButton } from "discord.js";
 import { Command } from "../../interfaces/Command";
+import { Client } from "../../structures/Client";
 
 export default {
   name: "unlock-commands",
@@ -64,7 +65,7 @@ export default {
         i.user.id === interaction.user.id &&
         ["unlock"].includes(i.customId),
       "BUTTON",
-      900000
+      Client.timeoutTime * 15
     );
 
     if (buttonInteraction === undefined) {
