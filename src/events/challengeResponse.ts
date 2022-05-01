@@ -225,12 +225,12 @@ export default {
         components: []
       });
 
-      deleteRequest(userID, challengeMessageID);
+      await deleteRequest(userID, challengeMessageID);
     }
 
     if (message.channel.type === "GUILD_TEXT") {
       message.channel.edit({
-        name: `${getRequestCount()}-cs-mods`
+        name: `${await getRequestCount()}-cs-mods`
       });
     }
   }

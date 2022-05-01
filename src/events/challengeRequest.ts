@@ -1,5 +1,6 @@
 /** @format */
 import { Message, MessageActionRow, MessageButton } from "discord.js";
+import { ObjectId } from "mongodb";
 import { compareTwoStrings } from "string-similarity";
 import { addRequest, getRequestCount } from "../functions/challengeRequest";
 import type { Event } from "../interfaces/Event";
@@ -126,6 +127,7 @@ export default {
     }
 
     addRequest({
+      _id: new ObjectId(),
       userID: message.author.id,
       messageID: message.id,
       challengeRoleID: foundChallengeRole.id,
@@ -207,7 +209,7 @@ export default {
     });
 
     challengeSubmissionsModsChannel.edit({
-      name: `${getRequestCount()}-cs-mods`
+      name: `${await getRequestCount()}-cs-mods`
     });
   }
 } as Event<"messageCreate">;

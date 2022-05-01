@@ -1,52 +1,37 @@
 /** @format */
-import * as fs from "fs";
-import { parseJSON, readFileOrCreate } from "./file";
 import type { ChallengeRequest } from "../interfaces/ChallengeRequest";
+import { mongoDB } from "../functions/mongodb";
 
-export function getRequestCount(): number {
-  const data = getRequests();
-
-  return data.length;
+export async function getRequestCount(): Promise<number> {
+  return await mongoDB().collection("bot-challenge-requests").countDocuments();
 }
 
-export function getRequests(): ChallengeRequest[] {
-  return parseJSON(readFileOrCreate("challengeRequests.json", "[]"));
-}
-
-export function setRequests(challengeRequests: ChallengeRequest[]): void {
-  fs.writeFileSync(
-    "challengeRequests.json",
-    JSON.stringify(challengeRequests, null, 2)
-  );
+export async function getRequests(): Promise<ChallengeRequest[]> {
+  return await mongoDB().collection("bot-challenge-requests").find().toArray();
 }
 
 export function addRequest(data: ChallengeRequest): void {
-  const requests = getRequests();
-  requests.push(data);
-  setRequests(requests);
+  mongoDB().collection("bot-challenge-requests").insertOne(data);
 }
 
-export function getRequest(
+export async function getRequest(
   userID: string,
   messageID: string
-): ChallengeRequest | undefined {
-  const requests = getRequests();
-  return requests.find(
-    (request) => request.userID === userID && request.messageID === messageID
-  );
+): Promise<ChallengeRequest | undefined> {
+  return await mongoDB()
+    .collection<ChallengeRequest>("bot-challenge-requests")
+    .findOne({
+      userID,
+      messageID
+    });
 }
 
-export function deleteRequest(userID: string, messageID: string): void {
-  const requests = getRequests();
-  const index = requests.findIndex(
-    (request) => request.userID === userID && request.messageID === messageID
-  );
-
-  if (index === -1) {
-    return;
-  }
-
-  requests.splice(index, 1);
-
-  setRequests(requests);
+export async function deleteRequest(
+  userID: string,
+  messageID: string
+): Promise<void> {
+  await mongoDB().collection("bot-challenge-requests").deleteOne({
+    userID,
+    messageID
+  });
 }
