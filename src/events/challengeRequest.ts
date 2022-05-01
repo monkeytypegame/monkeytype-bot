@@ -111,23 +111,18 @@ export default {
         "BUTTON"
       );
 
+      confirmationInteraction?.deferUpdate();
+
+      m.delete();
+
       if (
         confirmationInteraction === undefined ||
         confirmationInteraction.customId === "no"
       ) {
-        m.edit({
-          content: `:question: Did you mean ${foundChallengeRole.name}?`,
-          components: []
-        });
-
-        m.react("❌");
-
-        confirmationInteraction?.deferUpdate();
+        message.react("❌");
 
         return;
       }
-
-      await m.delete();
     }
 
     addRequest({
