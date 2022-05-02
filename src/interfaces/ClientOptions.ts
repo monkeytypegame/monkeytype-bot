@@ -32,7 +32,7 @@ export interface ClientOptions extends DiscordClientOptions {
   eventsPath: string;
   tasksPath: string;
   deleteUnusedSlashCommands: boolean;
-  guildId: string;
+  guildID: string;
   dev: boolean;
   devID: string;
   roles: Roles;

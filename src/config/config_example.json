@@ -1,11 +1,10 @@
 {
-  "guildId": "guild (server) id",
+  "guildID": "guild (server) id",
   "dev": true,
   "devID": "your id",
   "commandsPath": "./commands",
   "eventsPath": "./events",
   "tasksPath": "./tasks",
-  "deleteUnusedSlashCommands": true,
   "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
   "repo": "monkeytypegame/monkeytype",
   "repoPath": "../monkeytype",

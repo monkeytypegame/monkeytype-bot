@@ -196,7 +196,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     // Handing slash commands
 
     const slashCommands = await this.application?.commands.fetch({
-      guildId: this.clientOptions.guildId,
+      guildID: this.clientOptions.guildID,
       cache: true,
       force: true
     });
@@ -219,7 +219,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
             type: "CHAT_INPUT",
             options: command.options as Discord.ApplicationCommandOptionData[]
           },
-          this.clientOptions.guildId
+          this.clientOptions.guildID
         );
 
         console.log(`Edited slash command "${cmd.name}" (${cmd.id})`);
@@ -232,7 +232,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
               type: "CHAT_INPUT",
               options: command.options as Discord.ApplicationCommandOptionData[]
             },
-            this.clientOptions.guildId
+            this.clientOptions.guildID
           )
           .catch(console.log);
 
@@ -436,7 +436,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
   public get guild(): Promise<Discord.Guild | undefined> {
     return this.guilds.fetch({
-      guild: this.clientOptions.guildId,
+      guild: this.clientOptions.guildID,
       cache: true
     });
   }
