@@ -1,6 +1,4 @@
-/** @format */
-
-import type { TaskFile } from "../interfaces/task";
+import type { MonkeyTypes } from "../types/types";
 
 export default {
   name: "linkDiscord",
@@ -47,4 +45,4 @@ export default {
       message: "Successfully linked discord user"
     };
   }
-} as TaskFile;
+} as MonkeyTypes.TaskFile;

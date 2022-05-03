@@ -1,8 +1,7 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
-import { PersonalBest, User } from "../../types";
 import { EmbedFieldData, MessageEmbed } from "discord.js";
 
 export default {
@@ -22,7 +21,7 @@ export default {
 
     const discordUser = interaction.options.getUser("user") ?? interaction.user;
 
-    const user = <Partial<User> | null>(
+    const user = <Partial<MonkeyTypes.User> | null>(
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
@@ -50,8 +49,8 @@ export default {
     const sortedTime = pbs.time;
     const sortedWords = pbs.words;
 
-    const timePB: { [key: number]: PersonalBest } = {};
-    const wordsPB: { [key: number]: PersonalBest } = {};
+    const timePB: { [key: number]: MonkeyTypes.PersonalBest } = {};
+    const wordsPB: { [key: number]: MonkeyTypes.PersonalBest } = {};
 
     Object.entries(sortedTime).forEach(([key, timePBs]) => {
       const maxValue = timePBs?.sort((a, b) => b.wpm - a.wpm)[0];
@@ -163,4 +162,4 @@ export default {
       ) as MessageEmbed[]
     });
   }
-} as Command;
+} as MonkeyTypes.Command;

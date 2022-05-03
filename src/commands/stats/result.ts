@@ -1,8 +1,7 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
-import { User, Result, Mode, QuoteCollection } from "../../types";
 import { toPascalCase } from "../../functions/to-pascal-case";
 import fetch from "node-fetch-commonjs";
 
@@ -30,7 +29,7 @@ export default {
 
     const db = mongoDB();
 
-    const user = <User | null>(
+    const user = <MonkeyTypes.User | null>(
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
@@ -47,7 +46,7 @@ export default {
       fetchReply: false
     });
 
-    const result = <Result<Mode> | undefined>(
+    const result = <MonkeyTypes.Result<MonkeyTypes.Mode> | undefined>(
       (
         await db
           .collection("results")
@@ -104,7 +103,7 @@ export default {
         `https://raw.githubusercontent.com/${client.clientOptions.repo}/master/frontend/static/quotes/${language}.json`
       );
 
-      const quoteColl = <QuoteCollection>await res.json();
+      const quoteColl = <MonkeyTypes.QuoteCollection>await res.json();
 
       const quote = quoteColl.quotes.find(
         (quote) => +quote.id === +result.mode2
@@ -154,4 +153,4 @@ export default {
       embeds: [embed]
     });
   }
-} as Command;
+} as MonkeyTypes.Command;

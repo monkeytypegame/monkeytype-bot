@@ -1,25 +1,28 @@
 /** @format */
-import type { ChallengeRequest } from "../interfaces/challenge-request";
+
+import type { MonkeyTypes } from "../types/types";
 import { mongoDB } from "../functions/mongodb";
 
 export async function getRequestCount(): Promise<number> {
   return await mongoDB().collection("bot-challenge-requests").countDocuments();
 }
 
-export async function getRequests(): Promise<ChallengeRequest[]> {
+export async function getRequests(): Promise<MonkeyTypes.ChallengeRequest[]> {
   return await mongoDB().collection("bot-challenge-requests").find().toArray();
 }
 
-export async function addRequest(data: ChallengeRequest): Promise<void> {
+export async function addRequest(
+  data: MonkeyTypes.ChallengeRequest
+): Promise<void> {
   await mongoDB().collection("bot-challenge-requests").insertOne(data);
 }
 
 export async function getRequest(
   userID: string,
   messageID: string
-): Promise<ChallengeRequest | undefined> {
+): Promise<MonkeyTypes.ChallengeRequest | undefined> {
   return await mongoDB()
-    .collection<ChallengeRequest>("bot-challenge-requests")
+    .collection<MonkeyTypes.ChallengeRequest>("bot-challenge-requests")
     .findOne({
       userID,
       messageID

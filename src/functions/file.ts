@@ -21,9 +21,11 @@ export function readOptionalFile(fileName: string): string | undefined {
   return fs.readFileSync(fileName).toString();
 }
 
-export function parseJSON(data: string | undefined, defaultData?: object): any {
+export function parseJSON<T>(data: string | undefined, defaultData: T): T;
+export function parseJSON<T>(data: string): T;
+export function parseJSON<T>(data?: string, defaultData?: T): T | undefined {
   if (data === undefined) {
-    return defaultData ?? undefined;
+    return defaultData;
   }
   return JSON.parse(data);
 }

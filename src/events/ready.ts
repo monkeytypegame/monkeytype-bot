@@ -4,7 +4,7 @@ import _ from "lodash";
 import { connectDB } from "../functions/mongodb";
 import { connectRedis } from "../functions/redis";
 import * as fs from "fs";
-import type { Event } from "../interfaces/event";
+import type { MonkeyTypes } from "../types/types";
 import { parseJSON, readFileOrCreate } from "../functions/file";
 import { Client } from "../structures/client";
 import {
@@ -53,7 +53,7 @@ export default {
       fetchLabels(client);
     }, 3600000);
   }
-} as Event<"ready">;
+} as MonkeyTypes.Event<"ready">;
 
 interface GitHubLabel {
   name: string;
@@ -85,7 +85,7 @@ async function fetchLabels(client: Client<true>) {
 async function updateIssueCommand(client: Client<true>) {
   console.log("Updating issue command...");
 
-  const labels: string[] = parseJSON(readFileOrCreate("labels.json", "[]"));
+  const labels = parseJSON<string[]>(readFileOrCreate("labels.json", "[]"));
 
   const labelOption: ApplicationCommandOption = {
     name: "label",

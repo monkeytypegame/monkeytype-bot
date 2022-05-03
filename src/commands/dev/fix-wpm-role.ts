@@ -1,8 +1,7 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
-import { User } from "../../types";
 
 export default {
   name: "fix-wpm-role",
@@ -32,7 +31,7 @@ export default {
 
     const db = mongoDB();
 
-    const dbUser = <User | null>(
+    const dbUser = <MonkeyTypes.User | null>(
       await db.collection("users").findOne({ discordId: user.id })
     );
 
@@ -88,4 +87,4 @@ export default {
 
     return;
   }
-} as Command;
+} as MonkeyTypes.Command;

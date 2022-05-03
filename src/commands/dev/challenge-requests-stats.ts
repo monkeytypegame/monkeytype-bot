@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { getStats } from "../../dal/challenge-request-stats";
 import { MessageEmbedOptions } from "discord.js";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
@@ -76,4 +76,4 @@ export default {
       ephemeral: true
     });
   }
-} as Command;
+} as MonkeyTypes.Command;

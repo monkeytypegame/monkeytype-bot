@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { exec } from "child_process";
 import { MessageActionRow, MessageButton } from "discord.js";
 
@@ -62,4 +62,4 @@ export default {
       buttonInteraction.reply("❌ Cancelled");
     }
   }
-} as Command;
+} as MonkeyTypes.Command;

@@ -1,7 +1,7 @@
 /** @format */
 
 import { NewsChannel, TextChannel } from "discord.js";
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 
 export default {
   name: "say",
@@ -34,4 +34,4 @@ export default {
 
     interaction.reply({ ephemeral: true, content: "💬 Done." });
   }
-} as Command;
+} as MonkeyTypes.Command;

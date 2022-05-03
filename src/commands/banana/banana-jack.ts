@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { createUser, getUser, setUser } from "../../functions/banana";
 import { MessageActionRow, MessageButton } from "discord.js";
 
@@ -210,7 +210,7 @@ export default {
 
     currentlyPlaying.delete(interaction.user.id);
   }
-} as Command;
+} as MonkeyTypes.Command;
 
 function createDeck(): Card[] {
   const deck: Card[] = [];

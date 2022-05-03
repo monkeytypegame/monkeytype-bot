@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Event } from "../interfaces/event";
+import type { MonkeyTypes } from "../types/types";
 
 export default {
   event: "messageDelete",
@@ -13,4 +13,4 @@ export default {
       `🗑️ ${message.author}'s message in ${message.channel} was deleted:\n${message.content}`
     );
   }
-} as Event<"messageDelete">;
+} as MonkeyTypes.Event<"messageDelete">;

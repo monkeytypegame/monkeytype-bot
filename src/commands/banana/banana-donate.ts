@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { createUser, getUser, setUser } from "../../functions/banana";
 
 export default {
@@ -58,4 +58,4 @@ export default {
       `✅ Successfully donated ${amount} banana(s) to ${targetUser.tag}.`
     );
   }
-} as Command;
+} as MonkeyTypes.Command;

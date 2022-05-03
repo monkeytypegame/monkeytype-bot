@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { spawn } from "child_process";
 
 export default {
@@ -18,4 +18,4 @@ export default {
 
     interaction.reply("🤔 Upgrading...");
   }
-} as Command;
+} as MonkeyTypes.Command;

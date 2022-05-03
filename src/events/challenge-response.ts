@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Event } from "../interfaces/event";
+import type { MonkeyTypes } from "../types/types";
 import {
   deleteRequest,
   getRequest,
@@ -240,4 +240,4 @@ export default {
       });
     }
   }
-} as Event<"interactionCreate">;
+} as MonkeyTypes.Event<"interactionCreate">;

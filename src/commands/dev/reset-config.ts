@@ -1,9 +1,8 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { DefaultConfig } from "../../constants/default-config";
-import { User } from "../../types";
 
 export default {
   name: "reset-config",
@@ -28,7 +27,7 @@ export default {
 
     const db = mongoDB();
 
-    const user = <User | null>(
+    const user = <MonkeyTypes.User | null>(
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
@@ -64,4 +63,4 @@ export default {
       content: "✅ Done!"
     });
   }
-} as Command;
+} as MonkeyTypes.Command;

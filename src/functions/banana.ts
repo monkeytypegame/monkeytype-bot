@@ -1,10 +1,10 @@
 /** @format */
 
 import * as fs from "fs";
-import type { BananaEntry, BananaData, CoinFlip } from "../types";
+import type { MonkeyTypes } from "../types/types";
 import { parseJSON, readFileOrCreate } from "./file";
 
-export function getUser(userID: string): BananaEntry | undefined {
+export function getUser(userID: string): MonkeyTypes.BananaEntry | undefined {
   const data = getData();
 
   const user = data[userID];
@@ -16,7 +16,10 @@ export function getUser(userID: string): BananaEntry | undefined {
   return partialToFull(user);
 }
 
-export function setUser(userID: string, bananaEntry: BananaEntry): void {
+export function setUser(
+  userID: string,
+  bananaEntry: MonkeyTypes.BananaEntry
+): void {
   const data = getData();
 
   data[userID] = shakePartial(bananaEntry);
@@ -24,7 +27,10 @@ export function setUser(userID: string, bananaEntry: BananaEntry): void {
   setData(data);
 }
 
-export function createUser(userID: string, initialBal = 1): BananaEntry {
+export function createUser(
+  userID: string,
+  initialBal = 1
+): MonkeyTypes.BananaEntry {
   const data = getData();
 
   const user = data[userID];
@@ -33,7 +39,7 @@ export function createUser(userID: string, initialBal = 1): BananaEntry {
     return partialToFull(user);
   }
 
-  const newUser: Partial<BananaEntry> = {
+  const newUser: Partial<MonkeyTypes.BananaEntry> = {
     balance: initialBal
   };
 
@@ -44,15 +50,19 @@ export function createUser(userID: string, initialBal = 1): BananaEntry {
   return partialToFull(newUser);
 }
 
-export function getData(): BananaData {
-  return parseJSON(readFileOrCreate("bananas.json", "{}").toString());
+export function getData(): MonkeyTypes.BananaData {
+  return parseJSON<MonkeyTypes.BananaData>(
+    readFileOrCreate("bananas.json", "{}")
+  );
 }
 
-function setData(bananaData: BananaData) {
+function setData(bananaData: MonkeyTypes.BananaData) {
   fs.writeFileSync("bananas.json", JSON.stringify(bananaData, null, 2));
 }
 
-function partialToFull(partial: Partial<BananaEntry>): BananaEntry {
+function partialToFull(
+  partial: Partial<MonkeyTypes.BananaEntry>
+): MonkeyTypes.BananaEntry {
   return {
     balance: partial.balance ?? 0,
     lastCollect: partial.lastCollect ?? 0,
@@ -67,7 +77,9 @@ function partialToFull(partial: Partial<BananaEntry>): BananaEntry {
   };
 }
 
-function shakePartial(partial: Partial<BananaEntry>): Partial<BananaEntry> {
+function shakePartial(
+  partial: Partial<MonkeyTypes.BananaEntry>
+): Partial<MonkeyTypes.BananaEntry> {
   if (partial.lastCollect === 0) {
     delete partial.lastCollect;
   }
@@ -99,12 +111,12 @@ function shakePartial(partial: Partial<BananaEntry>): Partial<BananaEntry> {
   return partial;
 }
 
-export function getCoinFlips(): CoinFlip[] {
-  const coinFlipsFile = readFileOrCreate("coinFlips.json", "[]").toString();
-
-  return parseJSON(coinFlipsFile) ?? [];
+export function getCoinFlips(): MonkeyTypes.CoinFlip[] {
+  return parseJSON<MonkeyTypes.CoinFlip[]>(
+    readFileOrCreate("coinFlips.json", "[]")
+  );
 }
 
-export function setCoinFlips(coinFlips: CoinFlip[]): void {
+export function setCoinFlips(coinFlips: MonkeyTypes.CoinFlip[]): void {
   fs.writeFileSync("coinFlips.json", JSON.stringify(coinFlips, null, 2));
 }

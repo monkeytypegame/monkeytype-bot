@@ -5,7 +5,7 @@ import { join } from "path";
 import SimpleGit from "simple-git";
 import config from "./config/config.json";
 import { parseJSON, readOptionalFile } from "./functions/file";
-import { Quote, QuoteCollection } from "./types";
+import { MonkeyTypes } from "./types/types";
 
 const repoPath = join(process.cwd(), config.repoPath);
 
@@ -36,8 +36,9 @@ const args = process.argv.slice(2);
     `${language}.json`
   );
 
-  const quoteFile = <QuoteCollection | undefined>(
-    parseJSON(readOptionalFile(filePath))
+  const quoteFile = parseJSON<MonkeyTypes.QuoteCollection | undefined>(
+    readOptionalFile(filePath),
+    undefined
   );
 
   const id =
@@ -45,7 +46,7 @@ const args = process.argv.slice(2);
       ? Math.max(...quoteFile.quotes.map((quote) => quote.id))
       : 1;
 
-  const quoteObject: Quote = {
+  const quoteObject: MonkeyTypes.Quote = {
     text,
     source,
     length,
@@ -57,7 +58,7 @@ const args = process.argv.slice(2);
   } else {
     fs.writeFileSync(
       filePath,
-      JSON.stringify(<QuoteCollection>{
+      JSON.stringify(<MonkeyTypes.QuoteCollection>{
         language,
         groups: [
           [0, 100],

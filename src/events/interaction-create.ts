@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Event } from "../interfaces/event";
+import type { MonkeyTypes } from "../types/types";
 
 export default {
   event: "interactionCreate",
@@ -58,4 +58,4 @@ export default {
       console.log(`Select Menu filled out "${interaction.customId}"`);
     }
   }
-} as Event<"interactionCreate">;
+} as MonkeyTypes.Event<"interactionCreate">;

@@ -1,6 +1,4 @@
-/** @format */
-
-import type { TaskFile } from "../interfaces/task";
+import type { MonkeyTypes } from "../types/types";
 
 export default {
   name: "unlinkDiscord",
@@ -49,4 +47,4 @@ export default {
       message: "Successfully unlinked discord user"
     };
   }
-} as TaskFile;
+} as MonkeyTypes.TaskFile;

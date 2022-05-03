@@ -1,7 +1,7 @@
 /** @format */
 
 import { MessageEmbedOptions } from "discord.js";
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 
 export default {
   name: "in-role",
@@ -53,4 +53,4 @@ export default {
       fieldName: `Members (${members.length})`
     });
   }
-} as Command;
+} as MonkeyTypes.Command;

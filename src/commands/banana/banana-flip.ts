@@ -7,7 +7,7 @@ import {
   setCoinFlips,
   setUser
 } from "../../functions/banana";
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 
 export default {
   name: "banana-flip",
@@ -184,4 +184,4 @@ export default {
     setUser(interaction.user.id, authorBananaEntry);
     setUser(client.user.id, botBananaEntry);
   }
-} as Command;
+} as MonkeyTypes.Command;

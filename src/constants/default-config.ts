@@ -1,8 +1,6 @@
 /** @format */
 
-import { Config } from "../types";
-
-export const DefaultConfig = <Config>{
+export const DefaultConfig = {
   theme: "serika_dark",
   themeLight: "serika",
   themeDark: "serika_dark",

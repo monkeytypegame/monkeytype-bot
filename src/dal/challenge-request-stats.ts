@@ -1,10 +1,13 @@
 /** @format */
-import type { ChallengeRequestStats } from "../interfaces/challenge-request";
+
+import type { MonkeyTypes } from "../types/types";
 import { mongoDB } from "../functions/mongodb";
 
-export async function getStats(): Promise<ChallengeRequestStats[]> {
+export async function getStats(): Promise<MonkeyTypes.ChallengeRequestStats[]> {
   return await mongoDB()
-    .collection<ChallengeRequestStats>("bot-challenge-requests-stats")
+    .collection<MonkeyTypes.ChallengeRequestStats>(
+      "bot-challenge-requests-stats"
+    )
     .find()
     .toArray();
 }

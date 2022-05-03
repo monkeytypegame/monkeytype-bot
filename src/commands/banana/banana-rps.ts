@@ -2,7 +2,7 @@
 
 import { MessageActionRow, MessageButton } from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 
 const currentlyPlaying = new Set<string>();
 
@@ -255,4 +255,4 @@ export default {
 
     game(1);
   }
-} as Command;
+} as MonkeyTypes.Command;

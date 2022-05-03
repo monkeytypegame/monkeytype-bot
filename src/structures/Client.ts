@@ -1,15 +1,7 @@
 /** @format */
 
 import * as Discord from "discord.js";
-import type { Channels, ClientOptions } from "../interfaces/client-options";
-import type { Command } from "../interfaces/command";
-import type { Event } from "../interfaces/event";
-import type {
-  Task,
-  TaskFile,
-  TaskResult,
-  UnknownTask
-} from "../interfaces/task";
+import type { MonkeyTypes } from "../types/types";
 import { promisify } from "util";
 import { resolve, join } from "path";
 import { APIMessage } from "discord-api-types";
@@ -40,13 +32,13 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   public static iconURL =
     "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";
   public static glob = promisify(globCB);
-  public clientOptions: ClientOptions;
-  public commands = new Discord.Collection<string, Command>();
-  public tasks = new Discord.Collection<string, TaskFile>();
+  public clientOptions: MonkeyTypes.ClientOptions;
+  public commands = new Discord.Collection<string, MonkeyTypes.Command>();
+  public tasks = new Discord.Collection<string, MonkeyTypes.TaskFile>();
   public categories = new Array<string>();
   public permissionsAdded = new Set<string>();
 
-  constructor(options: ClientOptions) {
+  constructor(options: MonkeyTypes.ClientOptions) {
     super(options);
 
     this.clientOptions = options;
@@ -58,7 +50,10 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   }
 
   public initWorker(): void {
-    const worker = new Worker<UnknownTask, TaskResult | undefined>(
+    const worker = new Worker<
+      MonkeyTypes.UnknownTask,
+      MonkeyTypes.TaskResult | undefined
+    >(
       "george-tasks",
       async (job) => {
         const unknownTask = job.data;
@@ -71,7 +66,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           unknownTask.args = unknownTask.arguments;
         }
 
-        const task = unknownTask as Task;
+        const task = unknownTask as MonkeyTypes.Task;
 
         console.log(`Running task "${task.name}"`);
 
@@ -135,7 +130,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     const [commands, events] = await this.load();
 
-    this.emit("ready", <Discord.Client>this);
+    this.emit("ready", <Client<true>>this);
 
     return `Loaded ${commands} commands and ${events} events.`;
   }
@@ -171,14 +166,14 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           (await import(commandFilePath)).default ||
           (await import(commandFilePath))
       )
-    )) as Command[];
+    )) as MonkeyTypes.Command[];
 
     const events = (await Promise.all(
       eventFiles.map(
         async (eventFilePath) =>
           (await import(eventFilePath)).default || (await import(eventFilePath))
       )
-    )) as Event<keyof Discord.ClientEvents>[];
+    )) as MonkeyTypes.Event<keyof Discord.ClientEvents>[];
 
     events.forEach((event) =>
       this.on(event.event, event.run.bind(null, this as Client<true>))
@@ -189,7 +184,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         async (taskFilePath) =>
           (await import(taskFilePath)).default || (await import(taskFilePath))
       )
-    )) as TaskFile[];
+    )) as MonkeyTypes.TaskFile[];
 
     tasks.forEach((task) => this.tasks.set(task.name, task));
 
@@ -443,7 +438,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     });
   }
 
-  public getCommandsByCategory(category: string): Command[] {
+  public getCommandsByCategory(category: string): MonkeyTypes.Command[] {
     return Array.from(
       this.commands.filter((cmd) => cmd.category === category).values()
     );
@@ -504,7 +499,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   }
 
   public async getChannel(
-    channel: keyof Channels
+    channel: keyof MonkeyTypes.Channels
   ): Promise<Discord.TextChannel | undefined> {
     const guild = await this.guild;
 
@@ -516,10 +511,10 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       return;
     }
 
-    if (guildChannel.type === "GUILD_TEXT") {
-      return guildChannel;
+    if (guildChannel.type !== "GUILD_TEXT") {
+      return;
     }
 
-    return;
+    return guildChannel;
   }
 }

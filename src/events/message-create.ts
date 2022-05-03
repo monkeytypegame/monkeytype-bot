@@ -2,7 +2,7 @@
 
 import { User } from "discord.js";
 import { randomBoolean } from "../functions/random";
-import type { Event } from "../interfaces/event";
+import type { MonkeyTypes } from "../types/types";
 
 const githubLinkRegex = /\[#([0-9]{1,4})\]/g;
 
@@ -79,4 +79,4 @@ export default {
 
     return;
   }
-} as Event<"messageCreate">;
+} as MonkeyTypes.Event<"messageCreate">;

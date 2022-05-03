@@ -1,6 +1,4 @@
-/** @format */
-
-import type { TaskFile } from "../interfaces/task";
+import type { MonkeyTypes } from "../types/types";
 
 export default {
   name: "awardChallenge",
@@ -50,4 +48,4 @@ export default {
       message: "Successfully awarded challenge"
     };
   }
-} as TaskFile;
+} as MonkeyTypes.TaskFile;

@@ -1,7 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
-import { User, LeaderboardEntry } from "../../types";
+import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 
 export default {
@@ -53,20 +52,20 @@ export default {
     const mode = "time"; // interaction.options.getString("mode", true);
     const mode2 = interaction.options.getString("mode2", true);
 
-    const user = <User | null>(
+    const user = <MonkeyTypes.User | null>(
       await db.collection("users").findOne({ discordId: interaction.user.id })
     );
 
     const leaderboardUser =
       user !== null
-        ? <LeaderboardEntry>(
+        ? <MonkeyTypes.LeaderboardEntry>(
             await db
               .collection(`leaderboards.${language}.${mode}.${mode2}`)
               .findOne({ uid: user.uid })
           )
         : null;
 
-    const leaderboardArray = <LeaderboardEntry[]>(
+    const leaderboardArray = <MonkeyTypes.LeaderboardEntry[]>(
       await db
         .collection(`leaderboards.${language}.${mode}.${mode2}`)
         .find()
@@ -148,4 +147,4 @@ export default {
 
     return;
   }
-} as Command;
+} as MonkeyTypes.Command;

@@ -1,11 +1,11 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import fetch from "node-fetch-commonjs";
 import { parseJSON, readFileOrCreate } from "../../functions/file";
 import { ApplicationCommandOption } from "discord.js";
 
-const labels: string[] = parseJSON(readFileOrCreate("labels.json", "[]"));
+const labels = parseJSON<string[]>(readFileOrCreate("labels.json", "[]"));
 
 const labelOption: ApplicationCommandOption = {
   name: "label",
@@ -110,4 +110,4 @@ export default {
       interaction.followUp("❌ Could not create issue");
     }
   }
-} as Command;
+} as MonkeyTypes.Command;

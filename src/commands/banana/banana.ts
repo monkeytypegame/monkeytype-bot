@@ -1,9 +1,8 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { createUser, getUser, setUser } from "../../functions/banana";
-import { User } from "../../types";
 import { getNextDay, isSameDay } from "../../functions/date";
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
@@ -20,7 +19,7 @@ export default {
 
     const bananaEntry = getUser(discordID) ?? createUser(discordID);
 
-    const snapshot = <User | null>(
+    const snapshot = <MonkeyTypes.User | null>(
       await db.collection("users").findOne({ discordId: discordID })
     );
 
@@ -93,4 +92,4 @@ export default {
 
     interaction.followUp({ embeds: [embed] });
   }
-} as Command;
+} as MonkeyTypes.Command;

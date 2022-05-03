@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { getData, getUser } from "../../functions/banana";
 
 export default {
@@ -61,4 +61,4 @@ export default {
       embeds: [embed]
     });
   }
-} as Command;
+} as MonkeyTypes.Command;

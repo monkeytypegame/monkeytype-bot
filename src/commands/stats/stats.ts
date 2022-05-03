@@ -1,8 +1,7 @@
 /** @format */
 
 import { mongoDB } from "../../functions/mongodb";
-import type { Command } from "../../interfaces/command";
-import { User } from "../../types";
+import type { MonkeyTypes } from "../../types/types";
 import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";
 
@@ -23,7 +22,7 @@ export default {
 
     const db = mongoDB();
 
-    const user = <User | null>(
+    const user = <MonkeyTypes.User | null>(
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
@@ -90,4 +89,4 @@ export default {
       embeds: [embed]
     });
   }
-} as Command;
+} as MonkeyTypes.Command;

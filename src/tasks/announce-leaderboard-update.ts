@@ -1,7 +1,5 @@
-/** @format */
-
 import { GuildMember } from "discord.js";
-import type { TaskFile } from "../interfaces/task";
+import type { MonkeyTypes } from "../types/types";
 
 export default {
   name: "announceLeaderboardUpdate",
@@ -78,7 +76,7 @@ export default {
       message: `${displayName} ${posString} ${leaderboard} ${wpm} wpm`
     };
   }
-} as TaskFile;
+} as MonkeyTypes.TaskFile;
 
 function positionToString(pos: number): string {
   switch (pos) {

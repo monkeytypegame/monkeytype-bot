@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import SimpleGit from "simple-git";
 
 export default {
@@ -29,4 +29,4 @@ export default {
       content: "✅ Successfully synced quotes from GitHub"
     });
   }
-} as Command;
+} as MonkeyTypes.Command;

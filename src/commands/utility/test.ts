@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 
 export default {
   name: "test",
@@ -10,4 +10,4 @@ export default {
   run: async (interaction) => {
     interaction.reply("Test");
   }
-} as Command;
+} as MonkeyTypes.Command;

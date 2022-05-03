@@ -1,6 +1,4 @@
-/** @format */
-
-import type { TaskFile } from "../interfaces/task";
+import type { MonkeyTypes } from "../types/types";
 
 export default {
   name: "updateRole",
@@ -61,4 +59,4 @@ export default {
       message: "Successfully updated role."
     };
   }
-} as TaskFile;
+} as MonkeyTypes.TaskFile;

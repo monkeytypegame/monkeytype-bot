@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import SimpleGit from "simple-git";
 import fetch from "node-fetch";
 
@@ -55,4 +55,4 @@ export default {
       });
     }
   }
-} as Command;
+} as MonkeyTypes.Command;

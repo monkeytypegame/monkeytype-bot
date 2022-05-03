@@ -1,7 +1,7 @@
 /** @format */
 
 import { MessageActionRow, MessageButton } from "discord.js";
-import type { Command } from "../../interfaces/command";
+import type { MonkeyTypes } from "../../types/types";
 import { Client } from "../../structures/client";
 
 export default {
@@ -82,4 +82,4 @@ export default {
       content: "Commands have been unlocked."
     });
   }
-} as Command;
+} as MonkeyTypes.Command;
