@@ -6,7 +6,7 @@ George needs direct access to the MongoDB and Redis databases associated with th
 
 ## Contributing
 
-If you receive any errors during this process, contact us in the #developer channel of our [Discord Server](https://discord.com/invite/monkeytype).
+If you receive any errors during this process, contact us in the #development channel of our [Discord Server](https://discord.com/invite/monkeytype).
 
 ### Forking Monkeytype and Monkeytype-Bot
 
@@ -29,9 +29,9 @@ Input the following information:
 
  - `guildID`: The ID of the Discord server you invited George to.
  - `devID`: Your own ID.
- - `repo`: Your Monkeytype fork.
- - `repoPath`: The path to the local clone of your Monkeytype fork. If both this and Monkeytype are cloned to the same directory (folder), you can skip this step.
- - `roles.memberRole`: The ID of a "Member" role on your Discord server, this role is used to identify users who have linked their Discord to Monkeytype.
+ - `repo`: Your Monkeytype fork. For example: `monkeytypegame/monkeytype`
+ - `repoPath`: The path to the local clone of your Monkeytype fork. If both George and Monkeytype are cloned to the same directory, you can skip this step.
+ - `roles.memberRole`: The ID of a "Member" role on your Discord server. This role is used to identify users who have linked their Discord to Monkeytype.
  - `wpmRoles`: A list of roles that show the WPM of the Discord user's Monkeytype personal best. In each object, put the ID of the role in `id`, and the min and max WPM in the respective values.
  - `challenges`: The key should be the name of the challenge, and the value should be the ID of the role to give when someone completes that challenge.
  - `channels`: Replace each value with the ID for that respective channel.
@@ -74,6 +74,7 @@ yarn start
 
 Before changing any code, we recommend that you have a basic understanding of TypeScript and Discord.JS. We also recommend that you familiarize yourself with how we create commands, events, etc. so that you follow our ecosystem.
 
+#### Prettier and ESLint
 We enforce code style and consistency by using Prettier and ESLint. Before committing any changes, run the following commands in the terminal:
 
 ```
@@ -82,3 +83,18 @@ yarn lint:fix
 ```
 yarn pretty:fix
 ```
+
+### Committing Your Changes
+
+To push your changes to your fork, run the following commands in the terminal:
+
+```
+git pull origin master
+git add .
+git commit -m "put a commit message here"
+git push origin master
+```
+
+Note that you may replace `master` with the name of a branch you may create so that you can contribute many things at once.
+
+After you have committed and pushed your changes to your fork, go on GitHub to your repository and click the button to make a pull request at the top. If you do not see that button, go to [the official monkeytype-bot repository](https://github.com/monkeytypegame/monkeytype-bot), click `Pull Requests` and `New pull request`. Make sure that you are trying to merge your branch from your fork into the master branch of the offical repository. Add a detailed title and description of what you changed and click `Create pull request`. Your changes will be reviewed by a maintainer and feedback will be provided.
