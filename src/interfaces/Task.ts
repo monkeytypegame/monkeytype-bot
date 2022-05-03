@@ -2,7 +2,7 @@
 
 import { Guild } from "discord.js";
 import { Document, WithId } from "mongodb";
-import { Client } from "../structures/Client";
+import { Client } from "../structures/client";
 
 export interface Task extends WithId<Document> {
   name: string;

@@ -4,9 +4,9 @@ import _ from "lodash";
 import { connectDB } from "../functions/mongodb";
 import { connectRedis } from "../functions/redis";
 import * as fs from "fs";
-import type { Event } from "../interfaces/Event";
+import type { Event } from "../interfaces/event";
 import { parseJSON, readFileOrCreate } from "../functions/file";
-import { Client } from "../structures/Client";
+import { Client } from "../structures/client";
 import {
   ApplicationCommandChoicesOption,
   ApplicationCommandData,
@@ -25,7 +25,7 @@ export default {
     }
 
     const memberCount =
-      guild.presences.cache.size ??
+      guild.presences?.cache?.size ??
       guild.approximatePresenceCount ??
       guild.memberCount ??
       guild.approximateMemberCount;

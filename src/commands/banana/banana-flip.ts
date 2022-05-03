@@ -7,7 +7,7 @@ import {
   setCoinFlips,
   setUser
 } from "../../functions/banana";
-import type { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/command";
 
 export default {
   name: "banana-flip",

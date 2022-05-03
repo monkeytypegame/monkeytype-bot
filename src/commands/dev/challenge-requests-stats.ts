@@ -1,7 +1,7 @@
 /** @format */
 
-import type { Command } from "../../interfaces/Command";
-import { getStats } from "../../dal/challengeRequestStats";
+import type { Command } from "../../interfaces/command";
+import { getStats } from "../../dal/challenge-request-stats";
 import { MessageEmbedOptions } from "discord.js";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 

@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/command";
 import { createUser, getUser, setUser } from "../../functions/banana";
 import { MessageActionRow, MessageButton } from "discord.js";
 

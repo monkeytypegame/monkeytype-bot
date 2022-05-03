@@ -2,7 +2,7 @@
 
 import { MessageActionRow, MessageButton } from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
-import type { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/command";
 
 const currentlyPlaying = new Set<string>();
 

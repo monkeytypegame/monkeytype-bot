@@ -2,7 +2,7 @@
 
 import { User } from "discord.js";
 import { randomBoolean } from "../functions/random";
-import type { Event } from "../interfaces/Event";
+import type { Event } from "../interfaces/event";
 
 const githubLinkRegex = /\[#([0-9]{1,4})\]/g;
 

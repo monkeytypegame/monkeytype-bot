@@ -1,15 +1,15 @@
 /** @format */
 
 import * as Discord from "discord.js";
-import type { Channels, ClientOptions } from "../interfaces/ClientOptions";
-import type { Command } from "../interfaces/Command";
-import type { Event } from "../interfaces/Event";
+import type { Channels, ClientOptions } from "../interfaces/client-options";
+import type { Command } from "../interfaces/command";
+import type { Event } from "../interfaces/event";
 import type {
   Task,
   TaskFile,
   TaskResult,
   UnknownTask
-} from "../interfaces/Task";
+} from "../interfaces/task";
 import { promisify } from "util";
 import { resolve, join } from "path";
 import { APIMessage } from "discord-api-types";
@@ -195,11 +195,13 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     // Handing slash commands
 
-    const slashCommands = await this.application?.commands.fetch({
+    const fetchOptions = {
       guildID: this.clientOptions.guildID,
       cache: true,
       force: true
-    });
+    };
+
+    const slashCommands = await this.application?.commands.fetch(fetchOptions);
 
     commands.forEach(async (command) => {
       this.commands.set(command.name, command);
@@ -506,7 +508,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   ): Promise<Discord.TextChannel | undefined> {
     const guild = await this.guild;
 
-    const guildChannel = guild?.channels.cache.find(
+    const guildChannel = guild?.channels?.cache.find(
       (ch) => ch.id === this.clientOptions.channels[channel]
     );
 

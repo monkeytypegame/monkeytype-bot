@@ -1,7 +1,7 @@
 /** @format */
 
 import { mongoDB } from "../../functions/mongodb";
-import type { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/command";
 import { User } from "../../types";
 import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";

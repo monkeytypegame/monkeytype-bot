@@ -1,9 +1,9 @@
 /** @format */
 
-import type { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/command";
 import { mongoDB } from "../../functions/mongodb";
 import { User, Result, Mode, QuoteCollection } from "../../types";
-import { toPascalCase } from "../../functions/toPascalCase";
+import { toPascalCase } from "../../functions/to-pascal-case";
 import fetch from "node-fetch-commonjs";
 
 const quoteLengthMap = {

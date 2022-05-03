@@ -1,9 +1,9 @@
 /** @format */
 
-import type { TaskFile } from "../interfaces/Task";
+import type { TaskFile } from "../interfaces/task";
 
 export default {
-  name: "unlinkDiscord",
+  name: "linkDiscord",
   run: async (client, guild, discordUserID: string, userID: string) => {
     if (discordUserID === undefined || userID === undefined) {
       return {
@@ -34,19 +34,17 @@ export default {
       };
     }
 
-    await member.roles.remove(memberRole);
-
-    await client.removeAllWPMRoles(member);
+    await member.roles.add(memberRole);
 
     const botCommandsChannel = await client.getChannel("botCommands");
 
     if (botCommandsChannel !== undefined) {
-      botCommandsChannel.send(`✅ ${member}, your account is unlinked.`);
+      botCommandsChannel.send(`✅ ${member}, your account is linked.`);
     }
 
     return {
       status: true,
-      message: "Successfully unlinked discord user"
+      message: "Successfully linked discord user"
     };
   }
 } as TaskFile;

@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/command";
 import fetch from "node-fetch-commonjs";
 import { parseJSON, readFileOrCreate } from "../../functions/file";
 import { ApplicationCommandOption } from "discord.js";

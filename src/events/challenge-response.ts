@@ -1,11 +1,11 @@
 /** @format */
 
-import type { Event } from "../interfaces/Event";
+import type { Event } from "../interfaces/event";
 import {
   deleteRequest,
   getRequest,
   getRequestCount
-} from "../dal/challengeRequest";
+} from "../dal/challenge-request";
 import {
   MessageActionRow,
   MessageSelectMenu,
@@ -14,7 +14,7 @@ import {
 import {
   incrementApproved,
   incrementDenied
-} from "../dal/challengeRequestStats";
+} from "../dal/challenge-request-stats";
 
 const declineReasonOptions: MessageSelectOptionData[] = [
   {

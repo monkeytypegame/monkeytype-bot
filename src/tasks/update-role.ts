@@ -1,6 +1,6 @@
 /** @format */
 
-import type { TaskFile } from "../interfaces/Task";
+import type { TaskFile } from "../interfaces/task";
 
 export default {
   name: "updateRole",

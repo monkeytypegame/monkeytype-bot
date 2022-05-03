@@ -1,5 +1,5 @@
 /** @format */
-import type { ChallengeRequest } from "../interfaces/ChallengeRequest";
+import type { ChallengeRequest } from "../interfaces/challenge-request";
 import { mongoDB } from "../functions/mongodb";
 
 export async function getRequestCount(): Promise<number> {

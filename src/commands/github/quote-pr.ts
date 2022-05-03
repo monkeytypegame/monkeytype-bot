@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/command";
 import SimpleGit from "simple-git";
 import fetch from "node-fetch";
 

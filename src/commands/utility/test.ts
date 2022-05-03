@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/command";
 
 export default {
   name: "test",

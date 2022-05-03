@@ -1,5 +1,5 @@
 /** @format */
-import type { ChallengeRequestStats } from "../interfaces/ChallengeRequest";
+import type { ChallengeRequestStats } from "../interfaces/challenge-request";
 import { mongoDB } from "../functions/mongodb";
 
 export async function getStats(): Promise<ChallengeRequestStats[]> {

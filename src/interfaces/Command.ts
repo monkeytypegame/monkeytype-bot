@@ -1,7 +1,7 @@
 /** @format */
 
 import { ApplicationCommandOption, CommandInteraction } from "discord.js";
-import { Client } from "../structures/Client";
+import { Client } from "../structures/client";
 
 export interface Command {
   name: string;

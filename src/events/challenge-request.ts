@@ -2,8 +2,8 @@
 import { Message, MessageActionRow, MessageButton } from "discord.js";
 import { ObjectId } from "mongodb";
 import { compareTwoStrings } from "string-similarity";
-import { addRequest, getRequestCount } from "../dal/challengeRequest";
-import type { Event } from "../interfaces/Event";
+import { addRequest, getRequestCount } from "../dal/challenge-request";
+import type { Event } from "../interfaces/event";
 
 type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
 

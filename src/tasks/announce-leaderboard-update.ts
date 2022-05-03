@@ -1,7 +1,7 @@
 /** @format */
 
 import { GuildMember } from "discord.js";
-import type { TaskFile } from "../interfaces/Task";
+import type { TaskFile } from "../interfaces/task";
 
 export default {
   name: "announceLeaderboardUpdate",

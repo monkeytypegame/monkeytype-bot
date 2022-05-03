@@ -1,8 +1,8 @@
 /** @format */
 
 import { MessageActionRow, MessageButton } from "discord.js";
-import type { Command } from "../../interfaces/Command";
-import { Client } from "../../structures/Client";
+import type { Command } from "../../interfaces/command";
+import { Client } from "../../structures/client";
 
 export default {
   name: "unlock-commands",

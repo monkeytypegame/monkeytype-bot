@@ -1,6 +1,6 @@
 /** @format */
 
-import type { Command } from "../../interfaces/Command";
+import type { Command } from "../../interfaces/command";
 import { exec } from "child_process";
 import { MessageActionRow, MessageButton } from "discord.js";
 

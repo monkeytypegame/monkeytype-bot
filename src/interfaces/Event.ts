@@ -1,7 +1,7 @@
 /** @format */
 
 import { ClientEvents } from "discord.js";
-import { Client } from "../structures/Client";
+import { Client } from "../structures/client";
 
 export interface Event<E extends keyof ClientEvents> {
   event: E;
