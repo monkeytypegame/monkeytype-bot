@@ -8,6 +8,7 @@ import { APIMessage } from "discord-api-types";
 import globCB from "glob";
 import { Worker } from "bullmq";
 import { redis } from "../functions/redis";
+import _ from "lodash";
 
 interface PaginationOptions<T> {
   embedOptions: Discord.MessageEmbedOptions;
@@ -205,20 +206,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
       const cmd = slashCommands?.find((c) => c.name === command.name);
 
-      if (cmd !== undefined) {
-        await this.application?.commands.edit(
-          cmd,
-          {
-            name: command.name,
-            description: command.description,
-            type: "CHAT_INPUT",
-            options: command.options as Discord.ApplicationCommandOptionData[]
-          },
-          this.clientOptions.guildID
-        );
-
-        console.log(`Edited slash command "${cmd.name}" (${cmd.id})`);
-      } else {
+      if (cmd === undefined) {
         const c = await this.application?.commands
           .create(
             {
@@ -231,9 +219,65 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           )
           .catch(console.log);
 
-        if (c !== undefined) {
+        if (c === undefined) {
+          console.log(`Error creating slash command "${command.name}"`);
+        } else {
           console.log(`Created slash command "${c.name}" (${c.id})`);
         }
+      } else {
+        const mapper = (option: Discord.ApplicationCommandOption) => {
+          type Keys = keyof typeof option;
+
+          type Values = typeof option[Keys];
+
+          type Entries = [Keys, Values];
+
+          for (const [key, value] of Object.entries(option) as Entries[]) {
+            if (
+              value === undefined ||
+              (_.isArray(value) && value.length === 0)
+            ) {
+              delete option[key];
+            }
+          }
+
+          return option;
+        };
+
+        const cmdObject = {
+          name: cmd.name,
+          description: cmd.description,
+          options: cmd.options.map(mapper)
+        };
+
+        const commandObject = {
+          name: command.name,
+          description: command.description,
+          options: (command.options ?? []).map(mapper)
+        };
+
+        console.log(
+          cmdObject,
+          commandObject,
+          _.isEqual(cmdObject, commandObject)
+        );
+
+        if (_.isEqual(cmdObject, commandObject)) {
+          return;
+        }
+
+        await this.application?.commands.edit(
+          cmd,
+          {
+            name: command.name,
+            description: command.description,
+            type: "CHAT_INPUT",
+            options: command.options as Discord.ApplicationCommandOptionData[]
+          },
+          this.clientOptions.guildID
+        );
+
+        console.log(`Edited slash command "${cmd.name}" (${cmd.id})`);
       }
     });
 
