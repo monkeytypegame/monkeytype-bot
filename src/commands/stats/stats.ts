@@ -36,10 +36,7 @@ export default {
     }
 
     const duration = formatDuration(
-      intervalToDuration({ start: 0, end: user.timeTyping * 1000 }),
-      {
-        format: ["hours", "minutes", "seconds"]
-      }
+      intervalToDuration({ start: 0, end: user.timeTyping * 1000 })
     );
 
     const nameDisplay =
