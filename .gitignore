@@ -6,3 +6,6 @@ bananas*.json
 coinFlips.json
 .env
 ecosystem.config.js
+dist/
+labels.json
+challengeRequests.json
