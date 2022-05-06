@@ -19,14 +19,16 @@ export default {
 
     const bananaEntry = getUser(discordID) ?? createUser(discordID);
 
-    const snapshot = <MonkeyTypes.User | null>(
+    const snapshot = <MonkeyTypes.User | undefined>(
       await db.collection("users").findOne({ discordId: discordID })
     );
 
-    if (snapshot === null) {
+    if (snapshot === undefined) {
       interaction.followUp({
         content: "❌ Could not find user. Make sure accounts are paired."
       });
+
+      return;
     }
 
     const time60Bananas = (snapshot === null ? 0 : snapshot.bananas) ?? 0;

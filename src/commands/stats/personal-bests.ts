@@ -21,11 +21,11 @@ export default {
 
     const discordUser = interaction.options.getUser("user") ?? interaction.user;
 
-    const user = <Partial<MonkeyTypes.User> | null>(
+    const user = <Partial<MonkeyTypes.User> | undefined>(
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
-    if (user === null) {
+    if (user === undefined) {
       interaction.reply({
         ephemeral: true,
         content: "❌ Could not find user. Make sure accounts are paired."

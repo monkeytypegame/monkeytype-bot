@@ -22,11 +22,11 @@ export default {
 
     const db = mongoDB();
 
-    const user = <MonkeyTypes.User | null>(
+    const user = <MonkeyTypes.User | undefined>(
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 
-    if (user === null) {
+    if (user === undefined) {
       interaction.reply({
         ephemeral: true,
         content: "❌ Could not find user. Make sure accounts are paired."

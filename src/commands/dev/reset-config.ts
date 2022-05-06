@@ -27,7 +27,7 @@ export default {
 
     const db = mongoDB();
 
-    const user = <MonkeyTypes.User | null>(
+    const user = <MonkeyTypes.User | undefined>(
       await db.collection("users").findOne({ discordId: discordUser.id })
     );
 

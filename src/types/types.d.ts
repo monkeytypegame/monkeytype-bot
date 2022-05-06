@@ -88,14 +88,6 @@ declare namespace MonkeyTypes {
     requestTimestamp?: number;
   }
 
-  interface OldTask extends WithId<Document> {
-    command: string;
-    arguments: TaskArgument[];
-    requestTimestamp?: number;
-  }
-
-  type UnknownTask = Partial<OldTask & Task>;
-
   interface TaskResult {
     status: boolean;
     message: string;

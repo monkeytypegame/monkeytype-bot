@@ -51,22 +51,12 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
   public initWorker(): void {
     const worker = new Worker<
-      MonkeyTypes.UnknownTask,
+      MonkeyTypes.Task,
       MonkeyTypes.TaskResult | undefined
     >(
       "george-tasks",
       async (job) => {
-        const unknownTask = job.data;
-
-        if (unknownTask.command) {
-          unknownTask.name = unknownTask.command;
-        }
-
-        if (unknownTask.arguments) {
-          unknownTask.args = unknownTask.arguments;
-        }
-
-        const task = unknownTask as MonkeyTypes.Task;
+        const task = job.data;
 
         console.log(`Running task "${task.name}"`);
 
@@ -86,16 +76,24 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           return;
         }
 
-        const result = await taskFile.run(
-          this as Client<true>,
-          guild,
-          ...task.args
-        );
+        try {
+          const result = await taskFile.run(
+            this as Client<true>,
+            guild,
+            ...task.args
+          );
 
-        return result;
+          return result;
+        } catch (err) {
+          console.log(err);
+        }
+
+        return;
       },
       {
-        connection: redis()
+        connection: redis(),
+        concurrency: 1,
+        runRetryDelay: 1000
       }
     );
 
@@ -104,7 +102,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         return;
       }
 
-      const taskName = job.data.name ?? job.data.command;
+      const taskName = job.data.name;
 
       console.log(
         `Task ${taskName} finished ${
@@ -130,9 +128,9 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     const [commands, events] = await this.load();
 
-    this.emit("ready", <Client<true>>this);
+    this.emit("ready", this as Client<true>);
 
-    return `Loaded ${commands} commands and ${events} events.`;
+    return `Loaded ${commands} commands and ${events} events`;
   }
 
   public async load(): Promise<[number, number]> {
@@ -191,7 +189,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     // Handing slash commands
 
     const fetchOptions = {
-      guildID: this.clientOptions.guildID,
+      guildId: this.clientOptions.guildID,
       cache: true,
       force: true
     };
@@ -243,11 +241,11 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   }
 
   public embed(embedOptions: Discord.MessageEmbedOptions, user?: Discord.User) {
-    if (!embedOptions.title?.startsWith(this.user?.username ?? "George")) {
-      // embedOptions.title = `${this.user?.username ?? "George"}: \`${
-      //   embedOptions.title
-      // }\``;
-    }
+    // if (!embedOptions.title?.startsWith(this.user?.username ?? "George")) {
+    // embedOptions.title = `${this.user?.username ?? "George"}: \`${
+    //   embedOptions.title
+    // }\``;
+    // }
 
     embedOptions.footer = {
       text: "www.monkeytype.com",

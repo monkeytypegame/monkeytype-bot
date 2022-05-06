@@ -52,18 +52,18 @@ export default {
     const mode = "time"; // interaction.options.getString("mode", true);
     const mode2 = interaction.options.getString("mode2", true);
 
-    const user = <MonkeyTypes.User | null>(
+    const user = <MonkeyTypes.User | undefined>(
       await db.collection("users").findOne({ discordId: interaction.user.id })
     );
 
     const leaderboardUser =
-      user !== null
+      user !== undefined
         ? <MonkeyTypes.LeaderboardEntry>(
             await db
               .collection(`leaderboards.${language}.${mode}.${mode2}`)
               .findOne({ uid: user.uid })
           )
-        : null;
+        : undefined;
 
     const leaderboardArray = <MonkeyTypes.LeaderboardEntry[]>(
       await db
@@ -102,7 +102,7 @@ export default {
       fieldName: "Leaderboard",
       send: async (embed, row, currentEntries) => {
         if (
-          leaderboardUser !== null &&
+          leaderboardUser !== undefined &&
           !currentEntries?.find((entry) => entry.includes(leaderboardUser.name))
         ) {
           embed.addField(
@@ -120,7 +120,7 @@ export default {
       onPageChange: (embed, currentEntries) => {
         if (embed.fields[1] !== undefined) {
           if (
-            leaderboardUser === null ||
+            leaderboardUser === undefined ||
             currentEntries?.find((entry) =>
               entry.includes(leaderboardUser.name)
             )
@@ -129,7 +129,7 @@ export default {
           }
         } else {
           if (
-            leaderboardUser !== null &&
+            leaderboardUser !== undefined &&
             !currentEntries?.find((entry) =>
               entry.includes(leaderboardUser.name)
             )

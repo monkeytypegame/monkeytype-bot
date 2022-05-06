@@ -31,11 +31,11 @@ export default {
 
     const db = mongoDB();
 
-    const dbUser = <MonkeyTypes.User | null>(
+    const dbUser = <MonkeyTypes.User | undefined>(
       await db.collection("users").findOne({ discordId: user.id })
     );
 
-    if (dbUser === null) {
+    if (dbUser === undefined) {
       interaction.reply({
         content: "❌ Could not find user"
       });
