@@ -36,7 +36,7 @@ export default {
     }
 
     const duration = formatDuration(
-      intervalToDuration({ start: 0, end: user.timeTyping * 1000 }),
+      intervalToDuration({ start: 0, end: user.timeTyping }),
       {
         format: ["hours", "minutes", "seconds"]
       }
