@@ -254,7 +254,7 @@ function getCardNumericValue(card: Card): number {
     case "J":
       return 10;
     default:
-      return parseInt(card.value);
+      return +card.value;
   }
 }
 
