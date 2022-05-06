@@ -256,12 +256,6 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           options: (command.options ?? []).map(mapper)
         };
 
-        console.log(
-          cmdObject,
-          commandObject,
-          _.isEqual(cmdObject, commandObject)
-        );
-
         if (_.isEqual(cmdObject, commandObject)) {
           return;
         }
