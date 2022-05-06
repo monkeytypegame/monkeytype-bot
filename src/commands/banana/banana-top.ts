@@ -30,14 +30,18 @@ export default {
     const sortedData10 = sortedData.slice(0, 10);
 
     embed.setDescription(
-      sortedData10
-        .map(
-          ([id, user], index) =>
-            `\`${index + 1}\`: ${client.users.cache.get(id)?.tag} (${
-              user.balance ?? 0
-            } bananas)`
+      (
+        await Promise.all(
+          sortedData10.map(
+            async ([id, user], index) =>
+              `\`${index + 1}\`: ${
+                (
+                  await client.users.fetch(id, { cache: true })
+                )?.tag
+              } (${user.balance ?? 0} bananas)`
+          )
         )
-        .join("\n")
+      ).join("\n")
     );
 
     if (
