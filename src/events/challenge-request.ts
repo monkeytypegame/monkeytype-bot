@@ -12,12 +12,12 @@ function fail(message: Message<boolean>, reason: FailReasons): void {
   let string = "❌ Something went wrong";
   if (reason === "badFormat") {
     string = "❌ Please use the correct format to submit a challenge:";
-    string += "```[bot ping]\n[role ping]\n";
+    string += "```[bot ping]\n[role ping or role name]\n";
     string += "[proof (any amount separated by new lines)]```";
     string += "for example:";
-    string += "```@George\n@Simp\nhttps://www.imgur.com/...```";
+    string += "```@George\nSimp\nhttps://www.imgur.com/...```";
     string += "or";
-    string += "```@George\n@Accuracy Expert\n(attached screenshot)```";
+    string += "```@George\nAccuracy Expert\n(attached screenshot)```";
   } else if (reason === "invalidChallenge") {
     string = "❌ Challenge role not found";
   } else if (reason === "noProof") {

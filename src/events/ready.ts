@@ -10,7 +10,8 @@ import { Client } from "../structures/client";
 import {
   ApplicationCommandChoicesOption,
   ApplicationCommandData,
-  ApplicationCommandOption
+  ApplicationCommandOption,
+  Guild
 } from "discord.js";
 import fetch from "node-fetch-commonjs";
 
@@ -24,13 +25,7 @@ export default {
       return;
     }
 
-    const memberCount =
-      guild.presences?.cache?.size ??
-      guild.approximatePresenceCount ??
-      guild.memberCount ??
-      guild.approximateMemberCount;
-
-    client.user.setActivity(`over ${memberCount} monkeys`, {
+    client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
       type: "WATCHING"
     });
 
@@ -46,7 +41,7 @@ export default {
     fetchLabels(client);
 
     setInterval(() => {
-      client.user.setActivity(`over ${memberCount} monkeys`, {
+      client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
         type: "WATCHING"
       });
 
@@ -138,4 +133,13 @@ async function updateIssueCommand(client: Client<true>) {
   await issueCommand.edit(issueCommand as ApplicationCommandData);
 
   console.log("Issue command updated!");
+}
+
+function getMemberCount(guild: Guild): number {
+  return (
+    guild.approximatePresenceCount ??
+    guild.presences?.cache?.size ??
+    guild.memberCount ??
+    guild.approximateMemberCount
+  );
 }

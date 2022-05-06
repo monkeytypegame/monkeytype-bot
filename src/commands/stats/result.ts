@@ -52,7 +52,7 @@ export default {
           .collection("results")
           .find({ uid: user.uid })
           .limit(1)
-          .sort({ $natural: -1 })
+          .sort({ timestamp: -1 })
           .toArray()
       )[0]
     );

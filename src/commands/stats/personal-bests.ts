@@ -52,7 +52,14 @@ export default {
     const timePB: { [key: number]: MonkeyTypes.PersonalBest } = {};
     const wordsPB: { [key: number]: MonkeyTypes.PersonalBest } = {};
 
+    const defaultTime = [15, 30, 60, 120];
+    const defaultWords = [10, 25, 50, 100];
+
     Object.entries(sortedTime).forEach(([key, timePBs]) => {
+      if (!defaultTime.includes(+key)) {
+        return;
+      }
+
       const maxValue = timePBs?.sort((a, b) => b.wpm - a.wpm)[0];
 
       if (maxValue === undefined) {
@@ -63,6 +70,10 @@ export default {
     });
 
     Object.entries(sortedWords).forEach(([key, wordsPBs]) => {
+      if (!defaultWords.includes(+key)) {
+        return;
+      }
+
       const maxValue = wordsPBs?.sort((a, b) => b.wpm - a.wpm)[0];
 
       if (maxValue === undefined) {
