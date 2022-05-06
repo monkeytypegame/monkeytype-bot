@@ -7,6 +7,7 @@ import {
   getRequestCount
 } from "../dal/challenge-request";
 import {
+  Message,
   MessageActionRow,
   MessageSelectMenu,
   MessageSelectOptionData
@@ -58,25 +59,28 @@ export default {
     const challengeSubmissionsChannel = await client.getChannel(
       "challengeSubmissions"
     );
+    const message = await interaction.channel.messages.fetch(
+      interaction.message.id
+    );
 
     if (challengeSubmissionsChannel === undefined) {
       interaction.reply(
         "❌ The challenge submissions channel could not be found"
       );
 
+      removeButtons(message);
+
       return;
     }
 
     const accepted = interaction.customId === "accept";
 
-    const message = await interaction.channel.messages.fetch(
-      interaction.message.id
-    );
-
     const embed = message.embeds[0];
 
     if (embed === undefined) {
       interaction.reply("❌ The embed could not be found on the message");
+
+      removeButtons(message);
 
       return;
     }
@@ -94,6 +98,8 @@ export default {
     ) {
       interaction.reply("❌ There seems to be data missing from the embed");
 
+      removeButtons(message);
+
       return;
     }
 
@@ -109,6 +115,8 @@ export default {
         "❌ The challenge message id or member could not be found"
       );
 
+      removeButtons(message);
+
       return;
     }
 
@@ -122,6 +130,8 @@ export default {
       interaction.reply(
         "❌ The challenge request or message could not be found"
       );
+
+      deleteRequest(userID, challengeMessageID);
 
       return;
     }
@@ -231,7 +241,7 @@ export default {
         components: []
       });
 
-      await deleteRequest(userID, challengeMessageID);
+      deleteRequest(userID, challengeMessageID);
       incrementDenied(interaction.member.user.id);
     }
 
@@ -242,3 +252,10 @@ export default {
     }
   }
 } as MonkeyTypes.Event<"interactionCreate">;
+
+function removeButtons(message: Message): void {
+  message.edit({
+    embeds: message.embeds,
+    components: []
+  });
+}
