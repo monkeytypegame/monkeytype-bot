@@ -132,6 +132,7 @@ export default {
 
     if (accepted) {
       const newEmbeds = message.embeds;
+
       newEmbeds[0]?.addFields({
         name: "Accepted by",
         value: `${interaction.member.user}`
