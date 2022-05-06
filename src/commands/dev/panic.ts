@@ -5,7 +5,7 @@ export default {
   description: "Kill the bot",
   category: "Dev",
   run: async (interaction) => {
-    interaction.reply("💀 Killing the bot. 💀");
+    await interaction.reply("💀 Killing the bot. 💀");
 
     console.log(`Bot killed by ${interaction.user.tag}`);
 
