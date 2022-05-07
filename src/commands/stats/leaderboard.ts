@@ -2,6 +2,7 @@
 
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
+import { toPascalCase } from "../../functions/to-pascal-case";
 
 export default {
   name: "leaderboard",
@@ -38,7 +39,18 @@ export default {
       name: "mode2",
       description: "The mode2 to query",
       type: "STRING",
-      required: true
+      required: true,
+      // remove these choices when words/quote lbs are added
+      choices: [
+        {
+          name: "15",
+          value: "15"
+        },
+        {
+          name: "60",
+          value: "60"
+        }
+      ]
     }
   ],
   run: async (interaction, client) => {
@@ -99,7 +111,7 @@ export default {
       amount: 10,
       entries: fieldArray,
       id: "leaderboard",
-      fieldName: "Leaderboard",
+      fieldName: `Leaderboard (${toPascalCase(mode)} ${mode2})`,
       send: async (embed, row, currentEntries) => {
         if (
           leaderboardUser !== undefined &&
