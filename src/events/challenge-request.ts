@@ -64,13 +64,11 @@ export default {
     }
 
     const foundChallengeRole = Object.entries(client.clientOptions.challenges)
-      .map((challenge) => {
-        return {
-          name: challenge[0],
-          id: challenge[1],
-          similarity: compareTwoStrings(challenge[0], roleName)
-        };
-      })
+      .map((challenge) => ({
+        name: challenge[0],
+        id: challenge[1],
+        similarity: compareTwoStrings(challenge[0], roleName)
+      }))
       .sort((a, b) => b.similarity - a.similarity)[0];
 
     if (foundChallengeRole === undefined) {

@@ -16,6 +16,7 @@ const args = process.argv.slice(2);
 (async () => {
   if (args.length !== 3) {
     console.log("Exactly 3 arguments expected.");
+
     return;
   }
 
@@ -23,6 +24,7 @@ const args = process.argv.slice(2);
 
   if (text === undefined || source === undefined || language === undefined) {
     console.log("Arguments must be strings.");
+
     return;
   }
 

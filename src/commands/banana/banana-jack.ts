@@ -4,7 +4,6 @@ import type { MonkeyTypes } from "../../types/types";
 import { createUser, getUser, setUser } from "../../functions/banana";
 import { MessageActionRow, MessageButton } from "discord.js";
 
-const currentlyPlaying = new Set<string>();
 const suits = ["♥", "♣", "♦", "♠"];
 const values = [
   "A",
@@ -60,13 +59,13 @@ export default {
       return;
     }
 
-    if (currentlyPlaying.has(interaction.user.id)) {
+    if (client.currentlyPlaying.has(interaction.user.id)) {
       interaction.reply("❌ You are already playing.");
 
       return;
     }
 
-    currentlyPlaying.add(interaction.user.id);
+    client.currentlyPlaying.add(interaction.user.id);
 
     const dealerCards: Card[] = [];
     const playerCards: Card[] = [];
@@ -138,6 +137,7 @@ export default {
 
       if (playerField === undefined || dealerField === undefined) {
         console.log("Field is undefined");
+
         return;
       }
 
@@ -208,7 +208,7 @@ export default {
     setUser(interaction.user.id, authorBananaEntry);
     setUser(client.user.id, botBananaEntry);
 
-    currentlyPlaying.delete(interaction.user.id);
+    client.currentlyPlaying.delete(interaction.user.id);
   }
 } as MonkeyTypes.Command;
 
@@ -235,6 +235,7 @@ function shuffleDeck(deck: Card[]): Card[] {
 
     if (randomCard === undefined) {
       console.log("Card is undefined");
+
       return deck;
     }
 
@@ -295,19 +296,13 @@ function getWinner(
 
   if (playerScore > 21) {
     return "dealer";
-  }
-
-  if (dealerScore > 21) {
+  } else if (dealerScore > 21) {
     return "player";
-  }
-
-  if (playerScore > dealerScore) {
+  } else if (playerScore > dealerScore) {
     return "player";
-  }
-
-  if (playerScore < dealerScore) {
+  } else if (playerScore < dealerScore) {
     return "dealer";
+  } else {
+    return "tie";
   }
-
-  return "tie";
 }

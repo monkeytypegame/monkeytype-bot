@@ -35,16 +35,19 @@ export default {
       interaction.reply(
         "❌ The user you are donating to does not have a banana profile."
       );
+
       return;
     }
 
     if (amount < 1) {
       interaction.reply("❌ You must donate at least 1 banana.");
+
       return;
     }
 
     if (authorBananaEntry.balance < amount) {
       interaction.reply("❌ You do not have enough bananas to donate.");
+
       return;
     }
 

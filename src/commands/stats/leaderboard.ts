@@ -87,9 +87,11 @@ export default {
     );
 
     if (leaderboardArray.length === 0) {
-      return interaction.followUp(
+      interaction.followUp(
         "❌ There are no users on the leaderboard. Did you enter in a valid mode?"
       );
+
+      return;
     }
 
     const fieldArray = leaderboardArray.map(
@@ -112,7 +114,7 @@ export default {
       entries: fieldArray,
       id: "leaderboard",
       fieldName: `Leaderboard (${toPascalCase(mode)} ${mode2})`,
-      send: async (embed, row, currentEntries) => {
+      send: (embed, row, currentEntries) => {
         if (
           leaderboardUser !== undefined &&
           !currentEntries?.find((entry) => entry.includes(leaderboardUser.name))
@@ -123,7 +125,7 @@ export default {
           );
         }
 
-        return await interaction.followUp({
+        return interaction.followUp({
           embeds: [embed],
           components: fieldArray.length < 10 ? [] : [row],
           fetchReply: true

@@ -131,9 +131,10 @@ export default {
         "❌ The challenge request or message could not be found"
       );
 
-      await deleteRequest(userID, challengeMessageID);
+      deleteRequest(userID, challengeMessageID);
       updateChannel(message);
       removeButtons(message);
+
       return;
     }
 

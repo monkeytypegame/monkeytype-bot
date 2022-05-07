@@ -15,7 +15,7 @@ export function readFileOrCreate(
 
 export function readOptionalFile(fileName: string): string | undefined {
   if (!fs.existsSync(fileName)) {
-    return undefined;
+    return;
   }
 
   return fs.readFileSync(fileName).toString();

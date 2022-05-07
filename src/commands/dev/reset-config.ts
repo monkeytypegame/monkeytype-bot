@@ -54,8 +54,6 @@ export default {
           ephemeral: true,
           content: "❌ Could not update config. User has no config."
         });
-
-        return;
       });
 
     interaction.followUp({

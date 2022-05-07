@@ -4,8 +4,6 @@ import { MessageActionRow, MessageButton } from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
 import type { MonkeyTypes } from "../../types/types";
 
-const currentlyPlaying = new Set<string>();
-
 type Choice = "rock" | "paper" | "scissors";
 
 const choices: [Choice, Choice, Choice] = ["rock", "paper", "scissors"];
@@ -51,20 +49,23 @@ export default {
 
     if (amount < 1) {
       interaction.reply("❌ You must bet at least 1 banana.");
+
       return;
     }
 
     if (authorBananaEntry.balance < amount) {
       interaction.reply("❌ You do not have enough bananas to bet.");
+
       return;
     }
 
-    if (currentlyPlaying.has(interaction.user.id)) {
+    if (client.currentlyPlaying.has(interaction.user.id)) {
       interaction.reply("❌ You are already playing.");
+
       return;
     }
 
-    currentlyPlaying.add(interaction.user.id);
+    client.currentlyPlaying.add(interaction.user.id);
 
     const embed = client.embed(
       {
@@ -152,7 +153,7 @@ export default {
 
           game(round);
         } else {
-          currentlyPlaying.delete(interaction.user.id);
+          client.currentlyPlaying.delete(interaction.user.id);
 
           const outcome =
             wins > losses ? "win" : wins === losses ? "tie" : "loss";

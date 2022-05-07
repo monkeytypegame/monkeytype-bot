@@ -37,6 +37,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   public commands = new Discord.Collection<string, MonkeyTypes.Command>();
   public tasks = new Discord.Collection<string, MonkeyTypes.TaskFile>();
   public categories = new Array<string>();
+  public currentlyPlaying = new Set<string>();
   public permissionsAdded = new Set<string>();
 
   constructor(options: MonkeyTypes.ClientOptions) {
@@ -387,6 +388,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       if (buttonInteraction.customId === `${id.toLowerCase()}PreviousPage`) {
         if (page <= 0) {
           page = 0;
+
           return;
         }
 
@@ -394,6 +396,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       } else if (buttonInteraction.customId === `${id.toLowerCase()}NextPage`) {
         if (page >= maxPage - 1) {
           page = maxPage - 1;
+
           return;
         }
 

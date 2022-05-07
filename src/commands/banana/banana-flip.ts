@@ -107,11 +107,13 @@ export default {
 
     if (amount < 1) {
       interaction.reply("❌ You must bet at least 1 banana.");
+
       return;
     }
 
     if (authorBananaEntry.balance < amount) {
       interaction.reply("❌ You do not have enough bananas to bet.");
+
       return;
     }
 

@@ -33,6 +33,7 @@ export default {
 
     if (githubLinks.length !== 0) {
       message.reply({ content: githubLinks.join("\n") });
+
       return;
     }
 
@@ -40,7 +41,9 @@ export default {
       message.content === "ping" &&
       message.member?.permissions.has("MANAGE_GUILD")
     ) {
-      return message.reply("pong");
+      message.reply("pong");
+
+      return;
     }
 
     if (message.mentions.has(client.user as User)) {
