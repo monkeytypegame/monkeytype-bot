@@ -133,6 +133,7 @@ export default {
 
       await deleteRequest(userID, challengeMessageID);
       updateChannel(message);
+      removeButtons(message);
       return;
     }
 
