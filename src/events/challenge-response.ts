@@ -131,8 +131,8 @@ export default {
         "❌ The challenge request or message could not be found"
       );
 
-      deleteRequest(userID, challengeMessageID);
-
+      await deleteRequest(userID, challengeMessageID);
+      updateChannel(message);
       return;
     }
 
@@ -165,7 +165,8 @@ export default {
         components: []
       });
 
-      deleteRequest(userID, challengeMessageID);
+      await deleteRequest(userID, challengeMessageID);
+      updateChannel(message);
       incrementApproved(interaction.member.user.id);
     } else {
       const row = new MessageActionRow();
@@ -241,17 +242,20 @@ export default {
         components: []
       });
 
-      deleteRequest(userID, challengeMessageID);
+      await deleteRequest(userID, challengeMessageID);
+      updateChannel(message);
       incrementDenied(interaction.member.user.id);
-    }
-
-    if (message.channel.type === "GUILD_TEXT") {
-      message.channel.edit({
-        name: `${await getRequestCount()}-cs-mods`
-      });
     }
   }
 } as MonkeyTypes.Event<"interactionCreate">;
+
+async function updateChannel(message: Message): Promise<void> {
+  if (message.channel.type === "GUILD_TEXT") {
+    message.channel.edit({
+      name: `${await getRequestCount()}-cs-mods`
+    });
+  }
+}
 
 function removeButtons(message: Message): void {
   message.edit({
