@@ -107,7 +107,7 @@ export default {
     const userID = userPing.replace(/[^0-9]/g, "");
     const challengeMessageID = challengeMessageLink.split("/")[6];
     const member = await interaction.guild.members
-      .fetch({ user: userID, cache: true, force: true })
+      .fetch({ user: userID, cache: true })
       .catch(() => undefined);
 
     if (challengeMessageID === undefined || member === undefined) {
@@ -121,7 +121,7 @@ export default {
     }
 
     const challengeMessage = await challengeSubmissionsChannel.messages
-      .fetch(challengeMessageID, { cache: true, force: true })
+      .fetch(challengeMessageID, { cache: true })
       .catch(() => undefined);
 
     const challengeRequest = getRequest(userID, challengeMessageID);
@@ -138,7 +138,7 @@ export default {
     }
 
     const challengeRole = await interaction.guild.roles
-      .fetch(challengeRoleID, { cache: true, force: true })
+      .fetch(challengeRoleID, { cache: true })
       .catch(() => undefined);
 
     if (accepted) {

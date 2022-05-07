@@ -192,7 +192,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     const fetchOptions = {
       guildId: this.clientOptions.guildID,
       cache: true,
-      force: true
+      
     };
 
     const slashCommands = await this.application?.commands.fetch(fetchOptions);

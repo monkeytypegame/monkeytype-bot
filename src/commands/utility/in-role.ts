@@ -25,7 +25,6 @@ export default {
     }
 
     const role = await guild.roles.fetch(apiRole.id, {
-      force: true,
       cache: true
     });
 
