@@ -54,9 +54,7 @@ export default {
     }
   ],
   run: async (interaction, client) => {
-    await interaction.deferReply({
-      fetchReply: false
-    });
+    await interaction.deferReply({ fetchReply: false });
 
     const db = mongoDB();
 

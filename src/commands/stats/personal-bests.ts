@@ -34,20 +34,20 @@ export default {
       return;
     }
 
-    const pbs = user?.personalBests;
+    const personalBests = user?.personalBests;
 
-    if (pbs === undefined) {
+    if (personalBests === undefined) {
       interaction.reply({
         ephemeral: true,
         content:
-          "❌ Could not find personal bests. Make sure accounts are paired and pbs are set."
+          "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
       });
 
       return;
     }
 
-    const sortedTime = pbs.time;
-    const sortedWords = pbs.words;
+    const sortedTime = personalBests.time;
+    const sortedWords = personalBests.words;
 
     const timePB: { [key: number]: MonkeyTypes.PersonalBest } = {};
     const wordsPB: { [key: number]: MonkeyTypes.PersonalBest } = {};
@@ -94,7 +94,7 @@ export default {
     const timeFields: EmbedFieldData[] = [];
 
     if (timeEntryCount !== 0) {
-      Object.entries(timePB).map(([key, pb]) => {
+      Object.entries(timePB).map(([key, personalBest]) => {
         timeFields.push(
           {
             name: `${key} seconds`,
@@ -102,13 +102,13 @@ export default {
             inline: true
           },
           {
-            name: `${pb.wpm} wpm`,
-            value: `${pb.acc}% acc`,
+            name: `${personalBest.wpm} wpm`,
+            value: `${personalBest.acc}% acc`,
             inline: true
           },
           {
-            name: `${pb.raw} raw`,
-            value: `${pb.consistency}% con`,
+            name: `${personalBest.raw} raw`,
+            value: `${personalBest.consistency}% con`,
             inline: true
           }
         );
@@ -133,20 +133,20 @@ export default {
     const wordsFields: EmbedFieldData[] = [];
 
     if (timeEntryCount !== 0) {
-      Object.entries(wordsPB).map(([key, pb]) => {
+      Object.entries(wordsPB).map(([key, personalBest]) => {
         wordsFields.push({
           name: `${key} words`,
           value: "‎",
           inline: true
         });
         wordsFields.push({
-          name: `${pb.wpm} wpm`,
-          value: `${pb.acc}% acc`,
+          name: `${personalBest.wpm} wpm`,
+          value: `${personalBest.acc}% acc`,
           inline: true
         });
         wordsFields.push({
-          name: `${pb.raw} raw`,
-          value: `${pb.consistency}% con`,
+          name: `${personalBest.raw} raw`,
+          value: `${personalBest.consistency}% con`,
           inline: true
         });
       });

@@ -25,6 +25,8 @@ export default {
     }
   ],
   run: async (interaction, client) => {
+    await interaction.deferReply({ fetchReply: false });
+
     const discordUser = interaction.options.getUser("user") ?? interaction.user;
 
     const db = mongoDB();
@@ -34,17 +36,13 @@ export default {
     );
 
     if (user === undefined || user.uid === undefined) {
-      interaction.reply({
+      interaction.followUp({
         ephemeral: true,
         content: "❌ Could not find user. Make sure accounts are paired."
       });
 
       return;
     }
-
-    await interaction.deferReply({
-      fetchReply: false
-    });
 
     const result = <MonkeyTypes.Result<MonkeyTypes.Mode> | undefined>(
       (
@@ -65,20 +63,24 @@ export default {
       return;
     }
 
-    const nameDisplay =
-      user.name === discordUser.username
-        ? user.name
-        : `${user.name} (${discordUser.username})`;
+    const showDiscord =
+      user.name === discordUser.username ? "" : ` (${discordUser.username})`;
 
     const embed = client.embed(
       {
-        title: `Recent Result for ${nameDisplay}`,
+        title: `Recent Result for ${user.name}${showDiscord}`,
         color: 0xe2b714
       },
       discordUser
     );
 
     const language = result.language ?? "english";
+
+    if (result.isPb) {
+      embed.setThumbnail(
+        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/crown_1f451.png"
+      );
+    }
 
     if (["time", "words"].includes(result.mode)) {
       embed.addFields(

@@ -43,9 +43,9 @@ export default {
       return;
     }
 
-    const pbs = dbUser?.personalBests;
+    const personalBests = dbUser?.personalBests;
 
-    if (pbs === undefined) {
+    if (personalBests === undefined) {
       interaction.reply({
         content: "❌ User does not have personal bests"
       });
@@ -53,7 +53,7 @@ export default {
       return;
     }
 
-    const timePBs = pbs.time[60];
+    const timePBs = personalBests.time[60];
 
     if (timePBs === undefined || timePBs.length === 0) {
       interaction.reply({
