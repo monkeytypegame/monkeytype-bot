@@ -69,7 +69,7 @@ export default {
       await db
         .collection(`leaderboards.${language}.${mode}.${mode2}`)
         .find()
-        .sort("rank", "descending")
+        .sort("rank", "ascending")
         .limit(100)
         .toArray()
     );
