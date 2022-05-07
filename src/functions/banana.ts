@@ -10,7 +10,7 @@ export function getUser(userID: string): MonkeyTypes.BananaEntry | undefined {
   const user = data[userID];
 
   if (user === undefined) {
-    return undefined;
+    return;
   }
 
   return partialToFull(user);
