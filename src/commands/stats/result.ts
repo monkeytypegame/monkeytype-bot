@@ -121,7 +121,9 @@ export default {
         {
           name: "Quote",
           value: toPascalCase(
-            `${language} ${quoteLengthMap[result.quoteLength as 1 | 2 | 3 | 4]}`
+            `${language} ${
+              quoteLengthMap[result.quoteLength as keyof typeof quoteLengthMap]
+            }`
           ),
           inline: true
         },
