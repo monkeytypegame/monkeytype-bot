@@ -29,7 +29,11 @@ export default {
       type: "WATCHING"
     });
 
-    client.logInBotLogChannel("😄 Ready");
+    client.logInBotLogChannel(
+      `${await client.users.fetch(
+        client.clientOptions.devID
+      )}, Ready! Make sure to unlock commands`
+    );
 
     connectDB().then(() => console.log("Database connected"));
     connectRedis().then(async () => {
