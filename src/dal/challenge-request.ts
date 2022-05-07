@@ -27,8 +27,11 @@ export function getRequest(
     });
 }
 
-export function deleteRequest(userID: string, messageID: string): void {
-  mongoDB().collection("bot-challenge-requests").deleteOne({
+export async function deleteRequest(
+  userID: string,
+  messageID: string
+): Promise<void> {
+  await mongoDB().collection("bot-challenge-requests").deleteOne({
     userID,
     messageID
   });
