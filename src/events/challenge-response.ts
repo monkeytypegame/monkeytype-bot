@@ -167,7 +167,7 @@ export default {
         components: []
       });
 
-      await deleteRequest(userID, challengeMessageID);
+      deleteRequest(userID, challengeMessageID);
       updateChannel(message);
       incrementApproved(interaction.member.user.id);
     } else {
@@ -244,7 +244,7 @@ export default {
         components: []
       });
 
-      await deleteRequest(userID, challengeMessageID);
+      deleteRequest(userID, challengeMessageID);
       updateChannel(message);
       incrementDenied(interaction.member.user.id);
     }
