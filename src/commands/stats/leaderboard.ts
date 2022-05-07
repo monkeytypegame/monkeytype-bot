@@ -70,7 +70,7 @@ export default {
 
     const leaderboardUser =
       user !== undefined
-        ? <MonkeyTypes.LeaderboardEntry>(
+        ? <MonkeyTypes.LeaderboardEntry | undefined>(
             await db
               .collection(`leaderboards.${language}.${mode}.${mode2}`)
               .findOne({ uid: user.uid })
