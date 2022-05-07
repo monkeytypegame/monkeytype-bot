@@ -1,4 +1,5 @@
 import type { MonkeyTypes } from "../types/types";
+import { mongoDB } from "../functions/mongodb";
 
 export default {
   name: "linkDiscord",
@@ -34,10 +35,41 @@ export default {
 
     await member.roles.add(memberRole);
 
+    const db = mongoDB();
+
+    const dbUser = <MonkeyTypes.User | undefined>(
+      await db.collection("users").findOne({
+        discordId: discordUserID
+      })
+    );
+
     const botCommandsChannel = await client.getChannel("botCommands");
 
+    let message = `✅ ${member}, your account is linked.`;
+
+    if (
+      dbUser !== undefined &&
+      dbUser.personalBests !== undefined &&
+      dbUser.personalBests.time[60] !== undefined &&
+      dbUser.personalBests.time[60].length > 0
+    ) {
+      const timePB = Math.round(
+        Math.max(...dbUser.personalBests.time[60].map(({ wpm }) => wpm), 0)
+      );
+
+      const wpmRole = await client.getWPMRole(timePB);
+
+      if (wpmRole !== undefined) {
+        await member.roles.add(wpmRole);
+
+        message += ` You have received the ${wpmRole} role.`;
+      }
+    } else {
+      message += ` I was unable to give you a WPM role at this time.`;
+    }
+
     if (botCommandsChannel !== undefined) {
-      botCommandsChannel.send(`✅ ${member}, your account is linked.`);
+      await botCommandsChannel.send(message);
     }
 
     return {
