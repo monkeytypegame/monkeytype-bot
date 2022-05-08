@@ -35,6 +35,10 @@ export default {
       )}, Ready! Make sure to unlock commands`
     );
 
+    (await client.users.fetch(client.clientOptions.devID)).send(
+      "Ready! Make sure to unlock commands"
+    );
+
     connectDB().then(() => console.log("Database connected"));
     connectRedis().then(async () => {
       console.log("Redis connected");
