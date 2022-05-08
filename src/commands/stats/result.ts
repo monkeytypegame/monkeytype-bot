@@ -76,13 +76,11 @@ export default {
 
     const language = result.language ?? "english";
 
-    let thumb =
-      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/clipboard_1f4cb.png";
-    if (result.isPb) {
-      thumb =
-        "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/crown_1f451.png";
-    }
-    embed.setThumbnail(thumb);
+    embed.setThumbnail(
+      result.isPb
+        ? "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/crown_1f451.png"
+        : "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/clipboard_1f4cb.png"
+    );
 
     if (["time", "words"].includes(result.mode)) {
       embed.addFields(
