@@ -63,6 +63,8 @@ export default {
         )
       ) {
         message.channel.send(":)");
+      } else if (/(cute)/g.test(message.content.toLowerCase())) {
+        message.channel.send("😳");
       }
 
       return;
