@@ -9,7 +9,7 @@ export default {
   category: "Dev",
   needsPermissions: true,
   run: async (interaction) => {
-    const subprocess = spawn("/home/ubuntu/monkey-bot/upgrade.sh", [], {
+    const subprocess = spawn("/root/bot_deploy.sh", [], {
       detached: true,
       stdio: "ignore"
     });
