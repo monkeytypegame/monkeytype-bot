@@ -1,4 +1,5 @@
 import { GuildMember } from "discord.js";
+import { Client } from "../structures/client";
 import type { MonkeyTypes } from "../types/types";
 
 export default {
@@ -71,7 +72,7 @@ export default {
         title: "Leaderboard Update",
         description: `${displayName} just got \`${posString}\` place on the \`${leaderboard}\` leaderboard!`,
         thumbnail: {
-          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
+          url: Client.thumbnails.star
         },
         color: 0xe2b714,
         fields: [

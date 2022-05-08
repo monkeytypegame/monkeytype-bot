@@ -3,6 +3,7 @@
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { EmbedFieldData, MessageEmbed } from "discord.js";
+import { Client } from "../../structures/client";
 
 export default {
   name: "personal-bests",
@@ -122,7 +123,7 @@ export default {
               title: `Time Personal Bests for ${nameDisplay}`,
               color: 0xe2b714,
               thumbnail: {
-                url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png"
+                url: Client.thumbnails.alarmClock
               },
               fields: timeFields
             },
@@ -159,7 +160,7 @@ export default {
               title: `Word Personal Bests for ${nameDisplay}`,
               color: 0xe2b714,
               thumbnail: {
-                url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
+                url: Client.thumbnails.clipboard
               },
               fields: wordsFields
             },

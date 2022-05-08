@@ -5,6 +5,7 @@ import { mongoDB } from "../../functions/mongodb";
 import { createUser, getUser, setUser } from "../../functions/banana";
 import { getNextDay, isSameDay } from "../../functions/date";
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
+import { Client } from "../../structures/client";
 
 export default {
   name: "banana",
@@ -48,7 +49,7 @@ export default {
         title: `${interaction.user.username}'s Bananas`,
         color: 0xe2b714,
         thumbnail: {
-          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
+          url: Client.thumbnails.banana
         },
         description: `Banana collected! Come back in ${timeString} for more.`,
         fields: [

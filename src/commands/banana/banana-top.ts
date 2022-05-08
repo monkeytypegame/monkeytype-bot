@@ -2,6 +2,7 @@
 
 import type { MonkeyTypes } from "../../types/types";
 import { getData, getUser } from "../../functions/banana";
+import { Client } from "../../structures/client";
 
 export default {
   name: "banana-top",
@@ -15,7 +16,7 @@ export default {
         title: "Top 10 Banana Hoarders",
         color: 0xe2b714,
         thumbnail: {
-          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
+          url: Client.thumbnails.banana
         }
       },
       interaction.user

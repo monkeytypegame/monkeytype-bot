@@ -4,6 +4,7 @@ import type { MonkeyTypes } from "../../types/types";
 import { getStats } from "../../dal/challenge-request-stats";
 import { MessageEmbedOptions } from "discord.js";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { Client } from "../../structures/client";
 
 export default {
   name: "challenge-requests-stats",
@@ -20,7 +21,7 @@ export default {
       const embedOptions: MessageEmbedOptions = {
         title: `Challenge Requests Stats for ${member?.displayName}`,
         thumbnail: {
-          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png"
+          url: Client.thumbnails.clipboard
         },
         color: 0xe2b714,
         fields: [
