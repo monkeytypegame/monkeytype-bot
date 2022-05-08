@@ -2,7 +2,7 @@
 
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
-import { EmbedFieldData, MessageEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { Client } from "../../structures/client";
 
 export default {
@@ -92,30 +92,6 @@ export default {
     const timeEntryCount = Object.keys(timePB).length;
     const wordsEntryCount = Object.keys(wordsPB).length;
 
-    const timeFields: EmbedFieldData[] = [];
-
-    if (timeEntryCount !== 0) {
-      Object.entries(timePB).map(([key, personalBest]) => {
-        timeFields.push(
-          {
-            name: `${key} seconds`,
-            value: "‎",
-            inline: true
-          },
-          {
-            name: `${personalBest.wpm} wpm`,
-            value: `${personalBest.acc}% acc`,
-            inline: true
-          },
-          {
-            name: `${personalBest.raw} raw`,
-            value: `${personalBest.consistency}% con`,
-            inline: true
-          }
-        );
-      });
-    }
-
     const timeEmbed =
       timeEntryCount !== 0
         ? client.embed(
@@ -125,33 +101,29 @@ export default {
               thumbnail: {
                 url: Client.thumbnails.alarmClock
               },
-              fields: timeFields
+              fields: Object.entries(timePB)
+                .map(([key, personalBest]) => [
+                  {
+                    name: `${key} seconds`,
+                    value: "‎",
+                    inline: true
+                  },
+                  {
+                    name: `${personalBest.wpm} wpm`,
+                    value: `${personalBest.acc}% acc`,
+                    inline: true
+                  },
+                  {
+                    name: `${personalBest.raw} raw`,
+                    value: `${personalBest.consistency}% con`,
+                    inline: true
+                  }
+                ])
+                .flat()
             },
             discordUser
           )
         : undefined;
-
-    const wordsFields: EmbedFieldData[] = [];
-
-    if (timeEntryCount !== 0) {
-      Object.entries(wordsPB).map(([key, personalBest]) => {
-        wordsFields.push({
-          name: `${key} words`,
-          value: "‎",
-          inline: true
-        });
-        wordsFields.push({
-          name: `${personalBest.wpm} wpm`,
-          value: `${personalBest.acc}% acc`,
-          inline: true
-        });
-        wordsFields.push({
-          name: `${personalBest.raw} raw`,
-          value: `${personalBest.consistency}% con`,
-          inline: true
-        });
-      });
-    }
 
     const wordsEmbed =
       wordsEntryCount !== 0
@@ -162,7 +134,25 @@ export default {
               thumbnail: {
                 url: Client.thumbnails.clipboard
               },
-              fields: wordsFields
+              fields: Object.entries(wordsPB)
+                .map(([key, personalBest]) => [
+                  {
+                    name: `${key} words`,
+                    value: "‎",
+                    inline: true
+                  },
+                  {
+                    name: `${personalBest.wpm} wpm`,
+                    value: `${personalBest.acc}% acc`,
+                    inline: true
+                  },
+                  {
+                    name: `${personalBest.raw} raw`,
+                    value: `${personalBest.consistency}% con`,
+                    inline: true
+                  }
+                ])
+                .flat()
             },
             discordUser
           )
