@@ -29,15 +29,19 @@ export default {
       type: "WATCHING"
     });
 
+    const botOwner = await client.users.fetch(client.clientOptions.devID);
+
     client.logInBotLogChannel(
-      `${await client.users.fetch(
-        client.clientOptions.devID
-      )}, Ready! Make sure to unlock commands`
+      client.clientOptions.dev
+        ? "Ready!"
+        : `${botOwner}, Ready! Make sure to unlock commands`
     );
 
-    (await client.users.fetch(client.clientOptions.devID))
-      .send("Ready! Make sure to unlock commands")
-      .catch(() => console.log("Couldn't send ready message to owner"));
+    if (client.clientOptions.dev) {
+      botOwner
+        .send("Ready! Make sure to unlock commands")
+        .catch(() => console.log("Couldn't send ready message to owner"));
+    }
 
     connectDB().then(() => console.log("Database connected"));
     connectRedis().then(async () => {

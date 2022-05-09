@@ -6,7 +6,7 @@
   "eventsPath": "./events",
   "tasksPath": "./tasks",
   "deleteUnusedSlashCommands": true,
-  "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
+  "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS", "GUILD_PRESENCES"],
   "repo": "monkeytypegame/monkeytype",
   "repoPath": "../monkeytype",
   "roles": {
