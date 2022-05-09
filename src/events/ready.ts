@@ -37,7 +37,7 @@ export default {
         : `${botOwner}, Ready! Make sure to unlock commands`
     );
 
-    if (client.clientOptions.dev) {
+    if (!client.clientOptions.dev) {
       botOwner
         .send("Ready! Make sure to unlock commands")
         .catch(() => console.log("Couldn't send ready message to owner"));
