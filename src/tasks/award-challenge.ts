@@ -17,7 +17,8 @@ export default {
     if (member === undefined) {
       return {
         status: false,
-        message: "Could not find user"
+        message: "Could not find user",
+        member: discordUserID
       };
     }
 
@@ -29,14 +30,16 @@ export default {
     if (challengeRole === undefined) {
       return {
         status: false,
-        message: "Could not find challenge role"
+        message: "Could not find challenge role",
+        member
       };
     }
 
     if (member.roles.cache.has(challengeRole.id)) {
       return {
         status: false,
-        message: "User already has challenge role"
+        message: "User already has challenge role",
+        member
       };
     }
 
@@ -52,7 +55,8 @@ export default {
 
     return {
       status: true,
-      message: "Successfully awarded challenge"
+      message: "Successfully awarded challenge",
+      member
     };
   }
 } as MonkeyTypes.TaskFile;
