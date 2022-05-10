@@ -1,4 +1,4 @@
-import { MonkeyTypes } from "../../types/types";
+import type { MonkeyTypes } from "../../types/types";
 
 export default {
   name: "panic",
