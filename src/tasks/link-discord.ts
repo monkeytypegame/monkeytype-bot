@@ -64,6 +64,8 @@ export default {
 
         message += ` You have received the ${wpmRole} role.`;
       }
+    } else if (dbUser !== undefined && dbUser.personalBests !== undefined) {
+      message += ` I was unable to give you a WPM role because you have not completed any 60 second tests`;
     } else {
       message += ` I was unable to give you a WPM role at this time.`;
     }
