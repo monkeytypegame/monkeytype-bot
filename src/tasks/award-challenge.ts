@@ -33,6 +33,13 @@ export default {
       };
     }
 
+    if (member.roles.cache.has(challengeRole.id)) {
+      return {
+        status: false,
+        message: "User already has challenge role"
+      };
+    }
+
     await member.roles.add(challengeRole);
 
     const botCommandsChannel = await client.getChannel("botCommands");
