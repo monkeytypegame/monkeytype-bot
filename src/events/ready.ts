@@ -55,7 +55,7 @@ async function fetchLabels(client: Client<true>): Promise<void> {
   );
 
   if (response.status !== 200) {
-    console.log(`Could not fetch labels:\n${response.status}`);
+    console.log(`Could not fetch labels:\n${response.statusText}`);
 
     return;
   }
