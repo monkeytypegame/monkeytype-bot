@@ -7,7 +7,8 @@ export default {
     if (discordUserID === undefined || userID === undefined) {
       return {
         status: false,
-        message: "Invalid parameters"
+        message: "Invalid parameters",
+        member: discordUserID
       };
     }
 
@@ -18,7 +19,8 @@ export default {
     if (member === undefined) {
       return {
         status: false,
-        message: "Could not find user"
+        message: "Could not find user",
+        member: discordUserID
       };
     }
 
@@ -29,7 +31,8 @@ export default {
     if (memberRole === undefined) {
       return {
         status: false,
-        message: "Could not find member role"
+        message: "Could not find member role",
+        member
       };
     }
 
@@ -64,6 +67,8 @@ export default {
 
         message += ` You have received the ${wpmRole} role.`;
       }
+    } else if (dbUser !== undefined && dbUser.personalBests !== undefined) {
+      message += ` I was unable to give you a WPM role because you have not completed any 60 second tests`;
     } else {
       message += ` I was unable to give you a WPM role at this time.`;
     }
@@ -74,7 +79,8 @@ export default {
 
     return {
       status: true,
-      message: "Successfully linked discord user"
+      message: "Successfully linked discord user",
+      member
     };
   }
 } as MonkeyTypes.TaskFile;

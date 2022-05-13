@@ -33,6 +33,27 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   public static iconURL =
     "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";
   public static glob = promisify(globCB);
+  public static thumbnails = {
+    slotMachine:
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/slot-machine_1f3b0.png",
+    banana:
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png",
+    crossMark:
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/cross-mark_274c.png",
+    raisedHand:
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/raised-hand_270b.png",
+    clipboard:
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/clipboard_1f4cb.png",
+    alarmClock:
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/alarm-clock_23f0.png",
+    crown:
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/crown_1f451.png",
+    barChart:
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/bar-chart_1f4ca.png",
+    trophy:
+      "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/trophy_1f3c6.png",
+    star: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/star_2b50.png"
+  };
   public clientOptions: MonkeyTypes.ClientOptions;
   public commands = new Discord.Collection<string, MonkeyTypes.Command>();
   public tasks = new Discord.Collection<string, MonkeyTypes.TaskFile>();
@@ -106,20 +127,18 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
       const taskName = job.data.name;
 
+      const message = `\`${taskName}\`: ${
+        result.member ? `${result.member} ` : ""
+      }\n${result.message}`;
+
       console.log(
         `Task ${taskName} finished ${
           result.status ? "successfully" : `with errors\n${result.message}`
         }.`
       );
 
-      if (result.status) {
-        console.log(`Task ${taskName} completed.`);
-        console.log(result.message);
-        this.logInBotLogChannel(result.message);
-      } else {
-        console.log(result.message);
-        this.logInBotLogChannel(result.message);
-      }
+      console.log(result.message);
+      this.logInBotLogChannel(message);
     });
 
     console.log(`Initialized task worker "${worker.name}"`);

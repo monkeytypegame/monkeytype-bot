@@ -2,6 +2,7 @@
 
 import { MessageActionRow, MessageButton } from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
+import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 
 type Choice = "rock" | "paper" | "scissors";
@@ -71,7 +72,7 @@ export default {
       {
         title: "Rock Paper Scissors",
         thumbnail: {
-          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/322/raised-hand_270b.png"
+          url: Client.thumbnails.raisedHand
         },
         color: 0xede009,
         fields: [

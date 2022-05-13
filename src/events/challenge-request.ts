@@ -4,6 +4,7 @@ import { Message, MessageActionRow, MessageButton } from "discord.js";
 import { ObjectId } from "mongodb";
 import { compareTwoStrings } from "string-similarity";
 import { addRequest, getRequestCount } from "../dal/challenge-request";
+import { Client } from "../structures/client";
 import type { MonkeyTypes } from "../types/types";
 
 type FailReasons = "badFormat" | "invalidChallenge" | "noProof";
@@ -156,7 +157,7 @@ export default {
       {
         title: "Challenge Request",
         thumbnail: {
-          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/twitter/322/trophy_1f3c6.png"
+          url: Client.thumbnails.trophy
         },
         color: 0xe2b714,
         fields: [

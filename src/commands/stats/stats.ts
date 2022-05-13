@@ -4,6 +4,7 @@ import { mongoDB } from "../../functions/mongodb";
 import type { MonkeyTypes } from "../../types/types";
 import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";
+import { Client } from "../../structures/client";
 
 export default {
   name: "stats",
@@ -49,7 +50,7 @@ export default {
         title: `Typing Stats for ${nameDisplay}`,
         color: 0xe2b714,
         thumbnail: {
-          url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/bar-chart_1f4ca.png"
+          url: Client.thumbnails.barChart
         },
         fields: [
           {

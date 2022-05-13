@@ -7,6 +7,7 @@ import {
   setCoinFlips,
   setUser
 } from "../../functions/banana";
+import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 
 export default {
@@ -70,7 +71,7 @@ export default {
         {
           title: "Last 10 Global Flips",
           thumbnail: {
-            url: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/slot-machine_1f3b0.png"
+            url: Client.thumbnails.slotMachine
           },
           color: 0xe2b714,
           description: coinFlipsString,
@@ -148,8 +149,8 @@ export default {
         title: "Coin Flip",
         thumbnail: {
           url: isCorrect
-            ? "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/banana_1f34c.png"
-            : "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/cross-mark_274c.png"
+            ? Client.thumbnails.banana
+            : Client.thumbnails.crossMark
         },
         color: isCorrect ? 0x41fd5f : 0xfd4141,
         description: `It's ${result}! ${interaction.user.username} ${
