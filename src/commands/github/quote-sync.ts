@@ -16,13 +16,13 @@ export default {
 
     const git = SimpleGit(client.clientOptions.repoPath);
 
-    await git.fetch("upstream", "dev");
+    await git.fetch("upstream", "master");
 
-    await git.checkout("dev");
+    await git.checkout("master");
 
-    await git.mergeFromTo("upstream", "dev");
+    await git.mergeFromTo("upstream", "master");
 
-    await git.push("origin", "dev");
+    await git.push("origin", "master");
 
     interaction.followUp({
       ephemeral: true,
