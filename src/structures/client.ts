@@ -30,6 +30,7 @@ interface PaginationOptions<T> {
 
 export class Client<T extends boolean> extends Discord.Client<T> {
   public static timeoutTime = 60000;
+  public static siteURL = "www.monkeytype.com";
   public static iconURL =
     "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";
   public static glob = promisify(globCB);
@@ -312,7 +313,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     // }
 
     embedOptions.footer = {
-      text: "www.monkeytype.com",
+      text: Client.siteURL,
       iconURL: Client.iconURL
     };
 

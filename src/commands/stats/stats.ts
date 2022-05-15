@@ -77,7 +77,7 @@ export default {
           }
         ],
         footer: {
-          text: "www.monkeytype.com"
+          text: Client.siteURL
         }
       },
       discordUser
