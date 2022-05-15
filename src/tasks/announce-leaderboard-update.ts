@@ -27,11 +27,10 @@ export default {
     ) {
       return {
         status: false,
-        message: "Invalid parameters"
+        message: "Invalid parameters",
+        member: discordUserID
       };
     }
-
-    console.log("1");
 
     console.log(guild);
 
@@ -39,33 +38,22 @@ export default {
       (await guild.members.fetch(discordUserID).catch(() => undefined)) ??
       discordUserID;
 
-    console.log("2");
-
     const displayName =
       typeof member === "string" ? member : member.displayName;
 
-    console.log("3");
-
     const loungeChannel = await client.getChannel("lounge");
-
-    console.log("4");
 
     if (loungeChannel === undefined) {
       return {
         status: false,
-        message: "Could not send leaderboard update announcement"
+        message: "Could not send leaderboard update announcement",
+        member
       };
     }
 
-    console.log("5");
-
     const posString = positionToString(pos);
 
-    console.log("6");
-
     const leaderboard = lb.replace(/-/g, " ");
-
-    console.log("7");
 
     const embed = client.embed(
       {
@@ -87,15 +75,12 @@ export default {
       member instanceof GuildMember ? member.user : undefined
     );
 
-    console.log("8");
-
     await loungeChannel.send({ embeds: [embed] });
-
-    console.log("9");
 
     return {
       status: true,
-      message: `${displayName} ${posString} ${leaderboard} ${wpm} wpm`
+      message: `${displayName} ${posString} ${leaderboard} ${wpm} wpm`,
+      member
     };
   }
 } as MonkeyTypes.TaskFile;

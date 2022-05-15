@@ -6,7 +6,8 @@ export default {
     if (discordUserID === undefined || wpm === undefined) {
       return {
         status: false,
-        message: "Invalid parameters"
+        message: "Invalid parameters",
+        member: discordUserID
       };
     }
 
@@ -17,7 +18,8 @@ export default {
     if (member === undefined) {
       return {
         status: false,
-        message: "Member not found"
+        message: "Member not found",
+        member: discordUserID
       };
     }
 
@@ -30,14 +32,16 @@ export default {
     if (role === undefined) {
       return {
         status: false,
-        message: `Could not find role for ${roundedWPM} wpm`
+        message: `Could not find role for ${roundedWPM} wpm`,
+        member
       };
     }
 
     if (member.roles.cache.has(role.id)) {
       return {
         status: true,
-        message: "User already has role"
+        message: "User already has role",
+        member
       };
     } else if (
       !member.roles.cache.has(role.id) &&
@@ -46,7 +50,8 @@ export default {
     ) {
       return {
         status: true,
-        message: "User already has a higher role"
+        message: "User already has a higher role",
+        member
       };
     }
 

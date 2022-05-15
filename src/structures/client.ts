@@ -128,20 +128,18 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
       const taskName = job.data.name;
 
+      const message = `\`${taskName}\`: ${
+        result.member ? `${result.member} ` : ""
+      }\n${result.message}`;
+
       console.log(
         `Task ${taskName} finished ${
           result.status ? "successfully" : `with errors\n${result.message}`
         }.`
       );
 
-      if (result.status) {
-        console.log(`Task ${taskName} completed.`);
-        console.log(result.message);
-        this.logInBotLogChannel(result.message);
-      } else {
-        console.log(result.message);
-        this.logInBotLogChannel(result.message);
-      }
+      console.log(result.message);
+      this.logInBotLogChannel(message);
     });
 
     console.log(`Initialized task worker "${worker.name}"`);

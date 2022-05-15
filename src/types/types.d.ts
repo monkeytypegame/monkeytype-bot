@@ -6,7 +6,8 @@ import {
   ClientEvents,
   ClientOptions as DiscordClientOptions,
   CommandInteraction,
-  Guild
+  Guild,
+  GuildMember
 } from "discord.js";
 import { Client } from "../structures/client";
 
@@ -91,6 +92,7 @@ declare namespace MonkeyTypes {
   interface TaskResult {
     status: boolean;
     message: string;
+    member?: GuildMember | string;
   }
 
   interface TaskFile {
