@@ -5,7 +5,7 @@ import { join } from "path";
 import SimpleGit from "simple-git";
 import config from "./config/config.json";
 import { parseJSON, readOptionalFile } from "./functions/file";
-import { MonkeyTypes } from "./types/types";
+import type { MonkeyTypes } from "./types/types";
 
 const repoPath = join(process.cwd(), config.repoPath);
 
