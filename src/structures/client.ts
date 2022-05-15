@@ -323,7 +323,9 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     const embed = new Discord.MessageEmbed(embedOptions);
 
-    embed.setTimestamp();
+    if (!embed.timestamp) {
+      embed.setTimestamp();
+    }
 
     return embed;
   }
