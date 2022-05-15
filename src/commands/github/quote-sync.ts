@@ -17,11 +17,8 @@ export default {
     const git = SimpleGit(client.clientOptions.repoPath);
 
     await git.fetch("upstream", "master");
-
     await git.checkout("master");
-
     await git.mergeFromTo("upstream", "master");
-
     await git.push("origin", "master");
 
     interaction.followUp({
