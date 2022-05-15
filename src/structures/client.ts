@@ -144,7 +144,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     console.log(`Initialized task worker "${worker.name}"`);
   }
 
-  public async start(token: string) {
+  public async start(token: string): Promise<string> {
     await this.login(token);
 
     const [commands, events] = await this.load();
@@ -244,7 +244,9 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           console.log(`Created slash command "${c.name}" (${c.id})`);
         }
       } else {
-        const mapper = (option: Discord.ApplicationCommandOption) => {
+        const mapper = (
+          option: Discord.ApplicationCommandOption
+        ): Discord.ApplicationCommandOption => {
           type Keys = keyof typeof option;
 
           type Values = typeof option[Keys];
@@ -297,7 +299,10 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     return [this.commands.size, events.length];
   }
 
-  public embed(embedOptions: Discord.MessageEmbedOptions, user?: Discord.User) {
+  public embed(
+    embedOptions: Discord.MessageEmbedOptions,
+    user?: Discord.User
+  ): Discord.MessageEmbed {
     // if (!embedOptions.title?.startsWith(this.user?.username ?? "George")) {
     // embedOptions.title = `${this.user?.username ?? "George"}: \`${
     //   embedOptions.title
@@ -318,12 +323,14 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     const embed = new Discord.MessageEmbed(embedOptions);
 
-    embed.setTimestamp();
+    if (!embed.timestamp) {
+      embed.setTimestamp();
+    }
 
     return embed;
   }
 
-  public async paginate<T>(options: PaginationOptions<T>) {
+  public async paginate<T>(options: PaginationOptions<T>): Promise<void> {
     const {
       embedOptions,
       interaction,

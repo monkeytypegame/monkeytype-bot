@@ -18,9 +18,7 @@ export default {
     const git = SimpleGit(client.clientOptions.repoPath);
 
     await git.pull("upstream", "master");
-
     await git.add(["."]);
-
     await git.commit("Added quotes from Discord");
 
     const response = await fetch(

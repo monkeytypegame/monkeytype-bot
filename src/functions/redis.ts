@@ -4,7 +4,7 @@ import Redis from "ioredis";
 
 let redisClient: Redis;
 
-export async function connectRedis() {
+export async function connectRedis(): Promise<Redis> {
   const redisURI = process.env["REDIS_URI"];
 
   if (!redisURI) {
@@ -21,6 +21,6 @@ export async function connectRedis() {
   return redisClient;
 }
 
-export function redis() {
+export function redis(): Redis {
   return redisClient;
 }

@@ -7,10 +7,10 @@ import fetch from "node-fetch-commonjs";
 import { Client } from "../../structures/client";
 
 const quoteLengthMap = {
-  1: "short",
-  2: "medium",
-  3: "long",
-  4: "thicc"
+  0: "short",
+  1: "medium",
+  2: "long",
+  3: "thicc"
 };
 
 export default {

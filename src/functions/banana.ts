@@ -56,7 +56,7 @@ export function getData(): MonkeyTypes.BananaData {
   );
 }
 
-function setData(bananaData: MonkeyTypes.BananaData) {
+function setData(bananaData: MonkeyTypes.BananaData): void {
   fs.writeFileSync("bananas.json", JSON.stringify(bananaData, null, 2));
 }
 

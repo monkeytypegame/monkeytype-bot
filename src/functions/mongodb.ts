@@ -1,10 +1,10 @@
 /** @format */
 
-import { MongoClient } from "mongodb";
+import { Db, MongoClient } from "mongodb";
 
 let mongoClient: MongoClient;
 
-export async function connectDB() {
+export async function connectDB(): Promise<MongoClient> {
   const dbURI = process.env["DB_URI"];
 
   if (!dbURI) {
@@ -24,6 +24,6 @@ export async function connectDB() {
   return mongoClient;
 }
 
-export function mongoDB() {
+export function mongoDB(): Db {
   return mongoClient.db(process.env["DB_NAME"]);
 }
