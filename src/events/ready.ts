@@ -66,7 +66,7 @@ interface GitHubLabel {
   name: string;
 }
 
-async function fetchLabels(client: Client<true>) {
+async function fetchLabels(client: Client<true>): Promise<void> {
   console.log("Fetching GitHub labels...");
 
   const response = await fetch(
@@ -89,7 +89,7 @@ async function fetchLabels(client: Client<true>) {
   updateIssueCommand(client);
 }
 
-async function updateIssueCommand(client: Client<true>) {
+async function updateIssueCommand(client: Client<true>): Promise<void> {
   console.log("Updating issue command...");
 
   const labels = parseJSON<string[]>(readFileOrCreate("labels.json", "[]"));

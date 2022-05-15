@@ -140,7 +140,7 @@ export default {
         "BUTTON"
       );
 
-      async function finishRound() {
+      async function finishRound(): Promise<void> {
         if (round !== 3) {
           const roundField = embed.fields[0];
 
