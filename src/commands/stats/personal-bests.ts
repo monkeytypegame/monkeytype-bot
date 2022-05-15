@@ -56,33 +56,33 @@ export default {
     const defaultTime = [15, 30, 60, 120];
     const defaultWords = [10, 25, 50, 100];
 
-    for (const [key, timePBs] of Object.entries(sortedTime)) {
+    Object.entries(sortedTime).forEach(([key, timePBs]) => {
       if (!defaultTime.includes(+key)) {
-        continue;
+        return;
       }
 
       const maxValue = timePBs?.sort((a, b) => b.wpm - a.wpm)[0];
 
       if (maxValue === undefined) {
-        continue;
+        return;
       } else {
         timePB[+key] = maxValue;
       }
-    }
+    });
 
-    for (const [key, wordsPBs] of Object.entries(sortedWords)) {
+    Object.entries(sortedWords).forEach(([key, wordsPBs]) => {
       if (!defaultWords.includes(+key)) {
-        continue;
+        return;
       }
 
       const maxValue = wordsPBs?.sort((a, b) => b.wpm - a.wpm)[0];
 
       if (maxValue === undefined) {
-        continue;
+        return;
       } else {
         wordsPB[+key] = maxValue;
       }
-    }
+    });
 
     const nameDisplay =
       user.name === discordUser.username

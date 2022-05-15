@@ -30,7 +30,6 @@ interface PaginationOptions<T> {
 
 export class Client<T extends boolean> extends Discord.Client<T> {
   public static timeoutTime = 60000;
-  public static siteURL = "www.monkeytype.com";
   public static iconURL =
     "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";
   public static glob = promisify(globCB);
@@ -145,7 +144,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     console.log(`Initialized task worker "${worker.name}"`);
   }
 
-  public async start(token: string): Promise<string> {
+  public async start(token: string) {
     await this.login(token);
 
     const [commands, events] = await this.load();
@@ -195,9 +194,9 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       )
     )) as MonkeyTypes.Event<keyof Discord.ClientEvents>[];
 
-    for (const event of events) {
-      this.on(event.event, event.run.bind(null, this as Client<true>));
-    }
+    events.forEach((event) =>
+      this.on(event.event, event.run.bind(null, this as Client<true>))
+    );
 
     const tasks = (await Promise.all(
       taskFiles.map(
@@ -206,9 +205,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       )
     )) as MonkeyTypes.TaskFile[];
 
-    for (const task of tasks) {
-      this.tasks.set(task.name, task);
-    }
+    tasks.forEach((task) => this.tasks.set(task.name, task));
 
     // Handing slash commands
 
@@ -219,7 +216,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     const slashCommands = await this.application?.commands.fetch(fetchOptions);
 
-    for (const command of commands) {
+    commands.forEach(async (command) => {
       this.commands.set(command.name, command);
 
       if (!this.categories.includes(command.category)) {
@@ -247,9 +244,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           console.log(`Created slash command "${c.name}" (${c.id})`);
         }
       } else {
-        const mapper = (
-          option: Discord.ApplicationCommandOption
-        ): Discord.ApplicationCommandOption => {
+        const mapper = (option: Discord.ApplicationCommandOption) => {
           type Keys = keyof typeof option;
 
           type Values = typeof option[Keys];
@@ -281,7 +276,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         };
 
         if (_.isEqual(cmdObject, commandObject)) {
-          continue;
+          return;
         }
 
         await this.application?.commands.edit(
@@ -297,15 +292,12 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
         console.log(`Edited slash command "${cmd.name}" (${cmd.id})`);
       }
-    }
+    });
 
     return [this.commands.size, events.length];
   }
 
-  public embed(
-    embedOptions: Discord.MessageEmbedOptions,
-    user?: Discord.User
-  ): Discord.MessageEmbed {
+  public embed(embedOptions: Discord.MessageEmbedOptions, user?: Discord.User) {
     // if (!embedOptions.title?.startsWith(this.user?.username ?? "George")) {
     // embedOptions.title = `${this.user?.username ?? "George"}: \`${
     //   embedOptions.title
@@ -313,7 +305,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     // }
 
     embedOptions.footer = {
-      text: Client.siteURL,
+      text: "www.monkeytype.com",
       iconURL: Client.iconURL
     };
 
@@ -326,14 +318,12 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     const embed = new Discord.MessageEmbed(embedOptions);
 
-    if (!embed.timestamp) {
-      embed.setTimestamp();
-    }
+    embed.setTimestamp();
 
     return embed;
   }
 
-  public async paginate<T>(options: PaginationOptions<T>): Promise<void> {
+  public async paginate<T>(options: PaginationOptions<T>) {
     const {
       embedOptions,
       interaction,
