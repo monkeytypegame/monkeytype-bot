@@ -194,9 +194,9 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       )
     )) as MonkeyTypes.Event<keyof Discord.ClientEvents>[];
 
-    events.forEach((event) =>
-      this.on(event.event, event.run.bind(null, this as Client<true>))
-    );
+    for (const event of events) {
+      this.on(event.event, event.run.bind(null, this as Client<true>));
+    }
 
     const tasks = (await Promise.all(
       taskFiles.map(
@@ -205,7 +205,9 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       )
     )) as MonkeyTypes.TaskFile[];
 
-    tasks.forEach((task) => this.tasks.set(task.name, task));
+    for (const task of tasks) {
+      this.tasks.set(task.name, task);
+    }
 
     // Handing slash commands
 
@@ -216,7 +218,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     const slashCommands = await this.application?.commands.fetch(fetchOptions);
 
-    commands.forEach(async (command) => {
+    for (const command of commands) {
       this.commands.set(command.name, command);
 
       if (!this.categories.includes(command.category)) {
@@ -278,7 +280,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         };
 
         if (_.isEqual(cmdObject, commandObject)) {
-          return;
+          continue;
         }
 
         await this.application?.commands.edit(
@@ -294,7 +296,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
         console.log(`Edited slash command "${cmd.name}" (${cmd.id})`);
       }
-    });
+    }
 
     return [this.commands.size, events.length];
   }
