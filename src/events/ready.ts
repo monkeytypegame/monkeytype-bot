@@ -131,6 +131,8 @@ async function updateIssueCommand(client: Client<true>): Promise<void> {
 
 async function fetchLatestRelease(client: Client<true>): Promise<void> {
   console.log("Fetching latest release...");
+  
+  const guild = await client.guild;
 
   const channel = await client.getChannel("updates");
 
@@ -163,9 +165,11 @@ async function fetchLatestRelease(client: Client<true>): Promise<void> {
   }
 
   const embeds = createEmbeds(name, body, client, createdAt);
+  
+  const updateRole = guild.roles.cache.get(client.clientOptions.roles.updateRolePing);
 
-  for (const embed of embeds) {
-    channel.send({ embeds: [embed] }).catch((err) => console.log(err));
+  for (const [index, embed] of embeds) {
+    channel.send({ content: !index ? updateRole : undefined, embeds: [embed] }).catch((err) => console.log(err));
   }
 }
 
