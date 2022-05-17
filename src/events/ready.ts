@@ -168,7 +168,7 @@ async function fetchLatestRelease(client: Client<true>): Promise<void> {
   
   const updateRole = guild.roles.cache.get(client.clientOptions.roles.updateRolePing);
 
-  for (const [index, embed] of embeds) {
+  for (const [index, embed] of embeds.entries()) {
     channel.send({ content: !index ? updateRole : undefined, embeds: [embed] }).catch((err) => console.log(err));
   }
 }
