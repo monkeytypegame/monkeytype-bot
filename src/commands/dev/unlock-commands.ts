@@ -31,7 +31,7 @@ export default {
           .filter((cmd) => cmd.needsPermissions ?? false)
           .map((cmd) => ({
             name: cmd.name,
-            value: cmd.description,
+            value: cmd.description ?? "No description provided.",
             inline: false
           })),
         color: 0xff0000

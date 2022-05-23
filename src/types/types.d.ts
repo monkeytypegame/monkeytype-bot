@@ -3,11 +3,15 @@
 import { Document, WithId } from "mongodb";
 import {
   ApplicationCommandOption,
+  ApplicationCommandType,
   ClientEvents,
   ClientOptions as DiscordClientOptions,
   CommandInteraction,
   Guild,
-  GuildMember
+  GuildMember,
+  MessageContextMenuInteraction,
+  UserContextMenuInteraction,
+  Collection
 } from "discord.js";
 import { Client } from "../structures/client";
 
@@ -67,13 +71,21 @@ declare namespace MonkeyTypes {
     channels: Channels;
   }
 
-  interface Command {
+  interface Command<T extends ApplicationCommandType = "CHAT_INPUT"> {
     name: string;
-    description: string;
+    description?: string;
     category: string;
+    type?: T;
     options?: ApplicationCommandOption[];
     needsPermissions?: boolean;
-    run: (interaction: CommandInteraction, client: Client<true>) => void;
+    run: (
+      interaction: T extends "CHAT_INPUT"
+        ? CommandInteraction
+        : T extends "MESSAGE"
+        ? MessageContextMenuInteraction
+        : UserContextMenuInteraction,
+      client: Client<true>
+    ) => void;
   }
 
   interface Event<E extends keyof ClientEvents> {
@@ -242,5 +254,18 @@ declare namespace MonkeyTypes {
 
   interface BananaData {
     [key: string]: Partial<BananaEntry>;
+  }
+
+  type PollVotes = Collection<string, Set<string>>;
+
+  type PollOptions = string[];
+
+  interface Poll {
+    prompt: string;
+    isVisible: boolean;
+    votes: MonkeyTypes.PollVotes;
+    collector: Discord.InteractionCollector<
+      Discord.ButtonInteraction<Discord.CacheType>
+    >;
   }
 }

@@ -1,8 +1,16 @@
 /** @format */
 
-import { MessageActionRow, MessageButton } from "discord.js";
+import {
+  Collection,
+  MessageActionRow,
+  MessageButton,
+  MessageEmbed
+} from "discord.js";
 import type { MonkeyTypes } from "../../types/types";
 import { Client } from "../../structures/client";
+import { mapOptions } from "../../functions/map-options";
+
+const optionsFormat = '"Option 1,Option 2,Option 3"';
 
 export default {
   name: "poll",
@@ -10,77 +18,192 @@ export default {
   category: "Utility",
   options: [
     {
-      name: "question",
-      description: "Question of the poll",
+      name: "prompt",
+      description: "Prompt of the poll",
       type: "STRING",
       required: true
     },
     {
       name: "options",
-      description: "Options separated by a comma",
+      description: `Options in this format: ${optionsFormat}`,
       type: "STRING",
       required: true
     },
     {
-      name: "resultsvisible",
-      description: "Are results visible toeveryone?",
+      name: "visible",
+      description: "Should the results be visible to everyone?",
       type: "BOOLEAN",
-      required: true
+      required: false
+    },
+    {
+      name: "days",
+      description: "How many days should the poll last?",
+      type: "INTEGER",
+      required: false,
+      maxValue: 24,
+      minValue: 1
     }
   ],
   run: async (interaction, client) => {
-    const question = interaction.options.getString("question", true) || "";
+    const prompt = interaction.options.getString("prompt", true);
 
-    let optionsString = "";
-    const options = interaction.options.getString("options", true).split(",");
-    for (let i = 0; i < options.length; i++) {
-      const option = options[i] || "";
-      optionsString += `${i + 1} - ${option.trim()}\n`;
+    const optionsString = interaction.options.getString("options", true);
+
+    const isVisible = interaction.options.getBoolean("visible", false) ?? false;
+
+    const days = interaction.options.getInteger("days", false) ?? 7;
+
+    const options = optionsString.split(",");
+
+    if (options.length === 0 || !validateOptions(options)) {
+      interaction.reply(
+        `Invalid option format:\nPlease use the following format: ${optionsFormat}`
+      );
+
+      return;
     }
 
-    const description = `${question}\n\n${optionsString}`;
+    if (new Set(options).size !== options.length) {
+      interaction.reply("Duplicate options are not allowed.");
+
+      return;
+    }
+
+    const votes: MonkeyTypes.PollVotes = new Collection();
+
+    for (const option of options) {
+      votes.set(option, new Set());
+    }
+
+    // generate random string
+    const pollID = Math.random().toString(36).substring(2, 15);
 
     const embed = client.embed({
       title: "Poll",
-      description,
+      description: `${prompt}\n\n${mapOptions(options, votes, isVisible)}`,
       color: 0xe2b714,
       thumbnail: {
         url: Client.thumbnails.barChart
+      },
+      footer: {
+        text: `Poll ID: ${pollID}`
       }
     });
 
     const row = new MessageActionRow();
 
-    for (let i = 0; i < options.length; i++) {
-      const button = new MessageButton()
-        .setCustomId("option" + i)
-        .setLabel((i + 1).toString())
-        .setStyle("SECONDARY")
-        .setDisabled(false);
+    row.addComponents(
+      options.map((value, index) =>
+        new MessageButton()
+          .setCustomId(`poll#${pollID}#${index}`)
+          .setLabel(value)
+          .setStyle("SECONDARY")
+          .setDisabled(false)
+      )
+    );
 
-      row.addComponents(button);
-    }
-
-    const pollEmbed = await interaction?.channel?.send({
+    const message = await interaction.channel?.send({
       embeds: [embed],
       components: [row]
     });
 
-    const pollEmbedId = pollEmbed?.id;
+    if (message === undefined) {
+      return;
+    }
 
     interaction.reply({
       content: "✅ Poll created",
       ephemeral: true
     });
 
-    const buttonInteraction = await client.awaitMessageComponent(
-      interaction.channel,
-      (i) => pollEmbedId === i.message.id,
-      "BUTTON"
-    );
+    const collector = message.createMessageComponentCollector({
+      componentType: "BUTTON",
+      dispose: true,
+      time: days * 24 * 60 * 60 * 1000
+    });
 
-    console.log(buttonInteraction);
+    client.polls.set(pollID, { prompt, isVisible, votes, collector });
 
-    interaction.reply("Thanks for voting");
+    function poll(): MonkeyTypes.Poll | undefined {
+      return client.polls.get(pollID);
+    }
+
+    collector.on("collect", (buttonInteraction) => {
+      const userID = buttonInteraction.user.id;
+
+      if (poll()?.votes.find((set) => set.has(userID))) {
+        buttonInteraction.reply({
+          content: "❌ You have already voted!",
+          ephemeral: true
+        });
+
+        return;
+      }
+
+      const optionIndex = buttonInteraction.customId.split("#")[2];
+
+      if (optionIndex === undefined) {
+        return;
+      }
+
+      const value = options[parseInt(optionIndex)];
+
+      if (value === undefined) {
+        return;
+      }
+
+      poll()?.votes.get(value)?.add(userID);
+
+      if (message.embeds[0] !== undefined) {
+        const newEmbed = new MessageEmbed(message.embeds[0]);
+
+        newEmbed.setDescription(
+          `${prompt}\n\n${mapOptions(
+            options,
+            poll()?.votes ?? votes,
+            isVisible
+          )}`
+        );
+
+        message.edit({ embeds: [newEmbed], components: [row] });
+      }
+
+      buttonInteraction.reply({
+        content: `✅ Thanks for voting! You have voted for ${value}`,
+        ephemeral: true
+      });
+    });
+
+    collector.on("end", (collected) => {
+      if (collected.size === 0) {
+        return;
+      }
+
+      const embed = client.embed({
+        title: "Poll Results",
+        description: `${prompt}\n\n${mapOptions(
+          options,
+          poll()?.votes ?? votes,
+          isVisible
+        )}`,
+        color: 0xe2b714,
+        thumbnail: {
+          url: Client.thumbnails.barChart
+        },
+        footer: {
+          text: `Poll ID: ${pollID}`
+        }
+      });
+
+      client.polls.delete(pollID);
+
+      message.edit({ embeds: [embed], components: [] });
+    });
   }
 } as MonkeyTypes.Command;
+
+function validateOptions(
+  options: MonkeyTypes.PollOptions
+): options is MonkeyTypes.PollOptions {
+  return !options.includes("");
+}
