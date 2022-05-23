@@ -9,3 +9,4 @@ ecosystem.config.js
 dist/
 labels.json
 challengeRequests.json
+package-lock.json
