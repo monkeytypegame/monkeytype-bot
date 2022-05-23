@@ -18,7 +18,7 @@ export default {
 
     await git.fetch("upstream", "master");
     await git.checkout("master");
-    await git.mergeFromTo("upstream", "master");
+    await git.mergeFromTo("upstream/master", "master");
     await git.push("origin", "master");
 
     interaction.followUp({
