@@ -4,7 +4,8 @@ import { User } from "discord.js";
 import { randomBoolean } from "../functions/random";
 import type { MonkeyTypes } from "../types/types";
 
-const githubLinkRegex = /\[#([0-9]{1,4})\]/g;
+const issueOrPRRegex = /\[#([0-9]{1,4})\]/g;
+const commit = /\[([0-9a-fA-F]{7}|[0-9a-fA-F]{40})\]/g;
 
 export default {
   event: "messageCreate",
@@ -24,12 +25,19 @@ export default {
       return;
     }
 
-    const githubLinkMatches = [...message.content.matchAll(githubLinkRegex)];
+    const issueOrPRMatches = [...message.content.matchAll(issueOrPRRegex)];
+    const commitMatches = [...message.content.matchAll(commit)];
 
-    const githubLinks = githubLinkMatches.map(
-      ([, issueNum]) =>
-        `https://github.com/${client.clientOptions.repo}/issues/${issueNum}`
-    );
+    const githubLinks = [
+      ...issueOrPRMatches.map(
+        ([, num]) =>
+          `https://github.com/${client.clientOptions.repo}/issues/${num}`
+      ),
+      ...commitMatches.map(
+        ([, hash]) =>
+          `https://github.com/${client.clientOptions.repo}/commit/${hash}`
+      )
+    ];
 
     if (githubLinks.length !== 0) {
       message.reply({ content: githubLinks.join("\n") });
