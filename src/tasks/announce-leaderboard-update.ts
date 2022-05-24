@@ -15,7 +15,6 @@ export default {
     acc: number,
     con: number
   ) => {
-    console.log(discordUserID, pos, lb, wpm, raw, acc, con);
     if (
       discordUserID === undefined ||
       pos === undefined ||
@@ -31,8 +30,6 @@ export default {
         member: discordUserID
       };
     }
-
-    console.log(guild);
 
     const member =
       (await guild.members.fetch(discordUserID).catch(() => undefined)) ??

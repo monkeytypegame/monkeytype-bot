@@ -81,7 +81,7 @@ declare namespace MonkeyTypes {
     run: (client: Client<true>, ...eventArgs: ClientEvents[E]) => void;
   }
 
-  type TaskArgument = string | number;
+  type TaskArgument = string | number | any[];
 
   interface Task extends WithId<Document> {
     name: string;
