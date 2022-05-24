@@ -2,6 +2,7 @@
 
 import { MessageActionRow, MessageButton } from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
+import { randomInteger } from "../../functions/random";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 
@@ -204,7 +205,7 @@ export default {
 
       const choice = <Choice>buttonInteraction.customId;
 
-      const random = Math.floor(Math.random() * 3);
+      const random = randomInteger(0, 3);
 
       const computerChoice = choices[random] ?? "rock";
 

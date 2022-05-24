@@ -7,6 +7,7 @@ import {
   setCoinFlips,
   setUser
 } from "../../functions/banana";
+import { randomBoolean } from "../../functions/random";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 
@@ -118,7 +119,7 @@ export default {
       return;
     }
 
-    const result = Math.floor(Math.random() * 2) ? "heads" : "tails";
+    const result = randomBoolean() ? "heads" : "tails";
 
     coinFlips.push(result === "heads" ? "h" : "t");
 
