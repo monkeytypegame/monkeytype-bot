@@ -7,7 +7,7 @@ export default {
     guild,
     leaderboardID: string,
     leaderboardTimestamp: number,
-    topResults: MonkeyTypes.Result<MonkeyTypes.Mode>[]
+    topResults: MonkeyTypes.DailyLeaderboardEntry[]
   ) => {
     if (
       leaderboardID === undefined ||
