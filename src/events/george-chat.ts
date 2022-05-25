@@ -22,7 +22,7 @@ let prompt = startingPrompt;
 export default {
   event: "messageCreate",
   run: async (client, message) => {
-    if (message.author.bot) {
+    if (message.author.bot || !message.mentions.has(client.user)) {
       return;
     }
 
@@ -33,13 +33,16 @@ export default {
     }
 
     if (isWaiting) {
-      message.reply("❌ The group is sending responses too fast!");
+      client.logInBotLogChannel("❌ The group is sending responses too fast!");
 
       return;
     }
 
+    // get the content without the discord pings
+    const content = message.content.replace(/<@!?\d+>/g, "").trim();
+
     if (
-      message.content === "!george stop" &&
+      content === "stop" &&
       message.author.id === client.clientOptions.devID
     ) {
       stopped = true;
@@ -48,7 +51,7 @@ export default {
 
       return;
     } else if (
-      message.content === "!george start" &&
+      content === "start" &&
       message.author.id === client.clientOptions.devID
     ) {
       stopped = false;
@@ -56,7 +59,7 @@ export default {
       message.reply("✅ George has been started!");
 
       return;
-    } else if (message.content === "!george clear") {
+    } else if (content === "clear") {
       prompt = startingPrompt;
 
       message.reply("✅ Prompt cleared!");
@@ -68,7 +71,7 @@ export default {
       return;
     }
 
-    prompt += `${message.author.username}: ${message.content}\n`;
+    prompt += `${message.author.username}: ${content}\n`;
 
     message.channel.sendTyping();
 
