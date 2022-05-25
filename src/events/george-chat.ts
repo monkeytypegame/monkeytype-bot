@@ -97,6 +97,10 @@ export default {
 
     const response = gptResponse.data.choices[0]?.text;
 
+    setTimeout(() => {
+      isWaiting = false;
+    }, waitTime);
+
     if (response === undefined || response === "") {
       message.reply("❌ GPT Response was empty, this could be a rate limit!");
 
@@ -110,10 +114,6 @@ export default {
 
       return;
     }
-
-    setTimeout(() => {
-      isWaiting = false;
-    }, waitTime);
 
     message.reply(response.substring("George: ".length));
 
