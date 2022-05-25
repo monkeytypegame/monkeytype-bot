@@ -3,7 +3,7 @@
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { toPascalCase } from "../../functions/to-pascal-case";
-import fetch from "node-fetch-commonjs";
+import fetch from "node-fetch";
 import { Client } from "../../structures/client";
 
 const quoteLengthMap = {

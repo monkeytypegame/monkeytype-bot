@@ -13,7 +13,7 @@ import {
   ApplicationCommandOption,
   Guild
 } from "discord.js";
-import fetch from "node-fetch-commonjs";
+import fetch from "node-fetch";
 
 export default {
   event: "ready",
