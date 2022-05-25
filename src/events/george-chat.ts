@@ -71,7 +71,7 @@ export default {
       return;
     }
 
-    prompt += `${message.author.username}: ${content}\n`;
+    prompt += `You: ${content}\n`;
 
     message.channel.sendTyping();
 
@@ -79,7 +79,7 @@ export default {
 
     const gptResponse = await openAI
       .complete({
-        user: message.author.username,
+        // user: message.author.username,
         engine: "davinci",
         prompt,
         maxTokens: 60,
