@@ -92,7 +92,7 @@ export default {
       .catch((err) => {
         console.log(err);
 
-        return { status: 0, data: { choices: [{ text: "" }] } };
+        return { data: { choices: [{ text: "" }] } };
       });
 
     const response = gptResponse.data.choices[0]?.text;
@@ -114,8 +114,6 @@ export default {
     setTimeout(() => {
       isWaiting = false;
     }, waitTime);
-
-    console.log(response);
 
     message.reply(response.substring("George: ".length));
 
