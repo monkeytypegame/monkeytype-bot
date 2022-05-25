@@ -102,16 +102,10 @@ export default {
     }, waitTime);
 
     if (response === undefined || response === "") {
-      message.reply("❌ GPT Response was empty, this could be a rate limit!");
-
       return;
     }
 
     if (!response.startsWith("George: ")) {
-      message.reply(
-        '❌ GPT Response was invalid, try starting with a "Hello, George!"'
-      );
-
       prompt = startingPrompt;
 
       return;
