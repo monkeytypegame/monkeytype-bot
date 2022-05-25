@@ -3,17 +3,14 @@ import { mapOptions } from "../../functions/map-options";
 import { MonkeyTypes } from "../../types/types";
 
 export default {
-  name: "close-poll",
-  description: "Close a poll",
+  name: "view-poll-results",
+  description: "View a poll's results",
   category: "Utility",
   type: "MESSAGE",
   run: async (interaction, client) => {
-    const message = await interaction.channel?.messages.fetch(
-      interaction.targetMessage.id
-    );
+    const message = interaction.targetMessage;
 
     if (
-      message === undefined ||
       message.embeds.length === 0 ||
       message.components === undefined ||
       message.components.length === 0 ||
@@ -26,10 +23,10 @@ export default {
       return;
     }
 
-    const embed = new MessageEmbed(message.embeds[0]);
+    const pollEmbed = new MessageEmbed(message.embeds[0]);
 
-    const pollID = embed.footer?.text.substring(
-      (embed.footer?.text.indexOf("Poll ID: ") ?? 0) + 9
+    const pollID = pollEmbed.footer?.text.substring(
+      (pollEmbed.footer?.text.indexOf("Poll ID: ") ?? 0) + 9
     );
 
     if (pollID === undefined) {
@@ -46,10 +43,8 @@ export default {
       return;
     }
 
-    poll.collector.stop();
-
     interaction.reply({
-      content: `✅ Poll Closed\n\`\`\`\n${mapOptions({
+      content: `Poll Results:\n\`\`\`\n${mapOptions({
         ...poll,
         isVisible: true
       })}\n\`\`\``,

@@ -11,7 +11,10 @@ import {
   GuildMember,
   MessageContextMenuInteraction,
   UserContextMenuInteraction,
-  Collection
+  Collection,
+  InteractionCollector,
+  ButtonInteraction,
+  CacheType
 } from "discord.js";
 import { Client } from "../structures/client";
 
@@ -264,8 +267,6 @@ declare namespace MonkeyTypes {
     prompt: string;
     isVisible: boolean;
     votes: MonkeyTypes.PollVotes;
-    collector: Discord.InteractionCollector<
-      Discord.ButtonInteraction<Discord.CacheType>
-    >;
+    collector: InteractionCollector<ButtonInteraction<CacheType>>;
   }
 }

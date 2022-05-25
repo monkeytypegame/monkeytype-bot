@@ -33,7 +33,7 @@ export default {
       name: "visible",
       description: "Should the results be visible to everyone?",
       type: "BOOLEAN",
-      required: false
+      required: true
     },
     {
       name: "days",
@@ -49,9 +49,10 @@ export default {
 
     const optionsString = interaction.options.getString("options", true);
 
-    const isVisible = interaction.options.getBoolean("visible", false) ?? false;
+    const isVisible = interaction.options.getBoolean("visible", true);
 
-    const days = interaction.options.getInteger("days", false) ?? 7;
+    const hours =
+      (interaction.options.getInteger("days", false) ?? 1 / 24) * 24;
 
     const options = optionsString.split(",");
 
@@ -119,7 +120,7 @@ export default {
     const collector = message.createMessageComponentCollector({
       componentType: "BUTTON",
       dispose: true,
-      time: days * 24 * 60 * 60 * 1000
+      time: hours * 60 * 60 * 1000
     });
 
     client.polls.set(pollID, { prompt, isVisible, votes, collector });
@@ -169,7 +170,7 @@ export default {
       }
 
       buttonInteraction.reply({
-        content: `✅ Thanks for voting! You have voted for ${value}`,
+        content: `✅ Thanks for voting!`,
         ephemeral: true
       });
     });
@@ -180,7 +181,7 @@ export default {
       }
 
       const embed = client.embed({
-        title: "Poll Results",
+        title: "Poll Over",
         description: `${prompt}\n\n${mapOptions(
           options,
           poll()?.votes ?? votes,
@@ -194,6 +195,14 @@ export default {
           text: `Poll ID: ${pollID}`
         }
       });
+
+      client.logInBotLogChannel(
+        `Poll over (${pollID}):\n${prompt}\n\`\`\`\n${mapOptions(
+          options,
+          poll()?.votes ?? votes,
+          true
+        )}\n\`\`\``
+      );
 
       client.polls.delete(pollID);
 
