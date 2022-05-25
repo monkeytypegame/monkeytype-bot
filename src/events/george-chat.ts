@@ -26,6 +26,12 @@ export default {
       return;
     }
 
+    const channel = await client.getChannel("chatWithGeorge");
+
+    if (channel === undefined || message.channel.id !== channel.id) {
+      return;
+    }
+
     if (isWaiting) {
       message.reply("❌ The group is sending responses too fast!");
 
@@ -59,12 +65,6 @@ export default {
     }
 
     if (stopped) {
-      return;
-    }
-
-    const channel = await client.getChannel("chatWithGeorge");
-
-    if (channel === undefined || message.channel.id !== channel.id) {
       return;
     }
 
