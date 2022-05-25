@@ -8,9 +8,7 @@ export default {
   category: "Utility",
   type: "MESSAGE",
   run: async (interaction, client) => {
-    const message = await interaction.channel?.messages.fetch(
-      interaction.targetMessage.id
-    );
+    const message = interaction.targetMessage;
 
     if (
       message === undefined ||
