@@ -102,10 +102,16 @@ export default {
     }, waitTime);
 
     if (response === undefined || response === "") {
+      client.logInBotLogChannel(
+        "GPT Response was empty, possibly a rate limit."
+      );
+
       return;
     }
 
     if (!response.startsWith("George: ")) {
+      client.logInBotLogChannel("GPT Response did not start with 'George: '");
+
       prompt = startingPrompt;
 
       return;
