@@ -103,7 +103,7 @@ export default {
       return;
     }
 
-    if (response.startsWith("You: ")) {
+    if (!response.startsWith("George: ")) {
       message.reply(
         '❌ GPT Response was invalid, try starting with a "Hello, George!"'
       );
