@@ -112,6 +112,8 @@ export default {
         '❌ GPT Response was invalid, try starting with a "Hello, George!"'
       );
 
+      prompt = startingPrompt;
+
       return;
     }
 
