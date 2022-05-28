@@ -1,7 +1,5 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
-import fetch from "node-fetch-commonjs";
+import fetch from "node-fetch";
 import { parseJSON, readFileOrCreate } from "../../functions/file";
 import { ApplicationCommandOption } from "discord.js";
 
@@ -92,7 +90,7 @@ export default {
         accept: "application/vnd.github.v3+json"
       },
       redirect: "follow",
-      referrerPolicy: "no-referrer",
+      // referrerPolicy: "no-referrer",
       body: JSON.stringify({
         title,
         body,

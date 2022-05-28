@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { getStats } from "../../dal/challenge-request-stats";
 import { MessageEmbedOptions } from "discord.js";

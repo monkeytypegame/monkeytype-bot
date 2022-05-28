@@ -1,5 +1,3 @@
-/** @format */
-
 import { mongoDB } from "../../functions/mongodb";
 import type { MonkeyTypes } from "../../types/types";
 import intervalToDuration from "date-fns/intervalToDuration";

@@ -28,6 +28,7 @@
     "updates": "updates channel id",
     "botCommands": "bot commands channel id",
     "challengeSubmissions": "challenge submission channel id",
-    "challengeSubmissionsMods": "challenge submission moderation channel id"
+    "challengeSubmissionsMods": "challenge submission moderation channel id",
+    "chatWithGeorge": "channel id where users can chat with George"
   }
 }

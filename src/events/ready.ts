@@ -1,5 +1,3 @@
-/** @format */
-
 import _ from "lodash";
 import { connectDB } from "../functions/mongodb";
 import { connectRedis } from "../functions/redis";
@@ -13,7 +11,7 @@ import {
   ApplicationCommandOption,
   Guild
 } from "discord.js";
-import fetch from "node-fetch-commonjs";
+import fetch from "node-fetch";
 
 export default {
   event: "ready",

@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../types/types";
 
 export default {

@@ -1,5 +1,3 @@
-/** @format */
-
 import * as Discord from "discord.js";
 import type { MonkeyTypes } from "../types/types";
 import { promisify } from "util";
@@ -485,14 +483,12 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
   public async awaitMessageComponent<T extends Discord.MessageComponentType>(
     channel: Discord.TextBasedChannel | null | undefined,
-    filter: Discord.CollectorFilter<
-      [Discord.MessageComponentInteraction<"cached">]
-    >,
+    filter: Discord.CollectorFilter<[Discord.MappedInteractionTypes<true>[T]]>,
     componentType: T,
     time = Client.timeoutTime
   ): Promise<Discord.MappedInteractionTypes[T] | undefined> {
     return channel
-      ?.awaitMessageComponent({
+      ?.awaitMessageComponent<T>({
         componentType,
         filter,
         time,

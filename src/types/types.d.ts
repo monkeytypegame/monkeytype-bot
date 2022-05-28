@@ -1,5 +1,3 @@
-/** @format */
-
 import { Document, WithId } from "mongodb";
 import {
   ApplicationCommandOption,
@@ -56,6 +54,7 @@ declare namespace MonkeyTypes {
     botCommands: string;
     challengeSubmissions: string;
     challengeSubmissionsMods: string;
+    chatWithGeorge: string;
   }
 
   export interface ClientOptions extends DiscordClientOptions {

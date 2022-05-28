@@ -1,5 +1,3 @@
-/** @format */
-
 import * as fs from "fs";
 import type { MonkeyTypes } from "../types/types";
 import { parseJSON, readFileOrCreate } from "./file";

@@ -1,5 +1,3 @@
-/** @format */
-
 export function addDays(date: Date | number, days: number): Date {
   const newDate = new Date(date);
 

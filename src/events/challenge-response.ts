@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../types/types";
 import {
   deleteRequest,
@@ -9,6 +7,7 @@ import {
 import {
   Message,
   MessageActionRow,
+  MessageButton,
   MessageSelectMenu,
   MessageSelectOptionData
 } from "discord.js";
@@ -138,6 +137,8 @@ export default {
       return;
     }
 
+    interaction.deferUpdate();
+
     const challengeRole = await interaction.guild.roles
       .fetch(challengeRoleID, { cache: true })
       .catch(() => undefined);
@@ -182,10 +183,9 @@ export default {
 
       row.addComponents(declineReasonSelectMenu);
 
-      const replyMessage = await interaction.reply({
-        content: "Select declination reasons below:",
-        components: [row],
-        fetchReply: true
+      await message.edit({
+        embeds: message.embeds,
+        components: [row]
       });
 
       const declineReasonInteraction = await client.awaitMessageComponent(
@@ -193,20 +193,39 @@ export default {
         (i) =>
           i.customId === "declineReason" &&
           i.user.id === interaction.user.id &&
-          i.message.id === replyMessage.id,
+          i.message.id === message.id,
         "SELECT_MENU"
       );
 
       if (declineReasonInteraction === undefined) {
-        interaction.editReply({
-          content: "❌ The decline reason selection menu timed out",
-          components: []
+        // interaction.editReply({
+        //   content: "❌ The decline reason selection menu timed out",
+        //   components: []
+        // });
+
+        const approvalRow = new MessageActionRow();
+
+        const acceptButton = new MessageButton()
+          .setCustomId("accept")
+          .setLabel("Accept")
+          .setStyle("SUCCESS")
+          .setDisabled(false);
+
+        const declineButton = new MessageButton()
+          .setCustomId("decline")
+          .setLabel("Decline")
+          .setStyle("DANGER")
+          .setDisabled(false);
+
+        approvalRow.addComponents(acceptButton, declineButton);
+
+        message.edit({
+          embeds: message.embeds,
+          components: [row]
         });
 
         return;
       }
-
-      interaction.deleteReply();
 
       const declineReasons = declineReasonInteraction.values.map(
         (reason) =>
@@ -214,7 +233,10 @@ export default {
             ?.description
       );
 
+      declineReasonInteraction.deferUpdate();
+
       const newEmbeds = message.embeds;
+
       newEmbeds[0]?.addFields({
         name: "Declined by",
         value: `<@${interaction.member.user.id}>`
@@ -239,10 +261,7 @@ export default {
           );
         });
 
-      message.edit({
-        embeds: newEmbeds,
-        components: []
-      });
+      removeButtons(message);
 
       deleteRequest(userID, challengeMessageID);
       updateChannel(message);
