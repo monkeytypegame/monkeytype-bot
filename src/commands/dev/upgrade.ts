@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { spawn } from "child_process";
 import { randomChance } from "../../functions/random";

@@ -1,5 +1,3 @@
-/** @format */
-
 import * as fs from "fs";
 import { join } from "path";
 import SimpleGit from "simple-git";

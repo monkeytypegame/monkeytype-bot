@@ -1,5 +1,3 @@
-/** @format */
-
 import { MessageEmbedOptions } from "discord.js";
 import type { MonkeyTypes } from "../../types/types";
 

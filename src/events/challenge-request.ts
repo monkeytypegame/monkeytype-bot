@@ -1,5 +1,3 @@
-/** @format */
-
 import { Message, MessageActionRow, MessageButton } from "discord.js";
 import { ObjectId } from "mongodb";
 import { compareTwoStrings } from "string-similarity";

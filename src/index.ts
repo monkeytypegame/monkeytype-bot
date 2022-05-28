@@ -1,5 +1,3 @@
-/** @format */
-
 import { Client } from "./structures/client";
 import type { MonkeyTypes } from "./types/types";
 import { config } from "dotenv";

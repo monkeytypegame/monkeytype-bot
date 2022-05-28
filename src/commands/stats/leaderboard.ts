@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { toPascalCase } from "../../functions/to-pascal-case";

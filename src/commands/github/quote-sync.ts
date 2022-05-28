@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import SimpleGit from "simple-git";
 

@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { getData, getUser } from "../../functions/banana";
 import { Client } from "../../structures/client";

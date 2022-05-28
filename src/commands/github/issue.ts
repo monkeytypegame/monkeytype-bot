@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import fetch from "node-fetch";
 import { parseJSON, readFileOrCreate } from "../../functions/file";

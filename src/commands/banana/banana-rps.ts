@@ -1,5 +1,3 @@
-/** @format */
-
 import { MessageActionRow, MessageButton } from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
 import { randomInteger } from "../../functions/random";

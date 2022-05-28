@@ -1,5 +1,3 @@
-/** @format */
-
 import _ from "lodash";
 import { connectDB } from "../functions/mongodb";
 import { connectRedis } from "../functions/redis";

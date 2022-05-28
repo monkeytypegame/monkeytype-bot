@@ -1,5 +1,3 @@
-/** @format */
-
 import Redis from "ioredis";
 
 let redisClient: Redis;

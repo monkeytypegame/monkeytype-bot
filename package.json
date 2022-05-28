@@ -9,9 +9,9 @@
     "start": "yarn build && yarn run run",
     "dev": "nodemon",
     "pretty": "prettier 'src/**/*.ts'",
-    "pretty:fix": "prettier --write 'src/**/*.ts'",
+    "pretty-fix": "prettier --write 'src/**/*.ts'",
     "lint": "eslint -c .eslintrc.json 'src/**/*.ts'",
-    "lint:fix": "eslint --fix -c .eslintrc.json 'src/**/*.ts'",
+    "lint-fix": "eslint --fix -c .eslintrc.json 'src/**/*.ts'",
     "quote": "yarn build && node dist/insertQuote.js"
   },
   "author": "",

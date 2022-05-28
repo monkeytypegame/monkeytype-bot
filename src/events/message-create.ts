@@ -1,5 +1,3 @@
-/** @format */
-
 import { User } from "discord.js";
 import { randomBoolean } from "../functions/random";
 import type { MonkeyTypes } from "../types/types";

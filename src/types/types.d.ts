@@ -1,5 +1,3 @@
-/** @format */
-
 import { Document, WithId } from "mongodb";
 import {
   ApplicationCommandOption,

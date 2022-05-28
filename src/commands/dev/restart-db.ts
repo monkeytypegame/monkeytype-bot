@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { exec } from "child_process";
 import { MessageActionRow, MessageButton } from "discord.js";

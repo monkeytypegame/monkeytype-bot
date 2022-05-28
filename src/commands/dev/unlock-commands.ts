@@ -1,5 +1,3 @@
-/** @format */
-
 import { MessageActionRow, MessageButton } from "discord.js";
 import type { MonkeyTypes } from "../../types/types";
 import { Client } from "../../structures/client";
