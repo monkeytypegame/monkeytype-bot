@@ -1,5 +1,3 @@
-/** @format */
-
 // all of these functions should be inclusive min and exclusive max
 
 export function randomFloat(min: number, max: number): number {
