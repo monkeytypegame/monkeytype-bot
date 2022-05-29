@@ -1,6 +1,7 @@
 import { MonkeyTypes } from "../types/types";
 import { Client } from "../structures/client";
 import { getPositionString } from "../functions/get-position-string";
+import { EmbedFieldData } from "discord.js";
 
 export default {
   name: "announceDailyLeaderboardTopResults",
@@ -22,7 +23,7 @@ export default {
       };
     }
 
-    const fields = topResults
+    const fields: EmbedFieldData[] = topResults
       .map((entry, i) => [
         {
           name: getPositionString(entry.rank ?? i + 1),
