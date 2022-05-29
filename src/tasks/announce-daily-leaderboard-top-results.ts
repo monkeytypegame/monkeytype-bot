@@ -7,7 +7,7 @@ export default {
   name: "announceDailyLeaderboardTopResults",
   run: async (
     client,
-    guild,
+    _guild,
     leaderboardID: string,
     leaderboardTimestamp: number,
     topResults: MonkeyTypes.DailyLeaderboardEntry[]
