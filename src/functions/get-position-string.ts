@@ -1,15 +1,14 @@
-export function getPositionString(number: number): string {
-  let numend = "th";
-  const t = number % 10;
-  const h = number % 100;
+export function getPositionString(pos: number): string {
+  const t = pos % 10;
+  const h = pos % 100;
+
   if (t === 1 && h !== 11) {
-    numend = "st";
+    return `${pos}st`;
+  } else if (t === 2 && h !== 12) {
+    return `${pos}nd`;
+  } else if (t === 3 && h !== 13) {
+    return `${pos}rd`;
   }
-  if (t === 2 && h !== 12) {
-    numend = "nd";
-  }
-  if (t === 3 && h !== 13) {
-    numend = "rd";
-  }
-  return number + numend;
+
+  return `${pos}th`;
 }

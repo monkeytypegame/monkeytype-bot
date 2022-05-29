@@ -1,4 +1,5 @@
 import { GuildMember } from "discord.js";
+import { getPositionString } from "../functions/get-position-string";
 import { Client } from "../structures/client";
 import type { MonkeyTypes } from "../types/types";
 
@@ -48,7 +49,7 @@ export default {
       };
     }
 
-    const posString = positionToString(pos);
+    const posString = getPositionString(pos);
 
     const leaderboard = lb.replace(/-/g, " ");
 
@@ -81,16 +82,3 @@ export default {
     };
   }
 } as MonkeyTypes.TaskFile;
-
-function positionToString(pos: number): string {
-  switch (pos) {
-    case 1:
-      return "1st";
-    case 2:
-      return "2nd";
-    case 3:
-      return "3rd";
-    default:
-      return `${pos}th`;
-  }
-}
