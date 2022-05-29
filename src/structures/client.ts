@@ -321,14 +321,16 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     // }\``;
     // }
 
-    embedOptions.footer = {
-      text: `${Client.siteURL}${
-        embedOptions.footer?.text !== undefined
-          ? ` | ${embedOptions.footer.text}`
-          : ""
-      }`,
-      iconURL: Client.iconURL
-    };
+    if (!embedOptions.footer?.text?.includes(Client.siteURL)) {
+      embedOptions.footer = {
+        text: `${Client.siteURL}${
+          embedOptions.footer?.text !== undefined
+            ? ` | ${embedOptions.footer.text}`
+            : ""
+        }`,
+        iconURL: Client.iconURL
+      };
+    }
 
     if (embedOptions.author === undefined && user !== undefined) {
       embedOptions.author = {

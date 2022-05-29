@@ -73,10 +73,7 @@ export default {
             value: duration,
             inline: false
           }
-        ],
-        footer: {
-          text: Client.siteURL
-        }
+        ]
       },
       discordUser
     );
