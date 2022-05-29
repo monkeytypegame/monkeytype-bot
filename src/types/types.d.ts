@@ -80,11 +80,9 @@ declare namespace MonkeyTypes {
     run: (client: Client<true>, ...eventArgs: ClientEvents[E]) => void;
   }
 
-  type TaskArgument = string | number;
-
   interface Task extends WithId<Document> {
     name: string;
-    args: TaskArgument[];
+    args: any[];
     requestTimestamp?: number;
   }
 
@@ -99,7 +97,7 @@ declare namespace MonkeyTypes {
     run: (
       client: Client<true>,
       guild: Guild,
-      ...args: TaskArgument[]
+      ...args: any[]
     ) => Promise<TaskResult>;
   }
 
@@ -177,6 +175,18 @@ declare namespace MonkeyTypes {
     rank: number;
     count?: number;
     hidden?: boolean;
+  }
+
+  interface DailyLeaderboardEntry {
+    uid: string;
+    name: string;
+    wpm: number;
+    raw: number;
+    acc: number;
+    consistency: number;
+    timestamp: number;
+    rank?: number;
+    count?: number;
   }
 
   interface ChartData {
