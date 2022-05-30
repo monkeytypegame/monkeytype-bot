@@ -25,10 +25,9 @@ export default {
     );
 
     if (user === undefined) {
-      interaction.reply({
-        ephemeral: true,
-        content: "❌ Could not find user. Make sure accounts are paired."
-      });
+      interaction.reply(
+        "❌ Could not find user. Make sure accounts are paired."
+      );
 
       return;
     }
@@ -36,11 +35,9 @@ export default {
     const personalBests = user?.personalBests;
 
     if (personalBests === undefined) {
-      interaction.reply({
-        ephemeral: true,
-        content:
-          "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
-      });
+      interaction.reply(
+        "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
+      );
 
       return;
     }
@@ -156,10 +153,20 @@ export default {
           )
         : undefined;
 
+    const embeds = [timeEmbed, wordsEmbed].filter(
+      (embed) => embed !== undefined
+    ) as MessageEmbed[];
+
+    if (embeds.length === 0) {
+      interaction.reply(
+        "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
+      );
+
+      return;
+    }
+
     interaction.reply({
-      embeds: [timeEmbed, wordsEmbed].filter(
-        (embed) => embed !== undefined
-      ) as MessageEmbed[]
+      embeds
     });
   }
 } as MonkeyTypes.Command;
