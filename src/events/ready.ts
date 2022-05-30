@@ -17,6 +17,7 @@ export default {
   event: "ready",
   run: async (client) => {
     console.log(`${client.user.tag} is online!`);
+
     const guild = await client.guild;
 
     if (guild === undefined) {
