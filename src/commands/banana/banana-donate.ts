@@ -22,6 +22,12 @@ export default {
   run: async (interaction) => {
     const targetUser = interaction.options.getUser("user", true);
 
+    if (targetUser.id === interaction.user.id) {
+      interaction.reply("❌ You may not donate to yourself.");
+
+      return;
+    }
+
     const amount = interaction.options.getInteger("amount", true);
 
     const authorBananaEntry =
