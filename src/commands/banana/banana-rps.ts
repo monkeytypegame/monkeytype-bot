@@ -175,7 +175,7 @@ export default {
           embed.setDescription(
             `${
               embed.description ?? ""
-            }\n\nYou ${outcomeString}!\nNew balance: ${
+            }\n\nYou ${outcomeString} ${amount} bananas!\nNew balance: ${
               authorBananaEntry.balance
             }`
           );
