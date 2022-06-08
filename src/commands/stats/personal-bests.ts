@@ -26,7 +26,7 @@ export default {
 
     if (user === undefined) {
       interaction.reply(
-        "❌ Could not find user. Make sure accounts are paired."
+        "❌ Could not find user. Make sure accounts are linked."
       );
 
       return;
