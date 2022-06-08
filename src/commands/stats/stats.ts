@@ -28,7 +28,7 @@ export default {
     if (user === undefined) {
       interaction.reply({
         ephemeral: true,
-        content: "❌ Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are linked."
       });
 
       return;
