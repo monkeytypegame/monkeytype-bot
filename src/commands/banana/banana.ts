@@ -24,7 +24,7 @@ export default {
 
     if (snapshot === undefined) {
       interaction.followUp({
-        content: "❌ Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are linked."
       });
 
       return;
