@@ -35,9 +35,10 @@ export default {
     const personalBests = user?.personalBests;
 
     if (personalBests === undefined) {
-      interaction.reply(
+      interaction.reply({
+        ephemeral: true,
         "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
-      );
+      });
 
       return;
     }
