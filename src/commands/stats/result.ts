@@ -37,7 +37,7 @@ export default {
     if (user === undefined || user.uid === undefined) {
       interaction.followUp({
         ephemeral: true,
-        content: "❌ Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are linked."
       });
 
       return;
