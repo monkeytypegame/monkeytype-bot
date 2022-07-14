@@ -25,9 +25,10 @@ export default {
     );
 
     if (user === undefined) {
-      interaction.reply(
+      interaction.reply({
+        ephemeral: true,
         "❌ Could not find user. Make sure accounts are linked."
-      );
+      });
 
       return;
     }
