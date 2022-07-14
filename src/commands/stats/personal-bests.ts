@@ -25,9 +25,10 @@ export default {
     );
 
     if (user === undefined) {
-      interaction.reply(
-        "❌ Could not find user. Make sure accounts are paired."
-      );
+      interaction.reply({
+        ephemeral: true,
+        content: "❌ Could not find user. Make sure accounts are linked."
+      });
 
       return;
     }
@@ -35,9 +36,11 @@ export default {
     const personalBests = user?.personalBests;
 
     if (personalBests === undefined) {
-      interaction.reply(
-        "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
-      );
+      interaction.reply({
+        ephemeral: true,
+        content:
+          "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
+      });
 
       return;
     }
