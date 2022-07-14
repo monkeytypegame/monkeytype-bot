@@ -2,7 +2,7 @@ import * as Discord from "discord.js";
 import type { MonkeyTypes } from "../types/types";
 import { promisify } from "util";
 import { resolve, join } from "path";
-import { APIMessage } from "discord-api-types";
+import { APIMessage } from "discord-api-types/v10";
 import globCB from "glob";
 import { Worker } from "bullmq";
 import { redis } from "../functions/redis";
