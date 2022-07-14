@@ -33,7 +33,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn pretty:fix && yarn lint:fix"
+      "pre-commit": "yarn pretty-fix && yarn lint-fix"
     }
   },
   "devDependencies": {
