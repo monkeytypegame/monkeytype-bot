@@ -981,9 +981,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:13.8.0":
-  version: 13.8.0
-  resolution: "discord.js@npm:13.8.0"
+"discord.js@npm:^13.8.1":
+  version: 13.8.1
+  resolution: "discord.js@npm:13.8.1"
   dependencies:
     "@discordjs/builders": ^0.14.0
     "@discordjs/collection": ^0.7.0
@@ -994,7 +994,7 @@ __metadata:
     form-data: ^4.0.0
     node-fetch: ^2.6.1
     ws: ^8.7.0
-  checksum: 9fb026f5d2bcc5339044b3f2df7efca815656064d593582ea5fb60beabdc0ae0381010949b94940496d91dd8c2aa2dc55bc8db48300da5b8d00eadcc04665dc2
+  checksum: 1311aa3be7e61e9173f4d41c0184c5614860145385a00a67840d7a1849c3cbbf248a2f6339200653e23c90f11acfab554b440a6018bb52d532cd688849618a5a
   languageName: node
   linkType: hard
 
@@ -2244,7 +2244,7 @@ __metadata:
     "@typescript-eslint/parser": 5.19.0
     bullmq: 1.81.1
     date-fns: 2.28.0
-    discord.js: 13.8.0
+    discord.js: ^13.8.1
     dotenv: 8.6.0
     eslint: 8.13.0
     eslint-config-prettier: 8.5.0
