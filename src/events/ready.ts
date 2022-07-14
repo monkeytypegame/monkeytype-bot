@@ -148,7 +148,7 @@ async function updateIssueCommand(client: Client<true>): Promise<void> {
 
 function getMemberCount(guild: Guild): number {
   return (
-    guild.presences?.cache.map((presence) => presence.status === "online")
-      .length ?? guild.memberCount
+    guild.presences?.cache.filter((presence) => presence.status === "online")
+      .size ?? guild.memberCount
   );
 }
