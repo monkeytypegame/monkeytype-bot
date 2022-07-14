@@ -27,7 +27,7 @@ export default {
     if (user === undefined) {
       interaction.reply({
         ephemeral: true,
-        "❌ Could not find user. Make sure accounts are linked."
+        content: "❌ Could not find user. Make sure accounts are linked."
       });
 
       return;
@@ -38,7 +38,8 @@ export default {
     if (personalBests === undefined) {
       interaction.reply({
         ephemeral: true,
-        "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
+        content:
+          "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
       });
 
       return;
