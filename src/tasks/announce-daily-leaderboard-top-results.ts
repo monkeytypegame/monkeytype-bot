@@ -48,7 +48,7 @@ export default {
       fields
     });
 
-    (await client.getChannel("lounge"))?.send({
+    (await client.getChannel("typing"))?.send({
       embeds: [embed]
     });
 
