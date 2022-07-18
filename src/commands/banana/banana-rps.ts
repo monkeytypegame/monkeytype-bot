@@ -83,8 +83,7 @@ export default {
         fields: [
           {
             name: "Round",
-            value: "1",
-            inline: false
+            value: "1"
           },
           {
             name: interaction.user.username,

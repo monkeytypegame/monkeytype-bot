@@ -159,13 +159,11 @@ export default {
         fields: [
           {
             name: "Last 10 Global Flips",
-            value: coinFlipsString,
-            inline: false
+            value: coinFlipsString
           },
           {
             name: `${interaction.user.username}'s New Balance`,
-            value: authorBananaEntry.balance.toString(),
-            inline: false
+            value: authorBananaEntry.balance.toString()
           },
           {
             name: "Flip Wins",

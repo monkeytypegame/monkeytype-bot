@@ -54,25 +54,21 @@ export default {
         fields: [
           {
             name: "Tests Started",
-            value: user.startedTests.toString(),
-            inline: false
+            value: user.startedTests.toString()
           },
           {
             name: "Tests Completed",
-            value: user.completedTests.toString(),
-            inline: false
+            value: user.completedTests.toString()
           },
           {
             name: "Test Completion Rate",
             value: (
               (user.completedTests || 1) / (user.startedTests || 1)
-            ).toFixed(2),
-            inline: false
+            ).toFixed(2)
           },
           {
             name: "Time Typing",
-            value: duration,
-            inline: false
+            value: duration
           }
         ]
       },

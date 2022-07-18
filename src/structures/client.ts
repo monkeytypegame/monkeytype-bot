@@ -459,8 +459,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         embedOptions.fields.findIndex((field) => field.name === fieldName)
       ] = {
         name: fieldName,
-        value: pageChangeEntries.join("\n") || "None",
-        inline: false
+        value: pageChangeEntries.join("\n") || "None"
       };
 
       embed = this.embed(embedOptions);
