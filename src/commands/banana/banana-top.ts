@@ -55,8 +55,7 @@ export default {
         name: "You",
         value: `\`${userIndex + 1}\`: ${interaction.user.tag} (${
           user?.balance ?? 0
-        } bananas)`,
-        inline: false
+        } bananas)`
       });
     }
 
