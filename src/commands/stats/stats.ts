@@ -3,6 +3,7 @@ import type { MonkeyTypes } from "../../types/types";
 import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";
 import { Client } from "../../structures/client";
+import { ApplicationCommandOptionType } from "discord.js";
 
 export default {
   name: "stats",
@@ -12,7 +13,7 @@ export default {
     {
       name: "user",
       description: "The user to get the personal bests of",
-      type: "USER",
+      type: ApplicationCommandOptionType.User,
       required: false
     }
   ],

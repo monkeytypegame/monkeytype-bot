@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType } from "discord.js";
 import {
   createUser,
   getCoinFlips,
@@ -17,7 +18,7 @@ export default {
     {
       name: "guess",
       description: "The side of the coin to bet on",
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: false,
       choices: [
         { name: "heads", value: "heads" },
@@ -27,7 +28,7 @@ export default {
     {
       name: "amount",
       description: "The amount of bananas to bet",
-      type: "INTEGER",
+      type: ApplicationCommandOptionType.Integer,
       required: false
     }
   ],

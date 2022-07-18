@@ -1,4 +1,9 @@
-import { MessageActionRow, MessageButton } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType
+} from "discord.js";
 import type { MonkeyTypes } from "../../types/types";
 import { Client } from "../../structures/client";
 
@@ -37,15 +42,13 @@ export default {
       interaction.user
     );
 
-    const row = new MessageActionRow();
-
-    const confirmButton = new MessageButton()
-      .setCustomId("unlock")
-      .setLabel("Unlock Commands")
-      .setStyle("DANGER")
-      .setDisabled(false);
-
-    row.addComponents(confirmButton);
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId("unlock")
+        .setLabel("Unlock Commands")
+        .setStyle(ButtonStyle.Danger)
+        .setDisabled(false)
+    );
 
     const replyMessage = await interaction.reply({
       embeds: [embed],
@@ -60,7 +63,7 @@ export default {
         replyMessage.id === i.message.id &&
         i.user.id === interaction.user.id &&
         ["unlock"].includes(i.customId),
-      "BUTTON",
+      ComponentType.Button,
       Client.timeoutTime * 15
     );
 

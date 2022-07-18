@@ -6,9 +6,11 @@ import type { MonkeyTypes } from "../types/types";
 import { parseJSON, readFileOrCreate } from "../functions/file";
 import { Client } from "../structures/client";
 import {
+  ActivityType,
   ApplicationCommandChoicesOption,
   ApplicationCommandData,
   ApplicationCommandOption,
+  ApplicationCommandOptionType,
   Guild
 } from "discord.js";
 import fetch from "node-fetch";
@@ -25,7 +27,7 @@ export default {
     }
 
     client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
-      type: "WATCHING"
+      type: ActivityType.Watching
     });
 
     const botOwner = await client.users.fetch(client.clientOptions.devID);
@@ -53,7 +55,7 @@ export default {
 
     setInterval(() => {
       client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
-        type: "WATCHING"
+        type: ActivityType.Watching
       });
 
       fetchLabels(client);
@@ -96,7 +98,7 @@ async function updateIssueCommand(client: Client<true>): Promise<void> {
   const labelOption: ApplicationCommandOption = {
     name: "label",
     description: "Add a label to the issue",
-    type: "STRING",
+    type: ApplicationCommandOptionType.String,
     required: false,
     choices: labels.map((label) => ({
       name: label,

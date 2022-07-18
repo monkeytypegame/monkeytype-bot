@@ -1,4 +1,4 @@
-import { User } from "discord.js";
+import { ChannelType, PermissionFlagsBits, User } from "discord.js";
 import { randomBoolean } from "../functions/random";
 import type { MonkeyTypes } from "../types/types";
 
@@ -10,7 +10,7 @@ export default {
   run: async (client, message) => {
     if (
       message.author.bot ||
-      message.channel.type === "DM" ||
+      message.channel.type === ChannelType.DM ||
       !message.member
     ) {
       return;
@@ -45,7 +45,7 @@ export default {
 
     if (
       message.content === "ping" &&
-      message.member?.permissions.has("MANAGE_GUILD")
+      message.member?.permissions.has(PermissionFlagsBits.ManageGuild)
     ) {
       message.reply("pong");
 

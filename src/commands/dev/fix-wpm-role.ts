@@ -1,5 +1,6 @@
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
+import { ApplicationCommandOptionType } from "discord.js";
 
 export default {
   name: "fix-wpm-role",
@@ -9,7 +10,7 @@ export default {
     {
       name: "user",
       description: "The user to fix",
-      type: "USER",
+      type: ApplicationCommandOptionType.User,
       required: true
     }
   ],

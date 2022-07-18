@@ -3,6 +3,7 @@ import { mongoDB } from "../../functions/mongodb";
 import { toPascalCase } from "../../functions/to-pascal-case";
 import fetch from "node-fetch";
 import { Client } from "../../structures/client";
+import { ApplicationCommandOptionType } from "discord.js";
 
 const quoteLengthMap = {
   0: "short",
@@ -19,7 +20,7 @@ export default {
     {
       name: "user",
       description: "The user to get the personal bests of",
-      type: "USER",
+      type: ApplicationCommandOptionType.User,
       required: false
     }
   ],

@@ -19,7 +19,7 @@
   "dependencies": {
     "bullmq": "1.81.1",
     "date-fns": "2.28.0",
-    "discord.js": "13.8.1",
+    "discord.js": "14.0.1",
     "dotenv": "8.6.0",
     "glob": "7.2.0",
     "husky": "5.1.1",
@@ -40,6 +40,7 @@
     "@types/async": "3.2.12",
     "@types/glob": "7.2.0",
     "@types/lodash": "4.14.182",
+    "@types/node-fetch": "2.6.2",
     "@types/string-similarity": "4.0.0",
     "@typescript-eslint/eslint-plugin": "5.19.0",
     "@typescript-eslint/parser": "5.19.0",

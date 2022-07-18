@@ -1,6 +1,11 @@
 import type { MonkeyTypes } from "../../types/types";
 import { exec } from "child_process";
-import { MessageActionRow, MessageButton } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType
+} from "discord.js";
 
 export default {
   name: "restart-db",
@@ -8,23 +13,23 @@ export default {
   category: "Dev",
   needsPermissions: true,
   run: async (interaction, client) => {
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents([
+      new ButtonBuilder()
+        .setCustomId("restartDBYes")
+        .setLabel("Yes")
+        .setStyle(ButtonStyle.Success)
+        .setDisabled(false),
+      new ButtonBuilder()
+        .setCustomId("restartDBNo")
+        .setLabel("No")
+        .setStyle(ButtonStyle.Danger)
+        .setDisabled(false)
+    ]);
+
     const message = await interaction.reply({
       content: "Are you sure?",
       fetchReply: true,
-      components: [
-        new MessageActionRow().addComponents([
-          new MessageButton()
-            .setCustomId("restartDBYes")
-            .setLabel("Yes")
-            .setStyle("SUCCESS")
-            .setDisabled(false),
-          new MessageButton()
-            .setCustomId("restartDBNo")
-            .setLabel("No")
-            .setStyle("DANGER")
-            .setDisabled(false)
-        ])
-      ]
+      components: [row]
     });
 
     const buttonInteraction = await client.awaitMessageComponent(
@@ -33,7 +38,7 @@ export default {
         message.id === i.message.id &&
         i.user.id === interaction.user.id &&
         ["restartDBYes", "restartDBNo"].includes(i.customId),
-      "BUTTON"
+      ComponentType.Button
     );
 
     if (buttonInteraction === undefined) {

@@ -1,6 +1,7 @@
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { toPascalCase } from "../../functions/to-pascal-case";
+import { ApplicationCommandOptionType } from "discord.js";
 
 export default {
   name: "leaderboard",
@@ -10,13 +11,13 @@ export default {
     // {
     //   name: "language",
     //   description: "The langauge to query",
-    //   type: "STRING",
+    //   type: ApplicationCommandOptionType.String,
     //   required: true
     // },
     // {
     //   name: "mode",
     //   description: "The mode to query",
-    //   type: "STRING",
+    //   type: ApplicationCommandOptionType.String,
     //   required: true,
     //   choices: [
     //     {
@@ -36,7 +37,7 @@ export default {
     {
       name: "mode2",
       description: "The mode2 to query",
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true,
       // remove these choices when words/quote lbs are added
       choices: [
@@ -99,7 +100,7 @@ export default {
       description: `Top 100 people on the leaderboard`,
       color: 0x5aef5c,
       thumbnail: {
-        url: interaction.user.avatarURL({ dynamic: true }) ?? "None"
+        url: interaction.user.avatarURL() ?? "None"
       }
     };
 
@@ -115,10 +116,10 @@ export default {
           leaderboardUser !== undefined &&
           !currentEntries?.find((entry) => entry.includes(leaderboardUser.name))
         ) {
-          embed.addField(
-            "You",
-            `\`${leaderboardUser.rank}\`: ${leaderboardUser.name} (${leaderboardUser.wpm} wpm)`
-          );
+          embed.addFields({
+            name: "You",
+            value: `\`${leaderboardUser.rank}\`: ${leaderboardUser.name} (${leaderboardUser.wpm} wpm)`
+          });
         }
 
         return interaction.followUp({
@@ -128,14 +129,16 @@ export default {
         });
       },
       onPageChange: (embed, currentEntries) => {
-        if (embed.fields[1] !== undefined) {
+        if (embed.data?.fields?.[1] !== undefined) {
           if (
             leaderboardUser === undefined ||
             currentEntries?.find((entry) =>
               entry.includes(leaderboardUser.name)
             )
           ) {
-            embed.fields.splice(1, 1);
+            embed.setFields(
+              embed.data.fields.filter((_, index) => index !== 2)
+            );
           }
         } else {
           if (
@@ -144,10 +147,10 @@ export default {
               entry.includes(leaderboardUser.name)
             )
           ) {
-            embed.addField(
-              "You",
-              `\`${leaderboardUser.rank}\`: ${leaderboardUser.name} (${leaderboardUser.wpm} wpm)`
-            );
+            embed.addFields({
+              name: "You",
+              value: `\`${leaderboardUser.rank}\`: ${leaderboardUser.name} (${leaderboardUser.wpm} wpm)`
+            });
           }
         }
 

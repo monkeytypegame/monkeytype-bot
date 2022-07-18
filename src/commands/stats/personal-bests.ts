@@ -1,6 +1,6 @@
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
-import { MessageEmbed } from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { Client } from "../../structures/client";
 
 export default {
@@ -11,7 +11,7 @@ export default {
     {
       name: "user",
       description: "The user to get the personal bests of",
-      type: "USER",
+      type: ApplicationCommandOptionType.User,
       required: false
     }
   ],
@@ -158,7 +158,7 @@ export default {
 
     const embeds = [timeEmbed, wordsEmbed].filter(
       (embed) => embed !== undefined
-    ) as MessageEmbed[];
+    ) as EmbedBuilder[];
 
     if (embeds.length === 0) {
       interaction.reply(

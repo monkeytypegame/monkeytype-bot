@@ -6,17 +6,21 @@ import {
 } from "../dal/challenge-request";
 import {
   Message,
-  MessageActionRow,
-  MessageButton,
-  MessageSelectMenu,
-  MessageSelectOptionData
+  ActionRowBuilder,
+  ButtonBuilder,
+  SelectMenuBuilder,
+  SelectMenuComponentOptionData,
+  ButtonStyle,
+  EmbedBuilder,
+  ComponentType,
+  ChannelType
 } from "discord.js";
 import {
   incrementApproved,
   incrementDenied
 } from "../dal/challenge-request-stats";
 
-const declineReasonOptions: MessageSelectOptionData[] = [
+const declineReasonOptions: SelectMenuComponentOptionData[] = [
   {
     label: "Invalid Proof",
     description: "The proof (images, videos) you provided were invalid",
@@ -120,7 +124,10 @@ export default {
     }
 
     const challengeMessage = await challengeSubmissionsChannel.messages
-      .fetch(challengeMessageID, { cache: true })
+      .fetch({
+        message: challengeMessageID,
+        cache: true
+      })
       .catch(() => undefined);
 
     const challengeRequest = getRequest(userID, challengeMessageID);
@@ -144,7 +151,9 @@ export default {
       .catch(() => undefined);
 
     if (accepted) {
-      const newEmbeds = message.embeds;
+      const newEmbeds = message.embeds.map(
+        (embed) => new EmbedBuilder(embed.data)
+      );
 
       newEmbeds[0]?.addFields({
         name: "Accepted by",
@@ -172,16 +181,14 @@ export default {
       updateChannel(message);
       incrementApproved(interaction.member.user.id);
     } else {
-      const row = new MessageActionRow();
-
-      const declineReasonSelectMenu = new MessageSelectMenu()
-        .setCustomId("declineReason")
-        .setPlaceholder("Pick a reason")
-        .setMinValues(1)
-        .setMaxValues(declineReasonOptions.length)
-        .setOptions(declineReasonOptions);
-
-      row.addComponents(declineReasonSelectMenu);
+      const row = new ActionRowBuilder<SelectMenuBuilder>().addComponents(
+        new SelectMenuBuilder()
+          .setCustomId("declineReason")
+          .setPlaceholder("Pick a reason")
+          .setMinValues(1)
+          .setMaxValues(declineReasonOptions.length)
+          .setOptions(declineReasonOptions)
+      );
 
       await message.edit({
         embeds: message.embeds,
@@ -194,7 +201,7 @@ export default {
           i.customId === "declineReason" &&
           i.user.id === interaction.user.id &&
           i.message.id === message.id,
-        "SELECT_MENU"
+        ComponentType.SelectMenu
       );
 
       if (declineReasonInteraction === undefined) {
@@ -203,18 +210,18 @@ export default {
         //   components: []
         // });
 
-        const approvalRow = new MessageActionRow();
+        const approvalRow = new ActionRowBuilder();
 
-        const acceptButton = new MessageButton()
+        const acceptButton = new ButtonBuilder()
           .setCustomId("accept")
           .setLabel("Accept")
-          .setStyle("SUCCESS")
+          .setStyle(ButtonStyle.Success)
           .setDisabled(false);
 
-        const declineButton = new MessageButton()
+        const declineButton = new ButtonBuilder()
           .setCustomId("decline")
           .setLabel("Decline")
-          .setStyle("DANGER")
+          .setStyle(ButtonStyle.Danger)
           .setDisabled(false);
 
         approvalRow.addComponents(acceptButton, declineButton);
@@ -235,7 +242,9 @@ export default {
 
       declineReasonInteraction.deferUpdate();
 
-      const newEmbeds = message.embeds;
+      const newEmbeds = message.embeds.map(
+        (embed) => new EmbedBuilder(embed.data)
+      );
 
       newEmbeds[0]?.addFields({
         name: "Declined by",
@@ -271,7 +280,10 @@ export default {
 } as MonkeyTypes.Event<"interactionCreate">;
 
 async function updateChannel(message: Message): Promise<void> {
-  if (message.channel.type === "GUILD_TEXT") {
+  if (
+    message.channel.isTextBased() &&
+    message.channel.type === ChannelType.GuildText
+  ) {
     message.channel.edit({
       name: `${await getRequestCount()}-cs-mods`
     });

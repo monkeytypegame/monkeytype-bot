@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageEmbed } from "discord.js";
+import { ApplicationCommandType, EmbedBuilder } from "discord.js";
 import { mapOptions } from "../../functions/map-options";
 import { MonkeyTypes } from "../../types/types";
 
@@ -6,7 +6,7 @@ export default {
   name: "view-poll-results",
   description: "View a poll's results",
   category: "Utility",
-  type: "MESSAGE",
+  type: ApplicationCommandType.Message,
   run: async (interaction, client) => {
     const message = interaction.targetMessage;
 
@@ -14,8 +14,8 @@ export default {
       message.embeds.length === 0 ||
       message.components === undefined ||
       message.components.length === 0 ||
-      !(message.components as MessageActionRow[])[0]?.components.every(
-        (component) => component.customId?.includes("poll#")
+      !message.components[0]?.components.every((component) =>
+        component.customId?.includes("poll#")
       )
     ) {
       interaction.reply("❌ This message is not a poll.");
@@ -23,10 +23,10 @@ export default {
       return;
     }
 
-    const pollEmbed = new MessageEmbed(message.embeds[0]);
+    const pollEmbed = new EmbedBuilder(message.embeds[0]?.data);
 
-    const pollID = pollEmbed.footer?.text.substring(
-      (pollEmbed.footer?.text.indexOf("Poll ID: ") ?? 0) + 9
+    const pollID = pollEmbed.data.footer?.text.substring(
+      (pollEmbed.data.footer?.text.indexOf("Poll ID: ") ?? 0) + 9
     );
 
     if (pollID === undefined) {
@@ -51,4 +51,4 @@ export default {
       ephemeral: true
     });
   }
-} as MonkeyTypes.Command<"MESSAGE">;
+} as MonkeyTypes.Command<ApplicationCommandType.Message>;

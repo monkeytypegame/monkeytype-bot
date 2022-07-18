@@ -71,15 +71,22 @@ export default {
       bananaEntry.balance++;
       bananaEntry.lastCollect = now;
 
-      if (embed.fields[0] !== undefined) {
-        embed.fields[0].value = (
-          bananaEntry.balance + time60Bananas
-        ).toString();
+      if (embed.data?.fields?.[0] !== undefined) {
+        embed.setFields(
+          embed.data?.fields?.map((field, index) =>
+            index === 0
+              ? {
+                  ...field,
+                  value: (bananaEntry.balance + time60Bananas).toString()
+                }
+              : field
+          )
+        );
       }
     }
 
     if (time60Bananas > 0) {
-      embed.addField("Bonus! 🥳", time60Bananas.toString());
+      embed.addFields({ name: "Bonus! 🥳", value: time60Bananas.toString() });
 
       bananaEntry.balance += time60Bananas;
 

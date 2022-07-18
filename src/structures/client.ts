@@ -9,21 +9,21 @@ import { redis } from "../functions/redis";
 import _ from "lodash";
 
 interface PaginationOptions<T> {
-  embedOptions: Discord.MessageEmbedOptions;
+  embedOptions: Discord.EmbedData;
   interaction: Discord.CommandInteraction;
   amount: number;
   entries: T[];
   id: string;
   fieldName: string;
   send?: (
-    embed: Discord.MessageEmbed,
-    row: Discord.MessageActionRow,
+    embed: Discord.EmbedBuilder,
+    row: Discord.ActionRowBuilder<Discord.ButtonBuilder>,
     currentEntries: T[]
   ) => Promise<Discord.Message | APIMessage>;
   onPageChange?: (
-    embed: Discord.MessageEmbed,
+    embed: Discord.EmbedBuilder,
     currentEntries: T[]
-  ) => Discord.MessageEmbed;
+  ) => Discord.EmbedBuilder;
 }
 
 export class Client<T extends boolean> extends Discord.Client<T> {
@@ -228,14 +228,14 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       const cmd = slashCommands?.find((c) => c.name === command.name);
 
       if (cmd === undefined) {
-        const type = command.type ?? "CHAT_INPUT";
+        const type = command.type ?? Discord.ApplicationCommandType.ChatInput;
 
         const c = await this.application?.commands
           .create(
             {
               name: command.name,
               description:
-                type === "CHAT_INPUT"
+                type === Discord.ApplicationCommandType.ChatInput
                   ? command.description ?? "No description provided"
                   : "",
               type,
@@ -252,8 +252,8 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         }
       } else {
         const mapper = (
-          option: Discord.ApplicationCommandOption
-        ): Discord.ApplicationCommandOption => {
+          option: Discord.ApplicationCommandOptionData
+        ): Discord.ApplicationCommandOptionData => {
           type Keys = keyof typeof option;
 
           type Values = typeof option[Keys];
@@ -279,12 +279,12 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           options: cmd.options.map(mapper)
         };
 
-        const type = command.type ?? "CHAT_INPUT";
+        const type = command.type ?? Discord.ApplicationCommandType.ChatInput;
 
         const commandObject = {
           name: command.name,
           description:
-            type === "CHAT_INPUT"
+            type === Discord.ApplicationCommandType.ChatInput
               ? command.description ?? "No description provided"
               : "",
           type,
@@ -312,9 +312,9 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   }
 
   public embed(
-    embedOptions: Discord.MessageEmbedOptions,
+    embedOptions: Discord.EmbedData | Discord.APIEmbed,
     user?: Discord.User
-  ): Discord.MessageEmbed {
+  ): Discord.EmbedBuilder {
     // if (!embedOptions.title?.startsWith(this.user?.username ?? "George")) {
     // embedOptions.title = `${this.user?.username ?? "George"}: \`${
     //   embedOptions.title
@@ -335,13 +335,13 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     if (embedOptions.author === undefined && user !== undefined) {
       embedOptions.author = {
         name: user.username,
-        iconURL: user.avatarURL({ dynamic: true }) ?? ""
+        iconURL: user.avatarURL() ?? ""
       };
     }
 
-    const embed = new Discord.MessageEmbed(embedOptions);
+    const embed = new Discord.EmbedBuilder(embedOptions);
 
-    if (!embed.timestamp) {
+    if (!embed.data.timestamp) {
       embed.setTimestamp();
     }
 
@@ -378,27 +378,26 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
     let embed = this.embed(embedOptions);
 
-    const row = new Discord.MessageActionRow();
-
-    row.addComponents([
-      new Discord.MessageButton()
-        .setCustomId(`${id.toLowerCase()}PreviousPage`)
-        .setEmoji("⬅️")
-        .setLabel("Previous")
-        .setStyle("PRIMARY")
-        .setDisabled(false),
-      new Discord.MessageButton()
-        .setCustomId(`${id.toLowerCase()}PageDisplay`)
-        .setLabel(`Page ${page + 1} of ${maxPage}`)
-        .setStyle("SECONDARY")
-        .setDisabled(true),
-      new Discord.MessageButton()
-        .setCustomId(`${id.toLowerCase()}NextPage`)
-        .setEmoji("➡️")
-        .setLabel("Next")
-        .setStyle("PRIMARY")
-        .setDisabled(false)
-    ]);
+    const row =
+      new Discord.ActionRowBuilder<Discord.ButtonBuilder>().addComponents([
+        new Discord.ButtonBuilder()
+          .setCustomId(`${id.toLowerCase()}PreviousPage`)
+          .setEmoji("⬅️")
+          .setLabel("Previous")
+          .setStyle(Discord.ButtonStyle.Primary)
+          .setDisabled(false),
+        new Discord.ButtonBuilder()
+          .setCustomId(`${id.toLowerCase()}PageDisplay`)
+          .setLabel(`Page ${page + 1} of ${maxPage}`)
+          .setStyle(Discord.ButtonStyle.Secondary)
+          .setDisabled(true),
+        new Discord.ButtonBuilder()
+          .setCustomId(`${id.toLowerCase()}NextPage`)
+          .setEmoji("➡️")
+          .setLabel("Next")
+          .setStyle(Discord.ButtonStyle.Primary)
+          .setDisabled(false)
+      ]);
 
     const msg =
       send === undefined
@@ -416,7 +415,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     }
 
     const collector = interaction.channel?.createMessageComponentCollector({
-      componentType: "BUTTON",
+      componentType: Discord.ComponentType.Button,
       dispose: true,
       message: msg,
       time: Client.timeoutTime
@@ -470,9 +469,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       }
 
       if (row.components[1]) {
-        (row.components[1] as Discord.MessageButton).setLabel(
-          `Page ${page + 1} of ${maxPage}`
-        );
+        row.components[1].setLabel(`Page ${page + 1} of ${maxPage}`);
       }
 
       interaction.editReply({
@@ -587,11 +584,10 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       (ch) => ch.id === this.clientOptions.channels[channel]
     );
 
-    if (!guildChannel?.isText()) {
-      return;
-    }
-
-    if (guildChannel.type !== "GUILD_TEXT") {
+    if (
+      !guildChannel?.isTextBased() ||
+      guildChannel.type !== Discord.ChannelType.GuildText
+    ) {
       return;
     }
 

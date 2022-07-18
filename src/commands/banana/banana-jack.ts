@@ -1,6 +1,12 @@
 import type { MonkeyTypes } from "../../types/types";
 import { createUser, getUser, setUser } from "../../functions/banana";
-import { MessageActionRow, MessageButton } from "discord.js";
+import {
+  ActionRowBuilder,
+  ApplicationCommandOptionType,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType
+} from "discord.js";
 import { randomInteger } from "../../functions/random";
 
 const suits = ["♥", "♣", "♦", "♠"];
@@ -33,7 +39,7 @@ export default {
     {
       name: "amount",
       description: "The amount of bananas to bet",
-      type: "INTEGER",
+      type: ApplicationCommandOptionType.Integer,
       required: true
     }
   ],
@@ -108,21 +114,18 @@ export default {
       interaction.user
     );
 
-    const row = new MessageActionRow();
-
-    const hitButton = new MessageButton()
-      .setCustomId("hit")
-      .setLabel("Hit")
-      .setStyle("PRIMARY")
-      .setDisabled(false);
-
-    const standButton = new MessageButton()
-      .setCustomId("stand")
-      .setLabel("Stand")
-      .setStyle("PRIMARY")
-      .setDisabled(false);
-
-    row.addComponents(hitButton, standButton);
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId("hit")
+        .setLabel("Hit")
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(false),
+      new ButtonBuilder()
+        .setCustomId("stand")
+        .setLabel("Stand")
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(false)
+    );
 
     const replyMessage = await interaction.reply({
       embeds: [embed],
@@ -131,8 +134,8 @@ export default {
     });
 
     while (!gameOver) {
-      const playerField = embed.fields[0];
-      const dealerField = embed.fields[1];
+      const playerField = embed.data?.fields?.[0];
+      const dealerField = embed.data?.fields?.[1];
 
       if (playerField === undefined || dealerField === undefined) {
         console.log("Field is undefined");
@@ -146,7 +149,7 @@ export default {
           replyMessage.id === i.message.id &&
           i.user.id === interaction.user.id &&
           ["hit", "stand"].includes(i.customId),
-        "BUTTON"
+        ComponentType.Button
       );
 
       if (buttonInteraction === undefined) {

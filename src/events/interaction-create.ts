@@ -1,8 +1,9 @@
 import {
   ApplicationCommandType,
-  CommandInteraction,
-  MessageContextMenuInteraction,
-  UserContextMenuInteraction
+  ChannelType,
+  ChatInputCommandInteraction,
+  MessageContextMenuCommandInteraction,
+  UserContextMenuCommandInteraction
 } from "discord.js";
 import { Client } from "../structures/client";
 import type { MonkeyTypes } from "../types/types";
@@ -10,20 +11,21 @@ import type { MonkeyTypes } from "../types/types";
 export default {
   event: "interactionCreate",
   run: async (client, interaction) => {
-    if (interaction.isCommand() && interaction.channel?.type !== "DM") {
+    if (
+      interaction.isChatInputCommand() &&
+      interaction.channel?.type !== ChannelType.DM
+    ) {
       console.log(`Command Interaction ran. "${interaction.commandName}"`);
 
       runCommand(interaction, client);
-    } else if (interaction.isAutocomplete()) {
-      console.log(`Autocomplete Interaction ran. "${interaction.commandName}"`);
     } else if (interaction.isButton()) {
       console.log(`Button Interaction ran. "${interaction.customId}"`);
-    } else if (interaction.isContextMenu()) {
+    } else if (interaction.isContextMenuCommand()) {
       console.log(`Context Menu Interaction ran. "${interaction.commandName}"`);
 
       if (
-        interaction.isMessageContextMenu() ||
-        interaction.isUserContextMenu()
+        interaction.isMessageContextMenuCommand() ||
+        interaction.isUserContextMenuCommand()
       ) {
         runCommand(interaction, client);
       }
@@ -34,9 +36,9 @@ export default {
 } as MonkeyTypes.Event<"interactionCreate">;
 async function runCommand(
   interaction:
-    | CommandInteraction
-    | MessageContextMenuInteraction
-    | UserContextMenuInteraction,
+    | ChatInputCommandInteraction
+    | MessageContextMenuCommandInteraction
+    | UserContextMenuCommandInteraction,
   client: Client<true>
 ): Promise<void> {
   const commandName = interaction.commandName;

@@ -1,4 +1,10 @@
-import { Message, MessageActionRow, MessageButton } from "discord.js";
+import {
+  Message,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType
+} from "discord.js";
 import { ObjectId } from "mongodb";
 import { compareTwoStrings } from "string-similarity";
 import { addRequest, getRequestCount } from "../dal/challenge-request";
@@ -80,21 +86,19 @@ export default {
     const exactMatch = compareTwoStrings(foundChallengeRole.name, roleName);
 
     if (exactMatch < 1) {
-      const confirmationRow = new MessageActionRow();
-
-      const yesButton = new MessageButton()
-        .setCustomId("yes")
-        .setLabel("Yes")
-        .setStyle("SUCCESS")
-        .setDisabled(false);
-
-      const noButton = new MessageButton()
-        .setCustomId("no")
-        .setLabel("No")
-        .setStyle("DANGER")
-        .setDisabled(false);
-
-      confirmationRow.addComponents(yesButton, noButton);
+      const confirmationRow =
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId("yes")
+            .setLabel("Yes")
+            .setStyle(ButtonStyle.Success)
+            .setDisabled(false),
+          new ButtonBuilder()
+            .setCustomId("no")
+            .setLabel("No")
+            .setStyle(ButtonStyle.Danger)
+            .setDisabled(false)
+        );
 
       const m = await message.channel.send({
         content: `❓ Did you mean ${foundChallengeRole.name}?`,
@@ -107,7 +111,7 @@ export default {
           i.user.id === message.author.id &&
           ["yes", "no"].includes(i.customId) &&
           i.channel?.id === message.channel.id,
-        "BUTTON"
+        ComponentType.Button
       );
 
       confirmationInteraction?.deferUpdate();
@@ -184,21 +188,18 @@ export default {
       message.author
     );
 
-    const approvalRow = new MessageActionRow();
-
-    const acceptButton = new MessageButton()
-      .setCustomId("accept")
-      .setLabel("Accept")
-      .setStyle("SUCCESS")
-      .setDisabled(false);
-
-    const declineButton = new MessageButton()
-      .setCustomId("decline")
-      .setLabel("Decline")
-      .setStyle("DANGER")
-      .setDisabled(false);
-
-    approvalRow.addComponents(acceptButton, declineButton);
+    const approvalRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId("accept")
+        .setLabel("Accept")
+        .setStyle(ButtonStyle.Success)
+        .setDisabled(false),
+      new ButtonBuilder()
+        .setCustomId("decline")
+        .setLabel("Decline")
+        .setStyle(ButtonStyle.Danger)
+        .setDisabled(false)
+    );
 
     challengeSubmissionsModsChannel.send({
       embeds: [embed],

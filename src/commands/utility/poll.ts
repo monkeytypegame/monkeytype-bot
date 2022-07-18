@@ -1,8 +1,11 @@
 import {
   Collection,
-  MessageActionRow,
-  MessageButton,
-  MessageEmbed
+  ActionRowBuilder,
+  ButtonBuilder,
+  ApplicationCommandOptionType,
+  ComponentType,
+  ButtonStyle,
+  EmbedBuilder
 } from "discord.js";
 import type { MonkeyTypes } from "../../types/types";
 import { Client } from "../../structures/client";
@@ -18,25 +21,25 @@ export default {
     {
       name: "prompt",
       description: "Prompt of the poll",
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true
     },
     {
       name: "options",
       description: `Options in this format: ${optionsFormat}`,
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true
     },
     {
       name: "visible",
       description: "Should the results be visible to everyone?",
-      type: "BOOLEAN",
+      type: ApplicationCommandOptionType.Boolean,
       required: true
     },
     {
       name: "days",
       description: "How many days should the poll last?",
-      type: "INTEGER",
+      type: ApplicationCommandOptionType.Integer,
       required: false,
       maxValue: 24,
       minValue: 1
@@ -89,14 +92,12 @@ export default {
       }
     });
 
-    const row = new MessageActionRow();
-
-    row.addComponents(
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       options.map((value, index) =>
-        new MessageButton()
+        new ButtonBuilder()
           .setCustomId(`poll#${pollID}#${index}`)
           .setLabel(value)
-          .setStyle("SECONDARY")
+          .setStyle(ButtonStyle.Secondary)
           .setDisabled(false)
       )
     );
@@ -116,7 +117,7 @@ export default {
     });
 
     const collector = message.createMessageComponentCollector({
-      componentType: "BUTTON",
+      componentType: ComponentType.Button,
       dispose: true,
       time: hours * 60 * 60 * 1000
     });
@@ -154,7 +155,7 @@ export default {
       poll()?.votes.get(value)?.add(userID);
 
       if (message.embeds[0] !== undefined) {
-        const newEmbed = new MessageEmbed(message.embeds[0]);
+        const newEmbed = new EmbedBuilder(message.embeds[0].data);
 
         newEmbed.setDescription(
           `${prompt}\n\n${mapOptions(

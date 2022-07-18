@@ -1,6 +1,7 @@
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { DefaultConfig } from "../../constants/default-config";
+import { ApplicationCommandOptionType } from "discord.js";
 
 export default {
   name: "reset-config",
@@ -10,7 +11,7 @@ export default {
     {
       name: "user",
       description: "The user to reset",
-      type: "USER",
+      type: ApplicationCommandOptionType.User,
       required: true
     }
   ],

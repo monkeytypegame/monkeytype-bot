@@ -51,13 +51,13 @@ export default {
         ([id]) => id === interaction.user.id
       );
 
-      embed.addField(
-        "You",
-        `\`${userIndex + 1}\`: ${interaction.user.tag} (${
+      embed.addFields({
+        name: "You",
+        value: `\`${userIndex + 1}\`: ${interaction.user.tag} (${
           user?.balance ?? 0
         } bananas)`,
-        false
-      );
+        inline: false
+      });
     }
 
     interaction.reply({

@@ -1,4 +1,10 @@
-import { MessageActionRow, MessageButton } from "discord.js";
+import {
+  ActionRowBuilder,
+  ApplicationCommandOptionType,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType
+} from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
 import { randomInteger } from "../../functions/random";
 import { Client } from "../../structures/client";
@@ -34,7 +40,7 @@ export default {
     {
       name: "amount",
       description: "The amount of bananas to bet",
-      type: "INTEGER",
+      type: ApplicationCommandOptionType.Integer,
       required: true
     }
   ],
@@ -95,30 +101,26 @@ export default {
       interaction.user
     );
 
-    const row = new MessageActionRow();
-
-    const rockButton = new MessageButton()
-      .setCustomId("rock")
-      .setLabel("Rock")
-      .setEmoji("✊")
-      .setStyle("PRIMARY")
-      .setDisabled(false);
-
-    const paperButton = new MessageButton()
-      .setCustomId("paper")
-      .setLabel("Paper")
-      .setEmoji("✋")
-      .setStyle("PRIMARY")
-      .setDisabled(false);
-
-    const scissorsButton = new MessageButton()
-      .setCustomId("scissors")
-      .setLabel("Scissors")
-      .setEmoji("✌")
-      .setStyle("PRIMARY")
-      .setDisabled(false);
-
-    row.addComponents(rockButton, paperButton, scissorsButton);
+    const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId("rock")
+        .setLabel("Rock")
+        .setEmoji("✊")
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(false),
+      new ButtonBuilder()
+        .setCustomId("paper")
+        .setLabel("Paper")
+        .setEmoji("✋")
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(false),
+      new ButtonBuilder()
+        .setCustomId("scissors")
+        .setLabel("Scissors")
+        .setEmoji("✌")
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(false)
+    );
 
     const replyMessage = await interaction.reply({
       embeds: [embed],
@@ -136,12 +138,12 @@ export default {
           replyMessage.id === i.message.id &&
           i.user.id === interaction.user.id &&
           ["rock", "paper", "scissors"].includes(i.customId),
-        "BUTTON"
+        ComponentType.Button
       );
 
       async function finishRound(): Promise<void> {
         if (round !== 3) {
-          const roundField = embed.fields[0];
+          const roundField = embed.data?.fields?.[0];
 
           round++;
 
@@ -162,7 +164,7 @@ export default {
 
           embed.setColor(outcomeColorMap[outcome]);
 
-          embed.fields.shift();
+          embed.setFields(embed.data?.fields?.slice(1) ?? []);
 
           if (outcome === "win") {
             authorBananaEntry.balance += amount;
@@ -174,7 +176,7 @@ export default {
 
           embed.setDescription(
             `${
-              embed.description ?? ""
+              embed.data.description ?? ""
             }\n\nYou ${outcomeString} ${amount} bananas!\nNew balance: ${
               authorBananaEntry.balance
             }`
@@ -191,7 +193,7 @@ export default {
         losses++;
 
         embed.setDescription(
-          `${embed.description ?? ""}\nRound ${round}: Timed Out 🔴 Loss`
+          `${embed.data.description ?? ""}\nRound ${round}: Timed Out 🔴 Loss`
         );
 
         await finishRound();
@@ -222,7 +224,7 @@ export default {
 
         embed.setDescription(
           `${
-            embed.description ?? ""
+            embed.data.description ?? ""
           }\nRound ${round}: ${choiceEmoji} vs ${computerChoiceEmoji}   🟢 Win`
         );
       } else if (result === "loss") {
@@ -230,20 +232,20 @@ export default {
 
         embed.setDescription(
           `${
-            embed.description ?? ""
+            embed.data.description ?? ""
           }\nRound ${round}: ${choiceEmoji} vs ${computerChoiceEmoji}   🔴 Loss`
         );
       } else if (result === "tie") {
         embed.setDescription(
           `${
-            embed.description ?? ""
+            embed.data.description ?? ""
           }\nRound ${round}: ${choiceEmoji} vs ${computerChoiceEmoji}   🟠 Tie`
         );
       }
 
-      const userField = embed.fields[1];
+      const userField = embed.data?.fields?.[1];
 
-      const computerField = embed.fields[2];
+      const computerField = embed.data?.fields?.[2];
 
       if (userField !== undefined && computerField !== undefined) {
         userField.value = choiceToEmoji[choice];

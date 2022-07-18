@@ -1,6 +1,6 @@
 import type { MonkeyTypes } from "../../types/types";
 import { getStats } from "../../dal/challenge-request-stats";
-import { MessageEmbedOptions } from "discord.js";
+import { EmbedData } from "discord.js";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { Client } from "../../structures/client";
 
@@ -16,7 +16,7 @@ export default {
     const embedOptions = stats.map((stat) => {
       const member = interaction.guild?.members.cache.get(stat.userID);
 
-      const embedOptions: MessageEmbedOptions = {
+      const embedOptions: EmbedData = {
         title: `Challenge Requests Stats for ${member?.displayName}`,
         thumbnail: {
           url: Client.thumbnails.clipboard

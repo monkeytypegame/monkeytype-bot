@@ -6,7 +6,13 @@
   "eventsPath": "./events",
   "tasksPath": "./tasks",
   "deleteUnusedSlashCommands": true,
-  "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS", "GUILD_PRESENCES"],
+  "intents": [
+    "Guilds",
+    "GuildMessages",
+    "MessageContent",
+    "GuildMembers",
+    "GuildPresences"
+  ],
   "repo": "monkeytypegame/monkeytype",
   "repoPath": "../monkeytype",
   "roles": {
@@ -24,7 +30,8 @@
   },
   "channels": {
     "botLog": "channel id where the bot will log debug messages",
-    "lounge": "lounge id",
+    "lounge": "lounge channel id",
+    "typing": "typing channel id",
     "updates": "updates channel id",
     "botCommands": "bot commands channel id",
     "challengeSubmissions": "challenge submission channel id",

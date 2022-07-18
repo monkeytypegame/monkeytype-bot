@@ -1,4 +1,9 @@
-import { NewsChannel, TextChannel } from "discord.js";
+import {
+  ApplicationCommandOptionType,
+  ChannelType,
+  NewsChannel,
+  TextChannel
+} from "discord.js";
 import type { MonkeyTypes } from "../../types/types";
 
 export default {
@@ -9,14 +14,14 @@ export default {
     {
       name: "channel",
       description: "The channel to say the message in",
-      type: "CHANNEL",
-      channelTypes: ["GUILD_TEXT", "GUILD_NEWS"],
+      type: ApplicationCommandOptionType.Channel,
+      channelTypes: [ChannelType.GuildText, ChannelType.GuildNews],
       required: true
     },
     {
       name: "message",
       description: "The message to send",
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true
     }
   ],

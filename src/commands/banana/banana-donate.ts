@@ -1,5 +1,6 @@
 import type { MonkeyTypes } from "../../types/types";
 import { createUser, getUser, setUser } from "../../functions/banana";
+import { ApplicationCommandOptionType } from "discord.js";
 
 export default {
   name: "banana-donate",
@@ -9,13 +10,13 @@ export default {
     {
       name: "user",
       description: "The user to donate to",
-      type: "USER",
+      type: ApplicationCommandOptionType.User,
       required: true
     },
     {
       name: "amount",
       description: "The amount of bananas to donate",
-      type: "INTEGER",
+      type: ApplicationCommandOptionType.Integer,
       required: true
     }
   ],

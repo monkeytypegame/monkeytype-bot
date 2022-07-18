@@ -1,14 +1,14 @@
 import { Document, WithId } from "mongodb";
 import {
-  ApplicationCommandOption,
+  ApplicationCommandOptionData,
   ApplicationCommandType,
   ClientEvents,
   ClientOptions as DiscordClientOptions,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Guild,
   GuildMember,
-  MessageContextMenuInteraction,
-  UserContextMenuInteraction,
+  MessageContextMenuCommandInteraction,
+  UserContextMenuCommandInteraction,
   Collection,
   InteractionCollector,
   ButtonInteraction,
@@ -50,6 +50,7 @@ declare namespace MonkeyTypes {
   export interface Channels {
     botLog: string;
     lounge: string;
+    typing: string;
     updates: string;
     botCommands: string;
     challengeSubmissions: string;
@@ -73,19 +74,21 @@ declare namespace MonkeyTypes {
     channels: Channels;
   }
 
-  interface Command<T extends ApplicationCommandType = "CHAT_INPUT"> {
+  interface Command<
+    T extends ApplicationCommandType = ApplicationCommandType.ChatInput
+  > {
     name: string;
     description?: string;
     category: string;
     type?: T;
-    options?: ApplicationCommandOption[];
+    options?: ApplicationCommandOptionData[];
     needsPermissions?: boolean;
     run: (
-      interaction: T extends "CHAT_INPUT"
-        ? CommandInteraction
-        : T extends "MESSAGE"
-        ? MessageContextMenuInteraction
-        : UserContextMenuInteraction,
+      interaction: T extends ApplicationCommandType.ChatInput
+        ? ChatInputCommandInteraction
+        : T extends ApplicationCommandType.Message
+        ? MessageContextMenuCommandInteraction
+        : UserContextMenuCommandInteraction,
       client: Client<true>
     ) => void;
   }

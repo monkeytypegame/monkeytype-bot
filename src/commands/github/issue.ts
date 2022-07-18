@@ -1,14 +1,17 @@
 import type { MonkeyTypes } from "../../types/types";
 import fetch from "node-fetch";
 import { parseJSON, readFileOrCreate } from "../../functions/file";
-import { ApplicationCommandOption } from "discord.js";
+import {
+  ApplicationCommandOption,
+  ApplicationCommandOptionType
+} from "discord.js";
 
 const labels = parseJSON<string[]>(readFileOrCreate("labels.json", "[]"));
 
 const labelOption: ApplicationCommandOption = {
   name: "label",
   description: "Add a label to the issue",
-  type: "STRING",
+  type: ApplicationCommandOptionType.String,
   required: false,
   choices: labels.map((label) => ({
     name: label,
@@ -26,13 +29,13 @@ export default {
     {
       name: "title",
       description: "The issue title",
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true
     },
     {
       name: "body",
       description: "The issue body",
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: false
     },
     {
