@@ -461,7 +461,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       ] = {
         name: fieldName,
         value: pageChangeEntries.join("\n") || "None",
-        inline: false
+        
       };
 
       embed = this.embed(embedOptions);

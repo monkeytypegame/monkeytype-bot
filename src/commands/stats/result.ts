@@ -138,8 +138,7 @@ export default {
         },
         {
           name: "Quote Text",
-          value: `Source: ${quote.source}\n\`\`\`\n${quote.text}\n\`\`\``,
-          inline: false
+          value: `Source: ${quote.source}\n\`\`\`\n${quote.text}\n\`\`\``
         }
       );
     } else {

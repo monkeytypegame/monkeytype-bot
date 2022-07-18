@@ -54,24 +54,24 @@ export default {
           {
             name: "Tests Started",
             value: user.startedTests.toString(),
-            inline: false
+            
           },
           {
             name: "Tests Completed",
             value: user.completedTests.toString(),
-            inline: false
+            
           },
           {
             name: "Test Completion Rate",
             value: (
               (user.completedTests || 1) / (user.startedTests || 1)
             ).toFixed(2),
-            inline: false
+            
           },
           {
             name: "Time Typing",
             value: duration,
-            inline: false
+            
           }
         ]
       },

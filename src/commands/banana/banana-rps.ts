@@ -78,7 +78,7 @@ export default {
           {
             name: "Round",
             value: "1",
-            inline: false
+            
           },
           {
             name: interaction.user.username,

@@ -30,7 +30,7 @@ export default {
           .map((cmd) => ({
             name: cmd.name,
             value: cmd.description ?? "No description provided.",
-            inline: false
+            
           })),
         color: 0xff0000
       },

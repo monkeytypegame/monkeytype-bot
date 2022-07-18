@@ -53,8 +53,7 @@ export default {
         fields: [
           {
             name: "Bananas",
-            value: (bananaEntry.balance + time60Bananas).toString(),
-            inline: false
+            value: (bananaEntry.balance + time60Bananas).toString()
           }
         ]
       },

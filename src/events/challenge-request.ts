@@ -171,13 +171,11 @@ export default {
           },
           {
             name: "Proof",
-            value: proof.join("\n"),
-            inline: false
+            value: proof.join("\n")
           },
           {
             name: "Message Link",
-            value: message.url,
-            inline: false
+            value: message.url
           }
         ]
       },

@@ -101,7 +101,7 @@ export default {
           {
             name: "Details",
             value: "K, Q, J = 10 | A = 1 or 11\nH - Hit | S - Stand",
-            inline: false
+            
           }
         ]
       },
