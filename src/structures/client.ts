@@ -499,7 +499,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   }
 
   public async logInBotLogChannel(
-    message: string
+    message: string | Discord.MessagePayload | Discord.MessageOptions
   ): Promise<Discord.Message | undefined> {
     const botLogChannel = await this.getChannel("botLog");
 

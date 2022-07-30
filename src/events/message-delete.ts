@@ -7,8 +7,9 @@ export default {
       return;
     }
 
-    client.logInBotLogChannel(
-      `🗑️ ${message.author}'s message in ${message.channel} was deleted:\n${message.content}`
-    );
+    client.logInBotLogChannel({
+      content: `🗑️ ${message.author}'s message in ${message.channel} was deleted:\n${message.content}`,
+      attachments: [...message.attachments.values()]
+    });
   }
 } as MonkeyTypes.Event<"messageDelete">;
