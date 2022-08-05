@@ -55,6 +55,7 @@ declare namespace MonkeyTypes {
     challengeSubmissions: string;
     challengeSubmissionsMods: string;
     chatWithGeorge: string;
+    typing: string;
   }
 
   export interface ClientOptions extends DiscordClientOptions {
