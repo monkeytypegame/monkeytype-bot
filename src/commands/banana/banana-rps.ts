@@ -202,7 +202,7 @@ export default {
 
       const choice = <Choice>buttonInteraction.customId;
 
-      const random = randomInteger(0, 3);
+      const random = randomInteger(0, 2);
 
       const computerChoice = choices[random] ?? "rock";
 
