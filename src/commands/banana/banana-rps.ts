@@ -61,7 +61,6 @@ export default {
 
     if (client.currentlyPlaying.has(interaction.user.id)) {
       interaction.reply("❌ You are already playing.");
-
       return;
     }
 
