@@ -19,12 +19,16 @@ export default {
       required: true
     }
   ],
-  run: async (interaction) => {
+  run: async (interaction, client) => {
     const targetUser = interaction.options.getUser("user", true);
 
     if (targetUser.id === interaction.user.id) {
       interaction.reply("❌ You may not donate to yourself.");
+      return;
+    }
 
+    if (client.currentlyPlaying.has(interaction.user.id)) {
+      interaction.reply("❌ You are already playing.");
       return;
     }
 
