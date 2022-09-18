@@ -17,6 +17,7 @@ export default {
   event: "ready",
   run: async (client) => {
     console.log(`${client.user.tag} is online!`);
+    sendReadyMessage(client);
 
     const guild = await client.guild;
 
@@ -27,20 +28,6 @@ export default {
     client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
       type: "WATCHING"
     });
-
-    const botOwner = await client.users.fetch(client.clientOptions.devID);
-
-    client.logInBotLogChannel(
-      client.clientOptions.dev
-        ? "Ready!"
-        : `${botOwner}, Ready! Make sure to unlock commands`
-    );
-
-    if (!client.clientOptions.dev) {
-      botOwner
-        .send("Ready! Make sure to unlock commands")
-        .catch(() => console.log("Couldn't send ready message to owner"));
-    }
 
     connectDB().then(() => console.log("Database connected"));
     connectRedis().then(async () => {
@@ -144,6 +131,22 @@ async function updateIssueCommand(client: Client<true>): Promise<void> {
   await issueCommand.edit(issueCommand as ApplicationCommandData);
 
   console.log("Issue command updated!");
+}
+
+async function sendReadyMessage(client: Client<true>): Promise<void> {
+  if (client.clientOptions.dev) {
+    client.logInBotLogChannel("Ready!");
+  } else {
+    const botOwner = await client.users.fetch(client.clientOptions.devID);
+
+    client.logInBotLogChannel(
+      `${botOwner}, Ready! Make sure to unlock commands`
+    );
+
+    botOwner
+      .send("Ready! Make sure to unlock commands")
+      .catch(() => console.log("Could not send ready message to bot owner"));
+  }
 }
 
 function getMemberCount(guild: Guild): number {
