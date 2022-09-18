@@ -35,6 +35,7 @@ declare namespace MonkeyTypes {
 
   interface Roles {
     memberRole: string;
+    updatePingRole: string;
   }
 
   interface WPMRole {
@@ -330,7 +331,7 @@ declare namespace MonkeyTypes {
       eyes: number;
     };
   }
-  
+
   type PollVotes = Collection<string, Set<string>>;
 
   type PollOptions = string[];
