@@ -24,17 +24,17 @@ export default {
 
     const botOwner = await client.users.fetch(client.clientOptions.devID);
 
-  client.logInBotLogChannel(
-    client.clientOptions.dev
-      ? "Ready!"
-      : `${botOwner}, Ready! Make sure to unlock commands`
-  );
+    client.logInBotLogChannel(
+      client.clientOptions.dev
+        ? "Ready!"
+        : `${botOwner}, Ready! Make sure to unlock commands`
+    );
 
-  if (!client.clientOptions.dev) {
-    botOwner
-      .send("Ready! Make sure to unlock commands")
-      .catch(() => console.log("Couldn't send ready message to owner"));
-  }
+    if (!client.clientOptions.dev) {
+      botOwner
+        .send("Ready! Make sure to unlock commands")
+        .catch(() => console.log("Couldn't send ready message to owner"));
+    }
 
     const guild = await client.guild;
 
@@ -142,8 +142,14 @@ async function updateIssueCommand(client: Client<true>): Promise<void> {
 
 async function fetchLatestRelease(client: Client<true>): Promise<void> {
   console.log("Fetching latest release...");
-  
+
   const guild = await client.guild;
+
+  if (guild === undefined) {
+    console.log("Could not get guild");
+
+    return;
+  }
 
   const channel = await client.getChannel("updates");
 
@@ -176,11 +182,24 @@ async function fetchLatestRelease(client: Client<true>): Promise<void> {
   }
 
   const embeds = createEmbeds(name, body, client, createdAt);
-  
-  const updateRole = guild.roles.cache.get(client.clientOptions.roles.updateRolePing);
+
+  const updateRole = guild.roles.cache.get(
+    client.clientOptions.roles.updatePingRole
+  );
+
+  if (updateRole === undefined) {
+    console.log("Could not get update ping role");
+
+    return;
+  }
 
   for (const [index, embed] of embeds.entries()) {
-    channel.send({ content: !index ? updateRole : undefined, embeds: [embed] }).catch((err) => console.log(err));
+    channel
+      .send({
+        content: !index ? updateRole?.toString() : undefined,
+        embeds: [embed]
+      })
+      .catch((err) => console.log(err));
   }
 }
 
