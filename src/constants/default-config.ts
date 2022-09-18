@@ -1,5 +1,3 @@
-/** @format */
-
 export const DefaultConfig = {
   theme: "serika_dark",
   themeLight: "serika",

@@ -1,13 +1,18 @@
-/** @format */
-
 import { Document, WithId } from "mongodb";
 import {
   ApplicationCommandOption,
+  ApplicationCommandType,
   ClientEvents,
   ClientOptions as DiscordClientOptions,
   CommandInteraction,
   Guild,
-  GuildMember
+  GuildMember,
+  MessageContextMenuInteraction,
+  UserContextMenuInteraction,
+  Collection,
+  InteractionCollector,
+  ButtonInteraction,
+  CacheType
 } from "discord.js";
 import { Client } from "../structures/client";
 
@@ -49,6 +54,8 @@ declare namespace MonkeyTypes {
     botCommands: string;
     challengeSubmissions: string;
     challengeSubmissionsMods: string;
+    chatWithGeorge: string;
+    typing: string;
   }
 
   export interface ClientOptions extends DiscordClientOptions {
@@ -67,13 +74,21 @@ declare namespace MonkeyTypes {
     channels: Channels;
   }
 
-  interface Command {
+  interface Command<T extends ApplicationCommandType = "CHAT_INPUT"> {
     name: string;
-    description: string;
+    description?: string;
     category: string;
+    type?: T;
     options?: ApplicationCommandOption[];
     needsPermissions?: boolean;
-    run: (interaction: CommandInteraction, client: Client<true>) => void;
+    run: (
+      interaction: T extends "CHAT_INPUT"
+        ? CommandInteraction
+        : T extends "MESSAGE"
+        ? MessageContextMenuInteraction
+        : UserContextMenuInteraction,
+      client: Client<true>
+    ) => void;
   }
 
   interface Event<E extends keyof ClientEvents> {
@@ -81,11 +96,9 @@ declare namespace MonkeyTypes {
     run: (client: Client<true>, ...eventArgs: ClientEvents[E]) => void;
   }
 
-  type TaskArgument = string | number;
-
   interface Task extends WithId<Document> {
     name: string;
-    args: TaskArgument[];
+    args: any[];
     requestTimestamp?: number;
   }
 
@@ -100,7 +113,7 @@ declare namespace MonkeyTypes {
     run: (
       client: Client<true>,
       guild: Guild,
-      ...args: TaskArgument[]
+      ...args: any[]
     ) => Promise<TaskResult>;
   }
 
@@ -178,6 +191,18 @@ declare namespace MonkeyTypes {
     rank: number;
     count?: number;
     hidden?: boolean;
+  }
+
+  interface DailyLeaderboardEntry {
+    uid: string;
+    name: string;
+    wpm: number;
+    raw: number;
+    acc: number;
+    consistency: number;
+    timestamp: number;
+    rank?: number;
+    count?: number;
   }
 
   interface ChartData {
@@ -304,5 +329,16 @@ declare namespace MonkeyTypes {
       rocket: number;
       eyes: number;
     };
+  }
+  
+  type PollVotes = Collection<string, Set<string>>;
+
+  type PollOptions = string[];
+
+  interface Poll {
+    prompt: string;
+    isVisible: boolean;
+    votes: MonkeyTypes.PollVotes;
+    collector: InteractionCollector<ButtonInteraction<CacheType>>;
   }
 }

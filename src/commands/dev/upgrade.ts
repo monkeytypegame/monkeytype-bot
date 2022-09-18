@@ -1,7 +1,6 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { spawn } from "child_process";
+import { randomChance } from "../../functions/random";
 
 export default {
   name: "upgrade",
@@ -16,6 +15,6 @@ export default {
 
     subprocess.unref();
 
-    interaction.reply("🤔 Upgrading...");
+    interaction.reply(randomChance(1) ? "🤔 Upgrading..." : "🤔 Thonking...");
   }
 } as MonkeyTypes.Command;

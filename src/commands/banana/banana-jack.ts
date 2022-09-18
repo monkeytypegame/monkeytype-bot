@@ -1,8 +1,7 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { createUser, getUser, setUser } from "../../functions/banana";
 import { MessageActionRow, MessageButton } from "discord.js";
+import { randomInteger } from "../../functions/random";
 
 const suits = ["♥", "♣", "♦", "♠"];
 const values = [
@@ -101,8 +100,7 @@ export default {
           },
           {
             name: "Details",
-            value: "K, Q, J = 10 | A = 1 or 11\nH - Hit | S - Stand",
-            inline: false
+            value: "K, Q, J = 10 | A = 1 or 11\nH - Hit | S - Stand"
           }
         ]
       },
@@ -229,7 +227,7 @@ function createDeck(): Card[] {
 
 function shuffleDeck(deck: Card[]): Card[] {
   for (const [i, card] of deck.entries()) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = randomInteger(0, i + 1);
 
     const randomCard = deck[j];
 

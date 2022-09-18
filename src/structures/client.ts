@@ -1,10 +1,8 @@
-/** @format */
-
 import * as Discord from "discord.js";
 import type { MonkeyTypes } from "../types/types";
 import { promisify } from "util";
 import { resolve, join } from "path";
-import { APIMessage } from "discord-api-types";
+import { APIMessage } from "discord-api-types/v10";
 import globCB from "glob";
 import { Worker } from "bullmq";
 import { redis } from "../functions/redis";
@@ -58,6 +56,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   public clientOptions: MonkeyTypes.ClientOptions;
   public commands = new Discord.Collection<string, MonkeyTypes.Command>();
   public tasks = new Discord.Collection<string, MonkeyTypes.TaskFile>();
+  public polls = new Discord.Collection<string, MonkeyTypes.Poll>();
   public categories = new Array<string>();
   public currentlyPlaying = new Set<string>();
   public permissionsAdded = new Set<string>();
@@ -210,7 +209,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       this.tasks.set(task.name, task);
     }
 
-    // Handing slash commands
+    // Handing application commands
 
     const fetchOptions = {
       guildId: this.clientOptions.guildID,
@@ -229,12 +228,17 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       const cmd = slashCommands?.find((c) => c.name === command.name);
 
       if (cmd === undefined) {
+        const type = command.type ?? "CHAT_INPUT";
+
         const c = await this.application?.commands
           .create(
             {
               name: command.name,
-              description: command.description,
-              type: "CHAT_INPUT",
+              description:
+                type === "CHAT_INPUT"
+                  ? command.description ?? "No description provided"
+                  : "",
+              type,
               options: command.options as Discord.ApplicationCommandOptionData[]
             },
             this.clientOptions.guildID
@@ -242,9 +246,9 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           .catch(console.log);
 
         if (c === undefined) {
-          console.log(`Error creating slash command "${command.name}"`);
+          console.log(`Error creating command "${command.name}"`);
         } else {
-          console.log(`Created slash command "${c.name}" (${c.id})`);
+          console.log(`Created command "${c.name}" (${c.id})`);
         }
       } else {
         const mapper = (
@@ -271,12 +275,19 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         const cmdObject = {
           name: cmd.name,
           description: cmd.description,
+          type: cmd.type,
           options: cmd.options.map(mapper)
         };
 
+        const type = command.type ?? "CHAT_INPUT";
+
         const commandObject = {
           name: command.name,
-          description: command.description,
+          description:
+            type === "CHAT_INPUT"
+              ? command.description ?? "No description provided"
+              : "",
+          type,
           options: (command.options ?? []).map(mapper)
         };
 
@@ -287,15 +298,13 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         await this.application?.commands.edit(
           cmd,
           {
-            name: command.name,
-            description: command.description,
-            type: "CHAT_INPUT",
+            ...commandObject,
             options: command.options as Discord.ApplicationCommandOptionData[]
           },
           this.clientOptions.guildID
         );
 
-        console.log(`Edited slash command "${cmd.name}" (${cmd.id})`);
+        console.log(`Edited command "${cmd.name}" (${cmd.id})`);
       }
     }
 
@@ -312,10 +321,16 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     // }\``;
     // }
 
-    embedOptions.footer = {
-      text: Client.siteURL,
-      iconURL: Client.iconURL
-    };
+    if (!embedOptions.footer?.text?.includes(Client.siteURL)) {
+      embedOptions.footer = {
+        text: `${Client.siteURL}${
+          embedOptions.footer?.text !== undefined
+            ? ` | ${embedOptions.footer.text}`
+            : ""
+        }`,
+        iconURL: Client.iconURL
+      };
+    }
 
     if (embedOptions.author === undefined && user !== undefined) {
       embedOptions.author = {
@@ -445,8 +460,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
         embedOptions.fields.findIndex((field) => field.name === fieldName)
       ] = {
         name: fieldName,
-        value: pageChangeEntries.join("\n") || "None",
-        inline: false
+        value: pageChangeEntries.join("\n") || "None"
       };
 
       embed = this.embed(embedOptions);
@@ -470,14 +484,12 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
   public async awaitMessageComponent<T extends Discord.MessageComponentType>(
     channel: Discord.TextBasedChannel | null | undefined,
-    filter: Discord.CollectorFilter<
-      [Discord.MessageComponentInteraction<"cached">]
-    >,
+    filter: Discord.CollectorFilter<[Discord.MappedInteractionTypes<true>[T]]>,
     componentType: T,
     time = Client.timeoutTime
   ): Promise<Discord.MappedInteractionTypes[T] | undefined> {
     return channel
-      ?.awaitMessageComponent({
+      ?.awaitMessageComponent<T>({
         componentType,
         filter,
         time,

@@ -1,5 +1,3 @@
-/** @format */
-
 export function toPascalCase(str: string): string {
   return str
     .split(/[ _]+/)

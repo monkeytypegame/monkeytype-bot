@@ -1,5 +1,3 @@
-/** @format */
-
 import { MessageActionRow, MessageButton } from "discord.js";
 import type { MonkeyTypes } from "../../types/types";
 import { Client } from "../../structures/client";
@@ -31,8 +29,7 @@ export default {
           .filter((cmd) => cmd.needsPermissions ?? false)
           .map((cmd) => ({
             name: cmd.name,
-            value: cmd.description,
-            inline: false
+            value: cmd.description ?? "No description provided."
           })),
         color: 0xff0000
       },

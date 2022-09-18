@@ -10,7 +10,7 @@ If you receive any errors during this process, contact us in the #development ch
 
 ### Forking Monkeytype and Monkeytype-Bot
 
-The first step to contribute is to ensure you have a fork and clone of the [Monkeytype repository](https://github.com/monkeytypegame/monkeytype) set up and working properly on your local machine. Please follow the [contributing guide](https://github.com/monkeytypegame/monkeytype/blob/dev/CONTRIBUTING.md) to get a local website ready to go.
+The first step to contribute is to ensure you have a fork and clone of the [Monkeytype repository](https://github.com/monkeytypegame/monkeytype) set up and working properly on your local machine. Please follow the [contributing guide](https://github.com/monkeytypegame/monkeytype/blob/master/CONTRIBUTING.md) to get a local website ready to go.
 
 Next, you need to fork this repository and clone your fork, like you just did with the Monkeytype website. From now on, whenever `monkeytypegame/monkeytype-bot` or `monkeytypegame/monkeytype` is referenced, replace `monkeytypegame` with your GitHub username instead, so that you use your fork instead of the main repository.
 

@@ -1,5 +1,3 @@
-/** @format */
-
 import { Message, MessageActionRow, MessageButton } from "discord.js";
 import { ObjectId } from "mongodb";
 import { compareTwoStrings } from "string-similarity";
@@ -173,13 +171,11 @@ export default {
           },
           {
             name: "Proof",
-            value: proof.join("\n"),
-            inline: false
+            value: proof.join("\n")
           },
           {
             name: "Message Link",
-            value: message.url,
-            inline: false
+            value: message.url
           }
         ]
       },

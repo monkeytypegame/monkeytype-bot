@@ -1,5 +1,3 @@
-/** @format */
-
 import { mongoDB } from "../../functions/mongodb";
 import type { MonkeyTypes } from "../../types/types";
 import intervalToDuration from "date-fns/intervalToDuration";
@@ -30,7 +28,7 @@ export default {
     if (user === undefined) {
       interaction.reply({
         ephemeral: true,
-        content: "❌ Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are linked."
       });
 
       return;
@@ -55,30 +53,23 @@ export default {
         fields: [
           {
             name: "Tests Started",
-            value: user.startedTests.toString(),
-            inline: false
+            value: user.startedTests.toString()
           },
           {
             name: "Tests Completed",
-            value: user.completedTests.toString(),
-            inline: false
+            value: user.completedTests.toString()
           },
           {
             name: "Test Completion Rate",
             value: (
               (user.completedTests || 1) / (user.startedTests || 1)
-            ).toFixed(2),
-            inline: false
+            ).toFixed(2)
           },
           {
             name: "Time Typing",
-            value: duration,
-            inline: false
+            value: duration
           }
-        ],
-        footer: {
-          text: Client.siteURL
-        }
+        ]
       },
       discordUser
     );

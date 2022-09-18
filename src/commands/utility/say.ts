@@ -1,5 +1,3 @@
-/** @format */
-
 import { NewsChannel, TextChannel } from "discord.js";
 import type { MonkeyTypes } from "../../types/types";
 

@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { createUser, getUser, setUser } from "../../functions/banana";
@@ -26,7 +24,7 @@ export default {
 
     if (snapshot === undefined) {
       interaction.followUp({
-        content: "❌ Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are linked."
       });
 
       return;
@@ -55,8 +53,7 @@ export default {
         fields: [
           {
             name: "Bananas",
-            value: (bananaEntry.balance + time60Bananas).toString(),
-            inline: false
+            value: (bananaEntry.balance + time60Bananas).toString()
           }
         ]
       },

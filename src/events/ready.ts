@@ -1,5 +1,3 @@
-/** @format */
-
 import _ from "lodash";
 import { connectDB } from "../functions/mongodb";
 import { connectRedis } from "../functions/redis";
@@ -15,7 +13,7 @@ import {
   MessageEmbed,
   MessageEmbedOptions
 } from "discord.js";
-import fetch from "node-fetch-commonjs";
+import fetch from "node-fetch";
 
 const HOUR = 60 * 60 * 1000;
 
@@ -23,7 +21,20 @@ export default {
   event: "ready",
   run: async (client) => {
     console.log(`${client.user.tag} is online!`);
-    sendReadyMessage(client);
+
+    const botOwner = await client.users.fetch(client.clientOptions.devID);
+
+  client.logInBotLogChannel(
+    client.clientOptions.dev
+      ? "Ready!"
+      : `${botOwner}, Ready! Make sure to unlock commands`
+  );
+
+  if (!client.clientOptions.dev) {
+    botOwner
+      .send("Ready! Make sure to unlock commands")
+      .catch(() => console.log("Couldn't send ready message to owner"));
+  }
 
     const guild = await client.guild;
 
@@ -225,22 +236,6 @@ async function connectDatabases(client: Client<true>): Promise<void> {
   client.initWorker();
 }
 
-async function sendReadyMessage(client: Client<true>): Promise<void> {
-  const botOwner = await client.users.fetch(client.clientOptions.devID);
-
-  client.logInBotLogChannel(
-    client.clientOptions.dev
-      ? "Ready!"
-      : `${botOwner}, Ready! Make sure to unlock commands`
-  );
-
-  if (!client.clientOptions.dev) {
-    botOwner
-      .send("Ready! Make sure to unlock commands")
-      .catch(() => console.log("Couldn't send ready message to owner"));
-  }
-}
-
 function setActivity(client: Client<true>, guild: Guild): void {
   client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
     type: "WATCHING"
@@ -249,7 +244,7 @@ function setActivity(client: Client<true>, guild: Guild): void {
 
 function getMemberCount(guild: Guild): number {
   return (
-    guild.presences?.cache.map((presence) => presence.status === "online")
-      .length ?? guild.memberCount
+    guild.presences?.cache.filter((presence) => presence.status === "online")
+      .size ?? guild.memberCount
   );
 }

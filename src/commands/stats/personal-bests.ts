@@ -1,5 +1,3 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { MessageEmbed } from "discord.js";
@@ -29,7 +27,7 @@ export default {
     if (user === undefined) {
       interaction.reply({
         ephemeral: true,
-        content: "❌ Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are linked."
       });
 
       return;
@@ -158,10 +156,20 @@ export default {
           )
         : undefined;
 
+    const embeds = [timeEmbed, wordsEmbed].filter(
+      (embed) => embed !== undefined
+    ) as MessageEmbed[];
+
+    if (embeds.length === 0) {
+      interaction.reply(
+        "❌ Could not find personal bests. Make sure accounts are paired and you have personal bests."
+      );
+
+      return;
+    }
+
     interaction.reply({
-      embeds: [timeEmbed, wordsEmbed].filter(
-        (embed) => embed !== undefined
-      ) as MessageEmbed[]
+      embeds
     });
   }
 } as MonkeyTypes.Command;

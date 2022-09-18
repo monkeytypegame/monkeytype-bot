@@ -1,5 +1,4 @@
-/** @format */
-
+import { MessageEmbed } from "discord.js";
 import type { MonkeyTypes } from "../types/types";
 
 export default {
@@ -9,8 +8,15 @@ export default {
       return;
     }
 
-    client.logInBotLogChannel(
-      `🗑️ ${message.author}'s message in ${message.channel} was deleted:\n${message.content}`
-    );
+    const embeds = message.attachments.map((attachment) => {
+      return new MessageEmbed().setImage(attachment.proxyURL);
+    });
+
+    client.logInBotLogChannel({
+      content: `🗑️ ${message.author}'s message in ${
+        message.channel
+      } was deleted:\n${message.content ?? ""}`,
+      embeds
+    });
   }
 } as MonkeyTypes.Event<"messageDelete">;

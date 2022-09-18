@@ -1,9 +1,7 @@
-/** @format */
-
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../functions/mongodb";
 import { toPascalCase } from "../../functions/to-pascal-case";
-import fetch from "node-fetch-commonjs";
+import fetch from "node-fetch";
 import { Client } from "../../structures/client";
 
 const quoteLengthMap = {
@@ -39,7 +37,7 @@ export default {
     if (user === undefined || user.uid === undefined) {
       interaction.followUp({
         ephemeral: true,
-        content: "❌ Could not find user. Make sure accounts are paired."
+        content: "❌ Could not find user. Make sure accounts are linked."
       });
 
       return;
@@ -140,8 +138,7 @@ export default {
         },
         {
           name: "Quote Text",
-          value: `Source: ${quote.source}\n\`\`\`\n${quote.text}\n\`\`\``,
-          inline: false
+          value: `Source: ${quote.source}\n\`\`\`\n${quote.text}\n\`\`\``
         }
       );
     } else {

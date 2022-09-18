@@ -1,7 +1,6 @@
-/** @format */
-
 import { MessageActionRow, MessageButton } from "discord.js";
 import { getUser, createUser, setUser } from "../../functions/banana";
+import { randomInteger } from "../../functions/random";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 
@@ -62,7 +61,6 @@ export default {
 
     if (client.currentlyPlaying.has(interaction.user.id)) {
       interaction.reply("❌ You are already playing.");
-
       return;
     }
 
@@ -78,8 +76,7 @@ export default {
         fields: [
           {
             name: "Round",
-            value: "1",
-            inline: false
+            value: "1"
           },
           {
             name: interaction.user.username,
@@ -176,7 +173,7 @@ export default {
           embed.setDescription(
             `${
               embed.description ?? ""
-            }\n\nYou ${outcomeString}!\nNew balance: ${
+            }\n\nYou ${outcomeString} ${amount} bananas!\nNew balance: ${
               authorBananaEntry.balance
             }`
           );
@@ -204,7 +201,7 @@ export default {
 
       const choice = <Choice>buttonInteraction.customId;
 
-      const random = Math.floor(Math.random() * 3);
+      const random = randomInteger(0, 2);
 
       const computerChoice = choices[random] ?? "rock";
 
