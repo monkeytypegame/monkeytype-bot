@@ -24,17 +24,17 @@ In order to copy IDs from Discord, you may need to turn on Developer Mode which 
 
 ### Configuration
 
-George uses both a `.env` file and a `config.json` file. Copy the `example.env` file in the root directory and rename the copy to `.env`. In this file, put your MongoDB URI, Redis URI, [Discord Bot Token](#creating-a-discord-application), and [GitHub API Token](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). In `src/config`, copy and paste the `config_example.json` and rename it to `config.json`.
+George uses both a `.env` file and a `config.json` file. Copy the `example.env` file in the root directory and rename the copy to `.env`. In this file, put your MongoDB URI, Redis URI, [Discord Bot Token](#creating-a-discord-application), and [GitHub API Token](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). In `src/config`, copy and paste the `config-example.json` and rename it to `config.json`.
 Input the following information:
 
- - `guildID`: The ID of the Discord server you invited George to.
- - `devID`: Your own ID.
- - `repo`: Your Monkeytype fork. For example: `monkeytypegame/monkeytype`
- - `repoPath`: The path to the local clone of your Monkeytype fork. If both George and Monkeytype are cloned to the same directory, you can skip this step.
- - `roles.memberRole`: The ID of a "Member" role on your Discord server. This role is used to identify users who have linked their Discord to Monkeytype.
- - `wpmRoles`: A list of roles that show the WPM of the Discord user's Monkeytype personal best. In each object, put the ID of the role in `id`, and the min and max WPM in the respective values.
- - `challenges`: The key should be the name of the challenge, and the value should be the ID of the role to give when someone completes that challenge.
- - `channels`: Replace each value with the ID for that respective channel.
+- `guildID`: The ID of the Discord server you invited George to.
+- `devID`: Your own ID.
+- `repo`: Your Monkeytype fork. For example: `monkeytypegame/monkeytype`
+- `repoPath`: The path to the local clone of your Monkeytype fork. If both George and Monkeytype are cloned to the same directory, you can skip this step.
+- `roles.memberRole`: The ID of a "Member" role on your Discord server. This role is used to identify users who have linked their Discord to Monkeytype.
+- `wpmRoles`: A list of roles that show the WPM of the Discord user's Monkeytype personal best. In each object, put the ID of the role in `id`, and the min and max WPM in the respective values.
+- `challenges`: The key should be the name of the challenge, and the value should be the ID of the role to give when someone completes that challenge.
+- `channels`: Replace each value with the ID for that respective channel.
 
 ### Installation
 
@@ -52,9 +52,9 @@ yarn
 
 If you use Visual Studio Code (we recommend that you do), it is also helpful to install some extensions before making any changes. Install the following extensions:
 
- - JavaScript and TypeScript Nightly
- - Prettier
- - ESLint
+- JavaScript and TypeScript Nightly
+- Prettier
+- ESLint
 
 ### Running the Project
 
@@ -75,11 +75,13 @@ yarn start
 Before changing any code, we recommend that you have a basic understanding of TypeScript and Discord.JS. We also recommend that you familiarize yourself with how we create commands, events, etc. so that you follow our ecosystem.
 
 #### Prettier and ESLint
+
 We enforce code style and consistency by using Prettier and ESLint. Before committing any changes, run the following commands in the terminal:
 
 ```
 yarn lint:fix
 ```
+
 ```
 yarn pretty:fix
 ```
