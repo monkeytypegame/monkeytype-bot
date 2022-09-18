@@ -21,20 +21,7 @@ export default {
   event: "ready",
   run: async (client) => {
     console.log(`${client.user.tag} is online!`);
-
-    const botOwner = await client.users.fetch(client.clientOptions.devID);
-
-    client.logInBotLogChannel(
-      client.clientOptions.dev
-        ? "Ready!"
-        : `${botOwner}, Ready! Make sure to unlock commands`
-    );
-
-    if (!client.clientOptions.dev) {
-      botOwner
-        .send("Ready! Make sure to unlock commands")
-        .catch(() => console.log("Couldn't send ready message to owner"));
-    }
+    sendReadyMessage(client);
 
     const guild = await client.guild;
 
@@ -46,15 +33,15 @@ export default {
 
     connectDatabases(client);
 
-    const func = (): void => {
+    const hourlyUpdates = (): void => {
       setActivity(client, guild);
       fetchLabels(client);
       fetchLatestRelease(client);
     };
 
-    func();
+    hourlyUpdates();
 
-    setInterval(func, HOUR);
+    setInterval(hourlyUpdates, HOUR);
   }
 } as MonkeyTypes.Event<"ready">;
 
@@ -259,6 +246,22 @@ function setActivity(client: Client<true>, guild: Guild): void {
   client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
     type: "WATCHING"
   });
+}
+
+async function sendReadyMessage(client: Client<true>): Promise<void> {
+  if (client.clientOptions.dev) {
+    client.logInBotLogChannel("Ready!");
+  } else {
+    const botOwner = await client.users.fetch(client.clientOptions.devID);
+
+    client.logInBotLogChannel(
+      `${botOwner}, Ready! Make sure to unlock commands`
+    );
+
+    botOwner
+      .send("Ready! Make sure to unlock commands")
+      .catch(() => console.log("Could not send ready message to bot owner"));
+  }
 }
 
 function getMemberCount(guild: Guild): number {
