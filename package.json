@@ -7,7 +7,7 @@
     "build": "tsc",
     "run": "node .",
     "start": "yarn build && yarn run run",
-    "dev": "ts-node-dev --enable-source-maps --watch \"./src/config/config.json\" \"./src/index.ts\" ",
+    "dev": "ts-node-dev --enable-source-maps --watch \"./src/config/config.json\" \"./src/index.ts\"",
     "pretty": "prettier 'src/**/*.ts'",
     "pretty-fix": "prettier --write 'src/**/*.ts'",
     "lint": "eslint -c .eslintrc.json 'src/**/*.ts'",
