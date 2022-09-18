@@ -9,9 +9,7 @@ import {
   ApplicationCommandChoicesOption,
   ApplicationCommandData,
   ApplicationCommandOption,
-  Guild,
-  MessageEmbed,
-  MessageEmbedOptions
+  Guild
 } from "discord.js";
 import fetch from "node-fetch";
 
@@ -36,7 +34,7 @@ export default {
     const hourlyUpdates = (): void => {
       setActivity(client, guild);
       fetchLabels(client);
-      fetchLatestRelease(client);
+      sendLatestRelease(client);
     };
 
     hourlyUpdates();
@@ -127,7 +125,7 @@ async function updateIssueCommand(client: Client<true>): Promise<void> {
   console.log("Issue command updated!");
 }
 
-async function fetchLatestRelease(client: Client<true>): Promise<void> {
+async function sendLatestRelease(client: Client<true>): Promise<void> {
   console.log("Fetching latest release...");
 
   const guild = await client.guild;
@@ -158,17 +156,15 @@ async function fetchLatestRelease(client: Client<true>): Promise<void> {
 
   const json = (await response.json()) as MonkeyTypes.GitHubRelease;
 
-  const { name, body, created_at } = json;
+  const { name, body, created_at: createdAtStr } = json;
 
-  const createdAt = new Date(created_at);
+  const createdAt = new Date(createdAtStr);
 
   if (Date.now() - createdAt.getTime() > HOUR) {
     console.log("Latest release is too old");
 
     return;
   }
-
-  const embeds = createEmbeds(name, body, client, createdAt);
 
   const updateRole = guild.roles.cache.get(
     client.clientOptions.roles.updatePingRole
@@ -180,55 +176,31 @@ async function fetchLatestRelease(client: Client<true>): Promise<void> {
     return;
   }
 
-  for (const [index, embed] of embeds.entries()) {
-    channel
-      .send({
-        content: !index ? updateRole?.toString() : undefined,
-        embeds: [embed]
-      })
-      .catch((err) => console.log(err));
-  }
-}
+  const lines = body.split("\n").reverse();
 
-function createEmbeds(
-  name: string,
-  description: string,
-  client: Client<true>,
-  createdAt: Date,
-  first = true
-): MessageEmbed[] {
-  const options: MessageEmbedOptions = {
-    title: `${name}${first ? "" : " (continued)"}`,
-    timestamp: createdAt,
-    color: 0xe2b714
-  };
+  const max = 1992; // to account for ```\n\n```
 
-  const maxLength = 4096;
+  const messages = [
+    `${updateRole}\n**Monkeytype ${name}**`,
+    ...lines
+      .reduce<string[][]>(
+        (acc, line) => {
+          const prev = acc.at(-1)!;
 
-  if (description.length < maxLength) {
-    return [
-      client.embed({
-        ...options,
-        description
-      })
-    ];
-  }
+          prev.join("\n").length + line.length > max
+            ? acc.push([line])
+            : prev.push(line);
 
-  const length = description.substring(0, maxLength).lastIndexOf("\n");
-
-  return [
-    client.embed({
-      ...options,
-      description: description.substring(0, length)
-    }),
-    ...createEmbeds(
-      name,
-      description.substring(length),
-      client,
-      createdAt,
-      false
-    )
+          return acc;
+        },
+        [[]]
+      )
+      .map((arr) => `\`\`\`\n${arr.join("\n")}\n\`\`\``)
   ];
+
+  for (const message of messages) {
+    await channel.send(message);
+  }
 }
 
 async function connectDatabases(client: Client<true>): Promise<void> {
