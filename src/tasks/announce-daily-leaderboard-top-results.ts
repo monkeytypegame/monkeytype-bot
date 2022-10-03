@@ -48,7 +48,16 @@ export default {
       fields
     });
 
-    (await client.getChannel("typing"))?.send({
+    const typingChannel = await client.getChannel("typing");
+
+    if (!typingChannel) {
+      return {
+        status: false,
+        message: "Could not find typing channel"
+      };
+    }
+
+    typingChannel.send({
       embeds: [embed]
     });
 
