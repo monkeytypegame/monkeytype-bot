@@ -190,13 +190,13 @@ function* splitMessages(
 
   yield `${updateRole}\n**Monkeytype ${release.name}**`;
 
-  const lines = release.body.split("\n");
+  const sections = release.body.split("\n\n");
 
-  while (lines.length > 0) {
+  while (sections.length > 0) {
     let message = "";
 
-    while (lines.length > 0 && message.length + lines[0]!.length < max) {
-      message += lines.shift() + "\n";
+    while (sections.length > 0 && message.length + sections[0]!.length < max) {
+      message += sections.shift() + "\n\n";
     }
 
     yield `\`\`\`\n${message.trim()}\n\`\`\``;
