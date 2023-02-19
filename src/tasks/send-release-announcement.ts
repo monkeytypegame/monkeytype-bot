@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import type { MonkeyTypes } from "../types/types";
 
 export default {
-  name: "sendRelease",
+  name: "sendReleaseAnnouncement",
   run: async (client, guild, releaseID) => {
     console.log("Sent a new release, sending to #updates channel...");
 
@@ -59,7 +59,7 @@ function* splitMessages(
 
   yield `${updateRole}\n**Monkeytype ${release.name}**`;
 
-  const sections = release.body.split("\n\n");
+  const sections = release.body.split(/\n\n|\r\n\r\n/);
 
   while (sections.length > 0) {
     let message = "";
