@@ -6,7 +6,12 @@
   "eventsPath": "./events",
   "tasksPath": "./tasks",
   "deleteUnusedSlashCommands": true,
-  "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS", "GUILD_PRESENCES"],
+  "intents": [
+    "GUILDS",
+    "GUILD_MESSAGES",
+    "GUILD_MEMBERS",
+    "GUILD_PRESENCES"
+  ],
   "repo": "monkeytypegame/monkeytype",
   "repoPath": "../monkeytype",
   "roles": {
@@ -28,7 +33,6 @@
     "updates": "updates channel id",
     "botCommands": "bot commands channel id",
     "challengeSubmissions": "challenge submission channel id",
-    "challengeSubmissionsMods": "challenge submission moderation channel id",
-    "chatWithGeorge": "channel id where users can chat with George"
+    "challengeSubmissionsMods": "challenge submission moderation channel id"
   }
 }
