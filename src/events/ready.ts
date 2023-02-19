@@ -13,6 +13,8 @@ import { parseJSON, readFileOrCreate } from "../utils/file";
 import { connectDB } from "../utils/mongodb";
 import { connectRedis } from "../utils/redis";
 
+const MILLISECONDS_IN_HOUR = 60 * 60 * 1000;
+
 export default {
   event: "ready",
   run: async (client) => {
@@ -25,26 +27,15 @@ export default {
       return;
     }
 
-    client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
-      type: "WATCHING"
-    });
+    connectDatabases(client);
 
-    connectDB().then(() => console.log("Database connected"));
-    connectRedis().then(async () => {
-      console.log("Redis connected");
-
-      client.initWorker();
-    });
-
-    fetchLabels(client);
-
-    setInterval(() => {
-      client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
-        type: "WATCHING"
-      });
-
+    const hourlyUpdates = (): void => {
+      setActivity(client, guild);
       fetchLabels(client);
-    }, 3600000);
+    };
+
+    hourlyUpdates();
+    setInterval(hourlyUpdates, MILLISECONDS_IN_HOUR);
   }
 } as MonkeyTypes.Event<"ready">;
 
@@ -131,6 +122,25 @@ async function updateIssueCommand(client: Client<true>): Promise<void> {
   await issueCommand.edit(issueCommand as ApplicationCommandData);
 
   console.log("Issue command updated!");
+}
+
+async function connectDatabases(client: Client<true>): Promise<void> {
+  console.log("Connecting to databases...");
+
+  await connectDB();
+  console.log("Database connected");
+
+  await connectRedis();
+  console.log("Redis connected");
+  client.initWorker();
+}
+
+async function setActivity(client: Client<true>, guild: Guild): Promise<void> {
+  const memberCount = getMemberCount(guild);
+
+  client.user.setActivity(`over ${memberCount} monkeys`, {
+    type: "WATCHING"
+  });
 }
 
 async function sendReadyMessage(client: Client<true>): Promise<void> {
