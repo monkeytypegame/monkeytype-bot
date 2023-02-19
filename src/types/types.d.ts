@@ -342,8 +342,4 @@ declare namespace MonkeyTypes {
     votes: MonkeyTypes.PollVotes;
     collector: InteractionCollector<ButtonInteraction<CacheType>>;
   }
-
-  interface GitHubLabel {
-    name: string;
-  }
 }
