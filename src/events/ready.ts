@@ -41,10 +41,6 @@ export default {
   }
 } as MonkeyTypes.Event<"ready">;
 
-interface GitHubLabel {
-  name: string;
-}
-
 async function fetchLabels(client: Client<true>): Promise<void> {
   console.log("Fetching GitHub labels...");
 
@@ -58,7 +54,8 @@ async function fetchLabels(client: Client<true>): Promise<void> {
     return;
   }
 
-  const json: GitHubLabel[] = (await response.json()) as GitHubLabel[];
+  const json: MonkeyTypes.GitHubLabel[] =
+    (await response.json()) as MonkeyTypes.GitHubLabel[];
 
   const labelNames = json.map((label) => label.name);
 
