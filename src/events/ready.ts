@@ -2,8 +2,7 @@ import {
   ApplicationCommandChoicesOption,
   ApplicationCommandData,
   ApplicationCommandOption,
-  Guild,
-  Role
+  Guild
 } from "discord.js";
 import * as fs from "fs";
 import _ from "lodash";
@@ -35,7 +34,6 @@ export default {
     const hourlyUpdates = (): void => {
       setActivity(client, guild);
       fetchLabels(client);
-      sendLatestRelease(client);
     };
 
     hourlyUpdates();
@@ -124,83 +122,6 @@ async function updateIssueCommand(client: Client<true>): Promise<void> {
   await issueCommand.edit(issueCommand as ApplicationCommandData);
 
   console.log("Issue command updated!");
-}
-
-async function sendLatestRelease(client: Client<true>): Promise<void> {
-  console.log("Fetching latest release...");
-
-  const guild = await client.guild;
-
-  if (guild === undefined) {
-    console.log("Could not get guild");
-
-    return;
-  }
-
-  const channel = await client.getChannel("updates");
-
-  if (channel === undefined) {
-    console.log("Could not get update channel");
-
-    return;
-  }
-
-  const response = await fetch(
-    `https://api.github.com/repos/${client.clientOptions.repo}/releases/latest`
-  );
-
-  if (response.status !== 200) {
-    console.log(`Could not fetch latest release:\n${response.statusText}`);
-
-    return;
-  }
-
-  const json = (await response.json()) as MonkeyTypes.GitHubRelease;
-
-  const createdAtString = json.created_at;
-
-  const createdAt = new Date(createdAtString);
-
-  if (Date.now() - createdAt.getTime() > MILLISECONDS_IN_HOUR) {
-    console.log("Latest release is too old");
-
-    return;
-  }
-
-  const updateRole = guild.roles.cache.get(
-    client.clientOptions.roles.updatePingRole
-  );
-
-  if (updateRole === undefined) {
-    console.log("Could not get update ping role");
-
-    return;
-  }
-
-  for (const message of splitMessages(json, updateRole)) {
-    await channel.send(message);
-  }
-}
-
-function* splitMessages(
-  release: MonkeyTypes.GitHubRelease,
-  updateRole: Role
-): Generator<string> {
-  const max = 2000 - "```\n\n```".length; // to account for the code block
-
-  yield `${updateRole}\n**Monkeytype ${release.name}**`;
-
-  const sections = release.body.split("\n\n");
-
-  while (sections.length > 0) {
-    let message = "";
-
-    while (sections.length > 0 && message.length + sections[0]!.length < max) {
-      message += sections.shift() + "\n\n";
-    }
-
-    yield `\`\`\`\n${message.trim()}\n\`\`\``;
-  }
 }
 
 async function connectDatabases(client: Client<true>): Promise<void> {
