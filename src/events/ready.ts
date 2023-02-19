@@ -186,7 +186,7 @@ function* splitMessages(
   release: MonkeyTypes.GitHubRelease,
   updateRole: Role
 ): Generator<string> {
-  const max = 2000 - `\`\`\`\n\n\`\`\``.length; // to account for the code block
+  const max = 2000 - "```\n\n```".length; // to account for the code block
 
   yield `${updateRole}\n**Monkeytype ${release.name}**`;
 
