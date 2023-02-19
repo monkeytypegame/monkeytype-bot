@@ -74,9 +74,20 @@ export default {
       return;
     }
 
-    const embeds = embedOptions.map((embedOptions) =>
-      client.embed(embedOptions)
-    );
+    //take the first 10 elements from the embedOptions array
+    const part1 = embedOptions.splice(0, 10);
+
+    //take the last 10 elements from the embedOptions array
+    const part2 = embedOptions.splice(11, 20);
+
+    let embeds = part1.map((part1) => client.embed(part1));
+
+    interaction.reply({
+      embeds,
+      ephemeral: true
+    });
+
+    embeds = part2.map((part2) => client.embed(part2));
 
     interaction.reply({
       embeds,

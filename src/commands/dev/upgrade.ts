@@ -1,6 +1,6 @@
-import type { MonkeyTypes } from "../../types/types";
 import { spawn } from "child_process";
-import { randomChance } from "../../functions/random";
+import type { MonkeyTypes } from "../../types/types";
+import { randomChance } from "../../utils/random";
 
 export default {
   name: "upgrade",

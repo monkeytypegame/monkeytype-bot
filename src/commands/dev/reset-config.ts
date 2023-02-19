@@ -1,6 +1,6 @@
-import type { MonkeyTypes } from "../../types/types";
-import { mongoDB } from "../../functions/mongodb";
 import { DefaultConfig } from "../../constants/default-config";
+import type { MonkeyTypes } from "../../types/types";
+import { mongoDB } from "../../utils/mongodb";
 
 export default {
   name: "reset-config",

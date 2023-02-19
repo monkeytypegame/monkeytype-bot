@@ -1,7 +1,7 @@
 import { GuildMember } from "discord.js";
-import { getPositionString } from "../functions/get-position-string";
 import { Client } from "../structures/client";
 import type { MonkeyTypes } from "../types/types";
+import { getPositionString } from "../utils/get-position-string";
 
 export default {
   name: "announceLeaderboardUpdate",

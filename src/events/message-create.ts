@@ -1,6 +1,6 @@
 import { User } from "discord.js";
-import { randomBoolean } from "../functions/random";
 import type { MonkeyTypes } from "../types/types";
+import { randomBoolean } from "../utils/random";
 
 const issueOrPRRegex = /\[#([0-9]{1,4})\]/g;
 const commit = /\[([0-9a-fA-F]{7}|[0-9a-fA-F]{40})\]/g;

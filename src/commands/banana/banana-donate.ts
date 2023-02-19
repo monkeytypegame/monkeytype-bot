@@ -1,5 +1,5 @@
 import type { MonkeyTypes } from "../../types/types";
-import { createUser, getUser, setUser } from "../../functions/banana";
+import { createUser, getUser, setUser } from "../../utils/banana";
 
 export default {
   name: "banana-donate",

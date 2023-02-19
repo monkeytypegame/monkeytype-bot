@@ -1,12 +1,12 @@
-import * as Discord from "discord.js";
-import type { MonkeyTypes } from "../types/types";
-import { promisify } from "util";
-import { resolve, join } from "path";
-import { APIMessage } from "discord-api-types/v10";
-import globCB from "glob";
 import { Worker } from "bullmq";
-import { redis } from "../functions/redis";
+import { APIMessage } from "discord-api-types/v10";
+import * as Discord from "discord.js";
+import globCB from "glob";
 import _ from "lodash";
+import { join, resolve } from "path";
+import { promisify } from "util";
+import type { MonkeyTypes } from "../types/types";
+import { redis } from "../utils/redis";
 
 interface PaginationOptions<T> {
   embedOptions: Discord.MessageEmbedOptions;

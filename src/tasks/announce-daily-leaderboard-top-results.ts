@@ -1,7 +1,7 @@
-import { MonkeyTypes } from "../types/types";
-import { Client } from "../structures/client";
-import { getPositionString } from "../functions/get-position-string";
 import { EmbedFieldData } from "discord.js";
+import { Client } from "../structures/client";
+import { MonkeyTypes } from "../types/types";
+import { getPositionString } from "../utils/get-position-string";
 
 export default {
   name: "announceDailyLeaderboardTopResults",
@@ -48,7 +48,16 @@ export default {
       fields
     });
 
-    (await client.getChannel("typing"))?.send({
+    const typingChannel = await client.getChannel("typing");
+
+    if (!typingChannel) {
+      return {
+        status: false,
+        message: "Could not find typing channel"
+      };
+    }
+
+    typingChannel.send({
       embeds: [embed]
     });
 

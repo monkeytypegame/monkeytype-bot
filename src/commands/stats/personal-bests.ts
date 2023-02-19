@@ -1,7 +1,7 @@
-import type { MonkeyTypes } from "../../types/types";
-import { mongoDB } from "../../functions/mongodb";
 import { MessageEmbed } from "discord.js";
 import { Client } from "../../structures/client";
+import type { MonkeyTypes } from "../../types/types";
+import { mongoDB } from "../../utils/mongodb";
 
 export default {
   name: "personal-bests",

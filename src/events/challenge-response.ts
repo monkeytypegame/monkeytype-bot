@@ -109,11 +109,19 @@ export default {
       .fetch({ user: userID, cache: true })
       .catch(() => undefined);
 
-    if (challengeMessageID === undefined || member === undefined) {
-      interaction.reply(
-        "❌ The challenge message id or member could not be found"
-      );
+    if (challengeMessageID === undefined) {
+      interaction.reply("❌ The challenge message id could not be found");
 
+      removeButtons(message);
+
+      return;
+    }
+
+    if (member === undefined) {
+      interaction.reply("❌ The member could not be found");
+
+      deleteRequest(userID, challengeMessageID);
+      updateChannel(message);
       removeButtons(message);
 
       return;

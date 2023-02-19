@@ -1,13 +1,13 @@
+import { Client } from "../../structures/client";
+import type { MonkeyTypes } from "../../types/types";
 import {
   createUser,
   getCoinFlips,
   getUser,
   setCoinFlips,
   setUser
-} from "../../functions/banana";
-import { randomBoolean } from "../../functions/random";
-import { Client } from "../../structures/client";
-import type { MonkeyTypes } from "../../types/types";
+} from "../../utils/banana";
+import { randomBoolean } from "../../utils/random";
 
 export default {
   name: "banana-flip",

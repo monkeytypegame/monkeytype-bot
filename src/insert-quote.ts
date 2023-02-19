@@ -2,8 +2,8 @@ import * as fs from "fs";
 import { join } from "path";
 import SimpleGit from "simple-git";
 import config from "./config/config.json";
-import { parseJSON, readOptionalFile } from "./functions/file";
 import type { MonkeyTypes } from "./types/types";
+import { parseJSON, readOptionalFile } from "./utils/file";
 
 const repoPath = join(process.cwd(), config.repoPath);
 

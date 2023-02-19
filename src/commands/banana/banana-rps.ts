@@ -1,8 +1,8 @@
 import { MessageActionRow, MessageButton } from "discord.js";
-import { getUser, createUser, setUser } from "../../functions/banana";
-import { randomInteger } from "../../functions/random";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
+import { createUser, getUser, setUser } from "../../utils/banana";
+import { randomInteger } from "../../utils/random";
 
 type Choice = "rock" | "paper" | "scissors";
 

@@ -1,8 +1,8 @@
-import { mongoDB } from "../../functions/mongodb";
-import type { MonkeyTypes } from "../../types/types";
-import intervalToDuration from "date-fns/intervalToDuration";
 import formatDuration from "date-fns/formatDuration";
+import intervalToDuration from "date-fns/intervalToDuration";
 import { Client } from "../../structures/client";
+import type { MonkeyTypes } from "../../types/types";
+import { mongoDB } from "../../utils/mongodb";
 
 export default {
   name: "stats",
