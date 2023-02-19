@@ -24,6 +24,8 @@ export default {
     const guild = await client.guild;
 
     if (guild === undefined) {
+      console.log("Could not get guild");
+
       return;
     }
 
