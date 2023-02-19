@@ -1,7 +1,7 @@
-import type { MonkeyTypes } from "../../types/types";
-import { createUser, getUser, setUser } from "../../functions/banana";
 import { MessageActionRow, MessageButton } from "discord.js";
-import { randomInteger } from "../../functions/random";
+import type { MonkeyTypes } from "../../types/types";
+import { createUser, getUser, setUser } from "../../utils/banana";
+import { randomInteger } from "../../utils/random";
 
 const suits = ["♥", "♣", "♦", "♠"];
 const values = [

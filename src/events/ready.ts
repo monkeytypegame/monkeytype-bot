@@ -1,17 +1,17 @@
-import _ from "lodash";
-import { connectDB } from "../functions/mongodb";
-import { connectRedis } from "../functions/redis";
-import * as fs from "fs";
-import type { MonkeyTypes } from "../types/types";
-import { parseJSON, readFileOrCreate } from "../functions/file";
-import { Client } from "../structures/client";
 import {
   ApplicationCommandChoicesOption,
   ApplicationCommandData,
   ApplicationCommandOption,
   Guild
 } from "discord.js";
+import * as fs from "fs";
+import _ from "lodash";
 import fetch from "node-fetch";
+import { Client } from "../structures/client";
+import type { MonkeyTypes } from "../types/types";
+import { parseJSON, readFileOrCreate } from "../utils/file";
+import { connectDB } from "../utils/mongodb";
+import { connectRedis } from "../utils/redis";
 
 export default {
   event: "ready",

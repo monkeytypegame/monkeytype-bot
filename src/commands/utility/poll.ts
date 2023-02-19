@@ -4,9 +4,9 @@ import {
   MessageButton,
   MessageEmbed
 } from "discord.js";
-import type { MonkeyTypes } from "../../types/types";
 import { Client } from "../../structures/client";
-import { mapOptions } from "../../functions/map-options";
+import type { MonkeyTypes } from "../../types/types";
+import { mapOptions } from "../../utils/map-options";
 
 const optionsFormat = '"Option 1,Option 2,Option 3"';
 

@@ -1,9 +1,9 @@
-import type { MonkeyTypes } from "../../types/types";
-import { mongoDB } from "../../functions/mongodb";
-import { createUser, getUser, setUser } from "../../functions/banana";
-import { getNextDay, isSameDay } from "../../functions/date";
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
 import { Client } from "../../structures/client";
+import type { MonkeyTypes } from "../../types/types";
+import { createUser, getUser, setUser } from "../../utils/banana";
+import { getNextDay, isSameDay } from "../../utils/date";
+import { mongoDB } from "../../utils/mongodb";
 
 export default {
   name: "banana",

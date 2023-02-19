@@ -1,7 +1,7 @@
-import type { MonkeyTypes } from "../../types/types";
-import fetch from "node-fetch";
-import { parseJSON, readFileOrCreate } from "../../functions/file";
 import { ApplicationCommandOption } from "discord.js";
+import fetch from "node-fetch";
+import type { MonkeyTypes } from "../../types/types";
+import { parseJSON, readFileOrCreate } from "../../utils/file";
 
 const labels = parseJSON<string[]>(readFileOrCreate("labels.json", "[]"));
 

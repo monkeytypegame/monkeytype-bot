@@ -1,6 +1,6 @@
-import type { MonkeyTypes } from "../../types/types";
-import { getData, getUser } from "../../functions/banana";
 import { Client } from "../../structures/client";
+import type { MonkeyTypes } from "../../types/types";
+import { getData, getUser } from "../../utils/banana";
 
 export default {
   name: "banana-top",

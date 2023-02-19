@@ -1,8 +1,8 @@
-import type { MonkeyTypes } from "../../types/types";
-import { mongoDB } from "../../functions/mongodb";
-import { toPascalCase } from "../../functions/to-pascal-case";
 import fetch from "node-fetch";
 import { Client } from "../../structures/client";
+import type { MonkeyTypes } from "../../types/types";
+import { mongoDB } from "../../utils/mongodb";
+import { toPascalCase } from "../../utils/to-pascal-case";
 
 const quoteLengthMap = {
   0: "short",

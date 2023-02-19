@@ -1,5 +1,5 @@
 import type { MonkeyTypes } from "../types/types";
-import { mongoDB } from "../functions/mongodb";
+import { mongoDB } from "../utils/mongodb";
 
 export function getRequestCount(): Promise<number> {
   return mongoDB().collection("bot-challenge-requests").countDocuments();
