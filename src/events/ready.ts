@@ -13,7 +13,7 @@ import { parseJSON, readFileOrCreate } from "../utils/file";
 import { connectDB } from "../utils/mongodb";
 import { connectRedis } from "../utils/redis";
 
-const HOUR = 60 * 60 * 1000;
+const MILLISECONDS_IN_HOUR = 60 * 60 * 1000;
 
 export default {
   event: "ready",
@@ -38,8 +38,7 @@ export default {
     };
 
     hourlyUpdates();
-
-    setInterval(hourlyUpdates, HOUR);
+    setInterval(hourlyUpdates, MILLISECONDS_IN_HOUR);
   }
 } as MonkeyTypes.Event<"ready">;
 
@@ -160,7 +159,7 @@ async function sendLatestRelease(client: Client<true>): Promise<void> {
 
   const createdAt = new Date(createdAtStr);
 
-  if (Date.now() - createdAt.getTime() > HOUR) {
+  if (Date.now() - createdAt.getTime() > MILLISECONDS_IN_HOUR) {
     console.log("Latest release is too old");
 
     return;
@@ -214,8 +213,10 @@ async function connectDatabases(client: Client<true>): Promise<void> {
   client.initWorker();
 }
 
-function setActivity(client: Client<true>, guild: Guild): void {
-  client.user.setActivity(`over ${getMemberCount(guild)} monkeys`, {
+async function setActivity(client: Client<true>, guild: Guild): Promise<void> {
+  const memberCount = getMemberCount(guild);
+
+  client.user.setActivity(`over ${memberCount} monkeys`, {
     type: "WATCHING"
   });
 }
