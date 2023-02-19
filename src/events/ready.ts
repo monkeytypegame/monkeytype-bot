@@ -2,7 +2,8 @@ import {
   ApplicationCommandChoicesOption,
   ApplicationCommandData,
   ApplicationCommandOption,
-  Guild
+  Guild,
+  Role
 } from "discord.js";
 import * as fs from "fs";
 import _ from "lodash";
@@ -156,9 +157,9 @@ async function sendLatestRelease(client: Client<true>): Promise<void> {
 
   const json = (await response.json()) as MonkeyTypes.GitHubRelease;
 
-  const { name, body, created_at: createdAtStr } = json;
+  const createdAtString = json.created_at;
 
-  const createdAt = new Date(createdAtStr);
+  const createdAt = new Date(createdAtString);
 
   if (Date.now() - createdAt.getTime() > MILLISECONDS_IN_HOUR) {
     console.log("Latest release is too old");
@@ -176,30 +177,29 @@ async function sendLatestRelease(client: Client<true>): Promise<void> {
     return;
   }
 
-  const lines = body.split("\n").reverse();
-
-  const max = 1992; // to account for ```\n\n```
-
-  const messages = [
-    `${updateRole}\n**Monkeytype ${name}**`,
-    ...lines
-      .reduce<string[][]>(
-        (acc, line) => {
-          const prev = acc.at(-1)!;
-
-          prev.join("\n").length + line.length > max
-            ? acc.push([line])
-            : prev.push(line);
-
-          return acc;
-        },
-        [[]]
-      )
-      .map((arr) => `\`\`\`\n${arr.join("\n")}\n\`\`\``)
-  ];
-
-  for (const message of messages) {
+  for (const message of splitMessages(json, updateRole)) {
     await channel.send(message);
+  }
+}
+
+function* splitMessages(
+  release: MonkeyTypes.GitHubRelease,
+  updateRole: Role
+): Generator<string> {
+  const max = 2000 - `\`\`\`\n\n\`\`\``.length; // to account for the code block
+
+  yield `${updateRole}\n**Monkeytype ${release.name}**`;
+
+  const lines = release.body.split("\n");
+
+  while (lines.length > 0) {
+    let message = "";
+
+    while (lines.length > 0 && message.length + lines[0]!.length < max) {
+      message += lines.shift() + "\n";
+    }
+
+    yield `\`\`\`\n${message.trim()}\n\`\`\``;
   }
 }
 
