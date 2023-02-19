@@ -1,19 +1,19 @@
-import { Document, WithId } from "mongodb";
 import {
   ApplicationCommandOption,
   ApplicationCommandType,
+  ButtonInteraction,
+  CacheType,
   ClientEvents,
-  ClientOptions as DiscordClientOptions,
+  Collection,
   CommandInteraction,
+  ClientOptions as DiscordClientOptions,
   Guild,
   GuildMember,
-  MessageContextMenuInteraction,
-  UserContextMenuInteraction,
-  Collection,
   InteractionCollector,
-  ButtonInteraction,
-  CacheType
+  MessageContextMenuInteraction,
+  UserContextMenuInteraction
 } from "discord.js";
+import { Document, WithId } from "mongodb";
 import { Client } from "../structures/client";
 
 declare namespace MonkeyTypes {
@@ -341,5 +341,9 @@ declare namespace MonkeyTypes {
     isVisible: boolean;
     votes: MonkeyTypes.PollVotes;
     collector: InteractionCollector<ButtonInteraction<CacheType>>;
+  }
+
+  interface GitHubLabel {
+    name: string;
   }
 }

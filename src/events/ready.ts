@@ -55,7 +55,8 @@ async function fetchLabels(client: Client<true>): Promise<void> {
     return;
   }
 
-  const json = (await response.json()) as MonkeyTypes.GitHubLabel[];
+  const json: MonkeyTypes.GitHubLabel[] =
+    (await response.json()) as MonkeyTypes.GitHubLabel[];
 
   const labelNames = json.map((label) => label.name);
 
