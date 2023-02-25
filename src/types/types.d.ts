@@ -55,7 +55,6 @@ declare namespace MonkeyTypes {
     botCommands: string;
     challengeSubmissions: string;
     challengeSubmissionsMods: string;
-    chatWithGeorge: string;
     typing: string;
   }
 
