@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../utils/mongodb";
-import { toPascalCase } from "../../utils/to-pascal-case";
+import { toPascalCase } from "../../utils/strings";
 
 const quoteLengthMap = {
   0: "short",

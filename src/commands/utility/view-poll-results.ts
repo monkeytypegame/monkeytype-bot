@@ -1,6 +1,6 @@
 import { MessageActionRow, MessageEmbed } from "discord.js";
 import { MonkeyTypes } from "../../types/types";
-import { mapOptions } from "../../utils/map-options";
+import { mapOptions } from "../../utils/polls";
 
 export default {
   name: "view-poll-results",

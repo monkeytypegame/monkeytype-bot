@@ -1,9 +1,9 @@
-import { MonkeyTypes } from "../types/types";
 import _ from "lodash";
+import { MonkeyTypes } from "../types/types";
 
-export function mapOptions(pollOrOptions: MonkeyTypes.Poll): string;
+export function mapOptions(poll: MonkeyTypes.Poll): string;
 export function mapOptions(
-  pollOrOptions: MonkeyTypes.PollOptions,
+  options: MonkeyTypes.PollOptions,
   votes: MonkeyTypes.PollVotes,
   isVisible: boolean
 ): string;

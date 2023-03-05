@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
-import { mapOptions } from "../../utils/map-options";
+import { mapOptions } from "../../utils/polls";
 
 const optionsFormat = '"Option 1,Option 2,Option 3"';
 
