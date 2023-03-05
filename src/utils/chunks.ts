@@ -1,17 +1,17 @@
 export function createChunks(
-  whole: string,
+  string: string,
   chunkLength: number,
   separator?: string
 ): string[];
-export function createChunks<T>(whole: T[], chunkLength: number): T[][];
+export function createChunks<T>(array: T[], chunkLength: number): T[][];
 export function createChunks<T>(
-  whole: string | T[],
+  stringOrArray: string | T[],
   chunkLength: number,
   separator = "\n"
 ): (string | T[])[] {
-  if (typeof whole === "string") {
+  if (typeof stringOrArray === "string") {
     const chunks: string[] = [];
-    const sections = whole.split(separator);
+    const sections = stringOrArray.split(separator);
 
     while (sections.length > 0) {
       let chunk = "";
@@ -30,8 +30,8 @@ export function createChunks<T>(
   } else {
     const chunks: T[][] = [];
 
-    for (let i = 0; i < whole.length; i += chunkLength) {
-      chunks.push(whole.slice(i, i + chunkLength));
+    for (let i = 0; i < stringOrArray.length; i += chunkLength) {
+      chunks.push(stringOrArray.slice(i, i + chunkLength));
     }
 
     return chunks;
