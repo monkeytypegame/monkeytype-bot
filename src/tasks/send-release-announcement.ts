@@ -1,6 +1,6 @@
-import { Role } from "discord.js";
 import fetch from "node-fetch";
 import type { MonkeyTypes } from "../types/types";
+import { createChunks } from "../utils/chunks";
 
 export default {
   name: "sendReleaseAnnouncement",
@@ -27,7 +27,7 @@ export default {
       };
     }
 
-    const json = (await response.json()) as MonkeyTypes.GitHubRelease;
+    const release = (await response.json()) as MonkeyTypes.GitHubRelease;
 
     const updateRole = guild.roles.cache.get(
       client.clientOptions.roles.updatePingRole
@@ -40,8 +40,14 @@ export default {
       };
     }
 
-    for (const message of splitMessages(json, updateRole)) {
-      await channel.send(message);
+    await channel.send(`${updateRole}\n**Monkeytype ${release.name}**`);
+
+    for (const message of createChunks(
+      release.body,
+      2000 - "```\n\n```".length,
+      "\n\n"
+    )) {
+      await channel.send(`\`\`\`\n${message}\n\`\`\``);
     }
 
     return {
@@ -50,24 +56,3 @@ export default {
     };
   }
 } as MonkeyTypes.TaskFile;
-
-function* splitMessages(
-  release: MonkeyTypes.GitHubRelease,
-  updateRole: Role
-): Generator<string> {
-  const max = 2000 - "```\n\n```".length; // to account for the code block
-
-  yield `${updateRole}\n**Monkeytype ${release.name}**`;
-
-  const sections = release.body.split(/\n\n|\r\n\r\n/);
-
-  while (sections.length > 0) {
-    let message = "";
-
-    while (sections.length > 0 && message.length + sections[0]!.length < max) {
-      message += sections.shift() + "\n\n";
-    }
-
-    yield `\`\`\`\n${message.trim()}\n\`\`\``;
-  }
-}
