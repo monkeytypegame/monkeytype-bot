@@ -1,7 +1,10 @@
-import { MessageEmbed } from "discord.js";
+import { Collection } from "discord.js";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../utils/mongodb";
+
+const DEFAULT_TIME = [15, 30, 60, 120];
+const DEFAULT_WORDS = [10, 25, 50, 100];
 
 export default {
   name: "personal-bests",
@@ -45,120 +48,80 @@ export default {
       return;
     }
 
-    const sortedTime = personalBests.time;
-    const sortedWords = personalBests.words;
+    const timeCollection = getCollection(personalBests.time, DEFAULT_TIME);
+    const wordsCollection = getCollection(personalBests.words, DEFAULT_WORDS);
 
-    const timePB: { [key: number]: MonkeyTypes.PersonalBest } = {};
-    const wordsPB: { [key: number]: MonkeyTypes.PersonalBest } = {};
-
-    const defaultTime = [15, 30, 60, 120];
-    const defaultWords = [10, 25, 50, 100];
-
-    for (const [key, timePBs] of Object.entries(sortedTime)) {
-      if (!defaultTime.includes(+key)) {
-        continue;
-      }
-
-      const maxValue = timePBs?.sort((a, b) => b.wpm - a.wpm)[0];
-
-      if (maxValue === undefined) {
-        continue;
-      } else {
-        timePB[+key] = maxValue;
-      }
-    }
-
-    for (const [key, wordsPBs] of Object.entries(sortedWords)) {
-      if (!defaultWords.includes(+key)) {
-        continue;
-      }
-
-      const maxValue = wordsPBs?.sort((a, b) => b.wpm - a.wpm)[0];
-
-      if (maxValue === undefined) {
-        continue;
-      } else {
-        wordsPB[+key] = maxValue;
-      }
-    }
+    const timePB = timeCollection.mapValues(getBest);
+    const wordsPB = wordsCollection.mapValues(getBest);
 
     const nameDisplay =
       user.name === discordUser.username
         ? user.name
         : `${user.name} (${discordUser.username})`;
 
-    const timeEntryCount = Object.keys(timePB).length;
-    const wordsEntryCount = Object.keys(wordsPB).length;
-
-    const timeEmbed =
-      timeEntryCount !== 0
-        ? client.embed(
+    const timeEmbed = client.embed(
+      {
+        title: `Time Personal Bests for ${nameDisplay}`,
+        color: 0xe2b714,
+        thumbnail: {
+          url: Client.thumbnails.alarmClock
+        },
+        fields: timePB
+          .map((personalBest, key) => [
             {
-              title: `Time Personal Bests for ${nameDisplay}`,
-              color: 0xe2b714,
-              thumbnail: {
-                url: Client.thumbnails.alarmClock
-              },
-              fields: Object.entries(timePB)
-                .map(([key, personalBest]) => [
-                  {
-                    name: `${key} seconds`,
-                    value: "‎",
-                    inline: true
-                  },
-                  {
-                    name: `${personalBest.wpm} wpm`,
-                    value: `${personalBest.acc}% acc`,
-                    inline: true
-                  },
-                  {
-                    name: `${personalBest.raw} raw`,
-                    value: `${personalBest.consistency}% con`,
-                    inline: true
-                  }
-                ])
-                .flat()
+              name: `${key} seconds`,
+              value: "‎",
+              inline: true
             },
-            discordUser
-          )
-        : undefined;
-
-    const wordsEmbed =
-      wordsEntryCount !== 0
-        ? client.embed(
             {
-              title: `Word Personal Bests for ${nameDisplay}`,
-              color: 0xe2b714,
-              thumbnail: {
-                url: Client.thumbnails.clipboard
-              },
-              fields: Object.entries(wordsPB)
-                .map(([key, personalBest]) => [
-                  {
-                    name: `${key} words`,
-                    value: "‎",
-                    inline: true
-                  },
-                  {
-                    name: `${personalBest.wpm} wpm`,
-                    value: `${personalBest.acc}% acc`,
-                    inline: true
-                  },
-                  {
-                    name: `${personalBest.raw} raw`,
-                    value: `${personalBest.consistency}% con`,
-                    inline: true
-                  }
-                ])
-                .flat()
+              name: `${personalBest.wpm} wpm`,
+              value: `${personalBest.acc}% acc`,
+              inline: true
             },
-            discordUser
-          )
-        : undefined;
+            {
+              name: `${personalBest.raw} raw`,
+              value: `${personalBest.consistency}% con`,
+              inline: true
+            }
+          ])
+          .flat()
+      },
+      discordUser
+    );
+
+    const wordsEmbed = client.embed(
+      {
+        title: `Word Personal Bests for ${nameDisplay}`,
+        color: 0xe2b714,
+        thumbnail: {
+          url: Client.thumbnails.clipboard
+        },
+        fields: wordsPB
+          .map((personalBest, key) => [
+            {
+              name: `${key} words`,
+              value: "‎",
+              inline: true
+            },
+            {
+              name: `${personalBest.wpm} wpm`,
+              value: `${personalBest.acc}% acc`,
+              inline: true
+            },
+            {
+              name: `${personalBest.raw} raw`,
+              value: `${personalBest.consistency}% con`,
+              inline: true
+            }
+          ])
+          .flat()
+      },
+      discordUser
+    );
 
     const embeds = [timeEmbed, wordsEmbed].filter(
-      (embed) => embed !== undefined
-    ) as MessageEmbed[];
+      (embed) => embed.fields.length > 0
+    );
 
     if (embeds.length === 0) {
       interaction.reply(
@@ -173,3 +136,22 @@ export default {
     });
   }
 } as MonkeyTypes.Command;
+
+function getCollection(
+  record: Record<number, MonkeyTypes.PersonalBest[]> | undefined,
+  allowList: number[]
+): Collection<string, MonkeyTypes.PersonalBest[]> {
+  const entries = Object.entries(record ?? {});
+
+  const filteredEntries = entries.filter(([key]) => allowList.includes(+key));
+
+  return new Collection(filteredEntries);
+}
+
+function getBest(
+  personalBests: MonkeyTypes.PersonalBest[]
+): MonkeyTypes.PersonalBest {
+  return personalBests.reduce((previous, current) =>
+    previous.wpm > current.wpm ? previous : current
+  );
+}
