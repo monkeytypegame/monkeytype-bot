@@ -3,6 +3,7 @@ import intervalToDuration from "date-fns/intervalToDuration";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../utils/mongodb";
+import { getNameDisplay } from "../../utils/strings";
 
 export default {
   name: "stats",
@@ -38,10 +39,7 @@ export default {
       intervalToDuration({ start: 0, end: user.timeTyping * 1000 })
     );
 
-    const nameDisplay =
-      user.name === discordUser.username
-        ? user.name
-        : `${user.name} (${discordUser.username})`;
+    const nameDisplay = getNameDisplay(user.name, discordUser.username);
 
     const embed = client.embed(
       {

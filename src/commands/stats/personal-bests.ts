@@ -2,6 +2,7 @@ import { Collection } from "discord.js";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../utils/mongodb";
+import { getNameDisplay } from "../../utils/strings";
 
 const DEFAULT_TIME = [15, 30, 60, 120];
 const DEFAULT_WORDS = [10, 25, 50, 100];
@@ -54,10 +55,10 @@ export default {
     const timePB = timeCollection.mapValues(getBest);
     const wordsPB = wordsCollection.mapValues(getBest);
 
-    const nameDisplay =
-      user.name === discordUser.username
-        ? user.name
-        : `${user.name} (${discordUser.username})`;
+    const nameDisplay = getNameDisplay(
+      user.name ?? discordUser.username,
+      discordUser.username
+    );
 
     const timeEmbed = client.embed(
       {

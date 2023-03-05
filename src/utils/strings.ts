@@ -19,3 +19,12 @@ export function getPositionString(position: number): string {
 
   return `${position}th`;
 }
+
+export function getNameDisplay(
+  monkeytypeUsername: string,
+  discordUsername: string
+): string {
+  return monkeytypeUsername === discordUsername
+    ? monkeytypeUsername
+    : `${monkeytypeUsername} (${discordUsername})`;
+}
