@@ -80,11 +80,11 @@ Before changing any code, we recommend that you have a basic understanding of Ty
 We enforce code style and consistency by using Prettier and ESLint. Before committing any changes, run the following commands in the terminal:
 
 ```
-yarn lint:fix
+yarn lint-fix
 ```
 
 ```
-yarn pretty:fix
+yarn pretty-fix
 ```
 
 ### Committing Your Changes

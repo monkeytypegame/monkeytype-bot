@@ -57,7 +57,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   public commands = new Discord.Collection<string, MonkeyTypes.Command>();
   public tasks = new Discord.Collection<string, MonkeyTypes.TaskFile>();
   public polls = new Discord.Collection<string, MonkeyTypes.Poll>();
-  public categories = new Array<string>();
+  public categories = new Set<string>();
   public currentlyPlaying = new Set<string>();
   public permissionsAdded = new Set<string>();
 
@@ -221,9 +221,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     for (const command of commands) {
       this.commands.set(command.name, command);
 
-      if (!this.categories.includes(command.category)) {
-        this.categories.push(command.category);
-      }
+      this.categories.add(command.category);
 
       const cmd = slashCommands?.find((c) => c.name === command.name);
 
