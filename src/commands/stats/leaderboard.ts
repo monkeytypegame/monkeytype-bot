@@ -1,6 +1,6 @@
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../utils/mongodb";
-import { toPascalCase } from "../../utils/to-pascal-case";
+import { toPascalCase } from "../../utils/strings";
 
 export default {
   name: "leaderboard",
