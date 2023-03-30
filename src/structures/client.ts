@@ -584,7 +584,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       (ch) => ch.id === this.clientOptions.channels[channel]
     );
 
-    if (!guildChannel?.isText()) {
+    if (!guildChannel) {
       return;
     }
 
