@@ -2,8 +2,8 @@ import type { MonkeyTypes } from "../types/types";
 
 export default {
   name: "userBanned",
-  run: async (client, guild, discordUserID: string) => {
-    if (discordUserID === undefined) {
+  run: async (client, guild, discordUserID: string, banned: boolean) => {
+    if (discordUserID === undefined || banned === undefined) {
       return {
         status: false,
         message: "Invalid parameters",
@@ -32,9 +32,12 @@ export default {
       };
     }
 
-    await client.removeAllWPMRoles(member);
-
-    await member.roles.add(stinky);
+    if (banned) {
+      await client.removeAllWPMRoles(member);
+      await member.roles.add(stinky);
+    } else {
+      await member.roles.remove(stinky);
+    }
 
     return {
       status: true,
