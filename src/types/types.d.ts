@@ -35,6 +35,7 @@ declare namespace MonkeyTypes {
 
   interface Roles {
     memberRole: string;
+    stinkyRole: string;
   }
 
   interface WPMRole {

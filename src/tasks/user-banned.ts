@@ -1,7 +1,7 @@
 import type { MonkeyTypes } from "../types/types";
 
 export default {
-  name: "removeSpeedRoles",
+  name: "userBanned",
   run: async (client, guild, discordUserID: string) => {
     if (discordUserID === undefined) {
       return {
@@ -23,11 +23,22 @@ export default {
       };
     }
 
+    const stinky = await client.getStinkyRole();
+    if (stinky === undefined) {
+      return {
+        status: false,
+        message: `Could not find stinky role`,
+        member
+      };
+    }
+
     await client.removeAllWPMRoles(member);
+
+    await member.roles.add(stinky);
 
     return {
       status: true,
-      message: "Successfully removed all speed roles."
+      message: "Successfully removed all speed roles and assigned stinky role."
     };
   }
 } as MonkeyTypes.TaskFile;
