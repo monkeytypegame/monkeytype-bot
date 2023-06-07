@@ -35,13 +35,18 @@ export default {
     if (banned) {
       await client.removeAllWPMRoles(member);
       await member.roles.add(stinky);
+
+      return {
+        status: true,
+        message:
+          "Successfully removed all speed roles and assigned stinky role."
+      };
     } else {
       await member.roles.remove(stinky);
+      return {
+        status: true,
+        message: "Successfully removed stinky role."
+      };
     }
-
-    return {
-      status: true,
-      message: "Successfully removed all speed roles and assigned stinky role."
-    };
   }
 } as MonkeyTypes.TaskFile;
