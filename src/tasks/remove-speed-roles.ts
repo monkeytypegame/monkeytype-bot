@@ -1,7 +1,7 @@
 import type { MonkeyTypes } from "../types/types";
 
 export default {
-  name: "updateRole",
+  name: "removeSpeedRoles",
   run: async (client, guild, discordUserID: string) => {
     if (discordUserID === undefined) {
       return {
