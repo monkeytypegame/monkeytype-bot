@@ -37,7 +37,10 @@ export default {
       )
     ];
 
-    if (githubLinks.length !== 0) {
+    if (
+      githubLinks.length !== 0 &&
+      (await client.getChannel("development"))?.id === message.channel.id
+    ) {
       message.reply({ content: githubLinks.join("\n") });
 
       return;
