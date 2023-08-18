@@ -521,6 +521,22 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     );
   }
 
+  public async getStinkyRole(): Promise<Discord.Role | undefined> {
+    const guild = await this.guild;
+
+    if (guild === undefined) {
+      return;
+    }
+
+    const roleID = this.clientOptions.roles.stinkyRole;
+
+    if (roleID === undefined) {
+      return;
+    }
+
+    return (await guild.roles.fetch(roleID)) ?? undefined;
+  }
+
   public async getWPMRole(wpm: number): Promise<Discord.Role | undefined> {
     const guild = await this.guild;
 

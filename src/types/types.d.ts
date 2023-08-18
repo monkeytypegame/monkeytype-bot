@@ -36,6 +36,7 @@ declare namespace MonkeyTypes {
   interface Roles {
     memberRole: string;
     updatePingRole: string;
+    stinkyRole: string;
   }
 
   interface WPMRole {
@@ -56,6 +57,7 @@ declare namespace MonkeyTypes {
     challengeSubmissions: string;
     challengeSubmissionsMods: string;
     typing: string;
+    development: string;
   }
 
   export interface ClientOptions extends DiscordClientOptions {
