@@ -10,7 +10,8 @@
   "repo": "monkeytypegame/monkeytype",
   "repoPath": "../monkeytype",
   "roles": {
-    "memberRole": "member role id"
+    "memberRole": "member role id",
+    "updatePingRole": "update ping role id"
   },
   "wpmRoles": [
     {

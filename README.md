@@ -32,6 +32,7 @@ Input the following information:
 - `repo`: Your Monkeytype fork. For example: `monkeytypegame/monkeytype`
 - `repoPath`: The path to the local clone of your Monkeytype fork. If both George and Monkeytype are cloned to the same directory, you can skip this step.
 - `roles.memberRole`: The ID of a "Member" role on your Discord server. This role is used to identify users who have linked their Discord to Monkeytype.
+- `roles.updatePingRole`: The ID of a "Update Ping" role on your Discord server. This role is used to notify users when there's a new release from the GitHub repository.
 - `wpmRoles`: A list of roles that show the WPM of the Discord user's Monkeytype personal best. In each object, put the ID of the role in `id`, and the min and max WPM in the respective values.
 - `challenges`: The key should be the name of the challenge, and the value should be the ID of the role to give when someone completes that challenge.
 - `channels`: Replace each value with the ID for that respective channel.
