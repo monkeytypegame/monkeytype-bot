@@ -593,7 +593,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
 
   public async getChannel(
     channel: keyof MonkeyTypes.Channels
-  ): Promise<Discord.TextChannel | undefined> {
+  ): Promise<Discord.TextChannel | Discord.NewsChannel | undefined> {
     const guild = await this.guild;
 
     const guildChannel = guild?.channels?.cache.find(
@@ -604,7 +604,10 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       return;
     }
 
-    if (guildChannel.type !== "GUILD_TEXT") {
+    if (
+      guildChannel.type !== "GUILD_TEXT" &&
+      guildChannel.type !== "GUILD_NEWS"
+    ) {
       return;
     }
 
