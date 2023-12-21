@@ -16,8 +16,6 @@ export default {
 
     const discordID = interaction.user.id;
 
-    const bananaEntry = getUser(discordID) ?? createUser(discordID);
-
     const snapshot = <MonkeyTypes.User | undefined>(
       await db.collection("users").findOne({ discordId: discordID })
     );
@@ -29,6 +27,8 @@ export default {
 
       return;
     }
+
+    const bananaEntry = getUser(discordID) ?? createUser(discordID);
 
     const time60Bananas = (snapshot === null ? 0 : snapshot.bananas) ?? 0;
 
