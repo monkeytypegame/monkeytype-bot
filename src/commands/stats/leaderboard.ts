@@ -110,7 +110,6 @@ export default {
       entries: fieldArray,
       id: "leaderboard",
       fieldName: `Leaderboard (${toPascalCase(mode)} ${mode2})`,
-      //@ts-expect-error stuff doesnt boot
       send: (embed, row, currentEntries) => {
         if (
           leaderboardUser !== undefined &&

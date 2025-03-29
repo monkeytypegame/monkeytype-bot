@@ -427,7 +427,6 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     const collector = interaction.channel?.createMessageComponentCollector({
       componentType: "BUTTON",
       dispose: true,
-      //@ts-expect-error ignoring for now because stuff doesnt boot
       message: msg,
       time: Client.timeoutTime
     });
