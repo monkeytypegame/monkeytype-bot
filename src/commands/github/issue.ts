@@ -1,20 +1,20 @@
-import { ApplicationCommandOption } from "discord.js";
+// import { ApplicationCommandOption } from "discord.js";
 import fetch from "node-fetch";
 import type { MonkeyTypes } from "../../types/types";
-import { parseJSON, readFileOrCreate } from "../../utils/file";
+// import { parseJSON, readFileOrCreate } from "../../utils/file";
 
-const labels = parseJSON<string[]>(readFileOrCreate("labels.json", "[]"));
+// const labels = parseJSON<string[]>(readFileOrCreate("labels.json", "[]"));
 
-const labelOption: ApplicationCommandOption = {
-  name: "label",
-  description: "Add a label to the issue",
-  type: "STRING",
-  required: false,
-  choices: labels.map((label) => ({
-    name: label,
-    value: label
-  }))
-};
+// const labelOption: ApplicationCommandOption = {
+//   name: "label",
+//   description: "Add a label to the issue",
+//   type: "STRING",
+//   required: false,
+//   choices: labels.map((label) => ({
+//     name: label,
+//     value: label
+//   }))
+// };
 
 const apiToken = process.env["GITHUB_API_TOKEN"];
 
@@ -34,19 +34,19 @@ export default {
       description: "The issue body",
       type: "STRING",
       required: false
-    },
-    {
-      ...labelOption,
-      name: "label1"
-    },
-    {
-      ...labelOption,
-      name: "label2"
-    },
-    {
-      ...labelOption,
-      name: "label3"
     }
+    // {
+    //   ...labelOption,
+    //   name: "label1"
+    // },
+    // {
+    //   ...labelOption,
+    //   name: "label2"
+    // },
+    // {
+    //   ...labelOption,
+    //   name: "label3"
+    // }
   ],
   needsPermissions: true,
   run: async (interaction, client) => {

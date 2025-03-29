@@ -1,15 +1,15 @@
 import {
-  ApplicationCommandChoicesOption,
-  ApplicationCommandData,
-  ApplicationCommandOption,
+  // ApplicationCommandChoicesOption,
+  // ApplicationCommandData,
+  // ApplicationCommandOption,
   Guild
 } from "discord.js";
-import * as fs from "fs";
-import _ from "lodash";
-import fetch from "node-fetch";
+// import * as fs from "fs";
+// import _ from "lodash";
+// import fetch from "node-fetch";
 import { Client } from "../structures/client";
 import type { MonkeyTypes } from "../types/types";
-import { parseJSON, readFileOrCreate } from "../utils/file";
+// import { parseJSON, readFileOrCreate } from "../utils/file";
 import { connectDB } from "../utils/mongodb";
 import { connectRedis } from "../utils/redis";
 
@@ -33,7 +33,7 @@ export default {
 
     const hourlyUpdates = (): void => {
       setActivity(client, guild);
-      fetchLabels(client);
+      // fetchLabels(client);
     };
 
     hourlyUpdates();
@@ -41,88 +41,88 @@ export default {
   }
 } as MonkeyTypes.Event<"ready">;
 
-async function fetchLabels(client: Client<true>): Promise<void> {
-  console.log("Fetching GitHub labels...");
+// async function fetchLabels(client: Client<true>): Promise<void> {
+//   console.log("Fetching GitHub labels...");
 
-  const response = await fetch(
-    `https://api.github.com/repos/${client.clientOptions.repo}/labels`
-  );
+//   const response = await fetch(
+//     `https://api.github.com/repos/${client.clientOptions.repo}/labels`
+//   );
 
-  if (response.status !== 200) {
-    console.log(`Could not fetch labels:\n${response.statusText}`);
+//   if (response.status !== 200) {
+//     console.log(`Could not fetch labels:\n${response.statusText}`);
 
-    return;
-  }
+//     return;
+//   }
 
-  const json: MonkeyTypes.GitHubLabel[] =
-    (await response.json()) as MonkeyTypes.GitHubLabel[];
+//   const json: MonkeyTypes.GitHubLabel[] =
+//     (await response.json()) as MonkeyTypes.GitHubLabel[];
 
-  const labelNames = json.map((label) => label.name);
+//   const labelNames = json.map((label) => label.name);
 
-  fs.writeFileSync("labels.json", JSON.stringify(labelNames, null, 2));
+//   fs.writeFileSync("labels.json", JSON.stringify(labelNames, null, 2));
 
-  console.log("Labels updated!");
+//   console.log("Labels updated!");
 
-  updateIssueCommand(client);
-}
+//   updateIssueCommand(client);
+// }
 
-async function updateIssueCommand(client: Client<true>): Promise<void> {
-  console.log("Updating issue command...");
+// async function updateIssueCommand(client: Client<true>): Promise<void> {
+//   console.log("Updating issue command...");
 
-  const labels = parseJSON<string[]>(readFileOrCreate("labels.json", "[]"));
+//   const labels = parseJSON<string[]>(readFileOrCreate("labels.json", "[]"));
 
-  const labelOption: ApplicationCommandOption = {
-    name: "label",
-    description: "Add a label to the issue",
-    type: "STRING",
-    required: false,
-    choices: labels.map((label) => ({
-      name: label,
-      value: label
-    }))
-  };
+//   const labelOption: ApplicationCommandOption = {
+//     name: "label",
+//     description: "Add a label to the issue",
+//     type: "STRING",
+//     required: false,
+//     choices: labels.map((label) => ({
+//       name: label,
+//       value: label
+//     }))
+//   };
 
-  const issueCommand = client.application.commands.cache.find(
-    (command) => command.name === "issue"
-  );
+//   const issueCommand = client.application.commands.cache.find(
+//     (command) => command.name === "issue"
+//   );
 
-  if (issueCommand === undefined) {
-    console.log("Could not find issue command");
+//   if (issueCommand === undefined) {
+//     console.log("Could not find issue command");
 
-    return;
-  }
+//     return;
+//   }
 
-  if (
-    _.isEqual(
-      (issueCommand.options[2] as ApplicationCommandChoicesOption).choices,
-      labelOption.choices
-    )
-  ) {
-    console.log("Issue command already up to date");
+//   if (
+//     _.isEqual(
+//       (issueCommand.options[2] as ApplicationCommandChoicesOption)?.choices,
+//       labelOption?.choices
+//     )
+//   ) {
+//     console.log("Issue command already up to date");
 
-    return;
-  }
+//     return;
+//   }
 
-  issueCommand.options = [
-    ...issueCommand.options.slice(0, 2),
-    {
-      ...labelOption,
-      name: "label1"
-    },
-    {
-      ...labelOption,
-      name: "label2"
-    },
-    {
-      ...labelOption,
-      name: "label3"
-    }
-  ];
+//   issueCommand.options = [
+//     ...issueCommand.options.slice(0, 2),
+//     {
+//       ...labelOption,
+//       name: "label1"
+//     },
+//     {
+//       ...labelOption,
+//       name: "label2"
+//     },
+//     {
+//       ...labelOption,
+//       name: "label3"
+//     }
+//   ];
 
-  await issueCommand.edit(issueCommand as ApplicationCommandData);
+//   await issueCommand.edit(issueCommand as ApplicationCommandData);
 
-  console.log("Issue command updated!");
-}
+//   console.log("Issue command updated!");
+// }
 
 async function connectDatabases(client: Client<true>): Promise<void> {
   console.log("Connecting to databases...");
