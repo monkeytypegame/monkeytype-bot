@@ -6,7 +6,10 @@ export function getRequestCount(): Promise<number> {
 }
 
 export function getRequests(): Promise<MonkeyTypes.ChallengeRequest[]> {
-  return mongoDB().collection("bot-challenge-requests").find().toArray();
+  return mongoDB()
+    .collection("bot-challenge-requests")
+    .find()
+    .toArray() as Promise<MonkeyTypes.ChallengeRequest[]>;
 }
 
 export function addRequest(data: MonkeyTypes.ChallengeRequest): void {
@@ -22,7 +25,7 @@ export function getRequest(
     .findOne({
       userID,
       messageID
-    });
+    }) as Promise<MonkeyTypes.ChallengeRequest | undefined>;
 }
 
 export async function deleteRequest(
