@@ -145,8 +145,10 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   }
 
   public async start(token: string): Promise<string> {
+    console.log("Logging in...");
     await this.login(token);
 
+    console.log("Loading worker...");
     const [commands, events] = await this.load();
 
     this.emit("ready", this as Client<true>);
@@ -155,6 +157,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   }
 
   public async load(): Promise<[number, number]> {
+    console.log("Getting command files...");
     const commandFiles = await Client.glob(
       resolve(
         __dirname,
@@ -165,6 +168,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       )
     );
 
+    console.log("Getting event files...");
     const eventFiles = await Client.glob(
       resolve(
         __dirname,
@@ -175,10 +179,12 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       )
     );
 
+    console.log("Getting task files...");
     const taskFiles = await Client.glob(
       resolve(__dirname, "../", this.clientOptions.tasksPath, "**", "*.{ts,js}")
     );
 
+    console.log("Importing commands...");
     const commands = (await Promise.all(
       commandFiles.map(
         async (commandFilePath) =>
@@ -187,6 +193,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       )
     )) as MonkeyTypes.Command[];
 
+    console.log("Importing events...");
     const events = (await Promise.all(
       eventFiles.map(
         async (eventFilePath) =>
@@ -195,6 +202,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     )) as MonkeyTypes.Event<keyof Discord.ClientEvents>[];
 
     for (const event of events) {
+      console.log("Binding event", event.event);
       this.on(event.event, event.run.bind(null, this as Client<true>));
     }
 
@@ -206,6 +214,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     )) as MonkeyTypes.TaskFile[];
 
     for (const task of tasks) {
+      console.log("Adding task", task.name);
       this.tasks.set(task.name, task);
     }
 
@@ -216,6 +225,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
       cache: true
     };
 
+    console.log("Fetching application commands...");
     const slashCommands = await this.application?.commands.fetch(fetchOptions);
 
     for (const command of commands) {
@@ -293,6 +303,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
           continue;
         }
 
+        console.log(`Editing command "${cmd.name}" (${cmd.id})`);
         await this.application?.commands.edit(
           cmd,
           {
@@ -416,6 +427,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
     const collector = interaction.channel?.createMessageComponentCollector({
       componentType: "BUTTON",
       dispose: true,
+      //@ts-expect-error ignoring for now because stuff doesnt boot
       message: msg,
       time: Client.timeoutTime
     });
