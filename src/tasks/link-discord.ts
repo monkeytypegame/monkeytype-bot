@@ -3,7 +3,13 @@ import { mongoDB } from "../utils/mongodb";
 
 export default {
   name: "linkDiscord",
-  run: async (client, guild, discordUserID: string, userID: string) => {
+  run: async (
+    client,
+    guild,
+    discordUserID: string,
+    userID: string,
+    optedOutOfLbs: boolean
+  ) => {
     if (discordUserID === undefined || userID === undefined) {
       return {
         status: false,
@@ -50,7 +56,9 @@ export default {
 
     let message = `✅ ${member}, your account is linked.`;
 
-    if (
+    if (optedOutOfLbs) {
+      message += ` You have opted out of leaderboards, so you will not receive a WPM role.`;
+    } else if (
       dbUser !== undefined &&
       dbUser.personalBests !== undefined &&
       dbUser.personalBests.time[60] !== undefined &&
