@@ -89,6 +89,16 @@ export default {
       message.channel.send(
         `❓ Hey ${message.author}, checkout the ${channel} channel.`
       );
+    } else if (
+      /how.*improve.*wpm.*\??/g.test(
+        message.content.toLowerCase()
+      )
+    ) {
+      const channel = message.guild?.channels.cache.get("751071581664706640");
+      
+      message.channel.send(
+        `❓ Hey ${message.author}, checkout the ${channel} channel.`
+      )
     }
 
     return;
