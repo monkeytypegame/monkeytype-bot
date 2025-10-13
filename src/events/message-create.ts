@@ -90,7 +90,7 @@ export default {
         `❓ Hey ${message.author}, checkout the ${channel} channel.`
       );
     } else if (
-      /how.*improve.*(15s|60s|acc|accuracy).*\?/g.test(
+      /how.*improve.*(15s|60s|acc).*\?/g.test(
         message.content.toLowerCase()
       )
     ) {
