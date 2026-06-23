@@ -1,8 +1,8 @@
 import { Collection } from "discord.js";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
-import { mongoDB } from "../../utils/mongodb";
 import { getNameDisplay } from "../../utils/strings";
+import { findUserByDiscordId } from "../../dal/user";
 
 const DEFAULT_TIME = [15, 30, 60, 120];
 const DEFAULT_WORDS = [10, 25, 50, 100];
@@ -20,13 +20,9 @@ export default {
     }
   ],
   run: async (interaction, client) => {
-    const db = mongoDB();
-
     const discordUser = interaction.options.getUser("user") ?? interaction.user;
 
-    const user = <Partial<MonkeyTypes.User> | undefined>(
-      await db.collection("users").findOne({ discordId: discordUser.id })
-    );
+    const user = await findUserByDiscordId(discordUser.id);
 
     if (user === undefined) {
       interaction.reply({

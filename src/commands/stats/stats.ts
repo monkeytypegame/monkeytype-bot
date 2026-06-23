@@ -2,8 +2,8 @@ import formatDuration from "date-fns/formatDuration";
 import intervalToDuration from "date-fns/intervalToDuration";
 import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
-import { mongoDB } from "../../utils/mongodb";
 import { getNameDisplay } from "../../utils/strings";
+import { findUserByDiscordId } from "../../dal/user";
 
 export default {
   name: "stats",
@@ -20,11 +20,7 @@ export default {
   run: async (interaction, client) => {
     const discordUser = interaction.options.getUser("user") ?? interaction.user;
 
-    const db = mongoDB();
-
-    const user = <MonkeyTypes.User | undefined>(
-      await db.collection("users").findOne({ discordId: discordUser.id })
-    );
+    const user = await findUserByDiscordId(discordUser.id);
 
     if (user === undefined) {
       interaction.reply({

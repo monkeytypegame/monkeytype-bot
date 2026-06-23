@@ -1,5 +1,5 @@
+import { findUserByDiscordId } from "../../dal/user";
 import type { MonkeyTypes } from "../../types/types";
-import { mongoDB } from "../../utils/mongodb";
 
 export default {
   name: "fix-wpm-role",
@@ -27,11 +27,7 @@ export default {
       return;
     }
 
-    const db = mongoDB();
-
-    const dbUser = <MonkeyTypes.User | undefined>(
-      await db.collection("users").findOne({ discordId: user.id })
-    );
+    const dbUser = await findUserByDiscordId(user.id);
 
     if (dbUser === undefined) {
       interaction.reply({
