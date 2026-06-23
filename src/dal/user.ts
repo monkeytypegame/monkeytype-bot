@@ -16,3 +16,16 @@ export async function findUserByDiscordId(
 
   return user;
 }
+
+export async function updateChallenge(
+  discordId: string,
+  challengeName: string
+): Promise<void> {
+  const db = mongoDB();
+  await db
+    .collection("users")
+    .updateOne(
+      { discordId: discordId },
+      { $set: { [`challenges.${challengeName}`]: { addedAt: Date.now() } } }
+    );
+}

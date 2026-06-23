@@ -1,3 +1,4 @@
+import { updateChallenge } from "../dal/user";
 import type { MonkeyTypes } from "../types/types";
 
 export default {
@@ -44,6 +45,8 @@ export default {
     }
 
     await member.roles.add(challengeRole);
+
+    await updateChallenge(discordUserID, challengeName);
 
     const botCommandsChannel = await client.getChannel("botCommands");
 
