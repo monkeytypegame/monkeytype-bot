@@ -3,6 +3,7 @@ import { Client } from "../../structures/client";
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../utils/mongodb";
 import { toPascalCase } from "../../utils/strings";
+import { findUserByDiscordId } from "../../dal/user";
 
 const quoteLengthMap = {
   0: "short",
@@ -30,9 +31,7 @@ export default {
 
     const db = mongoDB();
 
-    const user = <MonkeyTypes.User | undefined>(
-      await db.collection("users").findOne({ discordId: discordUser.id })
-    );
+    const user = await findUserByDiscordId(discordUser.id);
 
     if (user === undefined || user.uid === undefined) {
       interaction.followUp({

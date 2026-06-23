@@ -1,5 +1,5 @@
+import { findUserByDiscordId } from "../dal/user";
 import type { MonkeyTypes } from "../types/types";
-import { mongoDB } from "../utils/mongodb";
 
 export default {
   name: "linkDiscord",
@@ -44,13 +44,7 @@ export default {
 
     await member.roles.add(memberRole);
 
-    const db = mongoDB();
-
-    const dbUser = <MonkeyTypes.User | undefined>(
-      await db.collection("users").findOne({
-        discordId: discordUserID
-      })
-    );
+    const dbUser = await findUserByDiscordId(discordUserID);
 
     const botCommandsChannel = await client.getChannel("botCommands");
 
