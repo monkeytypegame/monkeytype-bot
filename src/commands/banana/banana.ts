@@ -4,6 +4,7 @@ import type { MonkeyTypes } from "../../types/types";
 import { createUser, getUser, setUser } from "../../utils/banana";
 import { getNextDay, isSameDay } from "../../utils/date";
 import { mongoDB } from "../../utils/mongodb";
+import { findUserByDiscordId } from "../../dal/user";
 
 export default {
   name: "banana",
@@ -16,9 +17,7 @@ export default {
 
     const discordID = interaction.user.id;
 
-    const snapshot = <MonkeyTypes.User | undefined>(
-      await db.collection("users").findOne({ discordId: discordID })
-    );
+    const snapshot = await findUserByDiscordId(discordID);
 
     if (snapshot === undefined) {
       interaction.followUp({
