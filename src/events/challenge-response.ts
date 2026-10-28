@@ -15,6 +15,7 @@ import {
   incrementApproved,
   incrementDenied
 } from "../dal/challenge-request-stats";
+import { updateChallenge } from "../dal/user";
 
 const declineReasonOptions: MessageSelectOptionData[] = [
   {
@@ -152,6 +153,13 @@ export default {
       .catch(() => undefined);
 
     if (accepted) {
+      const challengeName = Object.entries(
+        client.clientOptions.challenges
+      ).find(([_, id]) => id === challengeRoleID)?.[0];
+      if (challengeName) {
+        await updateChallenge(userID, challengeName);
+      }
+
       const newEmbeds = message.embeds;
 
       newEmbeds[0]?.addFields({
