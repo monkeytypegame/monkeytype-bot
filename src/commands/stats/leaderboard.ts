@@ -1,3 +1,4 @@
+import { findUserByDiscordId } from "../../dal/user";
 import type { MonkeyTypes } from "../../types/types";
 import { mongoDB } from "../../utils/mongodb";
 import { toPascalCase } from "../../utils/strings";
@@ -60,9 +61,7 @@ export default {
     const mode = "time"; // interaction.options.getString("mode", true);
     const mode2 = interaction.options.getString("mode2", true);
 
-    const user = <MonkeyTypes.User | undefined>(
-      await db.collection("users").findOne({ discordId: interaction.user.id })
-    );
+    const user = await findUserByDiscordId(interaction.user.id);
 
     const leaderboardUser =
       user !== undefined
