@@ -30,7 +30,7 @@ export class Client<T extends boolean> extends Discord.Client<T> {
   public static timeoutTime = 60000;
   public static siteURL = "www.monkeytype.com";
   public static iconURL =
-    "https://pbs.twimg.com/profile_images/1430886941189230595/RS0odgx9_400x400.jpg";
+    "https://monkeytype.com/images/icons/maskable_icon_x512.png";
   public static glob = promisify(globCB);
   public static thumbnails = {
     slotMachine:
